@@ -1,14 +1,22 @@
 # SSH README
 
 ## Table of Contents
-1. [Description](#Description)
-2. [Team members](#Team-members)
-3. [Dependencies](#Dependencies)
-4. [Basics](#Basics)
-## Description 
-Our development team is named as SSH, a project team for CSE 110 in Spring 2019. We are creating a React Native app named Student and Student Housing (SSH) that would help UCSD students find off-campus houseing. The app will support functionalities such as finding roomates, searching for houses, posting housings, and messaging. The app will showcase similar information as Airbnb.
+1. [Overview](#Overview)
+2. [Product Specifications](#Product-Specifications)
+3. [Wireframes](#Wireframes)
+## Overview 
+### Description
+Our development team is SSH, a project team for CSE 110 in Spring 2019. We are creating a React Native app named Student and Student Housing (SSH) that would help UCSD students find off-campus houses. The app will support functionalities such as finding roomates, searching for houses, posting housings, and messaging. The app will showcase similar information as Airbnb.
 
-## Team members
+### App Evaluation
+- **Category:** Service
+- **Mobile:** This app would be developed for both android and IOS using Rect Native. 
+- **Story:** The application allows you to create a user profile and start input the user's personalities. User Data is pushed to the application and processed into an easily digestible form for users.
+- **Market:** UCSD students who have trouble finding, subleasing or renting houses.
+- **Habit:** This app would ideally be used at least once a day
+- **Scope:** TODO
+
+### Team members
 
 | Title                     | Name
 | ------------------------- | --------------------
@@ -26,13 +34,17 @@ Our development team is named as SSH, a project team for CSE 110 in Spring 2019.
 | User Interface Specialist | Siqiao Ruan(Clark)
 
 
-## Dependencies 
+## Product Specifications
+### 1. User Stories
+### 2. Screen Archetypes
+### 3. Navigation
 
-### Basics 
-* Node (yeah)
-* React Native (installed along with Expo)
-* Expo (npm install -g expo-cli)
+**Tab Navigation** (Tab to Screen)
+**Flow Navigation** (Screen to Screen)
+## Digital Wireframes
+### [BONUS] Interactive Prototype
 
-### Libraries: 
-* Firebase (npm install firebase)
+### 4. Models
+**user object**
+### 5. Outline Network Requests
 
