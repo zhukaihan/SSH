@@ -36,7 +36,26 @@ Our development team is SSH, a project team for CSE 110 in Spring 2019. We are c
 
 ## Product Specifications
 ### 1. User Stories
+
+**Required Must-have Stories**
+
+* User logs in to home page and other pertinent information
+* User edits posts/roomates
+* Application analyzes data and shows real time feedback
+* Profile page 
+* Settings (Accesibility, Notification, General, logout etc.)
+
+**Optional Nice-to-have Stories**
+
+* Messaging system
+
 ### 2. Screen Archetypes
+* Login 
+* Register 
+* Profile Screen 
+* Summary Screen
+* Settings Screen
+
 ### 3. Navigation
 
 **Tab Navigation** (Tab to Screen)
