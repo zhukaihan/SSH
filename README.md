@@ -6,13 +6,7 @@
 3. [Dependencies](#Dependencies)
 4. [Basics](#Basics)
 ## Description 
-
-Student and Student Housing. 
-
-The project for CSE 110 in Spring 2019. 
-
-We are creating a React Native app that would allow students to find and post housing, roomates, etc. 
-
+Our development team is named as SSH, a project team for CSE 110 in Spring 2019. We are creating a React Native app named Student and Student Housing (SSH) that would help UCSD students find off-campus houseing. The app will support functionalities such as finding roomates, searching for houses, posting housings, and messaging. The app will showcase similar information as Airbnb.
 
 ## Team members
 
