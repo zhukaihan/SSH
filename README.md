@@ -1,7 +1,11 @@
-# SSH
+# SSH README
 
-
-## Introduction: 
+## Table of Contents
+1. [Description](#Description)
+2. [Team members](#Team members)
+3. [Dependencies](#Dependencies)
+4. [Basics](#Basics)
+## Description 
 
 Student and Student Housing. 
 
@@ -10,7 +14,7 @@ The project for CSE 110 in Spring 2019.
 We are creating a React Native app that would allow students to find and post housing, roomates, etc. 
 
 
-## Team members: 
+## Team members
 
 | Title                     | Name
 | ------------------------- | --------------------
@@ -28,9 +32,9 @@ We are creating a React Native app that would allow students to find and post ho
 | User Interface Specialist | Siqiao Ruan(Clark)
 
 
-## Dependencies: 
+## Dependencies 
 
-### Basics: 
+### Basics 
 * Node (yeah)
 * React Native (installed along with Expo)
 * Expo (npm install -g expo-cli)
