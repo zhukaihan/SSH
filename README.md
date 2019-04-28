@@ -2,7 +2,7 @@
 
 ## Table of Contents
 1. [Description](#Description)
-2. [Team members](#Team members)
+2. [Team members](#Team-members)
 3. [Dependencies](#Dependencies)
 4. [Basics](#Basics)
 ## Description 
