@@ -3,7 +3,7 @@
 ## Table of Contents
 1. [Overview](#Overview)
 2. [Product Specifications](#Product-Specifications)
-3. [Wireframes](#Wireframes)
+3. [Wireframes](#Digital-Wireframes)
 ## Overview 
 ### Description
 Our development team is SSH, a project team for CSE 110 in Spring 2019. We are creating a React Native app named Student and Student Housing (SSH) that would help UCSD students find off-campus houses. The app will support functionalities such as finding roomates, searching for houses, posting housings, and messaging. The app will showcase similar information as Airbnb.
