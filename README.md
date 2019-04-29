@@ -20,8 +20,6 @@ Our development team is SSH, a project team for CSE 110 in Spring 2019. We are c
 - **Scope:** TODO
 
 ### Team members
-## Team members: 
-## Team members
 
 | Title                     | Name
 | ------------------------- | --------------------
@@ -62,4 +60,17 @@ Our development team is SSH, a project team for CSE 110 in Spring 2019. We are c
 
 ### 4. Models
 **user object**
+
+| Field                 | Type    | Description                                  |
+|-----------------------|---------|----------------------------------------------|
+| UserId                | String  | The unique ID of the user                    |
+| FirstName             | String  | The first name of the user                   |
+| LastName              | String  | The last name of the user                    |
+| PreferredName         | String  | The preferred name of the user               |
+| Gender                | String  | The gender of the user                       |
+| Major                 | String  | The major of the user                        |
+| YearInCollege         | String  | the number of years that user spends in UCSD |
+| Interests and Hobbies | String  | The interests or hobbies that user have      |
+| Description           | String  | a brief bio about the user                   |
+
 ### 5. Outline Network Requests
