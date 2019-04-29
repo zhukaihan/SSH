@@ -1,7 +1,8 @@
 import React, { Component } from 'react';
-import { StyleSheet, View, Image, Text, StatusBar, Button } from 'react-native';
+import { StyleSheet, View, Image, Text, StatusBar, Button, Alert } from 'react-native';
 import GoogleSignInButton from './GoogleSignInButton';
 import firebase from 'firebase';
+import AppNavigator from './Navigation';
 
 
 var config = {
@@ -13,6 +14,8 @@ var config = {
   messagingSenderId: "279978428336"
 };
 firebase.initializeApp(config);
+
+
 
 export default class LogInPage extends React.Component{
 
@@ -72,10 +75,22 @@ export default class LogInPage extends React.Component{
   }
 
 
-	render() {
+  render() {
+    const { navigate } = this.props.navigation;
+    const showAlert = () => {
+      Alert.alert(
+        'Unauthorized Account',
+        'The account you attempt to login with was not an UCSD registered account',
+        [
+          {text: 'Okay', onPress: ()=> console.log('OK Pressed')}
+        ],
+          {cancelable: false},
+      )
+    }
 		let btn;
 	    if (this.state.userEmail) {
-	      btn = <Text>Logged In with {this.state.userEmail} and {this.state.isUcsd ? "is UCSD" : "not UCSD"}</Text>
+        {this.state.isUcsd? navigate('ProfilePage') : showAlert() }
+        btn = <GoogleSignInButton onPress={() => this.googleLogin()} /> 
 	    } else {
 	      btn = <GoogleSignInButton onPress={() => this.googleLogin()} />
 	    }

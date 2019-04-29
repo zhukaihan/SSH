@@ -6,9 +6,13 @@ import ProfilePage from './ProfilePage';
 const MainNavigator = createStackNavigator(
 	{
 	LogInPage: {screen: LogInPage},
-	ProfilePage: {screen: ProfilePage}
-	
+	ProfilePage: {screen: ProfilePage,
+					navigationOptions:{
+						title: 'Profile Page',
+						headerLeft: null
+					}}
 	},
+
 
 );
 
