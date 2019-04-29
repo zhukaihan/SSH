@@ -21,10 +21,19 @@ Our development team is SSH, a project team for CSE 110 in Spring 2019. We are c
 
 ### Team members
 
-| Title                     | Name
-| ------------------------- | --------------------
-@@ -28,9 +32,9 @@ We are creating a React Native app that would allow students to find and post ho
-| User Interface Specialist | Siqiao Ruan(Clark)
+| Name                   | Role                      |
+|------------------------|---------------------------|
+| Alyssa Ramiro          | Project Manager           |
+| Thomas Wan             | Business Analyst          |
+| Brenna Dimalanta       | Senior Systems Analyst    |
+| Kaihan “Peter” Zhu     | Software Architect        |
+| Yu “Tim” Tai Wang      | Software Development Lead |
+| Brian Wang             | Algorithm Specialist      |
+| Yubo “Mark” Chen       | Database Specialist       |
+| Jiaxuan Ren            | Database Specialist       |
+| Yingjian “Patrick” Pei | Quality Assurance Lead    |
+| Siqiao “Clark” Ruan    | User Interface Specialist |
+| Weijin Xu              | User Interface Specialist |
 
 
 ## Product Specifications
