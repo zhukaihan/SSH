@@ -1,6 +1,6 @@
 import React from 'react';
 import { StyleSheet, Text, View } from 'react-native';
-import AppNavigator from './Navigation';
+import AppNavigator from './Controller/Navigation';
 
 export default class App extends React.Component {
   render() {

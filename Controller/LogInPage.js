@@ -16,7 +16,6 @@ var config = {
 firebase.initializeApp(config);
 
 
-
 export default class LogInPage extends React.Component{
 
 
@@ -97,7 +96,7 @@ export default class LogInPage extends React.Component{
 		return(
 			<View style={styles.logInPage}>
 				<StatusBar backgroundColor="#34a9e1"/>
-				<Image source={require('./appLogo.png')}/> 
+				<Image source={require('../View/assets/appLogo.png')}/> 
 				{btn}
 
 			</View>
