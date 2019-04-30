@@ -46,7 +46,9 @@ Our development team is SSH, a project team for CSE 110 in Spring 2019. We are c
 * Profile page 
 * Settings (Accesibility, Notification, General, logout etc.)
 
-**Optional Nice-to-have Stories**
+**Optional Should-have Stories**
+
+**Absolutely Won't-have Stories**
 
 * Messaging system
 
