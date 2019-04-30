@@ -82,4 +82,5 @@ Our development team is SSH, a project team for CSE 110 in Spring 2019. We are c
 ### 5. Outline Network Requests
 
 ## Digital Wireframes
+![Alt text](/img_assets/Wireframes.png?raw=true "Wireframes")
 ### [BONUS] Interactive Prototype
