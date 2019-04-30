@@ -62,8 +62,6 @@ Our development team is SSH, a project team for CSE 110 in Spring 2019. We are c
 **Tab Navigation** (Tab to Screen)
 **Flow Navigation** (Screen to Screen)
 
-## Digital Wireframes
-### [BONUS] Interactive Prototype
 
 ### 4. Models
 
@@ -82,3 +80,6 @@ Our development team is SSH, a project team for CSE 110 in Spring 2019. We are c
 | Description           | String  | a brief bio about the user                   |
 
 ### 5. Outline Network Requests
+
+## Digital Wireframes
+### [BONUS] Interactive Prototype
