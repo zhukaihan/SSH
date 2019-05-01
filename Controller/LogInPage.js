@@ -30,7 +30,7 @@ export default class LogInPage extends React.Component{
     try {
       const result = await Expo.Google.logInAsync({
         // Client IDs, needed to be created on Google Developers Console. 
-        //androidClientId: "Your Client ID",
+        androidClientId: "279978428336-vbepuj1iut56diuphfm1jm04chbo7o23.apps.googleusercontent.com",
         iosClientId: "279978428336-1qa6aneofkllp8crnlh5gsn7vngo3r8q.apps.googleusercontent.com", 
         scopes: ["profile", "email"]
       })
