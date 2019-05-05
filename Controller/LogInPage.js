@@ -2,29 +2,25 @@ import React, { Component } from 'react';
 import { StyleSheet, View, Image, Text, StatusBar, Button, Alert } from 'react-native';
 import GoogleSignInButton from '../View/GoogleSignInButton';
 import firebase from 'firebase';
-import AppNavigator from './Navigation';
-
-
-var config = {
-  apiKey: "AIzaSyAXbyPsfZYy9zoNaUaSGJP6Zg1T5mCE8os",
-  authDomain: "project-gary.firebaseapp.com",
-  databaseURL: "https://project-gary.firebaseio.com",
-  projectId: "project-gary",
-  storageBucket: "project-gary.appspot.com",
-  messagingSenderId: "279978428336"
-};
-firebase.initializeApp(config);
 
 
 export default class LogInPage extends React.Component{
+	
+	// Alert for non-UCSD domain accounts. 
+	showAlert = () => {
+		Alert.alert(
+			'Unauthorized Account',
+			'The account you attempt to login with was not an UCSD registered account',
+			[{text: 'Okay'}],
+			{cancelable: false},
+		)
+	}
 
+	navigateToHome = () => {
+		console.log("logged in firebase");
+		this.props.navigation.navigate('TabNavigator');
+	}
 
-	state = {
-    userEmail: null, 
-    userName: null,
-    isUcsd: false
-  }
-  
   // Log in with Google. 
   googleLogin = async () => {
     try {
@@ -36,35 +32,35 @@ export default class LogInPage extends React.Component{
       })
 
       if (result.type === "success") {
-        this.setState({
-          userEmail: result.user.email, 
-          userName: result.user.displayName, 
-          isUcsd: result.user.email.endsWith("@ucsd.edu")
-        })
-
-        // If user is a UCSD user, also log into firebase to access data. 
-        if (this.state.isUcsd) {
-          const credential = firebase.auth.GoogleAuthProvider.credential(result.idToken, result.accessToken);
-          firebase.auth().signInAndRetrieveDataWithCredential(credential).then(function(result){
-            //console.log(result);
-          });
-        }
-        //this.props.navigation.navigate('Where you want to go');
+				// If user is a UCSD user, also log into firebase to access data. 
+        if (result.user.email.endsWith("@ucsd.edu")) {
+					const credential = firebase.auth.GoogleAuthProvider.credential(result.idToken, result.accessToken);
+					firebase.auth().signInAndRetrieveDataWithCredential(credential).then(() => this.navigateToHome());
+        } else {
+					this.showAlert();
+				}
       } else {
-        console.log("log in cancelled")
+        // log in cancelled
       }
-      } catch (e) {
-        console.log("log in error", e)
-      }
+		} catch (e) {
+			// log in error
+		}
   }
 
   componentDidMount() {
     // Set up notification for logging into firebase. 
     this.authSubscription = firebase.auth().onAuthStateChanged((user) => {
-      /*this.setState({
-        loading: false,
-        user: user,
-      });*/
+			// This is perhaps useful to retain a log in across different app sessions. 
+			// For example, I am logged in. I close the app. I open the app again. I expect myself to be logged in. 
+			// So that I don't need to log in every time I start the app. 
+			// Since iOS does shuts down app for extra memory, this could be user friendly. 
+			// Firebase handles this automagically. It changes the user authorization state soon after initialization. 
+			if (user) {
+				console.log("state changed");
+				//this.props.navigation.navigate('HomeTabNavigator');
+			} else {
+			}
+      
     });
   }
 
@@ -74,30 +70,13 @@ export default class LogInPage extends React.Component{
   }
 
 
-  render() {
-    const { navigate } = this.props.navigation;
-    const showAlert = () => {
-      Alert.alert(
-        'Unauthorized Account',
-        'The account you attempt to login with was not an UCSD registered account',
-        [
-          {text: 'Okay', onPress: ()=> console.log('OK Pressed')}
-        ],
-          {cancelable: false},
-      )
-    }
-		let btn;
-	    if (this.state.userEmail) {
-        {this.state.isUcsd? navigate('ProfilePage') : showAlert() }
-        btn = <GoogleSignInButton onPress={() => this.googleLogin()} /> 
-	    } else {
-	      btn = <GoogleSignInButton onPress={() => this.googleLogin()} />
-	    }
+  render = () => {
+    
 		return(
 			<View style={styles.logInPage}>
 				<StatusBar backgroundColor="#34a9e1"/>
 				<Image source={require('../View/assets/appLogo.png')}/> 
-				{btn}
+				<GoogleSignInButton onPress={() => this.googleLogin()} />
 
 			</View>
 		);

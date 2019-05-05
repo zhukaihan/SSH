@@ -1,18 +1,27 @@
 import { createStackNavigator, createAppContainer} from 'react-navigation';
 import LogInPage from './LogInPage';
-import ProfilePage from './ProfilePage';
+import TabNavigator from './TabNavigator';
 
 
 const MainNavigator = createStackNavigator(
 	{
-	LogInPage: {screen: LogInPage},
-	ProfilePage: {screen: ProfilePage,
-					navigationOptions:{
-						title: 'Profile Page',
-						headerLeft: null
-					}}
+		LogInPage: {
+			screen: LogInPage
+		},
+		TabNavigator: {
+			screen: TabNavigator, 
+			navigationOptions: {
+				gesturesEnabled: false
+			}
+		}
 	},
-
+	{
+		initialRouteName: 'LogInPage',
+		headerMode: 'none',
+		navigationOptions: {
+			headerVisible: false
+		}
+	}
 
 );
 
