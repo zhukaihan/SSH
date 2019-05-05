@@ -6,6 +6,7 @@
 1. [Overview](#Overview)
 2. [Product Specifications](#Product-Specifications)
 3. [Wireframes](#Digital-Wireframes)
+4. [Installation](#Installation)
 ## Overview 
 ### Description
 Our development team is SSH, a project team for CSE 110 in Spring 2019. We are creating a React Native app named Student and Student Housing (SSH) that would help UCSD students find off-campus houses. The app will support functionalities such as finding roomates, searching for houses, posting housings, and messaging. The app will showcase similar information as Airbnb.
@@ -86,3 +87,30 @@ Our development team is SSH, a project team for CSE 110 in Spring 2019. We are c
 ## Digital Wireframes
 ![Alt text](/img_assets/Wireframes.png?raw=true "Wireframes")
 ### [BONUS] Interactive Prototype
+
+
+## Installation
+
+### If you want to start right away
+git pull everything in this repository. And... 
+```bash
+npm start
+```
+
+### If you want to build from fresh: 
+git pull everything in this repository, or git pull everything other than node_modules and package-lock.json. Then... 
+```bash
+rm -r node_modules
+rm package-lock.json
+npm install
+```
+
+You should be good to go. 
+
+However, if you encountered the following issue: 
+
+> Tried to register two views with the same name RNGestureHandlerButton
+
+```bash
+rm -r node_modules/expo/node_modules
+```
