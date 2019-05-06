@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { StyleSheet, View, Image, Text, StatusBar, Button, Alert } from 'react-native';
+import { StyleSheet, View, Image, Dimensions, Text, StatusBar, Button, Alert } from 'react-native';
 import GoogleSignInButton from '../View/GoogleSignInButton';
 import firebase from 'firebase';
 
@@ -74,8 +74,9 @@ export default class LogInPage extends React.Component{
     
 		return(
 			<View style={styles.logInPage}>
-				<StatusBar backgroundColor="#34a9e1"/>
-				<Image source={require('../View/assets/appLogo.png')}/> 
+				<StatusBar backgroundColor="#2ea9df"/>
+				<Image style={styles.appLogo} 
+					source={require('../View/assets/appLogo.png')}/> 
 				<GoogleSignInButton onPress={() => this.googleLogin()} />
 
 			</View>
@@ -83,13 +84,21 @@ export default class LogInPage extends React.Component{
 	}
 }
 
+const {width, height, scale} = Dimensions.get('window');
+
 const styles = StyleSheet.create({
 	logInPage: {
 		flex:1,
-		backgroundColor: '#34a9e1',
+		backgroundColor: '#2ea9df',
 		alignItems: 'center',
 		justifyContent: 'center',
 	
+	},
+
+	appLogo:{
+    	width: width / 3,
+    	height: width / 3,
+    	margin: 30,
 	}
 });
 
