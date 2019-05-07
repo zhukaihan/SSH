@@ -112,5 +112,5 @@ However, if you encountered the following issue:
 > Tried to register two views with the same name RNGestureHandlerButton
 
 ```bash
-rm -r node_modules/expo/node_modules
+rm -r node_modules/expo/node_modules/react-native-gesture-handler
 ```
