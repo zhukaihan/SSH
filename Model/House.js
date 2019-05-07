@@ -6,7 +6,7 @@ export default class House {
 		this.availability = entry.availability ? entry.availability : false;
 		if (entry.filters_house) {
 			this.filters_house = {
-				title: entry.filters_house.title ? entry.filters_house.title : "",
+				location: entry.filters_house.location ? entry.filters_house.location : "",
 				price: entry.filters_house.price ? entry.filters_house.price : 0,
 				num_bedroom: entry.filters_house.num_bedroom ? entry.filters_house.num_bedroom : 0,
 				num_bathroom: entry.filters_house.num_bathroom ? entry.filters_house.num_bathroom : 0,
@@ -16,7 +16,7 @@ export default class House {
 			};
 		} else {
 			this.filters_house = {
-				title: "",
+				location: "",
 				price: 0,
 				num_bedroom: 0,
 				num_bathroom: 0,
