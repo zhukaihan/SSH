@@ -15,6 +15,7 @@ var firebaseConfig = {
 // Initialize Firebase
 firebase.initializeApp(firebaseConfig);
 
+
 export default class App extends React.Component {
   render() {
     return (
@@ -22,3 +23,5 @@ export default class App extends React.Component {
     );
   }
 }
+
+export const db = firebase.firestore();
