@@ -1,8 +1,12 @@
 import React, { Component } from 'react';
-import { StyleSheet, View, Image, Dimensions, Text, StatusBar, Button, Alert } from 'react-native';
+import { StyleSheet, View, Image, Dimensions, Text, StatusBar, Button, Alert,Platform } from 'react-native';
 import GoogleSignInButton from '../View/GoogleSignInButton';
 import firebase from 'firebase';
+import { Google } from 'expo';
 
+const webClientId = Platform.select({
+  android: "294694508822-uotjg9q0e8545747tpketffgobisa6nj.apps.googleusercontent.com"
+});
 
 export default class LogInPage extends React.Component{
 	
@@ -24,11 +28,11 @@ export default class LogInPage extends React.Component{
   // Log in with Google. 
   googleLogin = async () => {
     try {
-      const result = await Expo.Google.logInAsync({
-        // Client IDs, needed to be created on Google Developers Console. 
-        androidClientId: "279978428336-vbepuj1iut56diuphfm1jm04chbo7o23.apps.googleusercontent.com",
-        iosClientId: "279978428336-1qa6aneofkllp8crnlh5gsn7vngo3r8q.apps.googleusercontent.com", 
-        scopes: ["profile", "email"]
+
+      const result = await Google.logInAsync({
+				// Client IDs, needed to be created on Google Developers Console.
+				clientId: "294694508822-hfqkhpg9mch5dp4k87um6ri6ka8vj5kg.apps.googleusercontent.com",
+				webClientId,
       })
 
       if (result.type === "success") {
@@ -101,4 +105,3 @@ const styles = StyleSheet.create({
     	margin: 30,
 	}
 });
-
