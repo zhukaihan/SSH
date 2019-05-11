@@ -3,7 +3,8 @@ import { StyleSheet, View, Image, Text, StatusBar, Button, Alert, FlatList, Touc
 import { Icon, Card, Badge } from 'react-native-elements';
 import { SafeAreaView } from 'react-navigation';
 import firebase from 'firebase';
-import House from '../Model/House'
+import House from '../Model/House';
+import RF from "react-native-responsive-fontsize";
 
 
 export default class HousingSearchPage extends React.Component{
@@ -14,14 +15,14 @@ export default class HousingSearchPage extends React.Component{
 	constructor() {
 		super();
 		console.log(firebase.auth().currentUser.email);
-		this.housesRef = firebase.database().ref("houses");
+		this.housesRef = firebase.firestore().collection("houses");
 	}
 
 	getHousingData = () => {
-		this.housesRef.orderByChild("post_date").once('value').then(snapshot => {
+		this.housesRef.orderBy("post_date").get().then(snapshot => {
 			let housingItems = [];
 			snapshot.forEach(house => {
-				let item = house.val();
+				let item = house.data();
 				var aHouse = new House(item);
 				housingItems.push(aHouse);
 			});
@@ -49,46 +50,71 @@ export default class HousingSearchPage extends React.Component{
 				<FlatList
 					keyExtractor={(item, index) => index.toString()}
 					data={this.state.housingItems}
-					renderItem={({item}) => (
-						<TouchableHighlight
-							onPress={() => this.openHouse(item)}>
-							<View
-								style={{
-									backgroundColor: 'white'
-								}}
-							>
-								<Image 
-									style={{
-										height: 200,
-										alignSelf: "stretch",
+					renderItem={({item}) => {
+						var badgesView = [];
+						item.filters_house.additional_tags.forEach((value) => {
+							badgesView.push((
+								<Badge
+									value={
+										<Text style={{
+											color: 'white'
+										}}>{value}</Text>
+									}
+									badgeStyle={{
+										paddingLeft: 10, 
+										paddingRight: 10,
+										marginRight: 5
+										// padding: 10 // This won't work. 
 									}}
-									source={{ uri: item.pictures[0] }}
+									// I can't find a way to pad the top and bottom part of a badge. 
 								/>
-								<Text 
-									style={{
-										alignSelf: "flex-start"
-									}}
-								>
-									{item.filters_house.title}
-								</Text>
-								<Text 
-									style={{
-										alignSelf: "flex-start"
-									}}
-								>
-									{item.filters_house.num_bedroom + "B" + item.filters_house.num_bathroom + "B | " + item.filters_house.num_parking + " parking"}
-								</Text>
-								<Text 
-									style={{
-										alignSelf: "flex-end"
-									}}
-								>
-									{"$ " + item.filters_house.price}
-								</Text>
-								<Badge value="Badges for Tags"></Badge>
-							</View>
-						</TouchableHighlight>
-					)}
+							));
+						});
+
+						return (
+							<TouchableHighlight
+								onPress={() => this.openHouse(item)}>
+								<View style={{
+										backgroundColor: 'white',
+										alignItems: "stretch",
+										marginBottom: 10,
+										padding: 5
+								}}>
+									<Image 
+										style={{
+											height: 200,
+										}}
+										source={{ uri: item.pictures[0] }}
+									/>
+									<View>
+										<View style={{
+											flexDirection: 'row',
+											justifyContent: 'space-between'
+										}}>
+											<Text style={{fontSize: RF(2.5)}}>{item.filters_house.title}</Text>
+											<Text style={{fontSize: RF(2.5), color: 'rgb(50, 150, 255)'}}>{"$ " + item.filters_house.price}</Text>
+											</View>
+									
+										<View style={{
+											flexDirection: 'row',
+											justifyContent: 'space-between'
+										}}>
+											<Text style={{fontSize: RF(2)}}>{item.filters_house.num_bedroom + "B" + item.filters_house.num_bathroom + "B | " + item.filters_house.num_parking + " parking"}</Text>
+											<Icon name="star" type="font-awesome"/>
+										</View>
+									
+									</View>
+
+									<View style={{
+										flexDirection: 'row'
+									}}>
+										{badgesView}
+									</View>
+								</View>
+							</TouchableHighlight>
+						)
+
+					}}
 				/>
 			);
 		}
