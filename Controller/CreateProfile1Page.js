@@ -9,15 +9,15 @@ export default class CreateProfile1Page extends Component{
     constructor(props){
         super(props)
         this.state={
-            firstName: "",
-            lastName: "",
-            preferredName: "",
+            first_name: "",
+            last_name: "",
+            name_preferred: "",
             gender: "",
             major: "",
-            expectGraduatingYear: "",
-            Interest: "",
+            graduation: "",
+            additional_tags: "",
             clean: "",
-            morningOrNight: "",
+            wake_early: "",
             description: "",
             items:[
                 {
@@ -39,17 +39,17 @@ export default class CreateProfile1Page extends Component{
         this.inputRefs={};
     }
     nextslide = () =>{
-        console.log(`${this.state.firstName}`)
+        console.log(`${this.state.first_name}`)
         this.props.navigation.navigate('CreateProfile2Page',{
-            firstName: this.state.firstName,
-            lastName: this.state.lastName,
-            preferredName: this.state.preferredName,
+            first_name: this.state.first_name,
+            last_name: this.state.last_name,
+            name_preferred: this.state.name_preferred,
             gender: this.state.gender,
             major: this.state.major,      
-            expectGraduatingYear: this.state.expectGraduatingYear,
-            Interest: this.state.Interest,
+            graduation: this.state.graduation,
+            additional_tags: this.state.additional_tags,
             clean: this.state.clean,
-            morningOrNight: this.state.morningOrNight,
+            wake_early: this.state.wake_early,
             description: this.state.description
         });
     }
@@ -77,15 +77,15 @@ export default class CreateProfile1Page extends Component{
                 <TextInput 
                         style={styles.textBox}
                         placeholder={"First Name"}
-                        onChangeText={(firstName)=>{this.setState({firstName})}}></TextInput>
+                        onChangeText={(first_name)=>{this.setState({first_name})}}></TextInput>
                 <TextInput 
                         style={styles.textBox}
                         placeholder={"Last Name"}
-                        onChangeText={(lastName)=>{this.setState({lastName})}}></TextInput>
+                        onChangeText={(last_name)=>{this.setState({last_name})}}></TextInput>
                 <TextInput 
                         style={styles.textBox}
                         placeholder={"Preferred Name"}
-                        onChangeText={(preferredName)=>{this.setState({preferredName})}}></TextInput>
+                        onChangeText={(name_preferred)=>{this.setState({name_preferred})}}></TextInput>
                 <View style={styles.pickerBox}> 
                 <RNPickerSelect
                         style={{...pickerSelectStyles}}

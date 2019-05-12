@@ -8,26 +8,26 @@ import { TouchableOpacity, TouchableHighlight } from 'react-native-gesture-handl
 export default class CreateProfile3Page extends Component{
     constructor(props){
         super(props)
-        this.firstName = props.navigation.state.params.firstName
-        this.lastName = props.navigation.state.params.lastName;
-        this.preferredName = props.navigation.state.params.preferredName;
+        this.first_name = props.navigation.state.params.first_name
+        this.last_name = props.navigation.state.params.last_name;
+        this.name_preferred = props.navigation.state.params.name_preferred;
         this.gender = props.navigation.state.params.gender;
         this.major = props.navigation.state.params.major;
-        this.expectGraduatingYear = props.navigation.state.params.expectGraduatingYear;
-        this.Interest = props.navigation.state.params.Interest;
+        this.graduation = props.navigation.state.params.graduation;
+        this.additional_tags = props.navigation.state.params.additional_tags;
         this.clean = props.navigation.state.params.clean;
-        this.morningOrNight = props.navigation.state.params.morningOrNight;
+        this.wake_early = props.navigation.state.params.wake_early;
         this.description = props.navigation.state.params.description;
         this.state={
-            firstName: this.firstName,
-            lastName: this.lastName,
-            preferredName: this.preferredName,
+            first_name: this.first_name,
+            last_name: this.last_name,
+            name_preferred: this.name_preferred,
             gender:this.gender,
             major:this.major,
-            expectGraduatingYear:this.expectGraduatingYear,
-            Interest:this.Interest,
+            graduation:this.graduation,
+            additional_tags:this.additional_tags,
             clean:this.clean,
-            morningOrNight:this.morningOrNight,
+            wake_early:this.wake_early,
             description:this.description,
             cleanPicker:[                {
                 label: 'Clean', value:'clean',
@@ -35,7 +35,7 @@ export default class CreateProfile3Page extends Component{
             {
                 label: 'Messy', value:'messy',
             }],
-            morningOrNightPicker:[
+            wake_earlyPicker:[
                 {
                     label: 'Morning', value:'morning',
                 },
@@ -46,30 +46,30 @@ export default class CreateProfile3Page extends Component{
         }
     }
     backslide =() =>{
-        this.props.navigation.navigate("CreateProfile2Page",{
-            firstName: this.state.firstName,
-            lastName: this.state.lastName,
-            preferredName: this.state.preferredName,
+        this.props.navigation.navigate("AddProfilePage",{
+            first_name: this.state.first_name,
+            last_name: this.state.last_name,
+            name_preferred: this.state.name_preferred,
             gender: this.state.gender,
             major: this.state.major,      
-            expectGraduatingYear: this.state.expectGraduatingYear,
-            Interest: this.state.Interest,
+            graduation: this.state.graduation,
+            additional_tags: this.state.additional_tags,
             clean: this.state.clean,
-            morningOrNight: this.state.morningOrNight,
+            wake_early: this.state.wake_early,
             description: this.state.description});
     }
     nextslide = () =>{
-        console.log(`${this.state.firstName}`);
+        console.log(`${this.state.first_name}`);
         this.props.navigation.navigate("AddProfilePage",{
-            firstName: this.state.firstName,
-            lastName: this.state.lastName,
-            preferredName: this.state.preferredName,
+            first_name: this.state.first_name,
+            last_name: this.state.last_name,
+            name_preferred: this.state.name_preferred,
             gender: this.state.gender,
             major: this.state.major,      
-            expectGraduatingYear: this.state.expectGraduatingYear,
-            Interest: this.state.Interest,
+            graduation: this.state.graduation,
+            additional_tags: this.state.additional_tags,
             clean: this.state.clean,
-            morningOrNight: this.state.morningOrNight,
+            wake_early: this.state.wake_early,
             description: this.state.description});
     }
     render(){
@@ -106,15 +106,15 @@ export default class CreateProfile3Page extends Component{
                 <Text style={{textAlign:"center", fontSize:RF(2.3)}}> Are you a morning or night person </Text>
                 <RNPickerSelect
                         style={{...pickerSelectStyles}}
-                        onValueChange={(itemValue, itemIndex)=> this.setState({morningOrNight: itemValue})}
+                        onValueChange={(itemValue, itemIndex)=> this.setState({wake_early: itemValue})}
                         placeholder={{label: 'Select Here', value: null}}
-                        items={this.state.morningOrNightPicker}
+                        items={this.state.wake_earlyPicker}
                         onValueChange={(value) =>{
                             this.setState({
-                                morningOrNight:value,
+                                wake_early:value,
                             });
                         }}
-                        value={this.state.morningOrNight}
+                        value={this.state.wake_early}
                         />
                 </View>
                 <View style={{flex:.5}}>

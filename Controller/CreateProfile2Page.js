@@ -9,54 +9,54 @@ import { TouchableOpacity, TouchableHighlight } from 'react-native-gesture-handl
 export default class CreateProfile2Page extends Component{
     constructor(props){
         super(props)
-        this.firstName = props.navigation.state.params.firstName
-        this.lastName = props.navigation.state.params.lastName;
-        this.preferredName = props.navigation.state.params.preferredName;
+        this.first_name = props.navigation.state.params.first_name
+        this.last_name = props.navigation.state.params.last_name;
+        this.name_preferred = props.navigation.state.params.name_preferred;
         this.gender = props.navigation.state.params.gender;
         this.major = props.navigation.state.params.major;
-        this.expectGraduatingYear = props.navigation.state.params.expectGraduatingYear;
-        this.Interest = props.navigation.state.params.Interest;
+        this.graduation = props.navigation.state.params.graduation;
+        this.additional_tags = props.navigation.state.params.additional_tags;
         this.clean = props.navigation.state.params.clean;
-        this.morningOrNight = props.navigation.state.params.morningOrNight;
+        this.wake_early = props.navigation.state.params.wake_early;
         this.description = props.navigation.state.params.description;
         this.state={
-            firstName: this.firstName,
-            lastName: this.lastName,
-            preferredName: this.preferredName,
+            first_name: this.first_name,
+            last_name: this.last_name,
+            name_preferred: this.name_preferred,
             gender:this.gender,
             major:this.major,
-            expectGraduatingYear:this.expectGraduatingYear,
-            Interest:this.Interest,
+            graduation:this.graduation,
+            additional_tags:this.additional_tags,
             clean:this.clean,
-            morningOrNight:this.morningOrNight,
+            wake_early:this.wake_early,
             description:this.description,
         }
     }
     backslide = ()=>{
         this.props.navigation.navigate("CreateProfile1Page",{
-            firstName: this.state.firstName,
-            lastName: this.state.lastName,
-            preferredName: this.state.preferredName,
+            first_name: this.state.first_name,
+            last_name: this.state.last_name,
+            name_preferred: this.state.name_preferred,
             gender: this.state.gender,
             major: this.state.major,      
-            expectGraduatingYear: this.state.expectGraduatingYear,
-            Interest: this.state.Interest,
+            graduation: this.state.graduation,
+            additional_tags: this.state.additional_tags,
             clean: this.state.clean,
-            morningOrNight: this.state.morningOrNight,
+            wake_early: this.state.wake_early,
             description: this.state.description});
     }
     nextslide=()=>{
-        console.log(`${this.state.firstName}`)
+        console.log(`${this.state.first_name}`)
         this.props.navigation.navigate("CreateProfile3Page",{            
-            firstName: this.state.firstName,
-            lastName: this.state.lastName,
-            preferredName: this.state.preferredName,
+            first_name: this.state.first_name,
+            last_name: this.state.last_name,
+            name_preferred: this.state.name_preferred,
             gender: this.state.gender,
             major: this.state.major,      
-            expectGraduatingYear: this.state.expectGraduatingYear,
-            Interest: this.state.Interest,
+            graduation: this.state.graduation,
+            additional_tags: this.state.additional_tags,
             clean: this.state.clean,
-            morningOrNight: this.state.morningOrNight,
+            wake_early: this.state.wake_early,
             description: this.state.description});
     }
     render(){
@@ -90,7 +90,7 @@ export default class CreateProfile2Page extends Component{
                 <TextInput 
                         style={styles.textBox}
                         placeholder={"Graduation Year"}
-                        onChangeText={(expectGraduatingYear)=>{this.setState({expectGraduatingYear})}}></TextInput>
+                        onChangeText={(graduation)=>{this.setState({graduation})}}></TextInput>
                 <View
                     style={{flexDirection:"row", alignItems: "center", marginBottom: RF(1)}}>
                     <Text style={{fontSize:RF(2.4), textAlign:"center"}}> Interests and Hobbies </Text>
@@ -98,7 +98,7 @@ export default class CreateProfile2Page extends Component{
                 <TextInput 
                         style={styles.textBox}
                         placeholder={"Interest and Hobbies"}
-                        onChangeText={(Interest)=>{this.setState({Interest})}}></TextInput>
+                        onChangeText={(additional_tags)=>{this.setState({additional_tags})}}></TextInput>
                 <View style={{flexDirection:'row', height:"20%"}}>
                     <View style={styles.backButton}>
                         <TouchableOpacity onPress={this.backslide} style={styles.backButtonStyle}>

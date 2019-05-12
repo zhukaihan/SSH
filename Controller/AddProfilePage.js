@@ -20,26 +20,26 @@ import * as firebase from 'firebase';
 export default class AddProfilePage extends React.Component{
     constructor(props){
         super(props)
-        this.firstName = props.navigation.state.params.firstName
-        this.lastName = props.navigation.state.params.lastName;
-        this.preferredName = props.navigation.state.params.preferredName;
+        this.first_name = props.navigation.state.params.first_name
+        this.last_name = props.navigation.state.params.last_name;
+        this.name_preferred = props.navigation.state.params.name_preferred;
         this.gender = props.navigation.state.params.gender;
         this.major = props.navigation.state.params.major;
-        this.expectGraduatingYear = props.navigation.state.params.expectGraduatingYear;
-        this.Interest = props.navigation.state.params.Interest;
+        this.graduation = props.navigation.state.params.graduation;
+        this.additional_tags = props.navigation.state.params.additional_tags;
         this.clean = props.navigation.state.params.clean;
-        this.morningOrNight = props.navigation.state.params.morningOrNight;
+        this.wake_early = props.navigation.state.params.wake_early;
         this.description = props.navigation.state.params.description;
         this.state={
-            firstName: this.firstName,
-            lastName: this.lastName,
-            preferredName: this.preferredName,
+            first_name: this.first_name,
+            last_name: this.last_name,
+            name_preferred: this.name_preferred,
             gender:this.gender,
             major:this.major,
-            expectGraduatingYear:this.expectGraduatingYear,
-            Interest:this.Interest,
+            graduation:this.graduation,
+            additional_tags:this.additional_tags,
             clean:this.clean,
-            morningOrNight:this.morningOrNight,
+            wake_early:this.wake_early,
             description:this.description,
             profileimage: null,
             image: null,
@@ -55,21 +55,21 @@ export default class AddProfilePage extends React.Component{
     }
     _uploadToFirebase = (items) =>{
         let userId = firebase.auth().currentUser.uid;
+        console.log(this.state.first_name);
         var data = {
-            firstname: items.firstName,
-            lastname: items.lastName,
-            preferredname: items.preferredName,
+            first_name: items.first_name,
+            last_name: items.last_name,
+            name_preferred: items.name_preferred,
             gender: items.gender,
             major: items.major,
-            expectgraduatingyear: items.expectGraduatingYear,
-            interest: items.Interest,
+            graduation: items.graduation,
+            additional_tags: items.additional_tags,
             clean: items.clean,
-            morningornight: items.morningOrNight,
+            wake_early: items.wake_early,
             description: items.description,
             profileimage: items.profileimage
         }
-        var setDoc = firebase.firestore().collection("users").doc(`${userId}`).set(
-            data
+        firebase.firestore().collection("users").doc(`${userId}`).set(Object.assign({}, data)
         )
     }
     render() {
