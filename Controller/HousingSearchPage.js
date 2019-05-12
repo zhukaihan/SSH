@@ -94,7 +94,7 @@ export default class HousingSearchPage extends React.Component{
 										}}>
 											<Text style={{fontSize: RF(2.5), fontWeight: 'bold'}}>{item.filters_house.title}</Text>
 											<Text style={{fontSize: RF(2.5), color: 'rgb(50, 150, 255)'}}>{"$ " + item.filters_house.price}</Text>
-											</View>
+										</View>
 									
 										<View style={{
 											flexDirection: 'row',
