@@ -22,7 +22,7 @@ export default class LogInPage extends React.Component{
 	//this function will navigator to CreateProfile1Page
 	navigateToHome = () => {
 		console.log("logged in firebase");
-		this.props.navigation.navigate('AddProfilePage');
+		this.props.navigation.navigate('CreateProfile1Page');
 	}
 
   // Log in with Google. 

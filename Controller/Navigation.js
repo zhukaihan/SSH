@@ -41,7 +41,6 @@ const MainNavigator = createStackNavigator(
 	{
 		//initialize initial screen to createProfilepage2g
 		initialRouteName: 'LogInPage',
-		initialRouteName: 'CreateProfile3Page',
 		headerMode: 'none',
 		navigationOptions: {
 			headerVisible: false

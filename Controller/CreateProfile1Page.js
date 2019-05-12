@@ -132,7 +132,7 @@ const styles = StyleSheet.create({
         borderWidth: 10,
     },
     personalInfoText:{
-        fontSize: RF(4.5),
+        fontSize: RF(4),
         fontWeight: 'bold',
         color: "#fff",
         textAlign: 'center',

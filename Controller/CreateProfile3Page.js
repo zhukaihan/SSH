@@ -93,7 +93,7 @@ export default class CreateProfile3Page extends Component{
                         style={{...pickerSelectStyles}}
                         onValueChange={(itemValue, itemIndex)=> this.setState({morningOrNight: itemValue})}
                         placeholder={{label: 'Select Here', value: null}}
-                        items={this.state.cleanPicker}
+                        items={this.state.morningOrNightPicker}
                         onValueChange={(value) =>{
                             this.setState({
                                 morningOrNight:value,
