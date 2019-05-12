@@ -9,34 +9,55 @@ import { TouchableOpacity, TouchableHighlight } from 'react-native-gesture-handl
 export default class CreateProfile2Page extends Component{
     constructor(props){
         super(props)
+        this.firstName = props.navigation.state.params.firstName
+        this.lastName = props.navigation.state.params.lastName;
+        this.preferredName = props.navigation.state.params.preferredName;
+        this.gender = props.navigation.state.params.gender;
+        this.major = props.navigation.state.params.major;
+        this.expectGraduatingYear = props.navigation.state.params.expectGraduatingYear;
+        this.Interest = props.navigation.state.params.Interest;
+        this.clean = props.navigation.state.params.clean;
+        this.morningOrNight = props.navigation.state.params.morningOrNight;
+        this.description = props.navigation.state.params.description;
         this.state={
-            firstName:"First Name",
-            lastName: "Last Name",
-            preferredName: "Preferred Name",
-            gender:"",
-            major:"Major",
-            expectGraduatingYear:"Graduation Year",
-            Interest:"Interests"
+            firstName: this.firstName,
+            lastName: this.lastName,
+            preferredName: this.preferredName,
+            gender:this.gender,
+            major:this.major,
+            expectGraduatingYear:this.expectGraduatingYear,
+            Interest:this.Interest,
+            clean:this.clean,
+            morningOrNight:this.morningOrNight,
+            description:this.description,
         }
     }
-    ComponentDidMount(){
-        const { navigate } = this.props.navigation;
-        let firstName = navigate.state.params.page1.firstName;
-        let lastName = navigate.state.params.page1.lastName;
-        let preferredName = navigate.state.params.page1.preferredName;
-        let gender = navigate.state.params.page1.gender;
-        let major = navigate.state.params.page3.major;
-        let expectGraduatingYear = navigate.state.params.page3.expectGraduatingYear;
-        let Interest = navigate.state.params.page3.Interest;
-        this.setState({
-            firstName,lastName,preferredName,gender,major,expectGraduatingYear,Interest
-        })
-    }
     backslide = ()=>{
-        this.props.navigation.navigate("CreateProfile1Page",{page2: this.state});
+        this.props.navigation.navigate("CreateProfile1Page",{
+            firstName: this.state.firstName,
+            lastName: this.state.lastName,
+            preferredName: this.state.preferredName,
+            gender: this.state.gender,
+            major: this.state.major,      
+            expectGraduatingYear: this.state.expectGraduatingYear,
+            Interest: this.state.Interest,
+            clean: this.state.clean,
+            morningOrNight: this.state.morningOrNight,
+            description: this.state.description});
     }
     nextslide=()=>{
-        this.props.navigation.navigate("CreateProfile3Page",{page2: this.state});
+        console.log(`${this.state.firstName}`)
+        this.props.navigation.navigate("CreateProfile3Page",{            
+            firstName: this.state.firstName,
+            lastName: this.state.lastName,
+            preferredName: this.state.preferredName,
+            gender: this.state.gender,
+            major: this.state.major,      
+            expectGraduatingYear: this.state.expectGraduatingYear,
+            Interest: this.state.Interest,
+            clean: this.state.clean,
+            morningOrNight: this.state.morningOrNight,
+            description: this.state.description});
     }
     render(){
         return(
@@ -56,11 +77,11 @@ export default class CreateProfile2Page extends Component{
             <View style={styles.inputView}>
                 <View
                     style={{flexDirection:"row", alignItems: "center", marginBottom: RF(1), textAlign:'center'}}>
-                    <Text style={{fontSize:RF(2.4), textAlign:"center"}}> Major </Text>
+                    <Text style={{fontSize:RF(2.4), textAlign:"center"}}>Major</Text>
                 </View>
                 <TextInput 
                         style={styles.textBox}
-                        placeholder={this.state.major}
+                        placeholder={"Major"}
                         onChangeText={(major)=>{this.setState({major})}}></TextInput>
                 <View
                     style={{flexDirection:"row", alignItems: "center", marginBottom: RF(1), textAlign:'center'}}>
@@ -68,7 +89,7 @@ export default class CreateProfile2Page extends Component{
                 </View>
                 <TextInput 
                         style={styles.textBox}
-                        placeholder={this.state.expectGraduatingYear}
+                        placeholder={"Graduation Year"}
                         onChangeText={(expectGraduatingYear)=>{this.setState({expectGraduatingYear})}}></TextInput>
                 <View
                     style={{flexDirection:"row", alignItems: "center", marginBottom: RF(1)}}>
@@ -76,7 +97,7 @@ export default class CreateProfile2Page extends Component{
                 </View>
                 <TextInput 
                         style={styles.textBox}
-                        placeholder={this.state.Interest}
+                        placeholder={"Interest and Hobbies"}
                         onChangeText={(Interest)=>{this.setState({Interest})}}></TextInput>
                 <View style={{flexDirection:'row', height:"20%"}}>
                     <View style={styles.backButton}>

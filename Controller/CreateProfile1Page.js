@@ -5,15 +5,20 @@ import RNPickerSelect from 'react-native-picker-select';
 import RF from 'react-native-responsive-fontsize';
 import { TouchableOpacity, TouchableHighlight } from 'react-native-gesture-handler';
 
-
 export default class CreateProfile1Page extends Component{
     constructor(props){
         super(props)
         this.state={
-            firstName:"First Name",
-            lastName:"Last Name",
-            preferredName: "Preferred Name",
-            gender: undefined,
+            firstName: "",
+            lastName: "",
+            preferredName: "",
+            gender: "",
+            major: "",
+            expectGraduatingYear: "",
+            Interest: "",
+            clean: "",
+            morningOrNight: "",
+            description: "",
             items:[
                 {
                     label: 'Male', value:'male',
@@ -33,17 +38,20 @@ export default class CreateProfile1Page extends Component{
         this.width= Dimensions.get('window').width;
         this.inputRefs={};
     }
-    ComponentDidMount(){
-        let firstName = this.props.navigation.state.params.page2.firstName;
-        let lastName = this.props.navigation.state.params.page2.lastName;
-        let preferredName = this.props.navigation.state.params.page2.preferredName;
-        let gender = this.props.navigation.state.params.pag2.gender;
-        this.setState({
-            firstName,lastName,preferredName,gender
-        })
-    }
     nextslide = () =>{
-        this.props.navigation.navigate('CreateProfile2Page',{page1: this.state});
+        console.log(`${this.state.firstName}`)
+        this.props.navigation.navigate('CreateProfile2Page',{
+            firstName: this.state.firstName,
+            lastName: this.state.lastName,
+            preferredName: this.state.preferredName,
+            gender: this.state.gender,
+            major: this.state.major,      
+            expectGraduatingYear: this.state.expectGraduatingYear,
+            Interest: this.state.Interest,
+            clean: this.state.clean,
+            morningOrNight: this.state.morningOrNight,
+            description: this.state.description
+        });
     }
     render(){
         return(
@@ -68,15 +76,15 @@ export default class CreateProfile1Page extends Component{
                 </View>
                 <TextInput 
                         style={styles.textBox}
-                        placeholder={this.state.firstName}
+                        placeholder={"First Name"}
                         onChangeText={(firstName)=>{this.setState({firstName})}}></TextInput>
                 <TextInput 
                         style={styles.textBox}
-                        placeholder={this.state.lastName}
+                        placeholder={"Last Name"}
                         onChangeText={(lastName)=>{this.setState({lastName})}}></TextInput>
                 <TextInput 
                         style={styles.textBox}
-                        placeholder={this.state.preferredName}
+                        placeholder={"Preferred Name"}
                         onChangeText={(preferredName)=>{this.setState({preferredName})}}></TextInput>
                 <View style={styles.pickerBox}> 
                 <RNPickerSelect

@@ -8,17 +8,27 @@ import { TouchableOpacity, TouchableHighlight } from 'react-native-gesture-handl
 export default class CreateProfile3Page extends Component{
     constructor(props){
         super(props)
+        this.firstName = props.navigation.state.params.firstName
+        this.lastName = props.navigation.state.params.lastName;
+        this.preferredName = props.navigation.state.params.preferredName;
+        this.gender = props.navigation.state.params.gender;
+        this.major = props.navigation.state.params.major;
+        this.expectGraduatingYear = props.navigation.state.params.expectGraduatingYear;
+        this.Interest = props.navigation.state.params.Interest;
+        this.clean = props.navigation.state.params.clean;
+        this.morningOrNight = props.navigation.state.params.morningOrNight;
+        this.description = props.navigation.state.params.description;
         this.state={
-            firstName:"First Name",
-            lastName: "Last Name",
-            preferredName: "Preferred Name",
-            gender:"",
-            major:"",
-            expectGraduatingYear:"",
-            Interest:[],
-            clean:"",
-            morningOrNight:"",
-            description:"",
+            firstName: this.firstName,
+            lastName: this.lastName,
+            preferredName: this.preferredName,
+            gender:this.gender,
+            major:this.major,
+            expectGraduatingYear:this.expectGraduatingYear,
+            Interest:this.Interest,
+            clean:this.clean,
+            morningOrNight:this.morningOrNight,
+            description:this.description,
             cleanPicker:[                {
                 label: 'Clean', value:'clean',
             },
@@ -35,27 +45,32 @@ export default class CreateProfile3Page extends Component{
             ]
         }
     }
-    ComponentDidMount(){
-        const { navigate } = this.props.navigation;
-        let firstName = navigate.state.params.page2.firstName;
-        let lastName = navigate.state.params.page2.lastName;
-        let preferredName = navigate.state.params.page2.preferredName;
-        let gender = navigate.state.params.page2.gender;
-        let major = navigate.state.params.page2.major;
-        let expectGraduatingYear = navigate.state.params.page2.expectGraduatingYear;
-        let Interest = navigate.state.params.page2.Interest;
-        let clean = navigate.state.params.page2.clean;
-        let morningOrNight = navigate.state.params.page2.morningOrNight;
-        let description = navigate.state.params.page2.description;
-        this.setState({
-            firstName,lastName,preferredName,gender,major,expectGraduatingYear,Interest,clean,morningOrNight,description
-        })
-    }
     backslide =() =>{
-        this.props.navigation.navigate("CreateProfile2Page",{page3: this.state});
+        this.props.navigation.navigate("CreateProfile2Page",{
+            firstName: this.state.firstName,
+            lastName: this.state.lastName,
+            preferredName: this.state.preferredName,
+            gender: this.state.gender,
+            major: this.state.major,      
+            expectGraduatingYear: this.state.expectGraduatingYear,
+            Interest: this.state.Interest,
+            clean: this.state.clean,
+            morningOrNight: this.state.morningOrNight,
+            description: this.state.description});
     }
     nextslide = () =>{
-        this.props.navigation.navigate("AddProfilePage",{page3: this.state});
+        console.log(`${this.state.firstName}`);
+        this.props.navigation.navigate("AddProfilePage",{
+            firstName: this.state.firstName,
+            lastName: this.state.lastName,
+            preferredName: this.state.preferredName,
+            gender: this.state.gender,
+            major: this.state.major,      
+            expectGraduatingYear: this.state.expectGraduatingYear,
+            Interest: this.state.Interest,
+            clean: this.state.clean,
+            morningOrNight: this.state.morningOrNight,
+            description: this.state.description});
     }
     render(){
         return(

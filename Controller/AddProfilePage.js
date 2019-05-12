@@ -20,39 +20,36 @@ import * as firebase from 'firebase';
 export default class AddProfilePage extends React.Component{
     constructor(props){
         super(props)
+        this.firstName = props.navigation.state.params.firstName
+        this.lastName = props.navigation.state.params.lastName;
+        this.preferredName = props.navigation.state.params.preferredName;
+        this.gender = props.navigation.state.params.gender;
+        this.major = props.navigation.state.params.major;
+        this.expectGraduatingYear = props.navigation.state.params.expectGraduatingYear;
+        this.Interest = props.navigation.state.params.Interest;
+        this.clean = props.navigation.state.params.clean;
+        this.morningOrNight = props.navigation.state.params.morningOrNight;
+        this.description = props.navigation.state.params.description;
         this.state={
+            firstName: this.firstName,
+            lastName: this.lastName,
+            preferredName: this.preferredName,
+            gender:this.gender,
+            major:this.major,
+            expectGraduatingYear:this.expectGraduatingYear,
+            Interest:this.Interest,
+            clean:this.clean,
+            morningOrNight:this.morningOrNight,
+            description:this.description,
+            profileimage: null,
             image: null,
             uploading: false,
-            firstName:"First Name",
-            lastName: "Last Name",
-            preferredName: "Preferred Name",
-            gender:"",
-            major:"",
-            expectGraduatingYear:"",
-            Interest:[],
-            clean:"",
-            morningOrNight:"",
-            description:"",
-            profileimage: null,
         }
     }   
-
-
-    async componentDidMount() {
-        const { navigate } = this.props.navigation;
-        let firstName = navigate.state.params.page3.firstName;
-        let lastName = navigate.state.params.page3.lastName;
-        let preferredName = navigate.state.params.page3.preferredName;
-        let gender = navigate.state.params.page3.gender;
-        let major = navigate.state.params.page3.major;
-        let expectGraduatingYear = navigate.state.params.page3.expectGraduatingYear;
-        let Interest = navigate.state.params.page3.Interest;
-        let clean = navigate.state.params.page3.clean;
-        let morningOrNight = navigate.state.params.page3.morningOrNight;
-        let description = navigate.state.params.page3.description;
-        this.setState({
-            firstName,lastName,preferredName,gender,major,expectGraduatingYear,Interest,clean,morningOrNight,description
-        })
+    /*
+            
+    */
+    async ComponentDidMount() {
         await Permissions.askAsync(Permissions.CAMERA_ROLL);
         await Permissions.askAsync(Permissions.CAMERA);
     }
@@ -90,7 +87,7 @@ export default class AddProfilePage extends React.Component{
                     onPress={this._uploadToFirebase(this.state)}
                     title="finish"
                 />
-                <Text>{this.state.firstName} jhk</Text>
+                <Text>jhk</Text>
                 <StatusBar barStyle="default" />
             </View>
         );
