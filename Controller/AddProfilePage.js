@@ -15,12 +15,18 @@ import { Constants, ImagePicker, Permissions } from 'expo';
 import uuid from 'uuid';
 import * as firebase from 'firebase';
 
+
 export default class AddProfilePage extends React.Component{
-    state = {
-        image: null,
-        uploading: false,
-    };
-    
+    constructor(props){
+        super(props)
+        this.state={
+            image: null,
+            uploading: false,
+            userId: "",
+        }
+    }   
+
+
     async componentDidMount() {
         await Permissions.askAsync(Permissions.CAMERA_ROLL);
         await Permissions.askAsync(Permissions.CAMERA);
@@ -32,7 +38,7 @@ export default class AddProfilePage extends React.Component{
             <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
                 <Button
                     onPress={this._pickImage}
-                    title="Pick an image from camera roll"
+                    title="picking photo from photo roll"
                 />
                 <Button onPress={this._takePhoto} title="Take a photo" />
                 {this._maybeRenderImage()}
@@ -84,7 +90,6 @@ export default class AddProfilePage extends React.Component{
                 }}>
             <Image source={{ uri: image }} style={{ width: 250, height: 250 }} />
             </View>
-    
             <Text
                 onPress={this._copyToClipboard}
                 onLongPress={this._share}
@@ -156,11 +161,12 @@ async function uploadImageAsync(uri) {
         xhr.open('GET', uri, true);
         xhr.send(null);
     });
+    let userId = firebase.auth().currentUser.uid;
     
     const ref = firebase
         .storage()
         .ref()
-        .child(uuid.v4());
+        .child(`${userId}/images/${uuid.v4()}.jpg`);
     const snapshot = await ref.put(blob);
     
     // We're done with the blob, close and release it
