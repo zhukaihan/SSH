@@ -120,45 +120,36 @@ export default class ViewHousingPage extends React.Component{
 							<Icon name="star" type="font-awesome"/>
 						</View>
 					
-						<View style={{
-							flexDirection: 'row',
-							justifyContent: 'space-between'
-						}}>
-							<View style={{
-									flex: 2
-							}}>
-								<View>
-									<View>
-										<Icon name="star" type="font-awesome"/>
-										<Text>{item.filters_house.num_tenant} Tenants</Text>
+						<View style={styles.roomInfo}>
+							<View style={styles.roomInfoLeft}>
+								<View style={styles.roomInfoLeftSpecs}>
+									<View style={styles.roomInfoLeftSpecDetails}>
+										<Icon name="users" type="font-awesome"/>
+										<Text>  {item.filters_house.num_tenant} Tenants</Text>
 									</View>
-									<View>
-										<Icon name="star" type="font-awesome"/>
-										<Text>{item.filters_house.num_bedroom} Bedrooms</Text>
+									<View style={styles.roomInfoLeftSpecDetails}>
+										<Icon name="bed" type="font-awesome"/>
+										<Text>  {item.filters_house.num_bedroom} Bedrooms</Text>
 									</View>
-									<View>
-										<Icon name="star" type="font-awesome"/>
-										<Text>{item.filters_house.num_bathroom} Bathrooms</Text>
+									<View style={styles.roomInfoLeftSpecDetails}>
+										<Icon name="bath" type="font-awesome"/>
+										<Text>  {item.filters_house.num_bathroom} Bathrooms</Text>
 									</View>
-									<View>
-										<Icon name="star" type="font-awesome"/>
-										<Text>{item.filters_house.num_parking} Parkings</Text>
+									<View style={styles.roomInfoLeftSpecDetails}>
+										<Icon name="car" type="font-awesome"/>
+										<Text>  {item.filters_house.num_parking} Parkings</Text>
 									</View>
 								</View>
-								<View style={{
-									flexDirection: 'row'
-								}}>
+								<View style={styles.roomInfoLeftBadges}>
 									{badgesView}
 								</View>
 							</View>
-							<View>
+							<View style={styles.roomInfoRight}>
 								<Image
 										source={{uri: "https://www.apple.com/ac/globalnav/4/en_US/images/globalnav/apple/image_large.svg"}}
-										style={{
-											flex: 1
-										}}
+										style={styles.roomInfoRightImg}
 									/>
-									<Text>{item.landlord}</Text>
+									<Text style={styles.roomInfoRightName}>{item.landlord}</Text>
 							</View>
 						</View>
 					</View>
@@ -197,4 +188,34 @@ export default class ViewHousingPage extends React.Component{
 
 }
 const styles = StyleSheet.create({
+	roomInfo: {
+		flexDirection: 'row',
+		justifyContent: 'space-between'
+	},
+	roomInfoLeft: {
+		flex: 2
+	},
+	roomInfoRight: {
+		flex: 1
+	},
+	roomInfoLeftSpecs: {
+		flexDirection: 'row',
+		flexWrap: 'wrap',
+		marginTop: 5,
+		marginBottom: 5
+	},
+	roomInfoLeftSpecDetails: {
+		width: '45%',
+		marginLeft: '2.5%',
+		marginRight: '2.5%',
+		marginTop: 5,
+		marginBottom: 5,
+		flexDirection: 'row',
+		justifyContent: 'flex-start',
+		alignItems: 'center'
+	},
+	roomInfoLeftBadges: {
+		flexDirection: 'row',
+		margin: 5
+	}
 })
