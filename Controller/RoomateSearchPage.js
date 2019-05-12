@@ -3,9 +3,10 @@ import { ListItem, List , SearchBar, Input} from 'react-native-elements';
 import React from 'react';
 import Icon from 'react-native-vector-icons/AntDesign';
 import { TouchableOpacity, TouchableHighlight } from 'react-native';
+import RF from 'react-native-responsive-fontsize';
 import { db } from '../App';//You import this only for our project because it has access to the database.firestore();
 import 'firebase/firestore' //Must import if you're using firestoreee
-import { SafeAreaView } from 'react-navigation';
+import firebase from 'firebase';
 
 export default class RoomateSearchPage extends React.Component{
     constructor(props){
@@ -41,6 +42,22 @@ export default class RoomateSearchPage extends React.Component{
     //this function will close the subsciption when user stop using this page
         this.unsubscribe();
     }
+    _getImage(){
+        db.ref(``).child(`profileImage.jpg`).getDownloadURL().then(function(url){
+            var xhr = new XMLHttpRequest();
+            xhr.onload = function(event){
+                var blob = xhr.response;
+            };
+            xhr.open('GET',url);
+            xhr.send();
+
+            var img = document.getElementbyId('myimg');
+            img.src = url;
+            return img;
+        }).catch(function(error){
+
+        });
+    }
     //OnColectionUpdate = (querysnapshot) =>{} 
     // onCollectionUpdate is just a function that we called. we can rename it anything else.
     // = (queryshot) querysnapshot is a paramater, that contain zero or more documentsnapshot objects
@@ -50,13 +67,17 @@ export default class RoomateSearchPage extends React.Component{
     onCollectionUpdate = (querySnapshot) =>{
         const items = [];//create a temp variable to hold all data before storing
         querySnapshot.forEach((doc) =>{
-            const { login_email } = doc.data();
+            const { first_name,last_name,graduation,major,profileimage } = doc.data();
             // login_email is the data_title in our database that contains
             // the login_email of certain user. 
             items.push({
                 key: doc.id,
                 doc,
-                login_email,        //We just put all the information into items to process it later.
+                first_name,
+                last_name,
+                graduation,
+                major,
+                profileimage,        //We just put all the information into items to process it later.
             });
         });
 
@@ -65,19 +86,24 @@ export default class RoomateSearchPage extends React.Component{
             items
         });
     }
+
+
     
     GoTo(){
         this.props.navigation.navigate("ProfilePage");
     }
     
     renderItem({ item }){
+        if(item.profileimage){
+            var image = item.profileimage
+        }
         return( 
-                       
             <View style={styles.container}>
             <TouchableOpacity style={styles.roommateContainer} onPress={() => this.GoTo()}>
                 <View style={styles.roommateIcon}>
                     <View> 
-                        <Image style={styles.profilePic} />
+                        <Image style={styles.profilePic}
+                            source={{uri: image}} />
                     </View>
                     <TouchableOpacity>
                     <View style={{justifyContent:"flex-start", alignItems: "flex-start", flexDirection:"column"}}>
@@ -87,7 +113,8 @@ export default class RoomateSearchPage extends React.Component{
 
                 </View>
                 <View style={{flex:.4 ,alignItems: "center"}}>
-                    <Text>{item.login_email}</Text>
+                    <Text>{item.first_name} {item.last_name}</Text>
+                    <Text>{item.graduation}|{item.major}</Text>
                 </View>
             </TouchableOpacity>
             </View>
@@ -139,19 +166,16 @@ export default class RoomateSearchPage extends React.Component{
     render(){
         
         return(
-                <SafeAreaView style={{flex:1}}>
-                  <View style={{flex:1, paddingTop:25}} >
-                  <View style={{flex:.1}}>
-                      <SearchBars />
-                  </View>
-                  <FlatList style={{flex:.7}}
+                <View style={{flex:1, paddingTop:25}} >
+                <View style={{flex:.1}}>
+                    <SearchBars />
+                </View>
+                <FlatList style={{flex:.7}}
                     data={this.state.items}
                     renderItem={this.renderItem.bind(this)}  
                     numColumns={2}       
-                  />
-                  </View>
-								</SafeAreaView>
-
+                />
+                </View>
         );
     };
 }
