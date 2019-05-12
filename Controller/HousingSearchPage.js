@@ -62,8 +62,8 @@ export default class HousingSearchPage extends React.Component{
 										height: 200,
 										alignSelf: "stretch",
 									}}
-									source={{ uri: item.pictures[0] }}
-								/>
+									source={{ uri: item.pictures[0] }}/>
+
 								<Text 
 									style={{
 										alignSelf: "flex-start"
@@ -71,25 +71,32 @@ export default class HousingSearchPage extends React.Component{
 								>
 									{item.filters_house.title}
 								</Text>
+
 								<Text 
 									style={{
-										alignSelf: "flex-start"
+										alignSelf: "flex-start",
+										flex: 1,
+   										flexDirection: "row",
 									}}
 								>
 									{item.filters_house.num_bedroom + "B" + item.filters_house.num_bathroom + "B | " + item.filters_house.num_parking + " parking"}
 								</Text>
+
 								<Text 
 									style={{
-										alignSelf: "flex-end"
+										flex: 1,
+   										flexDirection: "row",
+										alignSelf: "flex-end",
+										color: '#2ea9df',
 									}}
 								>
 									{"$ " + item.filters_house.price}
 								</Text>
+
 								<Badge value="Badges for Tags"></Badge>
 							</View>
 						</TouchableHighlight>
-					)}
-				/>
+					)}/>
 			);
 		}
 
