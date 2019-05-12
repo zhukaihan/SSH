@@ -55,6 +55,7 @@ export default class HousingSearchPage extends React.Component{
 						item.filters_house.additional_tags.forEach((value) => {
 							badgesView.push((
 								<Badge
+									key={value}
 									value={
 										<Text style={{
 											color: 'white'
@@ -91,7 +92,7 @@ export default class HousingSearchPage extends React.Component{
 											flexDirection: 'row',
 											justifyContent: 'space-between'
 										}}>
-											<Text style={{fontSize: RF(2.5)}}>{item.filters_house.title}</Text>
+											<Text style={{fontSize: RF(2.5), fontWeight: 'bold'}}>{item.filters_house.title}</Text>
 											<Text style={{fontSize: RF(2.5), color: 'rgb(50, 150, 255)'}}>{"$ " + item.filters_house.price}</Text>
 											</View>
 									
