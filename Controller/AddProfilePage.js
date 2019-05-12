@@ -50,8 +50,8 @@ export default class AddProfilePage extends React.Component{
             
     */
     async ComponentDidMount() {
-        await Permissions.askAsync(Permissions.CAMERA_ROLL);
-        await Permissions.askAsync(Permissions.CAMERA);
+
+
     }
     _uploadToFirebase = (items) =>{
         let userId = firebase.auth().currentUser.uid;
@@ -159,6 +159,7 @@ export default class AddProfilePage extends React.Component{
     };
     
     _takePhoto = async () => {
+        await Permissions.askAsync(Permissions.CAMERA);
         let pickerResult = await ImagePicker.launchCameraAsync({
             allowsEditing: true,
             aspect: [4, 3],
@@ -168,6 +169,7 @@ export default class AddProfilePage extends React.Component{
     };
     
     _pickImage = async () => {
+        await Permissions.askAsync(Permissions.CAMERA_ROLL);
         let pickerResult = await ImagePicker.launchImageLibraryAsync({
             allowsEditing: true,
             aspect: [4, 3],
