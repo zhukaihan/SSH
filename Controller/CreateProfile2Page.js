@@ -78,21 +78,22 @@ export default class CreateProfile2Page extends Component{
                         style={styles.textBox}
                         placeholder={this.state.Interest}
                         onChangeText={(Interest)=>{this.setState({Interest})}}></TextInput>
-                <View style={styles.backButton}>
-                    <TouchableOpacity onPress={this.backslide} style={styles.backButtonStyle}>
-                    <View>
-                        <Text style={styles.buttontextstyle}>Back</Text>
+                <View style={{flexDirection:'row', height:"20%"}}>
+                    <View style={styles.backButton}>
+                        <TouchableOpacity onPress={this.backslide} style={styles.backButtonStyle}>
+                        <View>
+                            <Text style={styles.buttontextstyle}>Back</Text>
+                        </View>
+                        </TouchableOpacity>
                     </View>
-                    </TouchableOpacity>
-                </View>
-                <View style={styles.nextButton}>
-                    <TouchableOpacity onPress={this.nextslide} style={styles.nextButtonStyle}>
-                    <View>
-                        <Text style={styles.buttontextstyle}>Next</Text>
+                    <View style={styles.nextButton}>
+                        <TouchableOpacity onPress={this.nextslide} style={styles.nextButtonStyle}>
+                        <View>
+                            <Text style={styles.buttontextstyle}>Next</Text>
+                        </View>
+                        </TouchableOpacity>
                     </View>
-                    </TouchableOpacity>
                 </View>
-                
             </View>
             </SafeAreaView>
         );
@@ -159,7 +160,7 @@ const styles = StyleSheet.create({
         fontSize: RF(3),
     },
     nextButton:{
-        height: "9%",
+        height: "100%",
         flexDirection:"row",
         justifyContent: "center",
         alignItems:"center",
@@ -177,7 +178,7 @@ const styles = StyleSheet.create({
         justifyContent: "center",
     },
     backButton:{
-        height: "9%",
+        height: "100%",
         flexDirection:"row",
         justifyContent: "center",
         alignItems:"center",

@@ -94,12 +94,17 @@ export default class CreateProfile1Page extends Component{
                         this.inputRefs.picker = el;
                         }}/>
                 </View>
-                <View style={styles.nextButton}>
-                    <TouchableOpacity onPress={this.nextslide} style={styles.nextButtonStyle}>
-                    <View>
-                        <Text style={styles.buttontextstyle}>Next</Text>
+                <View style={{flexDirection:'row', height:"20%"}}>
+                    <View style={styles.backButton}>
+                            <Text style={styles.buttontextstyle}>Back</Text>
                     </View>
-                    </TouchableOpacity>
+                    <View style={styles.nextButton}>
+                        <TouchableOpacity onPress={this.nextslide} style={styles.nextButtonStyle}>
+                        <View>
+                            <Text style={styles.buttontextstyle}>Next</Text>
+                        </View>
+                        </TouchableOpacity>
+                    </View>
                 </View>
             </View>
 
@@ -169,16 +174,34 @@ const styles = StyleSheet.create({
         fontSize: RF(3),
     },
     nextButton:{
-        height: "9%",
-        flexDirection:"column",
+        height: "100%",
+        flexDirection:"row",
         justifyContent: "center",
-        alignItems:'flex-end',
+        alignItems:"center",
         borderWidth: 20,
         borderColor:"#fff",
         flex:.5,
     },
     nextButtonStyle:{
         height: "80%",
+        borderRadius:10,
+        backgroundColor:"#2ea9df",
+        borderColor:"#2ea9df",
+        borderWidth:4, 
+        alignItems: "center",
+        justifyContent: "center",
+    },
+    backButton:{
+        opacity:0,
+        flexDirection:"row",
+        justifyContent: "center",
+        alignItems:"center",
+        borderWidth: 20,
+        borderColor:"#fff",
+        flex:.5,
+    },
+    backButtonStyle:{
+        height: "0%",
         borderRadius:10,
         backgroundColor:"#2ea9df",
         borderColor:"#2ea9df",
