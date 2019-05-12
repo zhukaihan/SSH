@@ -6,7 +6,6 @@ import firebase from 'firebase';
 import House from '../Model/House';
 import RF from "react-native-responsive-fontsize";
 
-
 export default class HousingSearchPage extends React.Component{
 	state = {
 		housingItems: null
@@ -22,8 +21,7 @@ export default class HousingSearchPage extends React.Component{
 		this.housesRef.orderBy("post_date").get().then(snapshot => {
 			let housingItems = [];
 			snapshot.forEach(house => {
-				let item = house.data();
-				var aHouse = new House(item);
+				var aHouse = new House(house.id, house.data());
 				housingItems.push(aHouse);
 			});
 			
@@ -35,7 +33,10 @@ export default class HousingSearchPage extends React.Component{
 	}
 
 	openHouse(house) {
-
+		console.log(house.id);
+		this.props.navigation.navigate("ViewHousingPage", {
+			houseId: house.id,
+		});
 	}
 
 	componentWillMount() {

@@ -1,5 +1,6 @@
 export default class House {
-	constructor(entry) {
+	constructor(id, entry) {
+		this.id = id;
 		this.landlord = entry.landlord ? entry.landlord : "";
 		this.cur_tenant = entry.cur_tenant ? entry.cur_tenant : [];
 		this.pictures = entry.pictures ? entry.pictures : [""];

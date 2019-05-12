@@ -5,6 +5,7 @@ import Icon from 'react-native-vector-icons/AntDesign';
 import { TouchableOpacity, TouchableHighlight } from 'react-native';
 import { db } from '../App';//You import this only for our project because it has access to the database.firestore();
 import 'firebase/firestore' //Must import if you're using firestoreee
+import { SafeAreaView } from 'react-navigation';
 
 export default class RoomateSearchPage extends React.Component{
     constructor(props){
@@ -138,16 +139,19 @@ export default class RoomateSearchPage extends React.Component{
     render(){
         
         return(
-                <View style={{flex:1, paddingTop:25}} >
-                <View style={{flex:.1}}>
-                    <SearchBars />
-                </View>
-                <FlatList style={{flex:.7}}
+                <SafeAreaView style={{flex:1}}>
+                  <View style={{flex:1, paddingTop:25}} >
+                  <View style={{flex:.1}}>
+                      <SearchBars />
+                  </View>
+                  <FlatList style={{flex:.7}}
                     data={this.state.items}
                     renderItem={this.renderItem.bind(this)}  
                     numColumns={2}       
-                />
-                </View>
+                  />
+                  </View>
+								</SafeAreaView>
+
         );
     };
 }
