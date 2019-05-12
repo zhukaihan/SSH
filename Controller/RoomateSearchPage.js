@@ -2,7 +2,7 @@ import { AppRegistry, Platform, Picker, TextInput, Button, View, FlatList, Activ
 import { ListItem, List , SearchBar, Input} from 'react-native-elements';
 import React from 'react';
 import Icon from 'react-native-vector-icons/AntDesign';
-import { TouchableOpacity, TouchableHighlight } from 'react-native-gesture-handler';
+import { TouchableOpacity, TouchableHighlight } from 'react-native';
 import { db } from '../App';//You import this only for our project because it has access to the database.firestore();
 import 'firebase/firestore' //Must import if you're using firestoreee
 

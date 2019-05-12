@@ -5,7 +5,7 @@ import { SafeAreaView } from 'react-navigation';
 import firebase from 'firebase';
 import House from '../Model/House';
 import RF from "react-native-responsive-fontsize";
-import { ScrollView } from 'react-native-gesture-handler';
+import { ScrollView } from 'react-native';
 
 
 export default class ViewHousingPage extends React.Component{

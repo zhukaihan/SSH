@@ -3,6 +3,7 @@ import { StyleSheet, View, Image, Text, StatusBar, Button, Alert } from 'react-n
 import { Icon } from 'react-native-elements';
 import { createBottomTabNavigator } from 'react-navigation';
 import HousingSearchPage from './HousingSearchPage';
+import RoommateSearchPage from './RoomateSearchPage';
 
 const TabNavigator = createBottomTabNavigator(
 	{
@@ -13,7 +14,13 @@ const TabNavigator = createBottomTabNavigator(
 				tabBarIcon: <Icon name="home" type="font-awesome"/>
 			}
 		},
-		//RoommateSearchPage: {screen: RoommateSearchPage}
+		RoommateSearchPage: {
+			screen: RoommateSearchPage,
+			navigationOptions: {
+				tabBarLabel:"Roommate",
+				tabBarIcon: <Icon name="home" type="font-awesome"/>
+			}
+		}
 		/*CreateHousingRoommatePageIDKIDK: {
 			screen: CreateHousingRoommatePageIDKIDK,
 			navigationOptions: {
