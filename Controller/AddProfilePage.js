@@ -8,12 +8,13 @@ Share,
 StatusBar,
 StyleSheet,
 Text,
-TouchableOpacity,
 View,
 } from 'react-native';
+import { TouchableOpacity, TouchableHighlight } from 'react-native-gesture-handler';
 import { Constants, ImagePicker, Permissions } from 'expo';
 import uuid from 'uuid';
 import * as firebase from 'firebase';
+
 
 
 export default class AddProfilePage extends React.Component{
@@ -22,16 +23,58 @@ export default class AddProfilePage extends React.Component{
         this.state={
             image: null,
             uploading: false,
-            userId: "",
+            firstName:"First Name",
+            lastName: "Last Name",
+            preferredName: "Preferred Name",
+            gender:"",
+            major:"",
+            expectGraduatingYear:"",
+            Interest:[],
+            clean:"",
+            morningOrNight:"",
+            description:"",
+            profileimage: null,
         }
     }   
 
 
     async componentDidMount() {
+        const { navigate } = this.props.navigation;
+        let firstName = navigate.state.params.page3.firstName;
+        let lastName = navigate.state.params.page3.lastName;
+        let preferredName = navigate.state.params.page3.preferredName;
+        let gender = navigate.state.params.page3.gender;
+        let major = navigate.state.params.page3.major;
+        let expectGraduatingYear = navigate.state.params.page3.expectGraduatingYear;
+        let Interest = navigate.state.params.page3.Interest;
+        let clean = navigate.state.params.page3.clean;
+        let morningOrNight = navigate.state.params.page3.morningOrNight;
+        let description = navigate.state.params.page3.description;
+        this.setState({
+            firstName,lastName,preferredName,gender,major,expectGraduatingYear,Interest,clean,morningOrNight,description
+        })
         await Permissions.askAsync(Permissions.CAMERA_ROLL);
         await Permissions.askAsync(Permissions.CAMERA);
     }
-    
+    _uploadToFirebase = (items) =>{
+        let userId = firebase.auth().currentUser.uid;
+        var data = {
+            firstname: items.firstName,
+            lastname: items.lastName,
+            preferredname: items.preferredName,
+            gender: items.gender,
+            major: items.major,
+            expectgraduatingyear: items.expectGraduatingYear,
+            interest: items.Interest,
+            clean: items.clean,
+            morningornight: items.morningOrNight,
+            description: items.description,
+            profileimage: items.profileimage
+        }
+        var setDoc = firebase.firestore().collection("users").doc(`${userId}`).set(
+            data
+        )
+    }
     render() {
         let { image } = this.state;
         return (
@@ -43,6 +86,11 @@ export default class AddProfilePage extends React.Component{
                 <Button onPress={this._takePhoto} title="Take a photo" />
                 {this._maybeRenderImage()}
                 {this._maybeRenderUploadingOverlay()}
+                <Button
+                    onPress={this._uploadToFirebase(this.state)}
+                    title="finish"
+                />
+                <Text>{this.state.firstName} jhk</Text>
                 <StatusBar barStyle="default" />
             </View>
         );
@@ -136,7 +184,7 @@ export default class AddProfilePage extends React.Component{
             this.setState({ uploading: true });
             if (!pickerResult.cancelled) {
                 uploadUrl = await uploadImageAsync(pickerResult.uri);
-                this.setState({ image: uploadUrl });
+                this.setState({ image: uploadUrl, profileimage: uploadUrl });
             }
         } catch (e) {
             console.log(e);
