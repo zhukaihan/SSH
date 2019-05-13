@@ -32,6 +32,19 @@ export default class CreateProfile2Page extends Component{
             description:this.description,
         }
     }
+    //alert function in case user did not enter anything
+    _showAlert = () => {
+        Alert.alert(
+          'Please enter required information',
+          'This is an alert message',
+          [
+            {text: 'OK', onPress: () => console.log('OK Pressed')},
+            {text: 'Cancel', onPress: () => console.log('Cancel Pressed'), style: 'cancel'},
+          ],
+          { cancelable: false }
+        )
+    }
+
     backslide = ()=>{
         this.props.navigation.navigate("CreateProfile1Page",{
             first_name: this.state.first_name,
@@ -46,18 +59,23 @@ export default class CreateProfile2Page extends Component{
             description: this.state.description});
     }
     nextslide=()=>{
-        console.log(`${this.state.first_name}`)
-        this.props.navigation.navigate("CreateProfile3Page",{            
-            first_name: this.state.first_name,
-            last_name: this.state.last_name,
-            name_preferred: this.state.name_preferred,
-            gender: this.state.gender,
-            major: this.state.major,      
-            graduation: this.state.graduation,
-            additional_tags: this.state.additional_tags,
-            clean: this.state.clean,
-            wake_early: this.state.wake_early,
-            description: this.state.description});
+        if(this.state.major == "" || 
+            this.state.graduation == ""){
+            this._showAlert();
+        } else{
+            console.log(`${this.state.first_name}`)
+            this.props.navigation.navigate("CreateProfile3Page",{            
+                first_name: this.state.first_name,
+                last_name: this.state.last_name,
+                name_preferred: this.state.name_preferred,
+                gender: this.state.gender,
+                major: this.state.major,      
+                graduation: this.state.graduation,
+                additional_tags: this.state.additional_tags,
+                clean: this.state.clean,
+                wake_early: this.state.wake_early,
+                description: this.state.description});
+        }
     }
     render(){
         return(
