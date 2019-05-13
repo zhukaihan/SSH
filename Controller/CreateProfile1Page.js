@@ -5,15 +5,20 @@ import RNPickerSelect from 'react-native-picker-select';
 import RF from 'react-native-responsive-fontsize';
 import { TouchableOpacity, TouchableHighlight } from 'react-native-gesture-handler';
 
-
 export default class CreateProfile1Page extends Component{
     constructor(props){
         super(props)
         this.state={
-            firstName:"First Name",
-            lastName:"Last Name",
-            preferredName: "Preferred Name",
-            gender: undefined,
+            first_name: "",
+            last_name: "",
+            name_preferred: "",
+            gender: "",
+            major: "",
+            graduation: "",
+            additional_tags: "",
+            clean: "",
+            wake_early: "",
+            description: "",
             items:[
                 {
                     label: 'Male', value:'male',
@@ -33,17 +38,39 @@ export default class CreateProfile1Page extends Component{
         this.width= Dimensions.get('window').width;
         this.inputRefs={};
     }
-    ComponentDidMount(){
-        let firstName = this.props.navigation.state.params.page2.firstName;
-        let lastName = this.props.navigation.state.params.page2.lastName;
-        let preferredName = this.props.navigation.state.params.page2.preferredName;
-        let gender = this.props.navigation.state.params.pag2.gender;
-        this.setState({
-            firstName,lastName,preferredName,gender
-        })
+
+    //alert function in case user did not enter anything
+    _showAlert = () => {
+        Alert.alert(
+          'Please enter required information',
+          'This is an alert message',
+          [
+            {text: 'OK', onPress: () => console.log('OK Pressed')},
+            {text: 'Cancel', onPress: () => console.log('Cancel Pressed'), style: 'cancel'},
+          ],
+          { cancelable: false }
+        )
     }
+
     nextslide = () =>{
-        this.props.navigation.navigate('CreateProfile2Page',{page1: this.state});
+        if(this.state.first_name == "" || this.state.last_name == "" || 
+            this.state.gender == ""){
+            this._showAlert();
+        } else{
+            console.log(`${this.state.first_name}`)
+            this.props.navigation.navigate('CreateProfile2Page',{
+                first_name: this.state.first_name,
+                last_name: this.state.last_name,
+                name_preferred: this.state.name_preferred,
+                gender: this.state.gender,
+                major: this.state.major,      
+                graduation: this.state.graduation,
+                additional_tags: this.state.additional_tags,
+                clean: this.state.clean,
+                wake_early: this.state.wake_early,
+                description: this.state.description
+            });
+        }
     }
     render(){
         return(
@@ -68,16 +95,16 @@ export default class CreateProfile1Page extends Component{
                 </View>
                 <TextInput 
                         style={styles.textBox}
-                        placeholder={this.state.firstName}
-                        onChangeText={(firstName)=>{this.setState({firstName})}}></TextInput>
+                        placeholder={"First Name"}
+                        onChangeText={(first_name)=>{this.setState({first_name})}}></TextInput>
                 <TextInput 
                         style={styles.textBox}
-                        placeholder={this.state.lastName}
-                        onChangeText={(lastName)=>{this.setState({lastName})}}></TextInput>
+                        placeholder={"Last Name"}
+                        onChangeText={(last_name)=>{this.setState({last_name})}}></TextInput>
                 <TextInput 
                         style={styles.textBox}
-                        placeholder={this.state.preferredName}
-                        onChangeText={(preferredName)=>{this.setState({preferredName})}}></TextInput>
+                        placeholder={"Preferred Name"}
+                        onChangeText={(name_preferred)=>{this.setState({name_preferred})}}></TextInput>
                 <View style={styles.pickerBox}> 
                 <RNPickerSelect
                         style={{...pickerSelectStyles}}
@@ -94,12 +121,17 @@ export default class CreateProfile1Page extends Component{
                         this.inputRefs.picker = el;
                         }}/>
                 </View>
-                <View style={styles.nextButton}>
-                    <TouchableOpacity onPress={this.nextslide} style={styles.nextButtonStyle}>
-                    <View>
-                        <Text style={styles.buttontextstyle}>Next</Text>
+                <View style={{flexDirection:'row', height:"20%"}}>
+                    <View style={styles.backButton}>
+                            <Text style={styles.buttontextstyle}>Back</Text>
                     </View>
-                    </TouchableOpacity>
+                    <View style={styles.nextButton}>
+                        <TouchableOpacity onPress={this.nextslide} style={styles.nextButtonStyle}>
+                        <View>
+                            <Text style={styles.buttontextstyle}>Next</Text>
+                        </View>
+                        </TouchableOpacity>
+                    </View>
                 </View>
             </View>
 
@@ -127,7 +159,7 @@ const styles = StyleSheet.create({
         borderWidth: 10,
     },
     personalInfoText:{
-        fontSize: RF(4.5),
+        fontSize: RF(4),
         fontWeight: 'bold',
         color: "#fff",
         textAlign: 'center',
@@ -169,16 +201,34 @@ const styles = StyleSheet.create({
         fontSize: RF(3),
     },
     nextButton:{
-        height: "9%",
-        flexDirection:"column",
+        height: "100%",
+        flexDirection:"row",
         justifyContent: "center",
-        alignItems:'flex-end',
+        alignItems:"center",
         borderWidth: 20,
         borderColor:"#fff",
         flex:.5,
     },
     nextButtonStyle:{
         height: "80%",
+        borderRadius:10,
+        backgroundColor:"#2ea9df",
+        borderColor:"#2ea9df",
+        borderWidth:4, 
+        alignItems: "center",
+        justifyContent: "center",
+    },
+    backButton:{
+        opacity:0,
+        flexDirection:"row",
+        justifyContent: "center",
+        alignItems:"center",
+        borderWidth: 20,
+        borderColor:"#fff",
+        flex:.5,
+    },
+    backButtonStyle:{
+        height: "0%",
         borderRadius:10,
         backgroundColor:"#2ea9df",
         borderColor:"#2ea9df",

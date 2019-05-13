@@ -3,6 +3,10 @@ import LogInPage from './LogInPage';
 import TabNavigator from './TabNavigator';
 import RoomateSearchPage from './RoomateSearchPage';
 import ProfilePage from './ProfilePage';
+import CreateProfile1Page from './CreateProfile1Page';
+import CreateProfile2Page from './CreateProfile2Page';
+import CreateProfile3Page from './CreateProfile3Page';
+import AddProfilePage from './AddProfilePage';
 
 const MainNavigator = createStackNavigator(
 	{
@@ -20,9 +24,22 @@ const MainNavigator = createStackNavigator(
 		},
 		ProfilePage:{
 			screen: ProfilePage,
+		},
+		CreateProfile1Page:{
+			screen: CreateProfile1Page,
+		},
+		CreateProfile2Page:{
+			screen: CreateProfile2Page,
+		},
+		CreateProfile3Page:{
+			screen: CreateProfile3Page,
+		},
+		AddProfilePage:{
+			screen: AddProfilePage,
 		}
 	},
 	{
+		//initialize initial screen to createProfilepage2g
 		initialRouteName: 'LogInPage',
 		headerMode: 'none',
 		navigationOptions: {

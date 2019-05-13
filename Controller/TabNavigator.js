@@ -2,18 +2,25 @@ import React, { Component } from 'react';
 import { StyleSheet, View, Image, Text, StatusBar, Button, Alert } from 'react-native';
 import { Icon } from 'react-native-elements';
 import { createBottomTabNavigator } from 'react-navigation';
-import HousingSearchPage from './HousingSearchPage';
+import HousingSearchStackNavigator from './HousingSearchStackNavigator';
+import RoommateSearchPage from './RoomateSearchPage';
 
 const TabNavigator = createBottomTabNavigator(
 	{
-		HousingSearchPage: {
-			screen: HousingSearchPage, 
+		HousingSearchStackNavigator: {
+			screen: HousingSearchStackNavigator, 
 			navigationOptions: {
-				tabBarLabel:"Home",
+				tabBarLabel:"Houses",
 				tabBarIcon: <Icon name="home" type="font-awesome"/>
 			}
 		},
-		//RoommateSearchPage: {screen: RoommateSearchPage}
+		RoommateSearchPage: {
+			screen: RoommateSearchPage,
+			navigationOptions: {
+				tabBarLabel:"Roommate",
+				tabBarIcon: <Icon name="home" type="font-awesome"/>
+			}
+		}
 		/*CreateHousingRoommatePageIDKIDK: {
 			screen: CreateHousingRoommatePageIDKIDK,
 			navigationOptions: {

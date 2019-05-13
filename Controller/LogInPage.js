@@ -19,10 +19,17 @@ export default class LogInPage extends React.Component{
 			{cancelable: false},
 		)
 	}
-
+	//this function will navigator to CreateProfile1Page
 	navigateToHome = () => {
-		console.log("logged in firebase");
-		this.props.navigation.navigate('TabNavigator');
+		let userRef = firebase.firestore().collection("users").doc(firebase.auth().currentUser.uid);
+		var getDoc = userRef.get().then(doc => {
+			if (!doc.exists) {
+				this.props.navigation.navigate('CreateProfile1Page');
+			} else {
+				this.props.navigation.navigate('TabNavigator');
+			}
+		});
+		
 	}
 
   // Log in with Google. 
