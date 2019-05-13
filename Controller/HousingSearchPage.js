@@ -46,7 +46,7 @@ export default class HousingSearchPage extends React.Component{
 
 	updateSearchQuery = searchQuery => {
 		this.setState({ searchQuery });
-		searchAndUpdateWithQuery(this.state.searchQuery);
+		this.searchAndUpdateWithQuery(this.state.searchQuery);
 	};
 	
 	searchAndUpdateWithQuery = async (searchQuery) => {
