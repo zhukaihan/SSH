@@ -46,7 +46,7 @@ export default class CreateProfile3Page extends Component{
         }
     }
     backslide =() =>{
-        this.props.navigation.navigate("AddProfilePage",{
+        this.props.navigation.navigate("CreateProfile2Page",{
             first_name: this.state.first_name,
             last_name: this.state.last_name,
             name_preferred: this.state.name_preferred,
