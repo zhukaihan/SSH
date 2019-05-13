@@ -67,7 +67,8 @@ export default class AddProfilePage extends React.Component{
                     <Overlay
                         isVisible={this.state.isVisible}
                         width="auto"
-                        height="auto">
+                        height="auto"
+                        onBackdropPress={() => this.setState({ isVisible: false })}>
                         <Button
                             onPress={this._pickImage}
                             title="picking photo from photo roll"
@@ -205,7 +206,7 @@ export default class AddProfilePage extends React.Component{
             allowsEditing: true,
             aspect: [4, 3],
         });
-    
+        this.setState({ isVisible:false})
         this._handleImagePicked(pickerResult);
     };
     
@@ -215,7 +216,7 @@ export default class AddProfilePage extends React.Component{
             allowsEditing: true,
             aspect: [4, 3],
         });
-    
+        this.setState({ isVisible:false})
         this._handleImagePicked(pickerResult);
     };
     
