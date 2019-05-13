@@ -69,12 +69,13 @@ export default class AddProfilePage extends React.Component{
                         width="auto"
                         height="auto"
                         onBackdropPress={() => this.setState({ isVisible: false })}>
+                        <View>
                         <Button
                             onPress={this._pickImage}
                             title="picking photo from photo roll"
                         />
                         <Button onPress={this._takePhoto} title="Take a photo" />
-                        {this._maybeRenderUploadingOverlay()}
+                        </View>
                     </Overlay>
                 <View style={styles.imageSection}>
                     {this._maybeRenderImage()}
@@ -208,6 +209,7 @@ export default class AddProfilePage extends React.Component{
         });
         this.setState({ isVisible:false})
         this._handleImagePicked(pickerResult);
+        this._maybeRenderUploadingOverlay();
     };
     
     _pickImage = async () => {
@@ -218,6 +220,7 @@ export default class AddProfilePage extends React.Component{
         });
         this.setState({ isVisible:false})
         this._handleImagePicked(pickerResult);
+        this._maybeRenderUploadingOverlay();
     };
     
     _handleImagePicked = async pickerResult => {
