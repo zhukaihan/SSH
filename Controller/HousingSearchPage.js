@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { StyleSheet, View, Image, Text, StatusBar, Button, Alert, FlatList, TouchableHighlight } from 'react-native';
-import { Icon, Card, Badge } from 'react-native-elements';
+import { Icon, Card, Badge, SearchBar } from 'react-native-elements';
 import { SafeAreaView } from 'react-navigation';
 import firebase from 'firebase';
 import House from '../Model/House';
@@ -17,6 +17,8 @@ export default class HousingSearchPage extends React.Component{
 		this.housesRef = firebase.firestore().collection("houses");
 	}
 
+	// Get housing data and set state with the new data. 
+	// Can be used on first launch and on refresh request. 
 	getHousingData = () => {
 		this.housesRef.orderBy("post_date").get().then(snapshot => {
 			let housingItems = [];
@@ -33,7 +35,6 @@ export default class HousingSearchPage extends React.Component{
 	}
 
 	openHouse(house) {
-		console.log(house.id);
 		this.props.navigation.navigate("ViewHousingPage", {
 			houseId: house.id,
 		});
@@ -41,6 +42,15 @@ export default class HousingSearchPage extends React.Component{
 
 	componentWillMount() {
 		this.getHousingData();
+	}
+
+	updateSearchQuery = searchQuery => {
+		this.setState({ searchQuery });
+		searchAndUpdateWithQuery(this.state.searchQuery);
+	};
+	
+	searchAndUpdateWithQuery = async (searchQuery) => {
+		// Search here with this.houseRef or with Algolia and update housing lists async. 
 	}
 
 	render = () => {
@@ -122,16 +132,24 @@ export default class HousingSearchPage extends React.Component{
 		}
 
 		return (
-			<SafeAreaView style={styles.safeArea}>
+			<SafeAreaView style={{flex: 1}}>
+				<View style={{margin: 10}}>
+					<SearchBar
+						placeholder="Search Keywords"
+						lightTheme={true}
+						round={true}
+						containerStyle={{backgroundColor: 'white'}}
+						onChangeText={this.updateSearchQuery}
+						value={this.state.searchQuery}
+					/>
+				</View>
 				{flatList}
       </SafeAreaView>
 		);
 	}
 
 }
+
+
 const styles = StyleSheet.create({
-  safeArea: {
-    flex: 1,
-    backgroundColor: '#ddd'
-  }
 })
