@@ -11,10 +11,10 @@ Text,
 View,
 SafeAreaView,
 Dimensions,
+TouchableOpacity,
 Alert
 } from 'react-native';
 import { Overlay } from 'react-native-elements';
-import { TouchableOpacity, TouchableHighlight } from 'react-native-gesture-handler';
 import { Constants, ImagePicker, Permissions } from 'expo';
 import uuid from 'uuid';
 import RF from 'react-native-responsive-fontsize';
