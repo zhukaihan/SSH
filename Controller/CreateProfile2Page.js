@@ -94,7 +94,7 @@ export default class CreateProfile2Page extends Component{
             </View>
             <View style={styles.inputView}>
                 <View
-                    style={{flexDirection:"row", alignItems: "center", marginBottom: RF(1), textAlign:'center'}}>
+                    style={{flexDirection:"row", justifyContent: "center", alignItems: "center", marginBottom: RF(1), textAlign:'center'}}>
                     <Text style={{fontSize:RF(2.4), textAlign:"center"}}>Major</Text>
                 </View>
                 <TextInput 
@@ -102,7 +102,7 @@ export default class CreateProfile2Page extends Component{
                         placeholder={"Major"}
                         onChangeText={(major)=>{this.setState({major})}}></TextInput>
                 <View
-                    style={{flexDirection:"row", alignItems: "center", marginBottom: RF(1), textAlign:'center'}}>
+                    style={{flexDirection:"row", justifyContent: "center", alignItems: "center", marginBottom: RF(1), textAlign:'center'}}>
                     <Text style={{fontSize:RF(2.4)}}> Expected Graduating Year </Text>
                 </View>
                 <TextInput 
@@ -110,7 +110,7 @@ export default class CreateProfile2Page extends Component{
                         placeholder={"Graduation Year"}
                         onChangeText={(graduation)=>{this.setState({graduation})}}></TextInput>
                 <View
-                    style={{flexDirection:"row", alignItems: "center", marginBottom: RF(1)}}>
+                    style={{flexDirection:"row", justifyContent: "center", alignItems: "center", marginBottom: RF(1)}}>
                     <Text style={{fontSize:RF(2.4), textAlign:"center"}}> Interests and Hobbies </Text>
                 </View>
                 <TextInput 

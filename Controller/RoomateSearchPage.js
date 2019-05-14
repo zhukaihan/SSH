@@ -4,7 +4,6 @@ import React from 'react';
 import Icon from 'react-native-vector-icons/AntDesign';
 import { TouchableOpacity, TouchableHighlight } from 'react-native';
 import RF from 'react-native-responsive-fontsize';
-import { db } from '../App';//You import this only for our project because it has access to the database.firestore();
 import 'firebase/firestore' //Must import if you're using firestoreee
 import firebase from 'firebase';
 
@@ -22,13 +21,12 @@ export default class RoomateSearchPage extends React.Component{
             refreshing: false,
         };
         //this.ref is just a easier reference to use function like db.collection("users");
-        // db is imported from App, it is short for database.firestore().
         // collection is a function from firestore, that basically load onto the data you specify
         //"users" is the name of the data document
         //firestore uses "subscriptions", it means that as long as you're subscribe,
         //you will continuous getting data. this varialbe is when we close the screen, we
         //shut off the constant stream of data coming in.
-        this.ref = db.collection("users");
+        this.ref = firebase.firestore().collection("users");
         this.unsubscribe = null;
     }
     //componentDidMount is a function called when this page is being called.
@@ -43,7 +41,7 @@ export default class RoomateSearchPage extends React.Component{
         this.unsubscribe();
     }
     _getImage(){
-        db.ref(``).child(`profileImage.jpg`).getDownloadURL().then(function(url){
+				firebase.firestore().ref(``).child(`profileImage.jpg`).getDownloadURL().then(function(url){
             var xhr = new XMLHttpRequest();
             xhr.onload = function(event){
                 var blob = xhr.response;

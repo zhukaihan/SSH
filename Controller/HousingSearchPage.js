@@ -51,6 +51,12 @@ export default class HousingSearchPage extends React.Component{
 	
 	searchAndUpdateWithQuery = async (searchQuery) => {
 		// Search here with this.houseRef or with Algolia and update housing lists async. 
+		// let query = this.housesRef.where('filters_house/additional_tags', 'array-contains', searchQuery);
+		// query.get().then(snapshot => {
+		// 	snapshot.forEach(house => {
+		// 		console.log(snapshot.data());
+		// 	});
+		// });
 	}
 
 	render = () => {
@@ -131,6 +137,7 @@ export default class HousingSearchPage extends React.Component{
 			);
 		}
 
+
 		return (
 			<SafeAreaView style={{flex: 1}}>
 				<View style={{margin: 10}}>
@@ -139,6 +146,7 @@ export default class HousingSearchPage extends React.Component{
 						lightTheme={true}
 						round={true}
 						containerStyle={{backgroundColor: 'white'}}
+						inputContainerStyle={{backgroundColor: 'white'}}
 						onChangeText={this.updateSearchQuery}
 						value={this.state.searchQuery}
 					/>
