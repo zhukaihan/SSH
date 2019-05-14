@@ -1,9 +1,9 @@
 import React, {Component} from 'react';
-import { StyleSheet, View, Text, Button, Alert, TextInput, Picker, SafeAreaView, Dimensions, PixelRatio } from 'react-native';
+import { StyleSheet, View, Text, Button, Alert, TextInput, Picker,TouchableOpacity, SafeAreaView, Dimensions, PixelRatio } from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import RNPickerSelect from 'react-native-picker-select';
 import RF from 'react-native-responsive-fontsize';
-import { TouchableOpacity, TouchableHighlight } from 'react-native-gesture-handler';
+
 
 
 export default class CreateProfile2Page extends Component{
@@ -64,7 +64,7 @@ export default class CreateProfile2Page extends Component{
             this._showAlert();
         } else{
             console.log(`${this.state.first_name}`)
-            this.props.navigation.navigate("CreateProfile3Page",{            
+            this.props.navigation.navigate("CreateProfile3Page",{       
                 first_name: this.state.first_name,
                 last_name: this.state.last_name,
                 name_preferred: this.state.name_preferred,

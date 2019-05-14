@@ -1,9 +1,9 @@
 import React, {Component} from 'react';
-import { StyleSheet, View, Text, Button, Alert, TextInput, Picker,SafeAreaView } from 'react-native';
+import { StyleSheet, View, Text, Button, Alert, TextInput,TouchableOpacity, Picker,SafeAreaView } from 'react-native';
 import RF from 'react-native-responsive-fontsize';
 import RNPickerSelect from 'react-native-picker-select';
 import Icon from 'react-native-vector-icons/FontAwesome';
-import { TouchableOpacity, TouchableHighlight } from 'react-native-gesture-handler';
+
 
 export default class CreateProfile3Page extends Component{
     constructor(props){
