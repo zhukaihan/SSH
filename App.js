@@ -23,5 +23,3 @@ export default class App extends React.Component {
     );
   }
 }
-
-export const db = firebase.firestore();
