@@ -5,6 +5,7 @@ import { SafeAreaView } from 'react-navigation';
 import firebase from 'firebase';
 import House from '../Model/House';
 import RF from "react-native-responsive-fontsize";
+import ImageHorizontalScrollView from '../View/ImageHorizontalScrollView';
 
 export default class HousingSearchPage extends React.Component{
 	state = {
@@ -51,12 +52,6 @@ export default class HousingSearchPage extends React.Component{
 	
 	searchAndUpdateWithQuery = async (searchQuery) => {
 		// Search here with this.houseRef or with Algolia and update housing lists async. 
-		// let query = this.housesRef.where('filters_house/additional_tags', 'array-contains', searchQuery);
-		// query.get().then(snapshot => {
-		// 	snapshot.forEach(house => {
-		// 		console.log(snapshot.data());
-		// 	});
-		// });
 	}
 
 	render = () => {
@@ -98,12 +93,7 @@ export default class HousingSearchPage extends React.Component{
 										marginBottom: 10,
 										padding: 5
 								}}>
-									<Image 
-										style={{
-											height: 200,
-										}}
-										source={{ uri: item.pictures[0] }}
-									/>
+									<ImageHorizontalScrollView pictureUrls={item.pictures}/>
 									<View>
 										<View style={{
 											flexDirection: 'row',

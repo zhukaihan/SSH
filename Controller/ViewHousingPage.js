@@ -1,11 +1,11 @@
 import React, { Component } from 'react';
-import { StyleSheet, View, Image, Text, StatusBar, Button, Alert, FlatList, TouchableHighlight } from 'react-native';
+import { StyleSheet, View, Image, Text, StatusBar, Button, Alert, FlatList, TouchableHighlight, ScrollView } from 'react-native';
 import { Icon, Card, Badge } from 'react-native-elements';
 import { SafeAreaView } from 'react-navigation';
 import firebase from 'firebase';
 import House from '../Model/House';
 import RF from "react-native-responsive-fontsize";
-import { ScrollView } from 'react-native';
+import ImageHorizontalScrollView from '../View/ImageHorizontalScrollView';
 
 
 export default class ViewHousingPage extends React.Component{
@@ -39,7 +39,6 @@ export default class ViewHousingPage extends React.Component{
 		
 		if (this.state.house) {
 			let item = this.state.house;
-			console.log(item);
 
 			var badgesView = [];
 			item.filters_house.additional_tags.forEach((value) => {
@@ -58,19 +57,6 @@ export default class ViewHousingPage extends React.Component{
 							// padding: 10 // This won't work. 
 						}}
 						// I can't find a way to pad the top and bottom part of a badge. 
-					/>
-				));
-			});
-
-			var imgs = [];
-			item.pictures.forEach((value) => {
-				imgs.push((
-					<Image
-						key={value}
-						source={{url: value}}
-						style={{
-							height: 200
-						}}
 					/>
 				));
 			});
@@ -99,28 +85,15 @@ export default class ViewHousingPage extends React.Component{
 						marginBottom: 10,
 						padding: 5
 				}}>
-					<ScrollView horizontal='true' pagingEnabled='true'
-						style={{
-							height: 200,
-						}} 
-						contentContainerStyle={{
-							flexDirection: 'row',
-							alignItems: 'stretch'
-						}}
-					>
-						{imgs}
-					</ScrollView>
+					<ImageHorizontalScrollView pictureUrls={item.pictures}/>
 
 					<View>
-						<View style={{
-							flexDirection: 'row',
-							justifyContent: 'space-between'
-						}}>
-							<Text style={{fontSize: RF(2.5), fontWeight: 'bold'}}>{item.filters_house.title}</Text>
+						<View style={styles.roomTitleView}>
+							<Text style={styles.roomTitleText}>{item.filters_house.title}</Text>
 							<Icon name="star" type="font-awesome"/>
 						</View>
 					
-						<View style={styles.roomInfo}>
+						<View style={styles.roomInfoView}>
 							<View style={styles.roomInfoLeft}>
 								<View style={styles.roomInfoLeftSpecs}>
 									<View style={styles.roomInfoLeftSpecDetails}>
@@ -188,7 +161,16 @@ export default class ViewHousingPage extends React.Component{
 
 }
 const styles = StyleSheet.create({
-	roomInfo: {
+	roomTitleView: {
+		margin: 10,
+		flexDirection: 'row',
+		justifyContent: 'space-between'
+	},
+	roomTitleText: {
+		fontSize: RF(2.5), 
+		fontWeight: 'bold'
+	},
+	roomInfoView: {
 		flexDirection: 'row',
 		justifyContent: 'space-between'
 	},
