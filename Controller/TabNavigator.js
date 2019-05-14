@@ -4,6 +4,7 @@ import { Icon } from 'react-native-elements';
 import { createBottomTabNavigator } from 'react-navigation';
 import HousingSearchStackNavigator from './HousingSearchStackNavigator';
 import RoommateSearchPage from './RoomateSearchPage';
+import ProfilePage from './ProfilePage';
 
 const TabNavigator = createBottomTabNavigator(
 	{
@@ -18,6 +19,13 @@ const TabNavigator = createBottomTabNavigator(
 			screen: RoommateSearchPage,
 			navigationOptions: {
 				tabBarLabel:"Roommate",
+				tabBarIcon: <Icon name="home" type="font-awesome"/>
+			}
+		},	
+		ProfilePage:{
+			screen: ProfilePage,
+			navigationOptions:{
+				tabBarLabel:"Profile",
 				tabBarIcon: <Icon name="home" type="font-awesome"/>
 			}
 		}
