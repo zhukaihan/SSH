@@ -93,19 +93,26 @@ export default class CreateProfile1Page extends Component{
                     <Icon name={"asterisk"} style={{color:"red"}}></Icon>
                     <Text style={{fontSize:RF(2.4)}}> Required Field </Text>
                 </View>
+                <View style={styles.inputContainer}>
                 <TextInput 
-                        style={styles.textBox}
+                        style={styles.tinput}
                         placeholder={"First Name"}
                         onChangeText={(first_name)=>{this.setState({first_name})}}></TextInput>
+                    <Icon name={"asterisk"} style={styles.ast}></Icon>
+                </View>
+                <View style={styles.inputContainer}>
                 <TextInput 
-                        style={styles.textBox}
+                        style={styles.tinput}
                         placeholder={"Last Name"}
                         onChangeText={(last_name)=>{this.setState({last_name})}}></TextInput>
+                    <Icon name={"asterisk"} style={styles.ast}></Icon>
+                </View>
                 <TextInput 
                         style={styles.textBox}
                         placeholder={"Preferred Name"}
                         onChangeText={(name_preferred)=>{this.setState({name_preferred})}}></TextInput>
-                <View style={styles.pickerBox}> 
+     
+                <View style={styles.tpickerBox}> 
                 <RNPickerSelect
                         style={{...pickerSelectStyles}}
                         onValueChange={(itemValue, itemIndex)=> this.setState({gender: itemValue})}
@@ -120,7 +127,9 @@ export default class CreateProfile1Page extends Component{
                         ref={(el) =>{
                         this.inputRefs.picker = el;
                         }}/>
+                <Icon name={"asterisk"} style={styles.pickerast}></Icon>
                 </View>
+
                 <View style={{flexDirection:'row', height:"20%"}}>
                     <View style={styles.backButton}>
                             <Text style={styles.buttontextstyle}>Back</Text>
@@ -140,6 +149,7 @@ export default class CreateProfile1Page extends Component{
     }
 }
 
+const {width, height, scale} = Dimensions.get('window');
 
 const styles = StyleSheet.create({
     pageContainer:{
@@ -242,14 +252,60 @@ const styles = StyleSheet.create({
         color: "#fff",
         paddingLeft: RF(1),
         paddingRight: RF(1),
-    }
+    },
+    inputContainer: {
+        flexDirection: 'row',
+        alignItems: "center",
+        justifyContent: "center",
+        width:"100%",
+        height: "9%",
+        borderRadius: 10,
+        borderWidth: 1,
+        borderColor: "#235964",
+        borderBottomWidth: 1,
+        borderColor: '#000',
+        paddingBottom: 10,
+        marginBottom: RF(3),
+    },
+    ast: {
+        color: 'red',
+        paddingTop: RF(1.5),
+    },
+    pickerast: {
+        color: 'red',
+        paddingTop: RF(1.5),
+        textAlign: 'right',
+    },
+    tinput: {
+        flex: 1,
+        paddingTop: RF(1.5),
+        borderColor: "#235964",
+        textAlign:"center",
+        fontSize: RF(3),
+    },
+    tpickerBox: {
+        flexDirection: 'row',
+        alignItems: "center",
+        justifyContent: "center",
+        width:"100%",
+        height: "9%",
+        borderRadius: 10,
+        borderWidth: 1,
+        borderColor: "#235964",
+        borderBottomWidth: 1,
+        borderColor: '#000',
+        paddingBottom: 10,
+        marginBottom: RF(3),
+    },
+
 })
 const pickerSelectStyles = StyleSheet.create({
     inputIOS: {
+        paddingTop: RF(1.5),
+        alignSelf: "center",
         fontSize: RF(3),
         height: "100%",
         width:"100%",
-        borderWidth: 1,
         borderColor: '#000',
         borderRadius: 4,
         backgroundColor: 'white',

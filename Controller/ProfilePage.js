@@ -12,3 +12,9 @@ export default class ProfilePage extends Component{
 		)
 	}
 }
+
+const styles = StyleSheet.create({
+
+	
+
+})
