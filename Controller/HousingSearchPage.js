@@ -69,14 +69,13 @@ export default class HousingSearchPage extends React.Component{
 								<Badge
 									key={value}
 									value={
-										<Text style={{
-											color: 'white'
-										}}>{value}</Text>
+										<Text>{value}</Text>
 									}
 									badgeStyle={{
 										paddingLeft: 10, 
 										paddingRight: 10,
-										marginRight: 5
+										marginRight: 5,
+										backgroundColor: 'rgb(230, 230, 230)'
 										// padding: 10 // This won't work. 
 									}}
 									// I can't find a way to pad the top and bottom part of a badge. 

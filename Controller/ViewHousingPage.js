@@ -4,13 +4,16 @@ import { Icon, Card, Badge } from 'react-native-elements';
 import { SafeAreaView } from 'react-navigation';
 import firebase from 'firebase';
 import House from '../Model/House';
+import User from '../Model/User';
 import RF from "react-native-responsive-fontsize";
 import ImageHorizontalScrollView from '../View/ImageHorizontalScrollView';
 
 
 export default class ViewHousingPage extends React.Component{
 	state = {
-		housingItems: null
+		housingItems: null,
+		cur_tenant: [],
+		landlord: new User()
 	}
 
 	constructor() {
@@ -22,10 +25,31 @@ export default class ViewHousingPage extends React.Component{
 		let houseId = this.props.navigation.getParam("houseId", "")
 		if (houseId != "") {
 			this.housesRef = firebase.firestore().collection("houses").doc(houseId);
-			this.housesRef.get().then(house => {
+			this.housesRef.get().then(entry => {
+				let house = new House(entry.id, entry.data());
 				this.setState({
-					house: new House(house.id, house.data())
+					house: house
 				});
+
+				house.landlord.get().then(user => {
+					let landlord = new User(user.data());
+					this.setState({
+						landlord: landlord
+					});
+				}).catch((e) => {
+				});
+
+				house.cur_tenant.forEach((ref) => {
+					ref.get().then(user => {
+						var cur_tenant = this.state.cur_tenant;
+						cur_tenant.push(new User(user.data()));
+						this.setState({
+							cur_tenant: cur_tenant
+						});
+					}).catch((e) => {
+					});
+				});
+
 			});
 		} else {
 			this.setState({
@@ -46,14 +70,13 @@ export default class ViewHousingPage extends React.Component{
 					<Badge
 						key={value}
 						value={
-							<Text style={{
-								color: 'white'
-							}}>{value}</Text>
+							<Text>{value}</Text>
 						}
 						badgeStyle={{
 							paddingLeft: 10, 
 							paddingRight: 10,
-							marginRight: 5
+							marginRight: 5,
+							backgroundColor: 'rgb(230, 230, 230)'
 							// padding: 10 // This won't work. 
 						}}
 						// I can't find a way to pad the top and bottom part of a badge. 
@@ -62,21 +85,22 @@ export default class ViewHousingPage extends React.Component{
 			});
 
 			var tenants = [];
-			item.cur_tenant.forEach((value) => {
+			this.state.cur_tenant.forEach((tenant) => {
 				tenants.push((
 					<View>
 						<Image
-							key={value}
-							source={{url: "https://www.apple.com/ac/globalnav/4/en_US/images/globalnav/apple/image_large.svg"}}
+							key={tenant.profileimage}
+							source={{url: tenant.profileimage}}
 							style={{
 								height: 200
 							}}
 						/>
-						<Text>Apple</Text>
+						<Text>{tenant.first_name} {tenant.last_name}</Text>
 					</View>
 					
 				));
 			});
+			
 
 			content = (
 				<View style={{
@@ -94,35 +118,39 @@ export default class ViewHousingPage extends React.Component{
 						</View>
 					
 						<View style={styles.roomInfoView}>
-							<View style={styles.roomInfoLeft}>
-								<View style={styles.roomInfoLeftSpecs}>
-									<View style={styles.roomInfoLeftSpecDetails}>
+							<View style={styles.roomInfoLeftView}>
+								<View style={styles.roomInfoLeftSpecsView}>
+									<View style={styles.roomInfoLeftSpecDetailsView}>
 										<Icon name="users" type="font-awesome"/>
 										<Text>  {item.filters_house.num_tenant} Tenants</Text>
 									</View>
-									<View style={styles.roomInfoLeftSpecDetails}>
+									<View style={styles.roomInfoLeftSpecDetailsView}>
 										<Icon name="bed" type="font-awesome"/>
 										<Text>  {item.filters_house.num_bedroom} Bedrooms</Text>
 									</View>
-									<View style={styles.roomInfoLeftSpecDetails}>
+									<View style={styles.roomInfoLeftSpecDetailsView}>
 										<Icon name="bath" type="font-awesome"/>
 										<Text>  {item.filters_house.num_bathroom} Bathrooms</Text>
 									</View>
-									<View style={styles.roomInfoLeftSpecDetails}>
+									<View style={styles.roomInfoLeftSpecDetailsView}>
 										<Icon name="car" type="font-awesome"/>
 										<Text>  {item.filters_house.num_parking} Parkings</Text>
 									</View>
 								</View>
-								<View style={styles.roomInfoLeftBadges}>
+								<View style={styles.roomInfoLeftSpecsBadgesView}>
 									{badgesView}
 								</View>
 							</View>
-							<View style={styles.roomInfoRight}>
-								<Image
-										source={{uri: "https://www.apple.com/ac/globalnav/4/en_US/images/globalnav/apple/image_large.svg"}}
-										style={styles.roomInfoRightImg}
-									/>
-									<Text style={styles.roomInfoRightName}>{item.landlord}</Text>
+							<View style={styles.roomInfoRightView}>
+								{this.state.landlord.profileimage != "" ?
+									(<Image
+										source={{uri: this.state.landlord.profileimage}}
+										style={styles.roomInfoRightImage}
+									/>) : 
+									(<View style={styles.roomInfoRightImage}></View>)
+								}
+								
+								<Text style={styles.roomInfoRightNameText}>{this.state.landlord.first_name} {this.state.landlord.last_name}</Text>
 							</View>
 						</View>
 					</View>
@@ -154,7 +182,9 @@ export default class ViewHousingPage extends React.Component{
 
 		return (
 			<SafeAreaView style={{flex: 1}}>
-				{content}
+				<ScrollView style={{flex: 1}}>
+					{content}
+				</ScrollView>
       </SafeAreaView>
 		);
 	}
@@ -174,19 +204,27 @@ const styles = StyleSheet.create({
 		flexDirection: 'row',
 		justifyContent: 'space-between'
 	},
-	roomInfoLeft: {
+	roomInfoLeftView: {
 		flex: 2
 	},
-	roomInfoRight: {
+	roomInfoRightView: {
 		flex: 1
 	},
-	roomInfoLeftSpecs: {
+	roomInfoRightImage: {
+		flex: 9,
+		margin: 5
+	},
+	roomInfoRightNameText: {
+		flex: 1,
+		margin: 5
+	},
+	roomInfoLeftSpecsView: {
 		flexDirection: 'row',
 		flexWrap: 'wrap',
 		marginTop: 5,
 		marginBottom: 5
 	},
-	roomInfoLeftSpecDetails: {
+	roomInfoLeftSpecDetailsView: {
 		width: '45%',
 		marginLeft: '2.5%',
 		marginRight: '2.5%',
@@ -196,8 +234,9 @@ const styles = StyleSheet.create({
 		justifyContent: 'flex-start',
 		alignItems: 'center'
 	},
-	roomInfoLeftBadges: {
+	roomInfoLeftSpecsBadgesView: {
 		flexDirection: 'row',
-		margin: 5
+		margin: 5,
+		flexWrap: 'wrap'
 	}
 })

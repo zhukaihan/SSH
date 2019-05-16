@@ -5,18 +5,18 @@ export default class ImageHorizontalScrollView extends React.Component {
 	render() {
 		let pictureUrls = this.props.pictureUrls
 		var imgs = [];
-			pictureUrls.forEach((picture) => {
-				imgs.push((
-					<Image
-						key={picture}
-						source={{url: picture}}
-						style={{
-							height: 200,
-							flex: 1
-						}}
-					/>
-				));
-			});
+		pictureUrls.forEach((picture) => {
+			imgs.push((
+				<Image
+					key={picture}
+					source={{url: picture}}
+					style={{
+						height: 200,
+						flex: 1
+					}}
+				/>
+			));
+		});
 		
 		return (
 			<ScrollView horizontal={true} pagingEnabled={true}

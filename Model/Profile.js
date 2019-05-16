@@ -1,5 +1,5 @@
 export default class Profile {
-    constructor(entry) {
+    constructor(entry = {}) {
         this.name_preferred = entry.name_preferred ? entry.name_preferred : "";
         this.profile_photo = entry.profile_photo ? entry.profile_photo : "";
         this.filter_allowed = entry.filter_allowed ? entry.filter_allowed : false ;

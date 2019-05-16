@@ -1,5 +1,9 @@
+import { firebase } from "firebase";
+import User from './User';
+
 export default class House {
-	constructor(id, entry) {
+	constructor(id = 0, entry = {}) {
+		this.rawData = entry;
 		this.id = id;
 		this.landlord = entry.landlord ? entry.landlord : "";
 		this.cur_tenant = entry.cur_tenant ? entry.cur_tenant : [];
