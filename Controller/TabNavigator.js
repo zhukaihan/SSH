@@ -3,6 +3,7 @@ import { StyleSheet, View, Image, Text, StatusBar, Button, Alert } from 'react-n
 import { Icon } from 'react-native-elements';
 import { createBottomTabNavigator } from 'react-navigation';
 import HousingSearchStackNavigator from './HousingSearchStackNavigator';
+import HousingListingStackNavigator from './HousingListingStackNavigator';
 import RoommateSearchPage from './RoomateSearchPage';
 import ProfilePage from './ProfilePage';
 
@@ -12,6 +13,13 @@ const TabNavigator = createBottomTabNavigator(
 			screen: HousingSearchStackNavigator, 
 			navigationOptions: {
 				tabBarLabel:"Houses",
+				tabBarIcon: <Icon name="home" type="font-awesome"/>
+			}
+		},
+		HousingListingStackNavigator: {
+			screen: HousingListingStackNavigator, 
+			navigationOptions: {
+				tabBarLabel:"Listings",
 				tabBarIcon: <Icon name="home" type="font-awesome"/>
 			}
 		},

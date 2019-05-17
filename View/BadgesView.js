@@ -8,11 +8,13 @@ export default class BadgesView extends React.Component {
 		if (this.props.tags) {
 			this.props.tags.forEach((value) => {
 				badgesView.push((
-					<View style={{
-						margin: 2.5
-					}}>
+					<View
+						key={value}
+						style={{
+							margin: 2.5
+						}}
+					>
 						<Badge
-							key={value}
 							value={
 								<Text>{value}</Text>
 							}

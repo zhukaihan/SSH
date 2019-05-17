@@ -38,7 +38,7 @@ export default class HousingSearchPage extends React.Component{
 	}
 
 	openHouse = (house) => {
-		this.props.navigation.navigate("ViewHousingPage", {
+		this.props.navigation.push("ViewHousingPage", {
 			houseId: house.id,
 		});
 	}

@@ -32,7 +32,7 @@ export default class ViewHousingPage extends React.Component{
 				});
 
 				house.landlord.get().then(user => {
-					let landlord = new User(user.data());
+					let landlord = new User(user.data(), user.id);
 					this.setState({
 						landlord: landlord
 					});
@@ -42,7 +42,7 @@ export default class ViewHousingPage extends React.Component{
 				house.cur_tenant.forEach((ref) => {
 					ref.get().then(user => {
 						var cur_tenant = this.state.cur_tenant;
-						cur_tenant.push(new User(user.data()));
+						cur_tenant.push(new User(user.data(), user.id));
 						this.setState({
 							cur_tenant: cur_tenant
 						});
@@ -66,7 +66,9 @@ export default class ViewHousingPage extends React.Component{
 			var tenants = [];
 			this.state.cur_tenant.forEach((tenant) => {
 				tenants.push((
-					<View>
+					<View
+						key={tenant.id}
+					>
 						<Image
 							key={tenant.profileimage}
 							source={{url: tenant.profileimage}}

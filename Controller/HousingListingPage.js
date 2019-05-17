@@ -18,13 +18,14 @@ export default class HousingListingPage extends React.Component{
 
 	constructor() {
 		super();
-		this.housesRef = firebase.firestore().collection("houses").where("landlord", "==", "/users/" + firebase.auth().currentUser.uid);
+		let landlordRef = firebase.firestore().collection("users").doc(firebase.auth().currentUser.uid);
+		this.housesRef = firebase.firestore().collection("houses").where("landlord", "==", landlordRef);
 	}
 
 	// Get housing data and set state with the new data. 
 	// Can be used on first launch and on refresh request. 
 	getHousingData = () => {
-		this.housesRef.orderBy("post_date").get().then(snapshot => {
+		this.housesRef.get().then(snapshot => {
 			let housingItems = [];
 			snapshot.forEach(house => {
 				var aHouse = new House(house.data(), house.id);
@@ -38,14 +39,14 @@ export default class HousingListingPage extends React.Component{
 		
 	}
 
-	editHouse(house) {
-		this.props.navigation.navigate("EditHousingPage", {
+	editHouse = (house) => {
+		this.props.navigation.push("EditHousingPage", {
 			houseId: house.id,
 		});
 	}
 
-	addHouse = (house) => {
-		this.props.navigation.navigate("EditHousingPage", {
+	addHouse = () => {
+		this.props.navigation.push("EditHousingPage", {
 			houseId: ""
 		})
 	}
@@ -63,18 +64,7 @@ export default class HousingListingPage extends React.Component{
 
 		return (
 			<SafeAreaView style={{flex: 1}}>
-				<Button onTouch={this.addHouse()}>Add House</Button>
-				<View style={{margin: 10}}>
-					<SearchBar
-						placeholder="Search Keywords"
-						lightTheme={true}
-						round={true}
-						containerStyle={{backgroundColor: 'white'}}
-						inputContainerStyle={{backgroundColor: 'white'}}
-						onChangeText={this.updateSearchQuery}
-						value={this.state.searchQuery}
-					/>
-				</View>
+				<Button title="Add House" onPress={this.addHouse}/>
 				<FlatList
 					keyExtractor={(item, index) => index.toString()}
 					data={this.state.housingItems}

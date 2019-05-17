@@ -1,7 +1,7 @@
 // This page will be displayed to allow user to add a house listing or edit a current one. 
 
 import React, { Component } from 'react';
-import { StyleSheet, View, Image, Text, Button, FlatList, TouchableHighlight, ScrollView } from 'react-native';
+import { StyleSheet, View, Image, Text, Button, FlatList, TouchableHighlight, ScrollView, TextInput } from 'react-native';
 import { Icon } from 'react-native-elements';
 import { SafeAreaView } from 'react-navigation';
 import firebase from 'firebase';
@@ -11,16 +11,9 @@ import RF from "react-native-responsive-fontsize";
 import ImageHorizontalScrollView from '../View/ImageHorizontalScrollView';
 import BadgesView from '../View/BadgesView';
 
-
-export default class AddHousingPage extends React.Component{
+export default class EditHousingPage extends React.Component{
 	state = {
-		housingItems: null,
 		cur_tenant: []
-	}
-
-	constructor() {
-		super();
-		
 	}
 
 	getTenants = (house) => {
@@ -39,8 +32,24 @@ export default class AddHousingPage extends React.Component{
 		});
 	}
 
-	removeTenant = (tenantId) => {
+	removeTenant = (tenant) => {
 
+	}
+
+	addTenant = () => {
+
+	}
+
+	addPicture = () => {
+		
+	}
+
+	formatFields() {
+		this.state.house.filters_house.price = parseInt(this.state.house.filters_house.price);
+		this.state.house.filters_house.num_bedroom = parseInt(this.state.house.filters_house.num_bedroom);
+		this.state.house.filters_house.num_bathroom = parseInt(this.state.house.filters_house.num_bathroom);
+		this.state.house.filters_house.num_parking = parseInt(this.state.house.filters_house.num_parking);
+		this.state.house.filters_house.num_tenant = parseInt(this.state.house.filters_house.num_tenant);
 	}
 
 	componentWillMount() {
@@ -66,14 +75,13 @@ export default class AddHousingPage extends React.Component{
 	render = () => {
 		var content;
 		
-		if (this.state.house) {
+		if (!this.state.house) {
 			return (<View></View>);
 		}
 
 		let item = this.state.house;
 
 		var tenants = [];
-		this.state.house.cur_tenant.
 		this.state.cur_tenant.forEach((tenant) => {
 			tenants.push((
 				<View>
@@ -85,61 +93,67 @@ export default class AddHousingPage extends React.Component{
 						}}
 					/>
 					<Text>{tenant.first_name} {tenant.last_name}</Text>
-					<Button onPress={this.removeTenant(tenant.id)}>Remove this tenant</Button>
+					<Button title="Remove this tenant" onPress={() => {this.removeTenant(tenant)}}/>
 				</View>
 				
 			));
 		});
 		
 		content = (
-			<View style={{
+			<View>
+				<View style={{
 					backgroundColor: 'white',
 					alignItems: "stretch",
 					marginBottom: 10,
 					padding: 5
-			}}>
-				<ImageHorizontalScrollView pictureUrls={item.pictures}/>
-				<Button>Add Picture</Button>
+				}}>
+					<ImageHorizontalScrollView pictureUrls={item.pictures}/>
+					<Button title="Add Picture" onPress={this.addPicture}/>
 
-				<View>
-					<View style={styles.roomTitleView}>
-						<Text style={styles.roomTitleText}>{item.filters_house.title}</Text>
-						<Icon name="star" type="font-awesome"/>
-					</View>
+					<TextInput
+						style={styles.roomTitleText}
+						onChangeText={(title) => {item.filters_house.title = title}}
+						value={item.filters_house.title}
+					/>
 				
-					<View style={styles.roomInfoView}>
-						<View style={styles.roomInfoLeftView}>
-							<View style={styles.roomInfoLeftSpecsView}>
-								<View style={styles.roomInfoLeftSpecDetailsView}>
-									<Icon name="users" type="font-awesome"/>
-									<Text>  {item.filters_house.num_tenant} Tenants</Text>
-								</View>
-								<View style={styles.roomInfoLeftSpecDetailsView}>
-									<Icon name="bed" type="font-awesome"/>
-									<Text>  {item.filters_house.num_bedroom} Bedrooms</Text>
-								</View>
-								<View style={styles.roomInfoLeftSpecDetailsView}>
-									<Icon name="bath" type="font-awesome"/>
-									<Text>  {item.filters_house.num_bathroom} Bathrooms</Text>
-								</View>
-								<View style={styles.roomInfoLeftSpecDetailsView}>
-									<Icon name="car" type="font-awesome"/>
-									<Text>  {item.filters_house.num_parking} Parkings</Text>
-								</View>
-							</View>
-							<BadgesView tags={item.filters_house.additional_tags} />
-						</View>
+					<View style={styles.roomInfoSpecDetailsView}>
+						<Icon name="users" type="font-awesome"/>
+						<TextInput
+							onChangeText={(num) => {item.filters_house.num_tenant = num}}
+							value={item.filters_house.num_tenant.toString()}
+							keyboardType="numeric"
+						/>
+						<Text>Tenants</Text>
+					</View>
+					<View style={styles.roomInfoSpecDetailsView}>
+						<Icon name="bed" type="font-awesome"/>
+						<TextInput
+							onChangeText={(num) => {item.filters_house.num_bedroom = num}}
+							value={item.filters_house.num_bedroom.toString()}
+							keyboardType="numeric"
+						/>
+						<Text>Bedrooms</Text>
+					</View>
+					<View style={styles.roomInfoSpecDetailsView}>
+						<Icon name="bath" type="font-awesome"/>
+						<TextInput
+							onChangeText={(num) => {item.filters_house.num_bathroom = num}}
+							value={item.filters_house.num_bathroom.toString()}
+							keyboardType="numeric"
+						/>
+						<Text>Bathrooms</Text>
+					</View>
+					<View style={styles.roomInfoSpecDetailsView}>
+						<Icon name="car" type="font-awesome"/>
+						<TextInput
+							onChangeText={(num) => {item.filters_house.num_parking = num}}
+							value={item.filters_house.num_parking.toString()}
+							keyboardType="numeric"
+						/>
+						<Text>Parkings</Text>
 					</View>
 				</View>
-
-				<View
-					style={{
-						borderBottomColor: 'black',
-						borderBottomWidth: 1,
-						margin: 10
-					}}
-				>
-				</View>
+				<BadgesView tags={item.filters_house.additional_tags} />
 				
 				<View>
 					<Text>Description</Text>
@@ -152,9 +166,16 @@ export default class AddHousingPage extends React.Component{
 						{tenants}
 					</View>
 				</View>
-				<Button>Add Tenants</Button>
-				<Text style={{fontSize: RF(2.5), color: 'rgb(50, 150, 255)'}}>{"$ " + item.filters_house.price}</Text>
+				<Button title="Add Tenants" onPress={this.addTenant}/>
+				<TextInput
+					style={{fontSize: RF(2.5), color: 'rgb(50, 150, 255)'}}
+					onChangeText={(num) => {item.filters_house.price = num}}
+					value={item.filters_house.price.toString()}
+					keyboardType="numeric"
+				/>
+				
 			</View>
+			
 		);
 
 		return (
@@ -167,41 +188,13 @@ export default class AddHousingPage extends React.Component{
 	}
 
 }
+
 const styles = StyleSheet.create({
-	roomTitleView: {
-		margin: 10,
-		flexDirection: 'row',
-		justifyContent: 'space-between'
-	},
 	roomTitleText: {
 		fontSize: RF(2.5), 
 		fontWeight: 'bold'
 	},
-	roomInfoView: {
-		flexDirection: 'row',
-		justifyContent: 'space-between'
-	},
-	roomInfoLeftView: {
-		flex: 2
-	},
-	roomInfoRightView: {
-		flex: 1
-	},
-	roomInfoRightImage: {
-		flex: 9,
-		margin: 5
-	},
-	roomInfoRightNameText: {
-		flex: 1,
-		margin: 5
-	},
-	roomInfoLeftSpecsView: {
-		flexDirection: 'row',
-		flexWrap: 'wrap',
-		marginTop: 5,
-		marginBottom: 5
-	},
-	roomInfoLeftSpecDetailsView: {
+	roomInfoSpecDetailsView: {
 		width: '45%',
 		marginLeft: '2.5%',
 		marginRight: '2.5%',

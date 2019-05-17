@@ -10,7 +10,7 @@ import RF from "react-native-responsive-fontsize";
 import ImageHorizontalScrollView from '../View/ImageHorizontalScrollView';
 import BadgesView from '../View/BadgesView';
 
-export default class HousePreviewView extends React.Component {
+export class HousePreviewView extends React.Component {
 	render() {
 		item = this.props.house;
 		onTouch = this.props.onTouch;
