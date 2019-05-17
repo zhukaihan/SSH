@@ -15,7 +15,6 @@ const HousingSearchStackNavigator = createStackNavigator(
 		},
 	},
 	{
-		//initialize initial screen to createProfilepage2g
 		initialRouteName: 'HousingSearchPage',
 		headerMode: 'none',
 		navigationOptions: {

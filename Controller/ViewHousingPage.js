@@ -1,12 +1,13 @@
 import React, { Component } from 'react';
-import { StyleSheet, View, Image, Text, StatusBar, Button, Alert, FlatList, TouchableHighlight, ScrollView } from 'react-native';
-import { Icon, Card, Badge } from 'react-native-elements';
+import { StyleSheet, View, Image, Text, Button, FlatList, TouchableHighlight, ScrollView } from 'react-native';
+import { Icon } from 'react-native-elements';
 import { SafeAreaView } from 'react-navigation';
 import firebase from 'firebase';
 import House from '../Model/House';
 import User from '../Model/User';
 import RF from "react-native-responsive-fontsize";
 import ImageHorizontalScrollView from '../View/ImageHorizontalScrollView';
+import BadgesView from '../View/BadgesView';
 
 
 export default class ViewHousingPage extends React.Component{
@@ -22,11 +23,10 @@ export default class ViewHousingPage extends React.Component{
 	}
 
 	componentWillMount() {
-		let houseId = this.props.navigation.getParam("houseId", "")
+		let houseId = this.props.navigation.getParam("houseId", "");
 		if (houseId != "") {
 			this.housesRef = firebase.firestore().collection("houses").doc(houseId);
-			this.housesRef.get().then(entry => {
-				let house = new House(entry.id, entry.data());
+			House.getHouseWithID(houseId, (house) => {
 				this.setState({
 					house: house
 				});
@@ -49,8 +49,7 @@ export default class ViewHousingPage extends React.Component{
 					}).catch((e) => {
 					});
 				});
-
-			});
+			})
 		} else {
 			this.setState({
 				house: new House("", {})
@@ -63,26 +62,6 @@ export default class ViewHousingPage extends React.Component{
 		
 		if (this.state.house) {
 			let item = this.state.house;
-
-			var badgesView = [];
-			item.filters_house.additional_tags.forEach((value) => {
-				badgesView.push((
-					<Badge
-						key={value}
-						value={
-							<Text>{value}</Text>
-						}
-						badgeStyle={{
-							paddingLeft: 10, 
-							paddingRight: 10,
-							marginRight: 5,
-							backgroundColor: 'rgb(230, 230, 230)'
-							// padding: 10 // This won't work. 
-						}}
-						// I can't find a way to pad the top and bottom part of a badge. 
-					/>
-				));
-			});
 
 			var tenants = [];
 			this.state.cur_tenant.forEach((tenant) => {
@@ -137,9 +116,7 @@ export default class ViewHousingPage extends React.Component{
 										<Text>  {item.filters_house.num_parking} Parkings</Text>
 									</View>
 								</View>
-								<View style={styles.roomInfoLeftSpecsBadgesView}>
-									{badgesView}
-								</View>
+								<BadgesView tags={item.filters_house.additional_tags} />
 							</View>
 							<View style={styles.roomInfoRightView}>
 								{this.state.landlord.profileimage != "" ?
@@ -233,10 +210,5 @@ const styles = StyleSheet.create({
 		flexDirection: 'row',
 		justifyContent: 'flex-start',
 		alignItems: 'center'
-	},
-	roomInfoLeftSpecsBadgesView: {
-		flexDirection: 'row',
-		margin: 5,
-		flexWrap: 'wrap'
 	}
 })

@@ -1,4 +1,6 @@
-// HousingSearchPage will be used for the user to search for a house. It will display all houses available for renting and has the ability to filter (WIP). 
+// HousingListingPage will be a page for user to look at the houses they listed. This page has the ability to add or delete house listing. 
+// To edit a house listing, the user will be navigated to EditHousingPage with fields populated. 
+// To add a house listing, the user will be navigated to EditHousingPage with fields empty. 
 
 import React, { Component } from 'react';
 import { StyleSheet, View, Image, Text, StatusBar, Button, Alert, FlatList, TouchableHighlight } from 'react-native';
@@ -9,15 +11,14 @@ import House from '../Model/House';
 import RF from "react-native-responsive-fontsize";
 import HousePreviewView from '../View/HousePreviewView';
 
-export default class HousingSearchPage extends React.Component{
+export default class HousingListingPage extends React.Component{
 	state = {
 		housingItems: null
 	}
 
 	constructor() {
 		super();
-		console.log(firebase.auth().currentUser.email);
-		this.housesRef = firebase.firestore().collection("houses");
+		this.housesRef = firebase.firestore().collection("houses").where("landlord", "==", "/users/" + firebase.auth().currentUser.uid);
 	}
 
 	// Get housing data and set state with the new data. 
@@ -37,27 +38,24 @@ export default class HousingSearchPage extends React.Component{
 		
 	}
 
-	openHouse = (house) => {
-		this.props.navigation.navigate("ViewHousingPage", {
+	editHouse(house) {
+		this.props.navigation.navigate("EditHousingPage", {
 			houseId: house.id,
 		});
+	}
+
+	addHouse = (house) => {
+		this.props.navigation.navigate("EditHousingPage", {
+			houseId: ""
+		})
 	}
 
 	componentWillMount() {
 		this.getHousingData();
 	}
 
-	updateSearchQuery = searchQuery => {
-		this.setState({ searchQuery });
-		this.searchAndUpdateWithQuery(this.state.searchQuery);
-	};
-	
-	searchAndUpdateWithQuery = async (searchQuery) => {
-		// Search here with this.houseRef or with Algolia and update housing lists async. 
-	}
-
 	render = () => {
-
+		
 		if (!this.state.housingItems) {
 			return (<View></View>);
 		}
@@ -65,6 +63,7 @@ export default class HousingSearchPage extends React.Component{
 
 		return (
 			<SafeAreaView style={{flex: 1}}>
+				<Button onTouch={this.addHouse()}>Add House</Button>
 				<View style={{margin: 10}}>
 					<SearchBar
 						placeholder="Search Keywords"
@@ -80,7 +79,7 @@ export default class HousingSearchPage extends React.Component{
 					keyExtractor={(item, index) => index.toString()}
 					data={this.state.housingItems}
 					renderItem={({item}) => (
-						<HousePreviewView house={item} onTouch={this.openHouse}/>
+						<HousePreviewView house={item} onTouch={this.editHouse}/>
 					)}
 				/>
       </SafeAreaView>
@@ -88,7 +87,3 @@ export default class HousingSearchPage extends React.Component{
 	}
 
 }
-
-
-const styles = StyleSheet.create({
-})

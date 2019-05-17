@@ -1,8 +1,8 @@
-import { firebase } from "firebase";
+import firebase from "firebase";
 import User from './User';
 
 export default class House {
-	constructor(id = 0, entry = {}) {
+	constructor(entry = {}, id = "") {
 		this.rawData = entry;
 		this.id = id;
 		this.landlord = entry.landlord ? entry.landlord : "";
@@ -33,5 +33,12 @@ export default class House {
 			};
 		}
 		
+	}
+
+	static getHouseWithID(id, callback) {
+		firebase.firestore().collection("houses").doc(id).get().then((snapshot) => {
+			let house = new House(snapshot.data(), id);
+			callback(house);
+		})
 	}
 }

@@ -2,8 +2,9 @@ import Profile from "./Profile";
 import { firebase } from "firebase";
 
 export default class User {
-	constructor(entry = {}) {
+	constructor(entry = {}, id = "") {
 			this.rawData = entry;
+			this.id = id;
 
 			this.clean = entry.clean ? entry.clean : "";
 			this.description = entry.description ? entry.description : "";
@@ -49,4 +50,10 @@ export default class User {
 // 			this.profile = new Profile();
 // 		});
 // 	}
+	static getUserWithUID(uid, callback) {
+		firebase.firestore().collection("users").doc(uid).then((snapshot) => {
+			let user = new User(snapshot.data());
+			callback(user);
+		})
+	}
 }
