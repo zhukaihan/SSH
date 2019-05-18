@@ -8,6 +8,7 @@ import User from '../Model/User';
 import RF from "react-native-responsive-fontsize";
 import ImageHorizontalScrollView from '../View/ImageHorizontalScrollView';
 import BadgesView from '../View/BadgesView';
+import HouseFavButton from '../View/HouseFavButton';
 
 
 export default class ViewHousingPage extends React.Component{
@@ -55,6 +56,12 @@ export default class ViewHousingPage extends React.Component{
 				house: new House("", {})
 			})
 		}
+
+		User.getUserWithUID(firebase.auth().currentUser.uid, (user) => {
+			this.setState({
+				curUser: user
+			})
+		})
 	}
 
 	render = () => {
@@ -95,7 +102,7 @@ export default class ViewHousingPage extends React.Component{
 					<View>
 						<View style={styles.roomTitleView}>
 							<Text style={styles.roomTitleText}>{item.filters_house.title}</Text>
-							<Icon name="star" type="font-awesome"/>
+							<HouseFavButton house={item} curUser={this.state.curUser}/>
 						</View>
 					
 						<View style={styles.roomInfoView}>

@@ -4,23 +4,34 @@
 // The HousePreviewView will display the information about ahouse and will call this.onHouseTouch when touched. 
 
 import React, { Component } from 'react';
-import { StyleSheet, View, Image, Text, StatusBar, Button, Alert, FlatList, TouchableHighlight } from 'react-native';
+import { StyleSheet, View, Image, Text, StatusBar, Button, Alert, FlatList, TouchableHighlight, TouchableOpacity } from 'react-native';
 import { Icon, Card, Badge, SearchBar } from 'react-native-elements';
 import RF from "react-native-responsive-fontsize";
 import ImageHorizontalScrollView from '../View/ImageHorizontalScrollView';
 import BadgesView from '../View/BadgesView';
+import User from '../Model/User';
+import firebase from 'firebase';
+import HouseFavButton from './HouseFavButton';
 
-export class HousePreviewView extends React.Component {
+export default class HousePreviewView extends React.Component {
+
 	render() {
 		item = this.props.house;
-		onTouch = this.props.onTouch;
+		previewOnTouch = this.props.previewOnTouch;
+		favDisabled = this.props.favDisabled ? this.props.favDisabled : false;
+
 		if (!item) {
 			return (<View></View>);
+		}
+
+		var favButton;
+		if (!favDisabled) {
+			favButton = (<HouseFavButton house={this.props.house} curUser={this.props.curUser}/>);
 		}
 		
 		return (
 			<TouchableHighlight
-				onPress={() => {onTouch(item)}}>
+				onPress={() => {previewOnTouch(item)}}>
 				<View style={{
 						backgroundColor: 'white',
 						alignItems: "stretch",
@@ -42,7 +53,7 @@ export class HousePreviewView extends React.Component {
 							justifyContent: 'space-between'
 						}}>
 							<Text style={{fontSize: RF(2)}}>{item.filters_house.num_bedroom + "B" + item.filters_house.num_bathroom + "B | " + item.filters_house.num_parking + " parking"}</Text>
-							<Icon name="star" type="font-awesome"/>
+							{favButton}
 						</View>
 					
 					</View>

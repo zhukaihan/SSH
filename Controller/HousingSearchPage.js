@@ -6,6 +6,7 @@ import { Icon, Card, Badge, SearchBar } from 'react-native-elements';
 import { SafeAreaView } from 'react-navigation';
 import firebase from 'firebase';
 import House from '../Model/House';
+import User from '../Model/User';
 import RF from "react-native-responsive-fontsize";
 import HousePreviewView from '../View/HousePreviewView';
 
@@ -18,6 +19,11 @@ export default class HousingSearchPage extends React.Component{
 		super();
 		console.log(firebase.auth().currentUser.email);
 		this.housesRef = firebase.firestore().collection("houses");
+		User.getUserWithUID(firebase.auth().currentUser.uid, (user) => {
+			this.setState({
+				curUser: user
+			})
+		});
 	}
 
 	// Get housing data and set state with the new data. 
@@ -79,9 +85,15 @@ export default class HousingSearchPage extends React.Component{
 				<FlatList
 					keyExtractor={(item, index) => index.toString()}
 					data={this.state.housingItems}
-					renderItem={({item}) => (
-						<HousePreviewView house={item} onTouch={this.openHouse}/>
-					)}
+					renderItem={({item}) => {
+						return (
+							<HousePreviewView
+								house={item}
+								previewOnTouch={this.openHouse}
+								curUser={this.state.curUser}
+							/>
+						);
+					}}
 				/>
       </SafeAreaView>
 		);

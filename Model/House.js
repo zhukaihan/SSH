@@ -38,7 +38,9 @@ export default class House {
 	static getHouseWithID(id, callback) {
 		firebase.firestore().collection("houses").doc(id).get().then((snapshot) => {
 			let house = new House(snapshot.data(), id);
-			callback(house);
+			if (callback) {
+				callback(house);
+			}
 		})
 	}
 }

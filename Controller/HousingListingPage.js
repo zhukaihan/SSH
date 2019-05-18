@@ -69,7 +69,7 @@ export default class HousingListingPage extends React.Component{
 					keyExtractor={(item, index) => index.toString()}
 					data={this.state.housingItems}
 					renderItem={({item}) => (
-						<HousePreviewView house={item} onTouch={this.editHouse}/>
+						<HousePreviewView house={item} previewOnTouch={this.editHouse} favDisabled={true}/>
 					)}
 				/>
       </SafeAreaView>
