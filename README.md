@@ -109,6 +109,15 @@ You should be good to go.
 
 However, if you encountered the following issue: 
 
+> Unable to resolve module 'react-native-gesture-handler'
+
+```bash
+npm install react-native-gesture-handler
+```
+
+
+However, if you encountered the following issue: 
+
 > Tried to register two views with the same name RNGestureHandlerButton
 
 ```bash
