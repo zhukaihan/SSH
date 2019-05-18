@@ -12,12 +12,13 @@ import HousePreviewView from '../View/HousePreviewView';
 
 export default class HousingSearchPage extends React.Component{
 	state = {
-		housingItems: null
+		housingItems: null,
+		isFetchingHouseData: true
 	}
 
 	constructor() {
 		super();
-		console.log(firebase.auth().currentUser.email);
+
 		this.housesRef = firebase.firestore().collection("houses");
 		User.getUserWithUID(firebase.auth().currentUser.uid, (user) => {
 			this.setState({
@@ -29,6 +30,9 @@ export default class HousingSearchPage extends React.Component{
 	// Get housing data and set state with the new data. 
 	// Can be used on first launch and on refresh request. 
 	getHousingData = () => {
+		this.setState({
+			isFetchingHouseData: true
+		})
 		this.housesRef.orderBy("post_date").get().then(snapshot => {
 			let housingItems = [];
 			snapshot.forEach(house => {
@@ -37,10 +41,10 @@ export default class HousingSearchPage extends React.Component{
 			});
 			
 			this.setState({
-				housingItems: housingItems
+				housingItems: housingItems,
+				isFetchingHouseData: false
 			});
 		});
-		
 	}
 
 	openHouse = (house) => {
@@ -85,15 +89,15 @@ export default class HousingSearchPage extends React.Component{
 				<FlatList
 					keyExtractor={(item, index) => index.toString()}
 					data={this.state.housingItems}
-					renderItem={({item}) => {
-						return (
+					onRefresh={this.getHousingData}
+					refreshing={this.state.isFetchingHouseData}
+					renderItem={({item}) => (
 							<HousePreviewView
 								house={item}
-								previewOnTouch={this.openHouse}
+								onTouch={this.openHouse}
 								curUser={this.state.curUser}
 							/>
-						);
-					}}
+					)}
 				/>
       </SafeAreaView>
 		);

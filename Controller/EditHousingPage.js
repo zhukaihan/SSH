@@ -76,54 +76,56 @@ export default class EditHousingPage extends React.Component{
 	}
 
 	saveHouse = () => {
-
-		let houseToAdd = {
-			// landlord: this.state.house.landlord, // Firebase Reference
-			// cur_tenant: this.state.house.cur_tenant, // Array of Firebase References
-			// pictures: this.state.house.pictures, // Array of Strings
-			// availability: this.state.house.availability, // String?
-				num_bedroom: parseInt(this.state.house.filters_house.num_bedroom),
-			// filters_house: {
-				// title: this.state.house.filters_house.title.toString(), // String
-				// location: this.state.house.filters_house.location, // String?
-				// price: parseInt(this.state.house.filters_house.price), // Number
-				// num_bedroom: parseInt(this.state.house.filters_house.num_bedroom), // Number
-				// num_bathroom: parseInt(this.state.house.filters_house.num_bathroom), // Number
-				// num_parking: parseInt(this.state.house.filters_house.num_parking), // Number
-				// num_tenant: parseInt(this.state.house.filters_house.num_tenant), // Number
-				// additional_tags: this.state.house.filters_house.additional_tags // Array of Strings
-			// }
+		var houseToAdd = {
+			landlord: this.state.house.landlord, // Firebase Reference
+			cur_tenant: this.state.house.cur_tenant, // Array of Firebase References
+			pictures: this.state.house.pictures, // Array of Strings
+			availability: this.state.house.availability, // String?
+			post_date: firebase.firestore.Timestamp.now(), // Timestamp
+			filters_house: {
+				title: this.state.house.filters_house.title.toString(), // String
+				location: this.state.house.filters_house.location, // String?
+				price: parseInt(this.state.house.filters_house.price), // Number
+				num_bedroom: parseInt(this.state.house.filters_house.num_bedroom), // Number
+				num_bathroom: parseInt(this.state.house.filters_house.num_bathroom), // Number
+				num_parking: parseInt(this.state.house.filters_house.num_parking), // Number
+				num_tenant: parseInt(this.state.house.filters_house.num_tenant), // Number
+				additional_tags: this.state.house.filters_house.additional_tags // Array of Strings
+			}
 		};
-
-		let successCallback = () => {
-			this.navigation.goBack();
-		}
-
-		let failedCallback = () => {
-			Alert.alert(
-				'Saving Failed',
-				'Please try agian later',
-				[{text: 'Okay'}],
-				{cancelable: false},
-			)
-		}
 
 		if (this.state.house.id == "") {
 			// Add a house, house does not exist in firebase, use add. 
-			console.log("saveHouse add " + this.state.house.id);
 			firebase.firestore().collection("houses").add(Object.assign({}, houseToAdd))
-				.then(successCallback).catch(failedCallback)
+			.then((docRef) => {
+				this.state.house.id = docRef.id;
+			})
+			.catch((error) => {
+				Alert.alert(
+					'Saving Failed',
+					'Please try agian later',
+					[{text: 'Okay'}],
+					{cancelable: false},
+				)
+			});
 		} else {
 			// Edit a house, house exists in firebase, use set. 
-			console.log("saveHouse edit " + this.state.house.id);
-			firebase.firestore().collection("house").doc(this.state.house.id).set(Object.assign({}, houseToAdd))
-				.then(successCallback).catch(failedCallback)
+			firebase.firestore().collection("houses").doc(this.state.house.id).set(Object.assign({}, houseToAdd), (error) => {
+				if (error) {
+					Alert.alert(
+						'Saving Failed',
+						'Please try agian later',
+						[{text: 'Okay'}],
+						{cancelable: false},
+					)
+				}
+			})
 		}
 	}
 
 	deleteHouse = () => {
-		db.collection("houses").doc(this.state.house.id).delete().then(function() {
-			this.navigation.goBack();
+		firebase.firestore().collection("houses").doc(this.state.house.id).delete().then(() => {
+			this.props.navigation.goBack();
 		}).catch(function(error) {
 			Alert.alert(
 				'Delete Failed',
@@ -181,7 +183,7 @@ export default class EditHousingPage extends React.Component{
 					<TextInput
 						style={styles.roomTitleText}
 						onChangeText={(title) => {item.filters_house.title = title}}
-						value={item.filters_house.title}
+						defaultValue={item.filters_house.title}
 					/>
 				
 					<View style={styles.roomInfoSpecDetailsView}>

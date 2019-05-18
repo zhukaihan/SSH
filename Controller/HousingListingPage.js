@@ -25,6 +25,9 @@ export default class HousingListingPage extends React.Component{
 	// Get housing data and set state with the new data. 
 	// Can be used on first launch and on refresh request. 
 	getHousingData = () => {
+		this.setState({
+			isFetchingHouseData: true
+		})
 		this.housesRef.get().then(snapshot => {
 			let housingItems = [];
 			snapshot.forEach(house => {
@@ -33,7 +36,8 @@ export default class HousingListingPage extends React.Component{
 			});
 			
 			this.setState({
-				housingItems: housingItems
+				housingItems: housingItems,
+				isFetchingHouseData: false
 			});
 		});
 		
@@ -68,8 +72,10 @@ export default class HousingListingPage extends React.Component{
 				<FlatList
 					keyExtractor={(item, index) => index.toString()}
 					data={this.state.housingItems}
+					onRefresh={this.getHousingData}
+					refreshing={this.state.isFetchingHouseData}
 					renderItem={({item}) => (
-						<HousePreviewView house={item} previewOnTouch={this.editHouse} favDisabled={true}/>
+						<HousePreviewView house={item} onTouch={this.editHouse} favDisabled={true}/>
 					)}
 				/>
       </SafeAreaView>

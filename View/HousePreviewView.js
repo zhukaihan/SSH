@@ -17,7 +17,7 @@ export default class HousePreviewView extends React.Component {
 
 	render() {
 		item = this.props.house;
-		previewOnTouch = this.props.previewOnTouch;
+		onTouch = this.props.onTouch;
 		favDisabled = this.props.favDisabled ? this.props.favDisabled : false;
 
 		if (!item) {
@@ -31,7 +31,7 @@ export default class HousePreviewView extends React.Component {
 		
 		return (
 			<TouchableHighlight
-				onPress={() => {previewOnTouch(item)}}>
+				onPress={() => {onTouch(item)}}>
 				<View style={{
 						backgroundColor: 'white',
 						alignItems: "stretch",
