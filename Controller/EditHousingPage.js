@@ -126,7 +126,7 @@ export default class EditHousingPage extends React.Component{
 	deleteHouse = () => {
 		firebase.firestore().collection("houses").doc(this.state.house.id).delete().then(() => {
 			this.props.navigation.goBack();
-		}).catch(function(error) {
+		}).catch((error) => {
 			Alert.alert(
 				'Delete Failed',
 				'Please try agian later',

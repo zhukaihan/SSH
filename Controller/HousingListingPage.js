@@ -45,7 +45,7 @@ export default class HousingListingPage extends React.Component{
 
 	editHouse = (house) => {
 		this.props.navigation.push("EditHousingPage", {
-			houseId: house.id,
+			houseId: house.id
 		});
 	}
 
@@ -55,8 +55,18 @@ export default class HousingListingPage extends React.Component{
 		})
 	}
 
-	componentWillMount() {
+	componentWillMount = () => {
 		this.getHousingData();
+		this.componentDidFocus = this.props.navigation.addListener(
+			'didFocus',
+			payload => {
+				this.getHousingData();
+			}
+		);
+	}
+
+	componentWillUnmount = () => {
+		this.componentDidFocus.remove();
 	}
 
 	render = () => {
