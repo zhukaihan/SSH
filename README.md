@@ -115,6 +115,13 @@ However, if you encountered the following issue:
 npm i react-native-keyboard-aware-scroll-view --save
 ```
 
+However, if you encountered the following issue: 
+
+> Unable to resolve module 'react-native-gesture-handler'
+
+```bash
+npm install react-native-gesture-handler
+```
 
 However, if you encountered the following issue: 
 
