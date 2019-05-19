@@ -33,7 +33,7 @@ export default class HousingSearchPage extends React.Component{
 		this.setState({
 			isFetchingHouseData: true
 		})
-		this.housesRef.orderBy("post_date").get().then(snapshot => {
+		this.housesRef.orderBy("post_date", "desc").get().then(snapshot => {
 			let housingItems = [];
 			snapshot.forEach(house => {
 				var aHouse = new House(house.data(), house.id);
@@ -55,16 +55,6 @@ export default class HousingSearchPage extends React.Component{
 
 	componentWillMount() {
 		this.getHousingData();
-		this.componentDidFocus = this.props.navigation.addListener(
-			'didFocus',
-			payload => {
-				this.getHousingData();
-			}
-		);
-	}
-
-	componentWillUnmount = () => {
-		this.componentDidFocus.remove();
 	}
 
 	updateSearchQuery = searchQuery => {

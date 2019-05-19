@@ -1,7 +1,7 @@
 // This page will be displayed to allow user to add a house listing or edit a current one. 
 
 import React, { Component } from 'react';
-import { StyleSheet, View, Image, Text, Button, Alert, FlatList, TouchableHighlight, ScrollView, TextInput } from 'react-native';
+import { StyleSheet, View, Image, Text, Button, Alert, FlatList, TouchableHighlight, ScrollView, TextInput, Overlay, ActivityIndicator } from 'react-native';
 import { Icon } from 'react-native-elements';
 import { SafeAreaView } from 'react-navigation';
 import firebase from 'firebase';
@@ -10,6 +10,7 @@ import User from '../Model/User';
 import RF from "react-native-responsive-fontsize";
 import ImageHorizontalScrollView from '../View/ImageHorizontalScrollView';
 import BadgesView from '../View/BadgesView';
+import ImageUploader from '../View/ImageUploader';
 
 export default class EditHousingPage extends React.Component{
 	state = {
@@ -43,7 +44,8 @@ export default class EditHousingPage extends React.Component{
 			house.landlord = firebase.firestore().collection("users").doc(firebase.auth().currentUser.uid);
 			this.setState({
 				house: house
-			})
+			});
+			this.saveHouse();
 		}
 	}
 
@@ -72,7 +74,16 @@ export default class EditHousingPage extends React.Component{
 
 	addPicture = () => {
 		// Display a view to upload image and add the url of the image to house.pictures. 
-		
+		this.setState({
+			isUploadingPicture: true
+		})
+		ImageUploader.chooseImageToUpload(`houses/${this.state.house.id}/images`, (url) => {
+			this.state.house.pictures.push(url);
+			this.saveHouse();
+			this.setState({
+				isUploadingPicture: false
+			})
+		})
 	}
 
 	saveHouse = () => {
@@ -118,6 +129,7 @@ export default class EditHousingPage extends React.Component{
 						[{text: 'Okay'}],
 						{cancelable: false},
 					)
+				} else {
 				}
 			})
 		}
@@ -255,6 +267,9 @@ export default class EditHousingPage extends React.Component{
 
 		return (
 			<SafeAreaView style={{flex: 1}}>
+				{/* <Overlay isVisible={this.state.isUploadingPicture}>
+					<ActivityIndicator size="large" color="#0000ff" />
+				</Overlay> */}
 				<ScrollView style={{flex: 1}}>
 					{content}
 				</ScrollView>

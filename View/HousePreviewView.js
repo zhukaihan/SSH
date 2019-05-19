@@ -16,9 +16,9 @@ import HouseFavButton from './HouseFavButton';
 export default class HousePreviewView extends React.Component {
 
 	render() {
-		item = this.props.house;
-		onTouch = this.props.onTouch;
-		favDisabled = this.props.favDisabled ? this.props.favDisabled : false;
+		let item = this.props.house;
+		let onTouch = this.props.onTouch;
+		let favDisabled = this.props.favDisabled ? this.props.favDisabled : false;
 
 		if (!item) {
 			return (<View></View>);
@@ -26,12 +26,12 @@ export default class HousePreviewView extends React.Component {
 
 		var favButton;
 		if (!favDisabled) {
-			favButton = (<HouseFavButton house={this.props.house} curUser={this.props.curUser}/>);
+			favButton = (<HouseFavButton house={this.props.house}/>);
 		}
 		
 		return (
 			<TouchableHighlight
-				onPress={() => {onTouch(item)}}>
+				onPress={() => {onTouch(this.props.house)}}>
 				<View style={{
 						backgroundColor: 'white',
 						alignItems: "stretch",
