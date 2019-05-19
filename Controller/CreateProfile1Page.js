@@ -1,8 +1,19 @@
 import React, {Component} from 'react';
-import { StyleSheet, View, Text, Button, Alert, TextInput, Picker,TouchableOpacity, SafeAreaView, Dimensions, PixelRatio } from 'react-native';
+import {StyleSheet, 
+        View, 
+        Text, 
+        Button, 
+        Alert, 
+        TextInput, 
+        Picker,
+        TouchableOpacity, 
+        SafeAreaView, 
+        Dimensions, 
+        PixelRatio} from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import RNPickerSelect from 'react-native-picker-select';
 import RF from 'react-native-responsive-fontsize';
+import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 
 
 export default class CreateProfile1Page extends Component{
@@ -87,6 +98,7 @@ export default class CreateProfile1Page extends Component{
                         <Text style={styles.oneOverthree}> 1/3 </Text>
                     </View>
             </View>
+            <KeyboardAwareScrollView>
             <View style={styles.inputView}>
                 <View
                     style={{flexDirection:"row", alignItems: "center", marginBottom: RF(3)}}>
@@ -111,8 +123,7 @@ export default class CreateProfile1Page extends Component{
                         style={styles.textBox}
                         placeholder={"Preferred Name"}
                         onChangeText={(name_preferred)=>{this.setState({name_preferred})}}></TextInput>
-     
-                <View style={styles.tpickerBox}> 
+                <View style={styles.tpickerBox}>
                 <RNPickerSelect
                         style={{...pickerSelectStyles}}
                         onValueChange={(itemValue, itemIndex)=> this.setState({gender: itemValue})}
@@ -129,7 +140,6 @@ export default class CreateProfile1Page extends Component{
                         }}/>
                 <Icon name={"asterisk"} style={styles.pickerast}></Icon>
                 </View>
-
                 <View style={{flexDirection:'row', height:"20%"}}>
                     <View style={styles.backButton}>
                             <Text style={styles.buttontextstyle}>Back</Text>
@@ -142,9 +152,9 @@ export default class CreateProfile1Page extends Component{
                         </TouchableOpacity>
                     </View>
                 </View>
-            </View>
-
-            </SafeAreaView>
+            </View> 
+            </KeyboardAwareScrollView>   
+            </SafeAreaView>    
         );
     }
 }
