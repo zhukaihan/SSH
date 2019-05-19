@@ -57,16 +57,6 @@ export default class HousingListingPage extends React.Component{
 
 	componentWillMount = () => {
 		this.getHousingData();
-		this.componentDidFocus = this.props.navigation.addListener(
-			'didFocus',
-			payload => {
-				this.getHousingData();
-			}
-		);
-	}
-
-	componentWillUnmount = () => {
-		this.componentDidFocus.remove();
 	}
 
 	render = () => {

@@ -15,11 +15,12 @@ export default class HouseFavButton extends React.Component {
 	}
 
 	componentWillMount() {
-		if (this.props.curUser) {
+		User.getUserWithUID(firebase.auth().currentUser.uid, (user) => {
 			this.setState({
-				isHouseFav: this.props.curUser.house_favorite.includes(this.props.house.id)
+				isHouseFav: user.house_favorite.includes(this.props.house.id),
+				curUser: user
 			})
-		}
+		})
 	}
 
 	favHouse = (house) => {
@@ -31,12 +32,12 @@ export default class HouseFavButton extends React.Component {
 				{cancelable: false},
 			)
 		}
-		if (house.id == "" || !this.props.curUser || !this.props.curUser.dbRef) {
+		if (house.id == "" || !this.state.curUser || !this.state.curUser.dbRef) {
 			failedFavHouseAlert();
 			return;
 		}
 
-		this.props.curUser.dbRef.update({
+		this.state.curUser.dbRef.update({
 			house_favorite: firebase.firestore.FieldValue.arrayUnion(house.id)
 		}).then(() => {
 			this.setState({
@@ -57,12 +58,12 @@ export default class HouseFavButton extends React.Component {
 				{cancelable: false},
 			)
 		}
-		if (house.id == "" || !this.props.curUser || !this.props.curUser.dbRef) {
+		if (house.id == "" || !this.state.curUser || !this.state.curUser.dbRef) {
 			failedFavHouseAlert();
 			return;
 		}
 
-		this.props.curUser.dbRef.update({
+		this.state.curUser.dbRef.update({
 			house_favorite: firebase.firestore.FieldValue.arrayRemove(house.id)
 		}).then(() => {
 			this.setState({
@@ -75,7 +76,7 @@ export default class HouseFavButton extends React.Component {
 	}
 
 	render() {
-		item = this.props.house;
+		let item = this.props.house;
 
 		if (!item) {
 			return (<View></View>);

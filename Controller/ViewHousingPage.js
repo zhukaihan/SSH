@@ -102,7 +102,7 @@ export default class ViewHousingPage extends React.Component{
 					<View>
 						<View style={styles.roomTitleView}>
 							<Text style={styles.roomTitleText}>{item.filters_house.title}</Text>
-							<HouseFavButton house={item} curUser={this.state.curUser}/>
+							<HouseFavButton house={item}/>
 						</View>
 					
 						<View style={styles.roomInfoView}>
