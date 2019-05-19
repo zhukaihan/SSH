@@ -109,10 +109,10 @@ You should be good to go.
 
 However, if you encountered the following issue: 
 
-> Unable to resolve module 'react-native-gesture-handler'
+> Unable to resolve module 'react-native-keyboard-aware-scroll-view'
 
 ```bash
-npm install react-native-gesture-handler
+npm i react-native-keyboard-aware-scroll-view --save
 ```
 
 
