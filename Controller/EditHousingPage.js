@@ -45,7 +45,7 @@ export default class EditHousingPage extends React.Component{
 			this.setState({
 				house: house
 			});
-			this.saveHouse();
+			//this.saveHouse();
 		}
 	}
 

@@ -5,7 +5,6 @@ import RNPickerSelect from 'react-native-picker-select';
 import RF from 'react-native-responsive-fontsize';
 
 
-
 export default class CreateProfile2Page extends Component{
     constructor(props){
         super(props)
