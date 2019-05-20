@@ -11,6 +11,7 @@ export default class House {
 		this.availability = entry.availability ? entry.availability : false;
 		if (entry.filters_house) {
 			this.filters_house = {
+				//  current only string location for the house
 				title: entry.filters_house.title ? entry.filters_house.title : "",
 				location: entry.filters_house.location ? entry.filters_house.location : "",
 				price: entry.filters_house.price ? entry.filters_house.price : 0,

@@ -9,7 +9,7 @@ export default class Profile {
                 major: entry.filters_user.major ? entry.filters_user.major : "",
                 graduation: entry.filters_user.graduation ? entry.filters_user.graduation : 0,
                 clean: entry.filters_user.clean ? entry.filters_user.clean : false,
-                wake_early: entry.filters_user.wake_early ? entry.filters_house.wake_early : "",
+                wake_time: entry.filters_user.wake_time ? entry.filters_house.wake_time : 0,
                 additional_tags: entry.filters_user.additional_tags ? entry.filters_user.additional_tags : []
             };
         } else {
@@ -18,7 +18,7 @@ export default class Profile {
                 major: "",
                 graduation: 0,
                 clean: false,
-                wake_early: "",
+                wake_time: 0,
                 additional_tags: []
             };
         }
