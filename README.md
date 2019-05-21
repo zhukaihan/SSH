@@ -104,14 +104,14 @@ You should be good to go.
 **The package.json has been tested to be issue-free.**
 **After each pull, always reinstall**
 
-### Installation Issues
+## Installation Issues
 
-**If any issue occurs, always try to remove node_modules and package-lock.json and npm install first.**
+**![#f03c15](https://placehold.it/15/f03c15/000000?text=+) If any issue occurs, always try to remove node_modules and package-lock.json and npm install first.**
 **If the issue does not resolve, try the following steps. The following steps would be the last you want to try.**
 
-**DO NOT use npm install or npm remove individual components unless you are adding dependency to the project. Otherwise, it will break the package.json and leaves issues for others when they pulled.**
+**![#f03c15](https://placehold.it/15/f03c15/000000?text=+) DO NOT use npm install or npm remove individual components unless you are adding dependency to the project. Otherwise, it will break the package.json and leaves issues for others when they pulled.**
 
-**The following steps should resolve installation issues 99% of the time.**
+**![#f03c15](https://placehold.it/15/f03c15/000000?text=+) The following steps should resolve installation issues 99% of the time.**
 
 ```bash
 rm -r node_modules
@@ -124,7 +124,7 @@ npm install
 
 If this fails to resolve the issue, then follow the following steps. 
 
-#### However, if you encountered the following issue: 
+### However, if you encountered the following issue: 
 
 > Unable to resolve module 'react-native-keyboard-aware-scroll-view'
 
@@ -134,7 +134,7 @@ This is a new dependency. Be sure to remove node_modules and package-lock.json a
 npm install --save react-native-keyboard-aware-scroll-view
 ```
 
-#### However, if you encountered the following issue: 
+### However, if you encountered the following issue: 
 
 You should not have this issue if you have removed both node_modules and package-lock.json before npm install. 
 
