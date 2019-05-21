@@ -1,9 +1,9 @@
 {
   "devToolsPort": 19002,
-  "expoServerPort": null,
-  "packagerPort": null,
-  "packagerPid": null,
-  "expoServerNgrokUrl": null,
-  "packagerNgrokUrl": null,
-  "ngrokPid": null
+  "expoServerPort": 19000,
+  "packagerPort": 19003,
+  "packagerPid": 59292,
+  "expoServerNgrokUrl": "https://y3-krb.anonymous.ssh.exp.direct",
+  "packagerNgrokUrl": "https://packager.y3-krb.anonymous.ssh.exp.direct",
+  "ngrokPid": 59320
 }

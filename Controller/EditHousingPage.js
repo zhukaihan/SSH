@@ -11,6 +11,7 @@ import RF from "react-native-responsive-fontsize";
 import ImageHorizontalScrollView from '../View/ImageHorizontalScrollView';
 import BadgesView from '../View/BadgesView';
 import ImageUploader from '../View/ImageUploader';
+import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 
 export default class EditHousingPage extends React.Component{
 	state = {
@@ -45,7 +46,6 @@ export default class EditHousingPage extends React.Component{
 			this.setState({
 				house: house
 			});
-			//this.saveHouse();
 		}
 	}
 
@@ -72,11 +72,25 @@ export default class EditHousingPage extends React.Component{
 
 	}
 
+	removePicture = (pictureUrl) => {
+		var filtered = this.state.house.pictures.filter((value) => {
+			return !value.isEqual(pictureUrl);
+		});
+		this.state.house.pictures = filtered;
+		this.saveHouse();
+	}
+
 	addPicture = () => {
 		// Display a view to upload image and add the url of the image to house.pictures. 
 		this.setState({
 			isUploadingPicture: true
 		})
+		if (!this.state.house) {
+			return;
+		}
+		if (this.state.house.id == "") {
+			this.saveHouse();
+		}
 		ImageUploader.chooseImageToUpload(`houses/${this.state.house.id}/images`, (url) => {
 			this.state.house.pictures.push(url);
 			this.saveHouse();
@@ -87,22 +101,24 @@ export default class EditHousingPage extends React.Component{
 	}
 
 	saveHouse = () => {
+		if (!this.state.house) {
+			return;
+		}
 		var houseToAdd = {
 			landlord: this.state.house.landlord, // Firebase Reference
 			cur_tenant: this.state.house.cur_tenant, // Array of Firebase References
 			pictures: this.state.house.pictures, // Array of Strings
 			availability: this.state.house.availability, // String?
 			post_date: firebase.firestore.Timestamp.now(), // Timestamp
-			filters_house: {
-				title: this.state.house.filters_house.title.toString(), // String
-				location: this.state.house.filters_house.location, // String?
-				price: parseInt(this.state.house.filters_house.price), // Number
-				num_bedroom: parseInt(this.state.house.filters_house.num_bedroom), // Number
-				num_bathroom: parseInt(this.state.house.filters_house.num_bathroom), // Number
-				num_parking: parseInt(this.state.house.filters_house.num_parking), // Number
-				num_tenant: parseInt(this.state.house.filters_house.num_tenant), // Number
-				additional_tags: this.state.house.filters_house.additional_tags // Array of Strings
-			}
+			title: this.state.house.title.toString(), // String
+			description: this.state.house.description,
+			location: this.state.house.location, // String?
+			price: parseInt(this.state.house.price), // Number
+			num_bedroom: parseInt(this.state.house.num_bedroom), // Number
+			num_bathroom: parseInt(this.state.house.num_bathroom), // Number
+			num_parking: parseInt(this.state.house.num_parking), // Number
+			num_tenant: parseInt(this.state.house.num_tenant), // Number
+			additional_tags: this.state.house.additional_tags // Array of Strings
 		};
 
 		if (this.state.house.id == "") {
@@ -154,6 +170,7 @@ export default class EditHousingPage extends React.Component{
 		if (!this.state.house) {
 			return (<View></View>);
 		}
+		this.saveHouse();
 
 		let item = this.state.house;
 
@@ -194,16 +211,16 @@ export default class EditHousingPage extends React.Component{
 
 					<TextInput
 						style={styles.roomTitleText}
-						onChangeText={(title) => {item.filters_house.title = title}}
-						defaultValue={item.filters_house.title}
+						onChangeText={(title) => {item.title = title}}
+						defaultValue={item.title}
 					/>
 				
 					<View style={styles.roomInfoSpecDetailsView}>
 						<Icon name="users" type="font-awesome"/>
 						<TextInput
 							style={styles.roomInfoSpecDetailsTextInput}
-							onChangeText={(num) => {item.filters_house.num_tenant = parseInt(num)}}
-							defaultValue={item.filters_house.num_tenant.toString()}
+							onChangeText={(num) => {item.num_tenant = parseInt(num)}}
+							defaultValue={item.num_tenant.toString()}
 							keyboardType="numeric"
 						/>
 						<Text>Tenants</Text>
@@ -212,8 +229,8 @@ export default class EditHousingPage extends React.Component{
 						<Icon name="bed" type="font-awesome"/>
 						<TextInput
 							style={styles.roomInfoSpecDetailsTextInput}
-							onChangeText={(num) => {item.filters_house.num_bedroom = parseInt(num)}}
-							defaultValue={item.filters_house.num_bedroom.toString()}
+							onChangeText={(num) => {item.num_bedroom = parseInt(num)}}
+							defaultValue={item.num_bedroom.toString()}
 							keyboardType="numeric"
 						/>
 						<Text>Bedrooms</Text>
@@ -222,8 +239,8 @@ export default class EditHousingPage extends React.Component{
 						<Icon name="bath" type="font-awesome"/>
 						<TextInput
 							style={styles.roomInfoSpecDetailsTextInput}
-							onChangeText={(num) => {item.filters_house.num_bathroom = parseInt(num)}}
-							defaultValue={item.filters_house.num_bathroom.toString()}
+							onChangeText={(num) => {item.num_bathroom = parseInt(num)}}
+							defaultValue={item.num_bathroom.toString()}
 							keyboardType="numeric"
 						/>
 						<Text>Bathrooms</Text>
@@ -232,18 +249,24 @@ export default class EditHousingPage extends React.Component{
 						<Icon name="car" type="font-awesome"/>
 						<TextInput
 							style={styles.roomInfoSpecDetailsTextInput}
-							onChangeText={(num) => {item.filters_house.num_parking = parseInt(num)}}
-							defaultValue={item.filters_house.num_parking.toString()}
+							onChangeText={(num) => {item.num_parking = parseInt(num)}}
+							defaultValue={item.num_parking.toString()}
 							keyboardType="numeric"
 						/>
 						<Text>Parkings</Text>
 					</View>
 				</View>
-				<BadgesView tags={item.filters_house.additional_tags} />
+				<BadgesView tags={item.additional_tags} />
 				
 				<View>
 					<Text>Description</Text>
-					<Text>{item.filters_house.title}</Text>{/*NEED TO CHANGE WITH DATABASE*/}
+					<TextInput
+						multiline={true}
+						editable = {true}
+						maxLength = {400}
+						onChangeText={(text) => {item.description = text}}
+						defaultValue = {item.description}
+					/>
 				</View>
 				
 				<View>
@@ -255,8 +278,8 @@ export default class EditHousingPage extends React.Component{
 				<Button title="Add Tenants" onPress={this.addTenant}/>
 				<TextInput
 					style={{fontSize: RF(2.5), color: 'rgb(50, 150, 255)'}}
-					onChangeText={(num) => {item.filters_house.price = parseInt(num)}}
-					defaultValue={item.filters_house.price.toString()}
+					onChangeText={(num) => {item.price = parseInt(num)}}
+					defaultValue={item.price.toString()}
 					keyboardType="numeric"
 				/>
 				
@@ -270,9 +293,9 @@ export default class EditHousingPage extends React.Component{
 				{/* <Overlay isVisible={this.state.isUploadingPicture}>
 					<ActivityIndicator size="large" color="#0000ff" />
 				</Overlay> */}
-				<ScrollView style={{flex: 1}}>
+				<KeyboardAwareScrollView style={{flex: 1}}>
 					{content}
-				</ScrollView>
+				</KeyboardAwareScrollView>
       </SafeAreaView>
 		);
 	}

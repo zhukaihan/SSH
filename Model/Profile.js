@@ -1,27 +1,17 @@
 export default class Profile {
     constructor(entry = {}) {
         this.name_preferred = entry.name_preferred ? entry.name_preferred : "";
-        this.profile_photo = entry.profile_photo ? entry.profile_photo : "";
+        this.profileimage = entry.profileimage ? entry.profileimage : "";
         this.filter_allowed = entry.filter_allowed ? entry.filter_allowed : false ;
-        if (entry.filters_user) {
-            this.filters_user = {
-                gender: entry.filters_user.gender ? entry.filters_user.gender : "",
-                major: entry.filters_user.major ? entry.filters_user.major : "",
-                graduation: entry.filters_user.graduation ? entry.filters_user.graduation : 0,
-                clean: entry.filters_user.clean ? entry.filters_user.clean : false,
-                wake_time: entry.filters_user.wake_time ? entry.filters_house.wake_time : 0,
-                additional_tags: entry.filters_user.additional_tags ? entry.filters_user.additional_tags : []
-            };
-        } else {
-            this.filters_user = {
-                gender: "",
-                major: "",
-                graduation: 0,
-                clean: false,
-                wake_time: 0,
-                additional_tags: []
-            };
-        }
-
+				this.gender = entry.gender ? entry.gender : "";
+				this.major = entry.major ? entry.major : "";
+				this.graduation = entry.graduation ? entry.graduation : 0;
+				this.clean = entry.clean ? entry.clean : false;
+				this.wake_time = entry.wake_time ? entry.wake_time : 0;
+				this.additional_tags = entry.additional_tags ? entry.additional_tags : [];
+				this.first_name = entry.first_name ? entry.first_name : "";
+				this.last_name = entry.last_name ? entry.last_name : "";
+				this.wake_early = entry.wake_early ? entry.wake_early : "";
+				this.description = entry.description ? entry.description : "";
     }
 }
