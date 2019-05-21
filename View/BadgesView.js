@@ -6,7 +6,8 @@ export default class BadgesView extends React.Component {
 	render() {
 		var badgesView = [];
 		if (this.props.tags) {
-			this.props.tags.forEach((value) => {
+			let tags = Object.assign([], this.props.tags)
+			tags.forEach((value) => {
 				badgesView.push((
 					<View
 						key={value}

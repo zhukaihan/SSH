@@ -10,10 +10,17 @@ import BadgesView from '../View/BadgesView';
 
 export default class ProfilePage extends Component{
 
+	state = {
+	}
+
 	constructor() {
 		super();
 
+	}
+
+	componentWillMount = () => {
 		let userId = this.props.navigation.getParam("userId");
+		console.log(userId);
 		User.getUserWithUID(userId, (user) => {
 			this.setState({
 				user: user
@@ -21,7 +28,7 @@ export default class ProfilePage extends Component{
 		})
 	}
 
-	render(){
+	render = () => {
 		if (!this.state.user) {
 			return (
 				<View></View>
@@ -33,7 +40,7 @@ export default class ProfilePage extends Component{
 				<View style={styles.header}>
 
 					<View style={styles.titleContainer}>	
-						<TouchableOpacity>
+						<TouchableOpacity onPress={() => (this.props.navigation.goBack())}>
 							<Icon name={"left"} size={RF(4)} color="white"></Icon>
 						</TouchableOpacity>
 						<Text style={styles.title}>{this.state.user.first_name}'s Profile</Text>

@@ -67,7 +67,7 @@ export default class RoomateSearchPage extends React.Component{
     onCollectionUpdate = (querySnapshot) =>{
         const items = [];//create a temp variable to hold all data before storing
         querySnapshot.forEach((doc) => {
-            items.push(new User(doc.data()), doc.id);
+            items.push(new User(doc.data(), doc.id));
             // const { first_name,last_name,graduation,major,profileimage } = doc.data();
             // // login_email is the data_title in our database that contains
             // // the login_email of certain user. 
@@ -90,12 +90,11 @@ export default class RoomateSearchPage extends React.Component{
 
     GoTo = (userId) => {
         this.props.navigation.push("ProfilePage", {
-					userId: userId
-				});
+            userId: userId
+        });
     }
     
     renderItem = (item) => {
-			console.log(item);
         if(item.profileimage){
             var image = item.profileimage
         }
@@ -165,8 +164,7 @@ export default class RoomateSearchPage extends React.Component{
     };
     _keyExtractor = (item, index) => {index.toString()}
 
-    render(){
-			console.log(this.state.items);
+    render = () => {
         
         return(
                 <View style={{flex:1, paddingTop:25}} >
@@ -174,6 +172,7 @@ export default class RoomateSearchPage extends React.Component{
                     <SearchBars />
                 </View>
                 <FlatList style={{flex:.7}}
+					keyExtractor={(item, index) => {return item.id}}
                     data={this.state.items}
                     renderItem={({item}) => {return this.renderItem(item)}}  
                     numColumns={2}       
