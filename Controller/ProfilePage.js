@@ -13,7 +13,7 @@ export default class ProfilePage extends Component{
 	constructor() {
 		super();
 
-		let userId = this.navigation.getParam("userId");
+		let userId = this.props.navigation.getParam("userId");
 		User.getUserWithUID(userId, (user) => {
 			this.setState({
 				user: user

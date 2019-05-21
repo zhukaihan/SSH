@@ -6,6 +6,7 @@ import { TouchableOpacity, TouchableHighlight } from 'react-native';
 import RF from 'react-native-responsive-fontsize';
 import 'firebase/firestore' //Must import if you're using firestoreee
 import firebase from 'firebase';
+import User from '../Model/User';
 
 export default class RoomateSearchPage extends React.Component{
     constructor(props){
@@ -27,18 +28,19 @@ export default class RoomateSearchPage extends React.Component{
         //you will continuous getting data. this varialbe is when we close the screen, we
         //shut off the constant stream of data coming in.
         this.ref = firebase.firestore().collection("users");
-        this.unsubscribe = null;
+				this.unsubscribe = null;
     }
     //componentDidMount is a function called when this page is being called.
     //as the name suggested, 
     componentDidMount(){
-        this.unsubscribe = this.ref.onSnapshot(this.onCollectionUpdate);
+        this.ref.get().then(this.onCollectionUpdate);
+        //this.unsubscribe = this.ref.onSnapshot(this.onCollectionUpdate);
             //Here we use it to set the subscription and also call onCollectionUpdate.
 
     }
     componentWillUnmount(){
     //this function will close the subsciption when user stop using this page
-        this.unsubscribe();
+        //this.unsubscribe();
     }
     _getImage(){
 				firebase.firestore().ref(``).child(`profileImage.jpg`).getDownloadURL().then(function(url){
@@ -64,19 +66,20 @@ export default class RoomateSearchPage extends React.Component{
     //forEach a for loop running through each user(in this case) you have in the data.
     onCollectionUpdate = (querySnapshot) =>{
         const items = [];//create a temp variable to hold all data before storing
-        querySnapshot.forEach((doc) =>{
-            const { first_name,last_name,graduation,major,profileimage } = doc.data();
-            // login_email is the data_title in our database that contains
-            // the login_email of certain user. 
-            items.push({
-                key: doc.id,
-                doc,
-                first_name,
-                last_name,
-                graduation,
-                major,
-                profileimage,        //We just put all the information into items to process it later.
-            });
+        querySnapshot.forEach((doc) => {
+            items.push(new User(doc.data()), doc.id);
+            // const { first_name,last_name,graduation,major,profileimage } = doc.data();
+            // // login_email is the data_title in our database that contains
+            // // the login_email of certain user. 
+            // items.push({
+            //     key: doc.id,
+            //     doc,
+            //     first_name,
+            //     last_name,
+            //     graduation,
+            //     major,
+            //     profileimage,        //We just put all the information into items to process it later.
+            // });
         });
 
         //Set the state for the items array.
@@ -163,6 +166,7 @@ export default class RoomateSearchPage extends React.Component{
     _keyExtractor = (item, index) => {index.toString()}
 
     render(){
+			console.log(this.state.items);
         
         return(
                 <View style={{flex:1, paddingTop:25}} >
@@ -171,7 +175,7 @@ export default class RoomateSearchPage extends React.Component{
                 </View>
                 <FlatList style={{flex:.7}}
                     data={this.state.items}
-                    renderItem={({item}) => {this.renderItem(item)}}  
+                    renderItem={({item}) => {return this.renderItem(item)}}  
                     numColumns={2}       
                 />
                 </View>
