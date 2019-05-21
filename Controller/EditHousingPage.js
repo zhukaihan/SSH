@@ -130,7 +130,7 @@ export default class EditHousingPage extends React.Component{
 			.catch((error) => {
 				Alert.alert(
 					'Saving Failed',
-					'Please try agian later',
+					'Please try again later',
 					[{text: 'Okay'}],
 					{cancelable: false},
 				)
@@ -141,7 +141,7 @@ export default class EditHousingPage extends React.Component{
 				if (error) {
 					Alert.alert(
 						'Saving Failed',
-						'Please try agian later',
+						'Please try again later',
 						[{text: 'Okay'}],
 						{cancelable: false},
 					)
@@ -157,7 +157,7 @@ export default class EditHousingPage extends React.Component{
 		}).catch((error) => {
 			Alert.alert(
 				'Delete Failed',
-				'Please try agian later',
+				'Please try again later',
 				[{text: 'Okay'}],
 				{cancelable: false},
 			)
