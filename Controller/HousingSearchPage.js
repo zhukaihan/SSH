@@ -75,13 +75,13 @@ export default class HousingSearchPage extends React.Component{
 
 		return (
 			<SafeAreaView style={{flex: 1}}>
-				<View style={{margin: 10}}>
+				<View style={{margin: 0}}>
 					<SearchBar
 						placeholder="Search Keywords"
 						lightTheme={true}
 						round={true}
-						containerStyle={{backgroundColor: 'white'}}
-						inputContainerStyle={{backgroundColor: 'white'}}
+						containerStyle={{backgroundColor: '#2EA9DF', height: 100}}
+						inputContainerStyle={{backgroundColor: 'white', marginTop: 30, width: '80%'}}
 						onChangeText={this.updateSearchQuery}
 						value={this.state.searchQuery}
 					/>

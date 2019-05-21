@@ -36,13 +36,14 @@ export default class HousePreviewView extends React.Component {
 						backgroundColor: 'white',
 						alignItems: "stretch",
 						marginBottom: 10,
-						padding: 5
+						padding: 5,
+						height: '50%'
 				}}>
-					<ImageHorizontalScrollView pictureUrls={item.pictures}/>
+					<ImageHorizontalScrollView pictureUrls={item.pictures} />
 					<View>
 						<View style={{
 							flexDirection: 'row',
-							justifyContent: 'space-between'
+							justifyContent: 'space-between',
 						}}>
 							<Text style={{fontSize: RF(2.5), fontWeight: 'bold'}}>{item.filters_house.title}</Text>
 							<Text style={{fontSize: RF(2.5), color: 'rgb(50, 150, 255)'}}>{"$ " + item.filters_house.price}</Text>
