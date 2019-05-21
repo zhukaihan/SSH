@@ -91,14 +91,8 @@ Our development team is SSH, a project team for CSE 110 in Spring 2019. We are c
 
 ## Installation
 
-### If you want to start right away
-git pull everything in this repository. And... 
-```bash
-npm start
-```
-
-### If you want to build from fresh: 
-git pull everything in this repository, or git pull everything other than node_modules and package-lock.json. Then... 
+### Fresh Installation: 
+git pull everything in this repository. Then... 
 ```bash
 rm -r node_modules
 rm package-lock.json
@@ -107,15 +101,42 @@ npm install
 
 You should be good to go. 
 
-However, if you encountered the following issue: 
+**The package.json has been tested to be issue-free.**
+**After each pull, always reinstall**
+
+### Installation Issues
+
+**If any issue occurs, always try to remove node_modules and package-lock.json and npm install first.**
+**If the issue does not resolve, try the following steps. The following steps would be the last you want to try.**
+
+**DO NOT use npm install or npm remove individual components unless you are adding dependency to the project. Otherwise, it will break the package.json and leaves issues for others when they pulled.**
+
+**The following steps should resolve installation issues 99% of the time.**
+
+```bash
+rm -r node_modules
+rm package-lock.json
+git pull
+npm install
+```
+
+**Remove only node_modules is not enough, remove package-lock.json as well because package-lock.json is customized for individual devices.**
+
+If this fails to resolve the issue, then follow the following steps. 
+
+#### However, if you encountered the following issue: 
 
 > Unable to resolve module 'react-native-keyboard-aware-scroll-view'
 
+This is a new dependency. Be sure to remove node_modules and package-lock.json and npm install before using the following step. 
+
 ```bash
-npm i react-native-keyboard-aware-scroll-view --save
+npm install --save react-native-keyboard-aware-scroll-view
 ```
 
-However, if you encountered the following issue: 
+#### However, if you encountered the following issue: 
+
+You should not have this issue if you have removed both node_modules and package-lock.json before npm install. 
 
 > Unable to resolve module 'react-native-gesture-handler'
 
@@ -123,9 +144,27 @@ However, if you encountered the following issue:
 npm install react-native-gesture-handler
 ```
 
-However, if you encountered the following issue: 
+Expo should already included react-native-gesture-handler. You can check this with: 
+
+```bash
+npm list react-native-gesture-handler
+```
+
+### However, if you encountered the following issue: 
+
+The react-native-gesture-handler comes with expo. There should be no separate react-native-gesture-handler in your package.json. 
+Otherwise, the following error will appear. This issue should not appear if you have the up-to-date package.json. 
 
 > Tried to register two views with the same name RNGestureHandlerButton
+
+```bash
+rm -r node_modules
+rm package-lock.json
+git pull
+npm install
+```
+
+If the issue persist, 
 
 ```bash
 rm -r node_modules/expo/node_modules/react-native-gesture-handler
