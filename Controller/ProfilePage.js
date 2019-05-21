@@ -4,13 +4,30 @@ import Icon from 'react-native-vector-icons/AntDesign';
 import { StyleSheet, View, Image, Text, StatusBar, Dimensions, SafeAreaView } from 'react-native';
 import { TouchableOpacity, TouchableHighlight } from 'react-native';
 import { Badge } from 'react-native-elements';
+import User from '../Model/User';
+import BadgesView from '../View/BadgesView';
 
 
 export default class ProfilePage extends Component{
 
-	render(){
+	constructor() {
+		super();
+
 		let userId = this.navigation.getParam("userId");
-		
+		User.getUserWithUID(userId, (user) => {
+			this.setState({
+				user: user
+			})
+		})
+	}
+
+	render(){
+		if (!this.state.user) {
+			return (
+				<View></View>
+			)
+		}
+
 		return(
 			<View style={styles.pageContainer}>
 				<View style={styles.header}>
@@ -19,7 +36,7 @@ export default class ProfilePage extends Component{
 						<TouchableOpacity>
 							<Icon name={"left"} size={RF(4)} color="white"></Icon>
 						</TouchableOpacity>
-						<Text style={styles.title}>Gary's Profile</Text>
+						<Text style={styles.title}>{this.state.user.first_name}'s Profile</Text>
 					</View>
 
 				</View>
@@ -32,16 +49,16 @@ export default class ProfilePage extends Component{
 					
 					<View style={styles.pictureContainer}>
 						<Image style={styles.profilePic}
-                            source={{uri: 'https://jacobsschool.ucsd.edu/faculty/faculty_bios/photos/300.jpg'}} />
+                    source={{uri: this.state.user.profileimage}} />
 					</View>
 
 					<View style={styles.nameContainer}>
-						<Text style={styles.name}>Gary Rocks</Text>
-						<Text style={styles.major}>Computer Science | Graduated at 2013</Text>
+						<Text style={styles.name}>{this.state.user.first_name} {this.state.user.last_name}</Text>
+						<Text style={styles.major}>{this.state.user.major}</Text>
 					</View>
 
 					<View style={styles.badgeContainer}>
-						<View style={styles.badges}>
+						{/* <View style={styles.badges}>
 							<Badge value={<Text style={styles.badgeText}>Friendly</Text>}>
 							</Badge>
 						</View>
@@ -52,26 +69,27 @@ export default class ProfilePage extends Component{
 						<View style={styles.badges}>
 							<Badge value={<Text style={styles.badgeText}>Friendly</Text>}>
 							</Badge>
-						</View>
+						</View> */}
+						<BadgesView tags={this.state.user.additional_tags}/>
 					</View>
 
 					<View style={styles.descriptionContainer}>
 						<Text style={styles.description}>Description</Text>
 						<View style={styles.dscriptcontent}>
 							<Text>
-								Our house create a extraordinary experience for you to live with Gary, the best CSE professor ever at UCSD. You get to learn a lot of knowledge of software engineering as well as all kinds of work ethic knowledge that will benefit your entire life.
+								{this.state.user.description}
 							</Text>
 						</View>
 					</View>
 
-					<View style={styles.preferenceContainer}>
+					{/* <View style={styles.preferenceContainer}>
 						<Text style={styles.description}>Preference</Text>
 						<View style={styles.dscriptcontent}>
 							<Text>
 								Our house create a extraordinary experience for you to live with Gary, the best CSE professor ever at UCSD. You get to learn a lot of knowledge of software engineering as well as all kinds of work ethic knowledge that will benefit your entire life.
 							</Text>
 						</View>
-					</View>
+					</View> */}
 
 					
 				</View>

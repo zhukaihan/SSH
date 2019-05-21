@@ -10,7 +10,7 @@ import firebase from 'firebase';
 export default class RoomateSearchPage extends React.Component{
     constructor(props){
         super(props);
-        this.GoTo = this.GoTo.bind(this);
+        //this.GoTo = this.GoTo.bind(this);
         this.state={
             hello: '',
             items : [],
@@ -85,15 +85,14 @@ export default class RoomateSearchPage extends React.Component{
         });
     }
 
-
-    
     GoTo = (userId) => {
-        this.props.navigation.navigate("ProfilePage", {
+        this.props.navigation.push("ProfilePage", {
 					userId: userId
 				});
     }
     
-    renderItem = ({ item }) => {
+    renderItem = (item) => {
+			console.log(item);
         if(item.profileimage){
             var image = item.profileimage
         }
@@ -172,7 +171,7 @@ export default class RoomateSearchPage extends React.Component{
                 </View>
                 <FlatList style={{flex:.7}}
                     data={this.state.items}
-                    renderItem={(item) => {this.renderItem(item)}}  
+                    renderItem={({item}) => {this.renderItem(item)}}  
                     numColumns={2}       
                 />
                 </View>
