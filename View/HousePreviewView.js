@@ -45,21 +45,21 @@ export default class HousePreviewView extends React.Component {
 							flexDirection: 'row',
 							justifyContent: 'space-between',
 						}}>
-							<Text style={{fontSize: RF(2.5), fontWeight: 'bold'}}>{item.filters_house.title}</Text>
-							<Text style={{fontSize: RF(2.5), color: 'rgb(50, 150, 255)'}}>{"$ " + item.filters_house.price}</Text>
+							<Text style={{fontSize: RF(2.5), fontWeight: 'bold'}}>{item.title}</Text>
+							<Text style={{fontSize: RF(2.5), color: 'rgb(50, 150, 255)'}}>{"$ " + item.price}</Text>
 						</View>
 					
 						<View style={{
 							flexDirection: 'row',
 							justifyContent: 'space-between'
 						}}>
-							<Text style={{fontSize: RF(2)}}>{item.filters_house.num_bedroom + "B" + item.filters_house.num_bathroom + "B | " + item.filters_house.num_parking + " parking"}</Text>
+							<Text style={{fontSize: RF(2)}}>{item.num_bedroom + "B" + item.num_bathroom + "B | " + item.num_parking + " parking"}</Text>
 							{favButton}
 						</View>
 					
 					</View>
 
-					<BadgesView tags={item.filters_house.additional_tags} />
+					<BadgesView tags={item.additional_tags} />
 				</View>
 			</TouchableHighlight>
 		)

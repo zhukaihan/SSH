@@ -9,30 +9,16 @@ export default class House {
 		this.cur_tenant = entry.cur_tenant ? entry.cur_tenant : [];
 		this.pictures = entry.pictures ? entry.pictures : [];
 		this.availability = entry.availability ? entry.availability : false;
-		if (entry.filters_house) {
-			this.filters_house = {
-				//  current only string location for the house
-				title: entry.filters_house.title ? entry.filters_house.title : "",
-				location: entry.filters_house.location ? entry.filters_house.location : "",
-				price: entry.filters_house.price ? entry.filters_house.price : 0,
-				num_bedroom: entry.filters_house.num_bedroom ? entry.filters_house.num_bedroom : 0,
-				num_bathroom: entry.filters_house.num_bathroom ? entry.filters_house.num_bathroom : 0,
-				num_parking: entry.filters_house.num_parking ? entry.filters_house.num_parking : 0,
-				num_tenant: entry.filters_house.num_tenant ? entry.filters_house.num_tenant : 0,
-				additional_tags: entry.filters_house.additional_tags ? entry.filters_house.additional_tags : []
-			};
-		} else {
-			this.filters_house = {
-				title: "",
-				location: "",
-				price: 0,
-				num_bedroom: 0,
-				num_bathroom: 0,
-				num_parking: 0,
-				num_tenant: 0,
-				additional_tags: []
-			};
-		}
+		this.description = entry.description ? entry.description : "";
+		//  current only string location for the house
+		this.title = entry.title ? entry.title : "";
+		this.location = entry.location ? entry.location : "";
+		this.price = entry.price ? entry.price : 0;
+		this.num_bedroom = entry.num_bedroom ? entry.num_bedroom : 0;
+		this.num_bathroom = entry.num_bathroom ? entry.num_bathroom : 0;
+		this.num_parking = entry.num_parking ? entry.num_parking : 0;
+		this.num_tenant = entry.num_tenant ? entry.num_tenant : 0;
+		this.additional_tags = entry.additional_tags ? entry.additional_tags : []
 		
 	}
 

@@ -101,7 +101,7 @@ export default class ViewHousingPage extends React.Component{
 
 					<View>
 						<View style={styles.roomTitleView}>
-							<Text style={styles.roomTitleText}>{item.filters_house.title}</Text>
+							<Text style={styles.roomTitleText}>{item.title}</Text>
 							<HouseFavButton house={item}/>
 						</View>
 					
@@ -110,22 +110,22 @@ export default class ViewHousingPage extends React.Component{
 								<View style={styles.roomInfoLeftSpecsView}>
 									<View style={styles.roomInfoLeftSpecDetailsView}>
 										<Icon name="users" type="font-awesome"/>
-										<Text>  {item.filters_house.num_tenant} Tenants</Text>
+										<Text>  {item.num_tenant} Tenants</Text>
 									</View>
 									<View style={styles.roomInfoLeftSpecDetailsView}>
 										<Icon name="bed" type="font-awesome"/>
-										<Text>  {item.filters_house.num_bedroom} Bedrooms</Text>
+										<Text>  {item.num_bedroom} Bedrooms</Text>
 									</View>
 									<View style={styles.roomInfoLeftSpecDetailsView}>
 										<Icon name="bath" type="font-awesome"/>
-										<Text>  {item.filters_house.num_bathroom} Bathrooms</Text>
+										<Text>  {item.num_bathroom} Bathrooms</Text>
 									</View>
 									<View style={styles.roomInfoLeftSpecDetailsView}>
 										<Icon name="car" type="font-awesome"/>
-										<Text>  {item.filters_house.num_parking} Parkings</Text>
+										<Text>  {item.num_parking} Parkings</Text>
 									</View>
 								</View>
-								<BadgesView tags={item.filters_house.additional_tags} />
+								<BadgesView tags={item.additional_tags} />
 							</View>
 							<View style={styles.roomInfoRightView}>
 								{this.state.landlord.profileimage != "" ?
@@ -152,7 +152,7 @@ export default class ViewHousingPage extends React.Component{
 					
 					<View>
 						<Text>Description</Text>
-						<Text>{item.filters_house.title}</Text>{/*NEED TO CHANGE WITH DATABASE*/}
+						<Text>{item.description}</Text>
 					</View>
 					
 					<View>
@@ -161,7 +161,7 @@ export default class ViewHousingPage extends React.Component{
 							{tenants}
 						</View>
 					</View>
-					<Text style={{fontSize: RF(2.5), color: 'rgb(50, 150, 255)'}}>{"$ " + item.filters_house.price}</Text>
+					<Text style={{fontSize: RF(2.5), color: 'rgb(50, 150, 255)'}}>{"$ " + item.price}</Text>
 				</View>
 			);
 		}
