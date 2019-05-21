@@ -96,7 +96,7 @@ export default class EditHousingPage extends React.Component{
 			this.saveHouse();
 			this.setState({
 				isUploadingPicture: false
-			})
+			});
 		})
 	}
 

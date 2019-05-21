@@ -9,6 +9,8 @@ import { Badge } from 'react-native-elements';
 export default class ProfilePage extends Component{
 
 	render(){
+		let userId = this.navigation.getParam("userId");
+		
 		return(
 			<View style={styles.pageContainer}>
 				<View style={styles.header}>

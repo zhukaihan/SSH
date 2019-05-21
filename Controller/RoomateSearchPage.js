@@ -87,17 +87,19 @@ export default class RoomateSearchPage extends React.Component{
 
 
     
-    GoTo(){
-        this.props.navigation.navigate("ProfilePage");
+    GoTo = (userId) => {
+        this.props.navigation.navigate("ProfilePage", {
+					userId: userId
+				});
     }
     
-    renderItem({ item }){
+    renderItem = ({ item }) => {
         if(item.profileimage){
             var image = item.profileimage
         }
         return( 
             <View style={styles.container}>
-            <TouchableOpacity style={styles.roommateContainer} onPress={() => this.GoTo()}>
+            <TouchableOpacity style={styles.roommateContainer} onPress={() => this.GoTo(item.id)}>
                 <View style={styles.roommateIcon}>
                     <View> 
                         <Image style={styles.profilePic}
@@ -170,7 +172,7 @@ export default class RoomateSearchPage extends React.Component{
                 </View>
                 <FlatList style={{flex:.7}}
                     data={this.state.items}
-                    renderItem={this.renderItem.bind(this)}  
+                    renderItem={(item) => {this.renderItem(item)}}  
                     numColumns={2}       
                 />
                 </View>
