@@ -37,6 +37,7 @@ xcuserdata
 # Android Studio
 *.iml
 .gradle
+.idea/
 .idea/libraries
 .idea/workspace.xml
 .idea/gradle.xml
