@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { StyleSheet, View, Image, Text, StatusBar, Button, Alert, FlatList, TouchableHighlight, ScrollView } from 'react-native';
+import ImageLoad from 'react-native-image-placeholder';
 
 export default class ImageHorizontalScrollView extends React.Component {
 	render() {
@@ -7,13 +8,14 @@ export default class ImageHorizontalScrollView extends React.Component {
 		var imgs = [];
 		pictureUrls.forEach((picture) => {
 			imgs.push((
-				<Image
+				<ImageLoad
 					key={picture}
 					source={{url: picture}}
 					style={{
 						height: 200,
 						flex: 1
 					}}
+					loadingStyle={{size: 'large'}}
 				/>
 			));
 		});

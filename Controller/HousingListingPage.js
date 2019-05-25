@@ -13,7 +13,8 @@ import HousePreviewView from '../View/HousePreviewView';
 
 export default class HousingListingPage extends React.Component{
 	state = {
-		housingItems: null
+		housingItems: [],
+		isFetchingHouseData: true
 	}
 
 	constructor() {
@@ -27,6 +28,8 @@ export default class HousingListingPage extends React.Component{
 	getHousingData = () => {
 		this.setState({
 			isFetchingHouseData: true
+		}, () => {
+			this.flatList && this.flatList.scrollToOffset({offset: -65});
 		})
 		this.housesRef.get().then(snapshot => {
 			let housingItems = [];
@@ -55,16 +58,15 @@ export default class HousingListingPage extends React.Component{
 		})
 	}
 
-	componentWillMount = () => {
+	componentDidMount = () => {
+		if (this.flatList) {
+			this.flatList.recordInteraction();
+			this.flatList.scrollToOffset({offset: -60})
+		}
 		this.getHousingData();
 	}
 
 	render = () => {
-		
-		if (!this.state.housingItems) {
-			return (<View></View>);
-		}
-
 
 		return (
 			<SafeAreaView style={{flex: 1}}>
@@ -74,9 +76,11 @@ export default class HousingListingPage extends React.Component{
 					data={this.state.housingItems}
 					onRefresh={this.getHousingData}
 					refreshing={this.state.isFetchingHouseData}
+					contentOffset={{ y: -60, x: 0 }}
 					renderItem={({item}) => (
 						<HousePreviewView house={item} onTouch={this.editHouse} favDisabled={true}/>
 					)}
+					ref={(flatList) => this.flatList = flatList}
 				/>
       </SafeAreaView>
 		);
