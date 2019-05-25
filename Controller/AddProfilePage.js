@@ -20,7 +20,7 @@ import uuid from 'uuid';
 import RF from 'react-native-responsive-fontsize';
 import Icon from 'react-native-vector-icons/AntDesign';
 import * as firebase from 'firebase';
-
+import BloomFilter from './bloomfilter';
 
 
 export default class AddProfilePage extends React.Component{
@@ -37,6 +37,28 @@ export default class AddProfilePage extends React.Component{
         this.clean = props.navigation.state.params.clean;
         this.wake_early = props.navigation.state.params.wake_early;
         this.description = props.navigation.state.params.description;
+        var bf = require("./bloomfilter"),
+        bloom=bf.BloomFilter;
+        this.f = new bloom(32*256,16);
+        this.f.add(this.first_name);
+        this.f.add(this.last_name);
+        this.f.add(this.name_preferred);
+        this.f.add(this.gender);
+        this.f.add(this.major);
+        this.f.add(this.graduation);
+        var AT = this.additional_tags.split(" ");
+        for(var i = 0; i < AT.length - 1; i++){
+            this.f.add(AT[i]);
+        }
+        this.f.add(this.clean);
+        this.f.add(this.wake_early);
+        var DP = this.description.split(" ");
+        for(var i = 0; i < DP.length - 1; i++){
+            this.f.add(DP[i]);
+        }
+        this.temp = [].slice.call(this.f.buckets);
+        this.bloomfilter = JSON.stringify(this.temp);
+        console.log(this.bloomfilter);
         this.state={
             first_name: this.first_name,
             last_name: this.last_name,
@@ -48,6 +70,7 @@ export default class AddProfilePage extends React.Component{
             clean:this.clean,
             wake_early:this.wake_early,
             description:this.description,
+            bloomfilter: this.bloomfilter,
             profileimage: defaultimage,
             image: defaultimage,
             uploading: false,
@@ -135,7 +158,8 @@ export default class AddProfilePage extends React.Component{
             clean: this.state.clean,
             wake_early: this.state.wake_early,
             description: this.state.description,
-            profileimage: this.state.profileimage
+            profileimage: this.state.profileimage,
+            bloomfilter: this.state.bloomfilter
         }
         firebase.firestore().collection("users").doc(`${userId}`).set(Object.assign({}, data)
         )
@@ -258,7 +282,7 @@ async function uploadImageAsync(uri) {
     const ref = firebase
         .storage()
         .ref()
-        .child(`${userId}/images/${uuid.v4()}.jpg`);
+        .child(`./users/${userId}/images/${uuid.v4()}.jpg`);
     const snapshot = await ref.put(blob);
     
     // We're done with the blob, close and release it
