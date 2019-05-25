@@ -100,7 +100,31 @@ export default class EditHousingPage extends React.Component{
 		})
 	}
 
+	splitText(bloomfilter, props){
+		var item = props.toString();
+		var text = item.split(" ");
+		for(var i = 0; i < text.length - 1; i++){
+            bloomfilter.add(text[i]);
+        }
+	}
+
 	saveHouse = () => {
+		var bf = require("./bloomfilter"),
+        bloom=bf.BloomFilter;
+        this.f = new bloom(32*256,16);
+		this.splitText(this.f, this.state.house.landlord);
+		this.splitText(this.f, this.state.house.cur_tenant);
+		this.splitText(this.f, this.state.house.availability);
+		this.splitText(this.f, this.state.house.title.toString());
+		this.splitText(this.f, this.state.house.description);
+		this.splitText(this.f, this.state.house.location);
+		this.splitText(this.f, this.state.house.price);
+		this.splitText(this.f, this.state.house.num_bedroom);
+		this.splitText(this.f, this.state.house.num_bathroom);
+		this.splitText(this.f, this.state.house.num_parking);
+		this.splitText(this.f, this.state.house.num_tenant);
+		this.temp = [].slice.call(this.f.buckets);
+        this.bloomfilter = JSON.stringify(this.temp);
 		if (!this.state.house) {
 			return;
 		}
@@ -118,7 +142,8 @@ export default class EditHousingPage extends React.Component{
 			num_bathroom: parseInt(this.state.house.num_bathroom), // Number
 			num_parking: parseInt(this.state.house.num_parking), // Number
 			num_tenant: parseInt(this.state.house.num_tenant), // Number
-			additional_tags: this.state.house.additional_tags // Array of Strings
+			additional_tags: this.state.house.additional_tags, // Array of Strings
+			bloomfilter: this.bloomfilter
 		};
 
 		if (this.state.house.id == "") {
