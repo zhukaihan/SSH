@@ -181,7 +181,11 @@ const styles = StyleSheet.create({
     personalInfo:{
         width: "90%",
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
         height: "100%",
+=======
+        height: "90%",
+>>>>>>> Stashed changes
 =======
         height: "90%",
 >>>>>>> Stashed changes
@@ -204,7 +208,11 @@ const styles = StyleSheet.create({
         justifyContent: 'space-evenly',
         alignItems: "center",
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
         paddingTop: RF(5),
+=======
+        marginTop: 20
+>>>>>>> Stashed changes
 =======
         marginTop: 20
 >>>>>>> Stashed changes
@@ -220,8 +228,12 @@ const styles = StyleSheet.create({
         fontSize: RF(3.5),
         elevation: 2,
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
         paddingTop: RF(3),
         textAlign: 'center',
+=======
+        margin: 10,
+>>>>>>> Stashed changes
 =======
         margin: 10,
 >>>>>>> Stashed changes
