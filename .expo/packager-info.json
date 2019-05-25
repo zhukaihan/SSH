@@ -2,8 +2,9 @@
   "devToolsPort": 19002,
   "expoServerPort": 19000,
   "packagerPort": 19003,
-  "packagerPid": 63843,
-  "expoServerNgrokUrl": "https://f2-ywq.anonymous.ssh.exp.direct",
-  "packagerNgrokUrl": "https://packager.f2-ywq.anonymous.ssh.exp.direct",
-  "ngrokPid": 63868
+  "packagerPid": 6023,
+  "expoServerNgrokUrl": "https://zj-9aq.anonymous.ssh.exp.direct",
+  "packagerNgrokUrl": "https://packager.zj-9aq.anonymous.ssh.exp.direct",
+  "ngrokPid": 6039,
+  "webpackServerPort": null
 }
