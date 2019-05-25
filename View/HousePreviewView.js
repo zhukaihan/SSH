@@ -36,6 +36,7 @@ export default class HousePreviewView extends React.Component {
 						backgroundColor: 'white',
 						alignItems: "stretch",
 						marginBottom: 10,
+<<<<<<< Updated upstream
 						padding: 5,
 						// height: '50%' 
 						// You cannot have the height as a percentage. 
@@ -44,6 +45,9 @@ export default class HousePreviewView extends React.Component {
 						// which should not have a predefined height as it will expand as elements being inserted. 
 						// Setting height of a child of a flatlist or scrollview to 50% will have an undefined behavior. 
 						// If you want to have the height = 50%, define TouchableHighlight's height as a non-percentage, static, predefined number. 
+=======
+						padding: 5
+>>>>>>> Stashed changes
 				}}>
 					<ImageHorizontalScrollView pictureUrls={item.pictures} />
 					<View>

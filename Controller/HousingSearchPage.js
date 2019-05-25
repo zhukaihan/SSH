@@ -74,7 +74,7 @@ export default class HousingSearchPage extends React.Component{
 
 
 		return (
-			<SafeAreaView style={{flex: 1}}>
+			<SafeAreaView style={{flex: 1, backgorundColor: '#2EA9DF'}}>
 				<View style={{margin: 0}}>
 					<SearchBar
 						placeholder="Search Keywords"

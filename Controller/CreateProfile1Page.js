@@ -8,7 +8,7 @@ import {StyleSheet,
         Picker,
         TouchableOpacity, 
         SafeAreaView, 
-        Dimensions, 
+        Dimensions,
         PixelRatio} from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import RNPickerSelect from 'react-native-picker-select';
@@ -53,13 +53,13 @@ export default class CreateProfile1Page extends Component{
     //alert function in case user did not enter anything
     _showAlert = () => {
         Alert.alert(
-          'Please enter required information',
-          'This is an alert message',
-          [
-            {text: 'OK', onPress: () => console.log('OK Pressed')},
-            {text: 'Cancel', onPress: () => console.log('Cancel Pressed'), style: 'cancel'},
-          ],
-          { cancelable: false }
+            'Please enter required information',
+            'This is an alert message',
+            [
+                {text: 'OK', onPress: () => console.log('OK Pressed')},
+                {text: 'Cancel', onPress: () => console.log('Cancel Pressed'), style: 'cancel'},
+            ],
+            { cancelable: false }
         )
     }
 
@@ -83,9 +83,16 @@ export default class CreateProfile1Page extends Component{
             });
         }
     }
+
+    //_scrollToView = (ref) => {
+     //   //Add a 'scroll' ref to your ScrollView
+    ///    if (this._scroll) this._scroll.scrollIntoView(ref)
+   // }
+
     render(){
         return(
             <SafeAreaView style={styles.pageContainer}>
+                <KeyboardAwareScrollView>
             <View style={styles.objectContainer}>
                     <View style={styles.personalInfo}>
                         <Text numberOfLines= {3}
@@ -99,7 +106,6 @@ export default class CreateProfile1Page extends Component{
                         <Text style={styles.oneOverthree}> 1/3 </Text>
                     </View>
             </View>
-            <KeyboardAwareScrollView>
             <View style={styles.inputView}>
                 <View
                     style={{flexDirection:"row", alignItems: "center", marginBottom: RF(3)}}>
@@ -110,7 +116,9 @@ export default class CreateProfile1Page extends Component{
                 <TextInput 
                         style={styles.tinput}
                         placeholder={"First Name"}
-                        onChangeText={(first_name)=>{this.setState({first_name})}}></TextInput>
+                        onChangeText={(first_name)=>{this.setState({first_name})}}
+                        onFocus={() => this.scroll.props.scrollIntoView(true)}
+                        ></TextInput>
                     <Icon name={"asterisk"} style={styles.ast}></Icon>
                 </View>
                 <View style={styles.inputContainer}>
@@ -172,13 +180,18 @@ const styles = StyleSheet.create({
     },
     personalInfo:{
         width: "90%",
+<<<<<<< Updated upstream
         height: "100%",
+=======
+        height: "90%",
+>>>>>>> Stashed changes
         justifyContent: 'center',
         textAlign:'center',
         backgroundColor: '#2ea9df',
         borderColor:'#2ea9df',
         borderRadius: 10,
         borderWidth: 10,
+        marginTop: 20,
     },
     personalInfoText:{
         fontSize: RF(4),
@@ -187,22 +200,31 @@ const styles = StyleSheet.create({
         textAlign: 'center',
     },
     objectContainer:{
-        flex: .35,
+        flex: .45,
         justifyContent: 'space-evenly',
         alignItems: "center",
+<<<<<<< Updated upstream
         paddingTop: RF(5),
+=======
+        marginTop: 20
+>>>>>>> Stashed changes
     },
     inputView:{
         paddingLeft: RF(2),
         paddingRight: RF(2),
         paddingTop: RF(3),
         flex:1,
+        marginTop: 20
     },
     textFont:{
         fontSize: RF(3.5),
         elevation: 2,
+<<<<<<< Updated upstream
         paddingTop: RF(3),
         textAlign: 'center',
+=======
+        margin: 10,
+>>>>>>> Stashed changes
     },
     oneOverthree:{
         fontSize: RF(2.5),
@@ -213,10 +235,10 @@ const styles = StyleSheet.create({
     textBox:{
         width:"100%",
         height: "9%",
-        borderRadius: 10,
+        borderRadius: 15,
         borderWidth: 1,
         borderColor: "#235964",
-        marginBottom: RF(3),
+        marginBottom: RF(5),
         textAlign:"center",
         fontSize: RF(3),
     },
@@ -238,7 +260,8 @@ const styles = StyleSheet.create({
         flex:.5,
     },
     nextButtonStyle:{
-        height: "80%",
+        height: "90%",
+        width: "100%",
         borderRadius:10,
         backgroundColor:"#2ea9df",
         borderColor:"#2ea9df",
@@ -266,7 +289,7 @@ const styles = StyleSheet.create({
     },
     buttontextstyle:{
         textAlign:'center',
-        fontSize:RF(3),
+        fontSize:RF(4),
         color: "#fff",
         paddingLeft: RF(1),
         paddingRight: RF(1),
@@ -277,17 +300,17 @@ const styles = StyleSheet.create({
         justifyContent: "center",
         width:"100%",
         height: "9%",
-        borderRadius: 10,
+        borderRadius: 15,
         borderWidth: 1,
         borderColor: "#235964",
         borderBottomWidth: 1,
         borderColor: '#000',
         paddingBottom: 10,
-        marginBottom: RF(3),
+        marginBottom: RF(5),
     },
     ast: {
         color: 'red',
-        paddingTop: RF(1.5),
+        //paddingTop: RF(1.5),
     },
     pickerast: {
         color: 'red',
@@ -307,7 +330,7 @@ const styles = StyleSheet.create({
         justifyContent: "center",
         width:"100%",
         height: "9%",
-        borderRadius: 10,
+        borderRadius: 15,
         borderWidth: 1,
         borderColor: "#235964",
         borderBottomWidth: 1,
