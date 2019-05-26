@@ -88,10 +88,11 @@ export default class CreateProfile1Page extends Component{
             <SafeAreaView style={styles.pageContainer}>
             <View style={styles.objectContainer}>
                     <View style={styles.personalInfo}>
-                        <Text numberOfLines= {1}
+                        <Text numberOfLines= {3}
                          style={styles.personalInfoText}> Create Your Profile </Text>
                     </View>
                     <View>
+                        
                         <Text style={styles.textFont}> Personal Information </Text>
                     </View>
                     <View>
@@ -138,7 +139,7 @@ export default class CreateProfile1Page extends Component{
                         ref={(el) =>{
                         this.inputRefs.picker = el;
                         }}/>
-                <Icon name={"asterisk"} style={styles.pickerast}></Icon>
+                    <Icon name={"asterisk"} style={styles.pickerast}></Icon>
                 </View>
                 <View style={{flexDirection:'row', height:"20%"}}>
                     <View style={styles.backButton}>
@@ -167,10 +168,11 @@ const styles = StyleSheet.create({
         flexDirection:"column",
         borderWidth: 20,
         borderColor:"#2ea9df",
+        paddingTop: RF(3),
     },
     personalInfo:{
         width: "90%",
-        height: "33%",
+        height: "100%",
         justifyContent: 'center',
         textAlign:'center',
         backgroundColor: '#2ea9df',
@@ -188,19 +190,25 @@ const styles = StyleSheet.create({
         flex: .35,
         justifyContent: 'space-evenly',
         alignItems: "center",
+        paddingTop: RF(5),
     },
     inputView:{
         paddingLeft: RF(2),
         paddingRight: RF(2),
+        paddingTop: RF(3),
         flex:1,
     },
     textFont:{
         fontSize: RF(3.5),
         elevation: 2,
+        paddingTop: RF(3),
+        textAlign: 'center',
     },
     oneOverthree:{
         fontSize: RF(2.5),
         elevation:2,
+        paddingTop: RF(3),
+        textAlign: 'center',
     },
     textBox:{
         width:"100%",

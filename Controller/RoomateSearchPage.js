@@ -101,21 +101,24 @@ export default class RoomateSearchPage extends React.Component{
         return( 
             <View style={styles.container}>
             <TouchableOpacity style={styles.roommateContainer} onPress={() => this.GoTo(item.id)}>
+                
                 <View style={styles.roommateIcon}>
-                    <View> 
+
+                    <View style = {{paddingLeft: RF(3),flexDirection: 'row' ,alignItems: "flex-right"}}> 
                         <Image style={styles.profilePic}
                             source={{uri: image}} />
                     </View>
                     <TouchableOpacity>
-                    <View style={{justifyContent:"flex-start", alignItems: "flex-start", flexDirection:"column"}}>
+                    <View style={{paddingRight: RF(0.5),flexDirection:"column", justifyContent:"flex-start", alignItems: "flex_left"}}>
                         <Icon name={"staro"} size={20}></Icon>
                     </View>
                     </TouchableOpacity>
+                    
 
                 </View>
                 <View style={{flex:.4 ,alignItems: "center"}}>
                     <Text>{item.first_name} {item.last_name}</Text>
-                    <Text>{item.graduation}|{item.major}</Text>
+                    <Text>{item.graduation} | {item.major}</Text>
                 </View>
             </TouchableOpacity>
             </View>
@@ -167,7 +170,7 @@ export default class RoomateSearchPage extends React.Component{
     render = () => {
         
         return(
-                <View style={{flex:1, paddingTop:25}} >
+                <View style={{backgroundColor: '#F7F7F7',flex:1, paddingTop:25}} >
                 <View style={{flex:.1}}>
                     <SearchBars />
                 </View>
@@ -202,7 +205,7 @@ class SearchBars extends React.Component{
 const styles = StyleSheet.create({
     container:{
         flex: 1,
-        flexDirection: 'row',
+        flexDirection: 'column',
         padding: 10,
         marginLeft: 16,
         marginRight:16,
@@ -213,6 +216,7 @@ const styles = StyleSheet.create({
         backgroundColor: '#FFF',
         elevation:2,
         alignItems: "center",
+        borderWidth: 1,
     },
     profilePic:{
         width: 120,
