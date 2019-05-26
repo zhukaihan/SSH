@@ -1,15 +1,15 @@
 import { AppRegistry, Platform, Picker, TextInput, Button, View, FlatList, ActivityIndicator, Text, StyleSheet, Image, Dimensions} from 'react-native';
-import { ListItem, List , Icon, SearchBar, Input} from 'react-native-elements';
+import { ListItem, List , SearchBar, Input} from 'react-native-elements';
 import React from 'react';
+import Icon from 'react-native-vector-icons/AntDesign';
 import { TouchableOpacity, TouchableHighlight } from 'react-native';
 import RF from 'react-native-responsive-fontsize';
 import 'firebase/firestore' //Must import if you're using firestoreee
 import firebase from 'firebase';
 import User from '../Model/User';
 import { SafeAreaView } from 'react-navigation';
-import RoommateFavButton from '../View/RoommateFavButton';
 
-export default class RoomateSearchPage extends React.Component{
+export default class FavoritePage extends React.Component{
     constructor(props){
         super(props);
         //this.GoTo = this.GoTo.bind(this);
@@ -107,7 +107,7 @@ export default class RoomateSearchPage extends React.Component{
 
                     <TouchableOpacity>
                     <View style={{ flexDirection:"row", justifyContent:"flex-end", }}>
-                        <RoommateFavButton roommate={item}/>
+                        <Icon name={"staro"} size={20}></Icon>
                     </View>
                     </TouchableOpacity>
 
@@ -154,10 +154,6 @@ export default class RoomateSearchPage extends React.Component{
         );
     }
 
-    renderHeader = () =>{
-        return <SearchBar placeholder="Type Here..."/>;
-    };
-
     renderSeparator = () =>{
         return (
             <View
@@ -173,56 +169,24 @@ export default class RoomateSearchPage extends React.Component{
     render = () => {
         
         return(
-            <SafeAreaView style={{flex: 1, backgroundColor: '#F7F7F7'}} forceInset={{'top': 'never'}}>
-            <View style={{backgroundColor: '#f7f7f7'}}>
-                <View style={{margin: 0}}>
-                    <SearchBar
-						placeholder="Search Keywords"
-						lightTheme={true}
-						round={true}
-						containerStyle={{backgroundColor: '#2EA9DF', height: 100}}
-						inputContainerStyle={{backgroundColor: 'white', marginStart:30, marginEnd:30, marginTop: 30, width: '85%', flexDirection:'row-reverse'}}
-						onChangeText={this.updateSearchQuery}
-                        value={this.state.searchQuery}
-                        
-                        searchIcon={
-							<TouchableOpacity onPress={this.searchAndUpdateWithQuery}>
-								<View style={{paddingRight: 10,}}>
-									<Icon name="search" type="font-awesome" color='darkgrey' />
-								</View>
-							</TouchableOpacity>
-						}
+                <SafeAreaView style={{flex: 1, backgroundColor: '#F7F7F7'}} forceInset={{'top': 'never'}}>
 
-					/>
-                </View>
+                <View style={styles.header}>
+					<View style={styles.titleContainer}>	
+						<Text style={styles.title}>Favorites</Text>
+					</View>
+				</View>
+
                 <FlatList 
 					keyExtractor={(item, index) => {return item.id}}
                     data={this.state.items}
                     renderItem={({item}) => {return this.renderItem(item)}}  
                     numColumns={2}       
                 />
-            </View>
             </SafeAreaView>
         );
     };
 }
-
-class SearchBars extends React.Component{
-    render(){
-        const Nothing = () =>{
-
-        };
-        return(
-            <View style={styles.searchBar}>
-                <Input placeholder="type something"
-                    >
-                </Input>                
-            </View>
-        )
-    }
-}
-
-
 
 const styles = StyleSheet.create({
     container:{
@@ -239,6 +203,28 @@ const styles = StyleSheet.create({
         elevation:2,
         alignItems: "center",
     },
+
+    header:{
+		flexDirection: 'row',
+		justifyContent: 'center',
+		alignItems: 'center',
+		backgroundColor: '#2ea9df',
+		paddingTop: RF(2),
+		paddingBottom: RF(1),
+	},
+
+	titleContainer:{
+		flexDirection: 'row',
+		justifyContent: 'flex-start',
+		alignItems: 'center',
+		paddingTop: RF(4),
+	},
+
+	title:{
+		color: "white",
+		fontSize: RF(4),
+	},
+
     profilePic:{
         width: 120,
         height: 120,
@@ -259,10 +245,6 @@ const styles = StyleSheet.create({
         flexDirection:'column', 
         justifyContent: "center"
     },
-    searchBar:{
-        marginLeft:10,
-        marginRight:10,
-    }
 })
 
 
