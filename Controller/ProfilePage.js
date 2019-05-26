@@ -110,7 +110,7 @@ const styles = StyleSheet.create({
 	pageContainer:{
 		flex: 1,
 		flexDirection: 'column',
-		backgroundColor: '#2ea9df',
+		backgroundColor: '#f7f7f7',
 		alignItems: 'stretch',
 	},
 
@@ -120,6 +120,7 @@ const styles = StyleSheet.create({
 		alignItems: 'center',
 		backgroundColor: '#2ea9df',
 		paddingTop: RF(2),
+		paddingBottom: RF(1),
 	},
 
 	titleContainer:{
@@ -137,7 +138,6 @@ const styles = StyleSheet.create({
 	mainpage:{
 		alignItems: 'stretch',
 		backgroundColor: '#f7f7f7',
-		height: 8.9 * height / 10,
 	},
 
 	star: {
