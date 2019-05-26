@@ -6,6 +6,19 @@ export default class ImageHorizontalScrollView extends React.Component {
 	render() {
 		let pictureUrls = this.props.pictureUrls
 		var imgs = [];
+		if (!pictureUrls || pictureUrls.length == 0) {
+			imgs.push((
+				<ImageLoad
+					key="0"
+					source={{url: ""}}
+					style={{
+						height: 200,
+						flex: 1
+					}}
+					loadingStyle={{ size: 'large', color: 'grey' }}
+				/>
+			))
+		}
 		pictureUrls.forEach((picture) => {
 			imgs.push((
 				<ImageLoad
@@ -15,7 +28,7 @@ export default class ImageHorizontalScrollView extends React.Component {
 						height: 200,
 						flex: 1
 					}}
-					loadingStyle={{size: 'large'}}
+					loadingStyle={{ size: 'large', color: 'grey' }}
 				/>
 			));
 		});

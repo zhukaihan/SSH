@@ -70,6 +70,22 @@ export default class EditHousingPage extends React.Component{
 		// Display a view to search for a tenant from existing users. 
 		// Must add the firebase reference of tenant to the house.cur_tenant. 
 
+		addTenantCallback = (selectedUser) => {
+			if (!selectedUser) {
+				return;
+			}
+			this.state.house.cur_tenant.push(selectedUser.dbRef);
+			
+			var added_cur_tenant = this.state.cur_tenant;
+			added_cur_tenant.push(selectedUser);
+			this.setState({
+				cur_tenant: added_cur_tenant
+			})
+		}
+
+		this.props.navigation.push("IndividualUserSearch", {
+			callback: addTenantCallback
+		})
 	}
 
 	removePicture = (pictureUrl) => {
@@ -91,8 +107,9 @@ export default class EditHousingPage extends React.Component{
 		if (this.state.house.id == "") {
 			this.saveHouse();
 		}
+		this.state.house.pictures.push("");
 		ImageUploader.chooseImageToUpload(`houses/${this.state.house.id}/images`, (url) => {
-			this.state.house.pictures.push(url);
+			this.state.house.pictures[this.state.house.pictures.length - 1] = url;
 			this.saveHouse();
 			this.setState({
 				isUploadingPicture: false
@@ -104,8 +121,8 @@ export default class EditHousingPage extends React.Component{
 		var item = props.toString();
 		var text = item.split(" ");
 		for(var i = 0; i < text.length - 1; i++){
-            bloomfilter.add(text[i]);
-        }
+			bloomfilter.add(text[i]);
+		}
 	}
 
 	saveHouse = () => {
@@ -124,7 +141,8 @@ export default class EditHousingPage extends React.Component{
 		this.splitText(this.f, this.state.house.num_parking);
 		this.splitText(this.f, this.state.house.num_tenant);
 		this.temp = [].slice.call(this.f.buckets);
-        this.bloomfilter = JSON.stringify(this.temp);
+		this.bloomfilter = JSON.stringify(this.temp);
+
 		if (!this.state.house) {
 			return;
 		}
