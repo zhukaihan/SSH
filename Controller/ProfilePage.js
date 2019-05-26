@@ -40,65 +40,67 @@ export default class ProfilePage extends Component{
 		}
 
 		return(
-			<View style={styles.pageContainer}>
-				<View style={styles.header}>
+			<SafeAreaView style={styles.safeAreaView}>
+				<View style={styles.pageContainer}>
+					<View style={styles.header}>
 
-					<View style={styles.titleContainer}>	
-						<Text style={styles.title}>{this.state.user.first_name}'s Profile</Text>
-					</View>
-
-				</View>
-				<View style={styles.mainpage}>
-					<View style={styles.star}>
-					</View>
-					
-					<View style={styles.pictureContainer}>
-						<Image style={styles.profilePic}
-                    source={{uri: this.state.user.profileimage}} />
-					</View>
-
-					<View style={styles.nameContainer}>
-						<Text style={styles.name}>{this.state.user.first_name} {this.state.user.last_name}</Text>
-						<Text style={styles.major}>{this.state.user.major}</Text>
-					</View>
-
-					<View style={styles.badgeContainer}>
-						{/* <View style={styles.badges}>
-							<Badge value={<Text style={styles.badgeText}>Friendly</Text>}>
-							</Badge>
+						<View style={styles.titleContainer}>
+							<Text style={styles.title}>{this.state.user.first_name}'s Profile</Text>
 						</View>
-						<View style={styles.badges}>
-							<Badge value={<Text style={styles.badgeText}>Friendly</Text>}>
-							</Badge>
+
+					</View>
+					<View style={styles.mainpage}>
+						<View style={styles.star}>
 						</View>
-						<View style={styles.badges}>
-							<Badge value={<Text style={styles.badgeText}>Friendly</Text>}>
-							</Badge>
+						
+						<View style={styles.pictureContainer}>
+							<Image style={styles.profilePic}
+											source={{uri: this.state.user.profileimage}} />
+						</View>
+
+						<View style={styles.nameContainer}>
+							<Text style={styles.name}>{this.state.user.first_name} {this.state.user.last_name}</Text>
+							<Text style={styles.major}>{this.state.user.major}</Text>
+						</View>
+
+						<View style={styles.badgeContainer}>
+							{/* <View style={styles.badges}>
+								<Badge value={<Text style={styles.badgeText}>Friendly</Text>}>
+								</Badge>
+							</View>
+							<View style={styles.badges}>
+								<Badge value={<Text style={styles.badgeText}>Friendly</Text>}>
+								</Badge>
+							</View>
+							<View style={styles.badges}>
+								<Badge value={<Text style={styles.badgeText}>Friendly</Text>}>
+								</Badge>
+							</View> */}
+							<BadgesView tags={this.state.user.additional_tags}/>
+						</View>
+
+						<View style={styles.descriptionContainer}>
+							<Text style={styles.description}>Description</Text>
+							<View style={styles.dscriptcontent}>
+								<Text>
+									{this.state.user.description}
+								</Text>
+							</View>
+						</View>
+
+						{/* <View style={styles.preferenceContainer}>
+							<Text style={styles.description}>Preference</Text>
+							<View style={styles.dscriptcontent}>
+								<Text>
+									Our house create a extraordinary experience for you to live with Gary, the best CSE professor ever at UCSD. You get to learn a lot of knowledge of software engineering as well as all kinds of work ethic knowledge that will benefit your entire life.
+								</Text>
+							</View>
 						</View> */}
-						<BadgesView tags={this.state.user.additional_tags}/>
+
+						
 					</View>
-
-					<View style={styles.descriptionContainer}>
-						<Text style={styles.description}>Description</Text>
-						<View style={styles.dscriptcontent}>
-							<Text>
-								{this.state.user.description}
-							</Text>
-						</View>
-					</View>
-
-					{/* <View style={styles.preferenceContainer}>
-						<Text style={styles.description}>Preference</Text>
-						<View style={styles.dscriptcontent}>
-							<Text>
-								Our house create a extraordinary experience for you to live with Gary, the best CSE professor ever at UCSD. You get to learn a lot of knowledge of software engineering as well as all kinds of work ethic knowledge that will benefit your entire life.
-							</Text>
-						</View>
-					</View> */}
-
-					
 				</View>
-			</View>
+			</SafeAreaView>
 		)
 	}
 }
@@ -106,11 +108,14 @@ export default class ProfilePage extends Component{
 const {width, height, scale} = Dimensions.get('window');
 
 const styles = StyleSheet.create({
-
+	safeAreaView: {
+		flex: 1,
+		backgroundColor: '#2ea9df'
+	},
 	pageContainer:{
 		flex: 1,
 		flexDirection: 'column',
-		backgroundColor: '#2ea9df',
+		backgroundColor: '#f7f7f7',
 		alignItems: 'stretch',
 	},
 
@@ -119,14 +124,14 @@ const styles = StyleSheet.create({
 		justifyContent: 'center',
 		alignItems: 'center',
 		backgroundColor: '#2ea9df',
-		paddingTop: RF(2),
+		paddingTop: RF(1),
+		paddingBottom: RF(1),
 	},
 
 	titleContainer:{
 		flexDirection: 'row',
 		justifyContent: 'flex-start',
-		alignItems: 'center',
-		paddingTop: RF(4),
+		alignSelf: 'center',
 	},
 
 	title:{
@@ -137,7 +142,6 @@ const styles = StyleSheet.create({
 	mainpage:{
 		alignItems: 'stretch',
 		backgroundColor: '#f7f7f7',
-		height: 8.9 * height / 10,
 	},
 
 	star: {

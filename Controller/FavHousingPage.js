@@ -1,4 +1,3 @@
-// HousingSearchPage will be used for the user to search for a house. It will display all houses available for renting and has the ability to filter (WIP). 
 
 import React, { Component } from 'react';
 import { StyleSheet, View, Image, Text, StatusBar, Button, Alert, FlatList, TouchableHighlight } from 'react-native';
@@ -55,17 +54,7 @@ export default class FavHousingPage extends React.Component{
 		this.getHousingData();
 	}
 
-	updateSearchQuery = searchQuery => {
-		this.setState({ searchQuery });
-		this.searchAndUpdateWithQuery(this.state.searchQuery);
-	};
-	
-	searchAndUpdateWithQuery = async (searchQuery) => {
-		// Search here with this.houseRef or with Algolia and update housing lists async. 
-	}
-
 	render = () => {
-
 		return (
 			<SafeAreaView style={{flex: 1, backgorundColor: '#2EA9DF'}}>
 				<FlatList
