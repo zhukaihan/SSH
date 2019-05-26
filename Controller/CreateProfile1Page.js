@@ -15,7 +15,6 @@ import RNPickerSelect from 'react-native-picker-select';
 import RF from 'react-native-responsive-fontsize';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 
-
 export default class CreateProfile1Page extends Component{
     constructor(props){
         super(props)
@@ -38,9 +37,6 @@ export default class CreateProfile1Page extends Component{
                     label: 'Female', value:'female',
                 },
                 {
-                    label: 'Trans', value: 'Trans',
-                },
-                {
                     label: 'Other', value: 'Other'
                 }
             ],
@@ -48,25 +44,74 @@ export default class CreateProfile1Page extends Component{
         this.width= Dimensions.get('window').width;
         this.inputRefs={};
     }
-
-    //alert function in case user did not enter anything
-    _showAlert = () => {
-        Alert.alert(
-          'Please enter required information',
-          'This is an alert message',
-          [
-            {text: 'OK', onPress: () => console.log('OK Pressed')},
-            {text: 'Cancel', onPress: () => console.log('Cancel Pressed'), style: 'cancel'},
-          ],
-          { cancelable: false }
-        )
+    
+    _checkFirstname = () =>{
+        if(this.state.first_name == ""){
+            return false
+        }
+        var firstname_length = this.state.first_name.length;
+        for(var i = 0; i < firstname_length; i++){
+            var firstname_char = this.state.first_name.charAt(i);
+            console.log(firstname_char);
+            if(firstname_char < 65 || (firstname_char > 90 && firstname_char < 97) || firstname_char > 123){       
+                return false;
+            }
+        }
+        return true;
     }
-
+    _checkLastname = () =>{
+        if(this.state.last_name == ""){
+            return false
+        }
+        var lastname_length = this.state.last_name.length;
+        for(var i = 0; i < lastname_length; i++){
+            var lastname_char = this.state.last_name.charAt(i);
+            console.log(lastname_char);
+            if(lastname_char < 65 || (lastname_char > 90 && lastname_char < 97) || lastname_char > 123){       
+                return false;
+            }
+        }
+        return true;
+    }
+    _checkGender = () =>{
+        if(this.state.gender == ""){
+            return false
+        }
+        return true;
+    }
     nextslide = () =>{
-        if(this.state.first_name == "" || this.state.last_name == "" || 
-            this.state.gender == ""){
-            this._showAlert();
-        } else{
+        if(!this._checkFirstname()){
+            Alert.alert(
+                'Invalid firstname',
+                'Please enter characters only',
+                [
+                  {text: 'OK', onPress: () => console.log('OK Pressed')},
+                  {text: 'Cancel', onPress: () => console.log('Cancel Pressed'), style: 'cancel'},
+                ],
+                { cancelable: false }
+              )
+        } else if (!this._checkLastname()){
+            Alert.alert(
+                'Invalid lastname',
+                'Please enter characters only',
+                [
+                  {text: 'OK', onPress: () => console.log('OK Pressed')},
+                  {text: 'Cancel', onPress: () => console.log('Cancel Pressed'), style: 'cancel'},
+                ],
+                { cancelable: false }
+              )
+            
+        } else if(!this._checkGender()){
+            Alert.alert(
+                'Invalid gender',
+                'Make sure to select a gender',
+                [
+                  {text: 'OK', onPress: () => console.log('OK Pressed')},
+                  {text: 'Cancel', onPress: () => console.log('Cancel Pressed'), style: 'cancel'},
+                ],
+                { cancelable: false }
+              )
+        }else{
             console.log(`${this.state.first_name}`)
             this.props.navigation.navigate('CreateProfile2Page',{
                 first_name: this.state.first_name,

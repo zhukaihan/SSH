@@ -31,19 +31,31 @@ export default class CreateProfile2Page extends Component{
             description:this.description,
         }
     }
-    //alert function in case user did not enter anything
-    _showAlert = () => {
-        Alert.alert(
-          'Please enter required information',
-          'This is an alert message',
-          [
-            {text: 'OK', onPress: () => console.log('OK Pressed')},
-            {text: 'Cancel', onPress: () => console.log('Cancel Pressed'), style: 'cancel'},
-          ],
-          { cancelable: false }
-        )
+
+    _checkMajor = () =>{
+        if(this.state.major == ""){
+            return false;
+        }
+        return true;
     }
 
+    _checkGraduation = () => {
+        if(this.state.graduation == ""){
+            return false;
+        }
+        console.log(this.state.graduation);
+        var graduationYearInNumber = parseInt(this.state.graduation, 10);
+        if(graduationYearInNumber > 1900 && graduationYearInNumber < 2030){
+            return true;
+        }
+        return false;
+    }
+    _checkAdditional_tags = () => {
+        if(this.state.additional_tags == ""){
+            return false;
+        }
+        return true;
+    }
     backslide = ()=>{
         this.props.navigation.navigate("CreateProfile1Page",{
             first_name: this.state.first_name,
@@ -59,11 +71,38 @@ export default class CreateProfile2Page extends Component{
         });
     }
     nextslide=()=>{
-        if(this.state.major == "" || 
-            this.state.graduation == ""){
-            this._showAlert();
-        } else{
-            console.log(`${this.state.first_name}`)
+        if(!this._checkMajor()){
+            Alert.alert(
+                'Invalid Major',
+                'Please enter a valid major',
+                [
+                    {text: 'OK', onPress: () => console.log('OK Pressed')},
+                    {text: 'Cancel', onPress: () => console.log('Cancel Pressed'), style: 'cancel'},
+                ],
+                { cancelable: false }
+            )
+        } else if(!this._checkGraduation()){
+            Alert.alert(
+                'Invalid graduation year',
+                'Please enter a valid graduation year',
+                [
+                    {text: 'OK', onPress: () => console.log('OK Pressed')},
+                    {text: 'Cancel', onPress: () => console.log('Cancel Pressed'), style: 'cancel'},
+                ],
+                { cancelable: false }
+            )
+        } else if(!this._checkAdditional_tags()){
+            Alert.alert(
+                'Invalid response for interest',
+                'Please enter a valid response for interest',
+                [
+                    {text: 'OK', onPress: () => console.log('OK Pressed')},
+                    {text: 'Cancel', onPress: () => console.log('Cancel Pressed'), style: 'cancel'},
+                ],
+                { cancelable: false }
+            )
+        }
+        else{
             this.props.navigation.navigate("CreateProfile3Page",{       
                 first_name: this.state.first_name,
                 last_name: this.state.last_name,

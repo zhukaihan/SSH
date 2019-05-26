@@ -46,17 +46,32 @@ export default class CreateProfile3Page extends Component{
         }
     }
 
-    //alert function in case user did not enter anything
-    _showAlert = () => {
-        Alert.alert(
-          'Please enter required information',
-          'This is an alert message',
-          [
-            {text: 'OK', onPress: () => console.log('OK Pressed')},
-            {text: 'Cancel', onPress: () => console.log('Cancel Pressed'), style: 'cancel'},
-          ],
-          { cancelable: false }
-        )
+    _checkCleanOrMessy = () =>{
+        if(this.state.clean == ""){
+            return false;
+        }
+        return true;
+    }
+    _checkMorningOrNight = () =>{
+        if(this.state.wake_early == ""){
+            return false;
+        }
+        return true;
+    }
+    _checkDescription = () =>{
+        if(this.state.description == ""){
+            return false;
+        }
+        var wordCounter = 0;
+        for(var i = 0; i < this.state.description.length; i++){
+            if(this.state.description.charAt(i) == ' '){
+                wordCounter++;
+            }
+        }
+        if(wordCounter < 10){
+            return false;
+        }
+        return true;
     }
 
     backslide =() =>{
@@ -73,9 +88,37 @@ export default class CreateProfile3Page extends Component{
             description: this.state.description});
     }
     nextslide = () =>{
-        if(this.state.description == ""){
-            this._showAlert();
-        } else{
+        if(!this._checkCleanOrMessy()){
+            Alert.alert(
+                'Invalid selection',
+                'Please select clean or messy',
+                [
+                  {text: 'OK', onPress: () => console.log('OK Pressed')},
+                  {text: 'Cancel', onPress: () => console.log('Cancel Pressed'), style: 'cancel'},
+                ],
+                { cancelable: false }
+              )
+        } else if(!this._checkMorningOrNight()){
+            Alert.alert(
+                'Invalid selection',
+                'Please select morning or night',
+                [
+                  {text: 'OK', onPress: () => console.log('OK Pressed')},
+                  {text: 'Cancel', onPress: () => console.log('Cancel Pressed'), style: 'cancel'},
+                ],
+                { cancelable: false }
+              )
+        }else if(!this._checkDescription()){
+            Alert.alert(
+                'Invalid response',
+                'Please make sure the description is over 10 words',
+                [
+                  {text: 'OK', onPress: () => console.log('OK Pressed')},
+                  {text: 'Cancel', onPress: () => console.log('Cancel Pressed'), style: 'cancel'},
+                ],
+                { cancelable: false }
+              )
+        }else {
             console.log(`${this.state.first_name}`);
             this.props.navigation.navigate("AddProfilePage",{
                 first_name: this.state.first_name,
