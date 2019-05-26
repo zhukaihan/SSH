@@ -16,6 +16,7 @@ import RF from 'react-native-responsive-fontsize';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 
 
+
 export default class CreateProfile1Page extends Component{
     constructor(props){
         super(props)
@@ -82,6 +83,35 @@ export default class CreateProfile1Page extends Component{
             });
         }
     }
+
+    _scrollToInput (reactNode: any) {
+        // Add a 'scroll' ref to y our ScrollView
+        this.scroll.props.scrollToFocusedInput(reactNode)
+    }
+
+    //Method for adding padding for keyboard inputs
+    //on bottom fields
+    Add_Padding=()=>{
+
+        this.setState({
+
+            paddingBottom : 100
+
+        })
+
+    }
+
+    //Method for deleting padding for keyboard inputs
+    //for bottom fields
+    Delete_Padding=()=>{
+
+        this.setState({
+
+            paddingBottom : 10
+        })
+    }
+
+
     render(){
         return(
             <SafeAreaView style={styles.pageContainer}>
@@ -91,7 +121,6 @@ export default class CreateProfile1Page extends Component{
                          style={styles.personalInfoText}> Create Your Profile </Text>
                     </View>
                     <View>
-                        
                         <Text style={styles.textFont}> Personal Information </Text>
                     </View>
                     <View>
@@ -102,22 +131,28 @@ export default class CreateProfile1Page extends Component{
             <View style={styles.inputView}>
                 <View
                     style={{flexDirection:"row", alignItems: "center", marginBottom: RF(3)}}>
-                    <Icon name={"asterisk"} style={{color:"red"}}></Icon>
                     <Text style={{fontSize:RF(2.4)}}> Required Field </Text>
+                    <Text style={{fontSize:RF(2.4), color: 'red'}}>*</Text>
                 </View>
                 <View style={styles.inputContainer}>
                 <TextInput 
                         style={styles.tinput}
                         placeholder={"First Name"}
-                        onChangeText={(first_name)=>{this.setState({first_name})}}></TextInput>
-                    <Icon name={"asterisk"} style={styles.ast}></Icon>
+                        onChangeText={(first_name)=>{this.setState({first_name})}}
+                        onFocus={(event: Event) => {
+                            // `bind` the function if you're using ES6 classes
+                            this._scrollToInput(ReactNative.findNodeHandle(event.target))
+                        }}></TextInput>
                 </View>
                 <View style={styles.inputContainer}>
-                <TextInput 
+                <TextInput
                         style={styles.tinput}
                         placeholder={"Last Name"}
-                        onChangeText={(last_name)=>{this.setState({last_name})}}></TextInput>
-                    <Icon name={"asterisk"} style={styles.ast}></Icon>
+                        onChangeText={(last_name)=>{this.setState({last_name})}}
+                        onFocus={(event: Event) => {
+                            // `bind` the function if you're using ES6 classes
+                            this._scrollToInput(ReactNative.findNodeHandle(event.target))
+                        }}></TextInput>
                 </View>
                 <View style={styles.inputContainer}>
                 <TextInput 
@@ -140,7 +175,6 @@ export default class CreateProfile1Page extends Component{
                         ref={(el) =>{
                         this.inputRefs.picker = el;
                         }}/>
-                    <Icon name={"asterisk"} style={styles.pickerast}></Icon>
                 </View>
                 <View style={{flexDirection:'row', height:"20%"}}>
                     <View style={styles.backButton}>
@@ -216,8 +250,8 @@ const styles = StyleSheet.create({
         height: "9%",
         borderRadius: 10,
         borderWidth: 1,
-        borderColor: "#235964",
-        marginBottom: RF(3),
+        borderColor: "#000",
+        marginBottom: RF(5),
         textAlign:"center",
         fontSize: RF(3),
     },
@@ -273,18 +307,17 @@ const styles = StyleSheet.create({
         paddingRight: RF(1),
     },
     inputContainer: {
-        flexDirection: 'row',
-        alignItems: "center",
-        justifyContent: "center",
         width:"100%",
         height: "9%",
         borderRadius: 10,
         borderWidth: 1,
-        borderColor: "#235964",
         borderBottomWidth: 1,
         borderColor: '#000',
         paddingBottom: 10,
-        marginBottom: RF(3),
+        marginBottom: RF(5),
+        textAlign:"center",
+        fontSize: RF(3),
+
     },
     ast: {
         color: 'red',
@@ -303,18 +336,17 @@ const styles = StyleSheet.create({
         fontSize: RF(3),
     },
     tpickerBox: {
-        flexDirection: 'row',
         alignItems: "center",
-        justifyContent: "center",
         width:"100%",
         height: "9%",
         borderRadius: 10,
         borderWidth: 1,
-        borderColor: "#235964",
         borderBottomWidth: 1,
         borderColor: '#000',
         paddingBottom: 10,
         marginBottom: RF(3),
+        textAlign:"center",
+        fontSize: RF(3),
     },
 
 })
