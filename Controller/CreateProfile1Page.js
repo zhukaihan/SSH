@@ -81,7 +81,7 @@ export default class CreateProfile1Page extends Component{
                 additional_tags: this.state.additional_tags,
                 clean: this.state.clean,
                 wake_early: this.state.wake_early,
-                description: this.state.description
+                description: this.state.description,
             });
         }
     }
@@ -167,11 +167,14 @@ export default class CreateProfile1Page extends Component{
                         style={styles.textBox}
                         placeholder={"Preferred Name"}
                         onChangeText={(name_preferred)=>{this.setState({name_preferred})}}
+
+                        //Adds padding when user clicks on preferred gender field so the keyboard does not
+                        //cover the input field
                         onFocus={(event: Event) => {
-                            // `bind` the function if you're using ES6 classes
                             this._scrollToInput(ReactNative.findNodeHandle(event.target))
                             this.Add_Padding()
                         }}
+                        //Deletes the extra padding when the user is not on the preferred gender field
                         onBlur={(event: Event) => {
                             this.Delete_Padding()
                         }}
