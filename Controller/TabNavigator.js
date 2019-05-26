@@ -5,6 +5,7 @@ import { createBottomTabNavigator } from 'react-navigation';
 import HousingSearchStackNavigator from './HousingSearchStackNavigator';
 import HousingListingStackNavigator from './HousingListingStackNavigator';
 import RoomateSearchStackNavigator from './RoomateSearchStackNavigator';
+import ProfilePage from './ProfilePage';
 
 const TabNavigator = createBottomTabNavigator(
 	{
@@ -19,23 +20,23 @@ const TabNavigator = createBottomTabNavigator(
 			screen: HousingListingStackNavigator, 
 			navigationOptions: {
 				tabBarLabel:"Listings",
-				tabBarIcon: <Icon name="home" type="font-awesome"/>
+				tabBarIcon: <Icon name="list" type="font-awesome"/>
 			}
 		},
 		RoomateSearchStackNavigator: {
 			screen: RoomateSearchStackNavigator,
 			navigationOptions: {
 				tabBarLabel:"Roommates",
-				tabBarIcon: <Icon name="home" type="font-awesome"/>
+				tabBarIcon: <Icon name="users" type="font-awesome"/>
 			}
 		},
-		// MyProfilePage:{
-		// 	screen: ProfilePage,
-		// 	navigationOptions:{
-		// 		tabBarLabel:"Profile",
-		// 		tabBarIcon: <Icon name="home" type="font-awesome"/>
-		// 	}
-		// }
+		MyProfilePage:{
+			screen: ProfilePage,
+			navigationOptions:{
+				tabBarLabel:"My Profile",
+				tabBarIcon: <Icon name="id-badge" type="font-awesome"/>
+			}
+		}
 		/*CreateHousingRoommatePageIDKIDK: {
 			screen: CreateHousingRoommatePageIDKIDK,
 			navigationOptions: {
