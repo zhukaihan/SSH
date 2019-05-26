@@ -43,7 +43,7 @@ export default class ProfilePage extends Component{
 			<View style={styles.pageContainer}>
 				<View style={styles.header}>
 
-					<View style={styles.titleContainer}>	
+					<View style={styles.titleContainer}>
 						<Text style={styles.title}>{this.state.user.first_name}'s Profile</Text>
 					</View>
 
@@ -110,7 +110,7 @@ const styles = StyleSheet.create({
 	pageContainer:{
 		flex: 1,
 		flexDirection: 'column',
-		backgroundColor: '#2ea9df',
+		backgroundColor: '#f7f7f7',
 		alignItems: 'stretch',
 	},
 
@@ -120,12 +120,13 @@ const styles = StyleSheet.create({
 		alignItems: 'center',
 		backgroundColor: '#2ea9df',
 		paddingTop: RF(2),
+		paddingBottom: RF(1),
 	},
 
 	titleContainer:{
 		flexDirection: 'row',
 		justifyContent: 'flex-start',
-		alignItems: 'center',
+		alignSelf: 'center',
 		paddingTop: RF(4),
 	},
 
@@ -137,7 +138,6 @@ const styles = StyleSheet.create({
 	mainpage:{
 		alignItems: 'stretch',
 		backgroundColor: '#f7f7f7',
-		height: 8.9 * height / 10,
 	},
 
 	star: {

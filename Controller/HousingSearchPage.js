@@ -83,12 +83,17 @@ export default class HousingSearchPage extends React.Component{
 		const end = (page+1)*Items_Per_Page-1;
 		console.log("start:" + start);
 		console.log("end" + end);
+		if(this.state.housingItems.length > end){
 		var newData = this.state.housingItems.slice(start,end);
 		this.setState({
 			displayList:[...displayList,...newData],
 			page:page+1,
+			
+		});
+		this.setState({
 			isFetchingHouseData: false
 		});
+	}
 	}
 
 	componentWillMount() {
@@ -106,12 +111,23 @@ export default class HousingSearchPage extends React.Component{
 		if(this.state.searchQuery == ""){
 			this.getHousingData();
 		}
+
+		// Find query about bedrooms. 
+		let numBathStrs = this.state.searchQuery.match(/[0-9]+( )*(bathroom|bath|ba)[es]*/g);
+		let numBath = numBathStrs && numBathStrs.length > 0 ? numBathStrs[0].match(/[0-9]*/g)[0] : 0
+
 		var searchString = this.state.searchQuery.toString().split(" ");
 		console.log(searchString);
 		var bf = require("./bloomfilter"),
         bloom=bf.BloomFilter;
 		let newHousingItems = [];
 	 	this.state.housingItems.forEach(function(housingItem){
+
+			if (numBath > 0 && housingItem.num_bathroom == numBath) {
+				// This house matches the required number of bathrooms. 
+				newHousingItems.push(housingItem);
+			}
+
 			let bloomfilterArr = JSON.parse(housingItem.bloomfilter);
 			var Bloom = new bloom(bloomfilterArr,16);
 			for(var i = 0; i < searchString.length; i++){
@@ -121,7 +137,8 @@ export default class HousingSearchPage extends React.Component{
 					break;
 				}
 			}
-			});
+
+		});
 		this.setState({
 				displayList: newHousingItems,
 				isFetchingHouseData: false
@@ -148,18 +165,21 @@ export default class HousingSearchPage extends React.Component{
 						lightTheme={true}
 						round={true}
 						containerStyle={{backgroundColor: '#2EA9DF', height: 100}}
-						inputContainerStyle={{backgroundColor: 'white', marginStart:30, marginEnd:30, marginTop: 30, width: '85%'}}
+						inputContainerStyle={{backgroundColor: 'white', marginStart:30, marginEnd:30, marginTop: 30, width: '85%', flexDirection: 'row-reverse'}}
 						onChangeText={this.updateSearchQuery}
 						value={this.state.searchQuery}
-					/>
+						onClear={this.getHousingData}
 
-					<TouchableOpacity onPress={this.searchAndUpdateWithQuery}>
-							<View>
-								<Text>Search</Text>
-							</View>
-					</TouchableOpacity>
-					
+						searchIcon={
+							<TouchableOpacity onPress={this.searchAndUpdateWithQuery}>
+								<View style={{paddingRight: 10,}}>
+									<Icon name="search" type="font-awesome" color='darkgrey' />
+								</View>
+							</TouchableOpacity>
+						}
+					/>
 				</View>
+
 				<FlatList
 					keyExtractor={(item, index) => index.toString()}
 					data={this.state.displayList}

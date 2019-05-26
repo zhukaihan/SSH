@@ -169,7 +169,14 @@ export default class FavoritePage extends React.Component{
     render = () => {
         
         return(
-                 <SafeAreaView style={{flex: 1, backgroundColor: '#F7F7F7'}}>
+                <SafeAreaView style={{flex: 1, backgroundColor: '#F7F7F7'}} forceInset={{'top': 'never'}}>
+
+                <View style={styles.header}>
+					<View style={styles.titleContainer}>	
+						<Text style={styles.title}>Favorites</Text>
+					</View>
+				</View>
+
                 <FlatList 
 					keyExtractor={(item, index) => {return item.id}}
                     data={this.state.items}
@@ -196,6 +203,28 @@ const styles = StyleSheet.create({
         elevation:2,
         alignItems: "center",
     },
+
+    header:{
+		flexDirection: 'row',
+		justifyContent: 'center',
+		alignItems: 'center',
+		backgroundColor: '#2ea9df',
+		paddingTop: RF(2),
+		paddingBottom: RF(1),
+	},
+
+	titleContainer:{
+		flexDirection: 'row',
+		justifyContent: 'flex-start',
+		alignItems: 'center',
+		paddingTop: RF(4),
+	},
+
+	title:{
+		color: "white",
+		fontSize: RF(4),
+	},
+
     profilePic:{
         width: 120,
         height: 120,

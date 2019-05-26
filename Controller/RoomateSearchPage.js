@@ -1,13 +1,13 @@
 import { AppRegistry, Platform, Picker, TextInput, Button, View, FlatList, ActivityIndicator, Text, StyleSheet, Image, Dimensions} from 'react-native';
-import { ListItem, List , SearchBar, Input} from 'react-native-elements';
+import { ListItem, List , Icon, SearchBar, Input} from 'react-native-elements';
 import React from 'react';
-import Icon from 'react-native-vector-icons/AntDesign';
 import { TouchableOpacity, TouchableHighlight } from 'react-native';
 import RF from 'react-native-responsive-fontsize';
 import 'firebase/firestore' //Must import if you're using firestoreee
 import firebase from 'firebase';
 import User from '../Model/User';
 import { SafeAreaView } from 'react-navigation';
+import RoommateFavButton from '../View/RoommateFavButton';
 
 export default class RoomateSearchPage extends React.Component{
     constructor(props){
@@ -107,7 +107,7 @@ export default class RoomateSearchPage extends React.Component{
 
                     <TouchableOpacity>
                     <View style={{ flexDirection:"row", justifyContent:"flex-end", }}>
-                        <Icon name={"staro"} size={20}></Icon>
+                        <RoommateFavButton roommate={item}/>
                     </View>
                     </TouchableOpacity>
 
@@ -181,9 +181,18 @@ export default class RoomateSearchPage extends React.Component{
 						lightTheme={true}
 						round={true}
 						containerStyle={{backgroundColor: '#2EA9DF', height: 100}}
-						inputContainerStyle={{backgroundColor: 'white', marginStart:30, marginEnd:30, marginTop: 30, width: '85%'}}
+						inputContainerStyle={{backgroundColor: 'white', marginStart:30, marginEnd:30, marginTop: 30, width: '85%', flexDirection:'row-reverse'}}
 						onChangeText={this.updateSearchQuery}
-						value={this.state.searchQuery}
+                        value={this.state.searchQuery}
+                        
+                        searchIcon={
+							<TouchableOpacity onPress={this.searchAndUpdateWithQuery}>
+								<View style={{paddingRight: 10,}}>
+									<Icon name="search" type="font-awesome" color='darkgrey' />
+								</View>
+							</TouchableOpacity>
+						}
+
 					/>
                 </View>
                 <FlatList 
