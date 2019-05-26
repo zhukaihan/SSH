@@ -1,4 +1,5 @@
 import React, {Component} from 'react';
+import ReactNative from 'react-native';
 import {StyleSheet, 
         View, 
         Text, 
@@ -43,7 +44,8 @@ export default class CreateProfile1Page extends Component{
                 {
                     label: 'Other', value: 'Other'
                 }
-            ]
+            ],
+            paddingBottom: 1,
 
         }
         this.width= Dimensions.get('window').width;
@@ -84,15 +86,42 @@ export default class CreateProfile1Page extends Component{
         }
     }
 
-    //_scrollToView = (ref) => {
-     //   //Add a 'scroll' ref to your ScrollView
-    ///    if (this._scroll) this._scroll.scrollIntoView(ref)
-   // }
+    _scrollToInput (reactNode: any) {
+        // Add a 'scroll' ref to y our ScrollView
+        this.scroll.props.scrollToFocusedInput(reactNode)
+    }
+
+    //Method for adding padding for keyboard inputs
+    //on bottom fields
+    Add_Padding=()=>{
+
+        this.setState({
+
+            paddingBottom : 100
+
+        })
+
+    }
+
+    //Method for deleting padding for keyboard inputs
+    //for bottom fields
+    Delete_Padding=()=>{
+
+        this.setState({
+
+            paddingBottom : 1
+        })
+    }
+
+
 
     render(){
         return(
             <SafeAreaView style={styles.pageContainer}>
-                <KeyboardAwareScrollView>
+                <KeyboardAwareScrollView
+                    innerRef={ref => {
+                    this.scroll = ref
+                }}>
             <View style={styles.objectContainer}>
                     <View style={styles.personalInfo}>
                         <Text numberOfLines= {3}
@@ -106,7 +135,7 @@ export default class CreateProfile1Page extends Component{
                         <Text style={styles.oneOverthree}> 1/3 </Text>
                     </View>
             </View>
-            <View style={styles.inputView}>
+            <View style={[styles.inputView, {paddingBottom: this.state.paddingBottom}]}>
                 <View
                     style={{flexDirection:"row", alignItems: "center", marginBottom: RF(3)}}>
                     <Icon name={"asterisk"} style={{color:"red"}}></Icon>
@@ -117,21 +146,36 @@ export default class CreateProfile1Page extends Component{
                         style={styles.tinput}
                         placeholder={"First Name"}
                         onChangeText={(first_name)=>{this.setState({first_name})}}
-                        onFocus={() => this.scroll.props.scrollIntoView(true)}
-                        ></TextInput>
+                        onFocus={(event: Event) => {
+                            // `bind` the function if you're using ES6 classes
+                            this._scrollToInput(ReactNative.findNodeHandle(event.target))
+                        }}></TextInput>
                     <Icon name={"asterisk"} style={styles.ast}></Icon>
                 </View>
                 <View style={styles.inputContainer}>
                 <TextInput 
                         style={styles.tinput}
                         placeholder={"Last Name"}
-                        onChangeText={(last_name)=>{this.setState({last_name})}}></TextInput>
+                        onChangeText={(last_name)=>{this.setState({last_name})}}
+                        onFocus={(event: Event) => {
+                            // `bind` the function if you're using ES6 classes
+                            this._scrollToInput(ReactNative.findNodeHandle(event.target))
+                        }}></TextInput>
                     <Icon name={"asterisk"} style={styles.ast}></Icon>
                 </View>
                 <TextInput 
                         style={styles.textBox}
                         placeholder={"Preferred Name"}
-                        onChangeText={(name_preferred)=>{this.setState({name_preferred})}}></TextInput>
+                        onChangeText={(name_preferred)=>{this.setState({name_preferred})}}
+                        onFocus={(event: Event) => {
+                            // `bind` the function if you're using ES6 classes
+                            this._scrollToInput(ReactNative.findNodeHandle(event.target))
+                            this.Add_Padding()
+                        }}
+                        onBlur={(event: Event) => {
+                            this.Delete_Padding()
+                        }}
+                        ></TextInput>
                 <View style={styles.tpickerBox}>
                 <RNPickerSelect
                         style={{...pickerSelectStyles}}
@@ -180,15 +224,7 @@ const styles = StyleSheet.create({
     },
     personalInfo:{
         width: "90%",
-<<<<<<< Updated upstream
-<<<<<<< Updated upstream
-        height: "100%",
-=======
         height: "90%",
->>>>>>> Stashed changes
-=======
-        height: "90%",
->>>>>>> Stashed changes
         justifyContent: 'center',
         textAlign:'center',
         backgroundColor: '#2ea9df',
@@ -207,15 +243,8 @@ const styles = StyleSheet.create({
         flex: .45,
         justifyContent: 'space-evenly',
         alignItems: "center",
-<<<<<<< Updated upstream
-<<<<<<< Updated upstream
         paddingTop: RF(5),
-=======
-        marginTop: 20
->>>>>>> Stashed changes
-=======
-        marginTop: 20
->>>>>>> Stashed changes
+        marginTop: 20,
     },
     inputView:{
         paddingLeft: RF(2),
@@ -227,16 +256,9 @@ const styles = StyleSheet.create({
     textFont:{
         fontSize: RF(3.5),
         elevation: 2,
-<<<<<<< Updated upstream
-<<<<<<< Updated upstream
         paddingTop: RF(3),
         textAlign: 'center',
-=======
         margin: 10,
->>>>>>> Stashed changes
-=======
-        margin: 10,
->>>>>>> Stashed changes
     },
     oneOverthree:{
         fontSize: RF(2.5),

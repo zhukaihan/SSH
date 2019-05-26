@@ -12,11 +12,8 @@
     "react": "16.5.0",
     "react-native": "https://github.com/expo/react-native/archive/sdk-32.0.0.tar.gz",
     "react-native-elements": "^1.1.0",
-
     "react-native-image-placeholder": "^1.0.14",
-
     "react-native-gesture-handler": "^1.2.1",
-
     "react-native-keyboard-aware-scroll-view": "^0.8.0",
     "react-native-picker-select": "^6.1.0",
     "react-native-responsive-fontsize": "^0.1.8",
