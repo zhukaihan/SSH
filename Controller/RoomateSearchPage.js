@@ -181,9 +181,18 @@ export default class RoomateSearchPage extends React.Component{
 						lightTheme={true}
 						round={true}
 						containerStyle={{backgroundColor: '#2EA9DF', height: 100}}
-						inputContainerStyle={{backgroundColor: 'white', marginStart:30, marginEnd:30, marginTop: 30, width: '85%'}}
+						inputContainerStyle={{backgroundColor: 'white', marginStart:30, marginEnd:30, marginTop: 30, width: '85%', flexDirection:'row-reverse'}}
 						onChangeText={this.updateSearchQuery}
-						value={this.state.searchQuery}
+                        value={this.state.searchQuery}
+                        
+                        searchIcon={
+							<TouchableOpacity onPress={this.searchAndUpdateWithQuery}>
+								<View style={{paddingRight: 10,}}>
+									<Icon name="search" type="font-awesome" color='darkgrey' />
+								</View>
+							</TouchableOpacity>
+						}
+
 					/>
                 </View>
                 <FlatList 
