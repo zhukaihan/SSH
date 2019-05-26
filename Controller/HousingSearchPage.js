@@ -152,11 +152,13 @@ export default class HousingSearchPage extends React.Component{
 						onChangeText={this.updateSearchQuery}
 						value={this.state.searchQuery}
 					/>
+
 					<TouchableOpacity onPress={this.searchAndUpdateWithQuery}>
 							<View>
 								<Text>Search</Text>
 							</View>
 					</TouchableOpacity>
+					
 				</View>
 				<FlatList
 					keyExtractor={(item, index) => index.toString()}
