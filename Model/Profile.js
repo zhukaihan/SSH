@@ -13,5 +13,6 @@ export default class Profile {
 				this.last_name = entry.last_name ? entry.last_name : "";
 				this.wake_early = entry.wake_early ? entry.wake_early : "";
 				this.description = entry.description ? entry.description : "";
+				this.email = entry.email? entry.email: "";
     }
 }
