@@ -29,7 +29,7 @@ export default class RoomateSearchPage extends React.Component{
 		let names = name.split(" ");
 		var userRef = this.usersRef.where("first_name", "==", names[0])
 		if (names.length > 1) {
-			let userRef = userRef.where("last_name", "==", names[1]);
+			userRef = userRef.where("last_name", "==", names[1]);
 		}
 
 		userRef.get().then((snapshot) => { // Getting a collection. 
@@ -59,17 +59,20 @@ export default class RoomateSearchPage extends React.Component{
 		var userScrollView = [];
 		this.state.foundUsers.forEach((user, index) => {
 			userScrollView.push((
-				<TouchableOpacity key={index} onPress={() => {this.selectUser(user)}}>
+				<TouchableOpacity key={index} onPress={() => {this.selectUser(user)}} style={{
+					flexDirection: 'row',
+					justifyContent: 'space-around',
+				}}>
 					<ImageLoad
 						source={{url: user.profileimage}}
 						style={{
 							height: 50,
-							flex: 1
+							width: "20%"
 						}}
 						loadingStyle={{ size: 'small', color: 'grey' }}
 					/>
-					<Text>First Name: {user.first_name}</Text>
-					<Text>Last Name: {user.last_name}</Text>
+					<Text adjustsFontSizeToFit>{user.first_name}</Text>
+					<Text>{user.last_name}</Text>
 				</TouchableOpacity>
 			))
 		})
@@ -87,7 +90,7 @@ export default class RoomateSearchPage extends React.Component{
 				<ScrollView>
 					{userScrollView}
 				</ScrollView>
-      </SafeAreaView>
+      		</SafeAreaView>
 
 		)
 	}
