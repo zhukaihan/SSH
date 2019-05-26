@@ -15,17 +15,17 @@ export default class HouseFavButton extends React.Component {
 	}
 
 	componentDidMount = () => {
-		var unsubscribe = firebase.firestore().collection("users").doc(firebase.auth().currentUser.uid)
-		.onSnapshot((snapshot) => {
-			snapshot.docChanges().forEach(function(change) {
-					if (change.type === "modified") {
-							console.log("Modified city: ", change.doc.data());
-					}
-					if (change.type === "removed") {
-							console.log("Removed city: ", change.doc.data());
-					}
-			});
-	});
+		// var unsubscribe = firebase.firestore().collection("users").doc(firebase.auth().currentUser.uid)
+		// .onSnapshot((snapshot) => {
+		// 	snapshot.docChanges().forEach(function(change) {
+		// 			if (change.type === "modified") {
+		// 					console.log("Modified city: ", change.doc.data());
+		// 			}
+		// 			if (change.type === "removed") {
+		// 					console.log("Removed city: ", change.doc.data());
+		// 			}
+		// 		});
+		// });
 		User.getUserWithUID(firebase.auth().currentUser.uid, (user) => {
 			this.setState({
 				curUser: user
