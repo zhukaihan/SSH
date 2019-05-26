@@ -8,6 +8,7 @@ import firebase from 'firebase';
 import User from '../Model/User';
 import { SafeAreaView } from 'react-navigation';
 import RoommateFavButton from '../View/RoommateFavButton';
+import ImageLoad from 'react-native-image-placeholder';
 
 export default class RoomateSearchPage extends React.Component{
     constructor(props){
@@ -112,7 +113,7 @@ export default class RoomateSearchPage extends React.Component{
                     </TouchableOpacity>
 
                     <View style = {{flexDirection: 'row' , justifyContent: "center"}}> 
-                        <Image style={styles.profilePic}
+                        <ImageLoad style={styles.profilePic}
                             source={{uri: image}} />
                     </View>
                     
@@ -173,35 +174,36 @@ export default class RoomateSearchPage extends React.Component{
     render = () => {
         
         return(
-            <SafeAreaView style={{flex: 1, backgroundColor: '#F7F7F7'}} forceInset={{'top': 'never'}}>
-            <View style={{backgroundColor: '#f7f7f7'}}>
-                <View style={{margin: 0}}>
+            <SafeAreaView style={{flex: 1, backgroundColor: '#2EA9DF'}}>
+                <View style={{flex: 1, backgroundColor: '#f7f7f7'}}>
                     <SearchBar
-						placeholder="Search Keywords"
-						lightTheme={true}
-						round={true}
-						containerStyle={{backgroundColor: '#2EA9DF', height: 100}}
-						inputContainerStyle={{backgroundColor: 'white', marginStart:30, marginEnd:30, marginTop: 30, width: '85%', flexDirection:'row-reverse'}}
-						onChangeText={this.updateSearchQuery}
+                        placeholder="Search Keywords"
+                        lightTheme={true}
+                        round={true}
+                        containerStyle={{backgroundColor: '#2EA9DF', height: 70, borderTopWidth: 0}}
+                        inputContainerStyle={{backgroundColor: 'white', marginStart:30, marginEnd:30, width: '85%', flexDirection:'row-reverse'}}
+                        onChangeText={this.updateSearchQuery}
                         value={this.state.searchQuery}
                         
                         searchIcon={
-							<TouchableOpacity onPress={this.searchAndUpdateWithQuery}>
-								<View style={{paddingRight: 10,}}>
-									<Icon name="search" type="font-awesome" color='darkgrey' />
-								</View>
-							</TouchableOpacity>
-						}
+                            <TouchableOpacity onPress={this.searchAndUpdateWithQuery}>
+                                <View style={{paddingRight: 10,}}>
+                                    <Icon name="search" type="font-awesome" color='darkgrey' />
+                                </View>
+                            </TouchableOpacity>
+                        }
 
-					/>
+                    />
+                    <FlatList 
+                        keyExtractor={(item, index) => {return item.id}}
+                        data={this.state.items}
+                        renderItem={({item}) => {return this.renderItem(item)}}  
+                        numColumns={2} 
+                        style={{
+                            flex: 1
+                        }}      
+                    />
                 </View>
-                <FlatList 
-					keyExtractor={(item, index) => {return item.id}}
-                    data={this.state.items}
-                    renderItem={({item}) => {return this.renderItem(item)}}  
-                    numColumns={2}       
-                />
-            </View>
             </SafeAreaView>
         );
     };

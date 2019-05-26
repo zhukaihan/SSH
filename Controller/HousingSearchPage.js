@@ -151,21 +151,15 @@ export default class HousingSearchPage extends React.Component{
 
 	render = () => {
 
-		if (!this.state.housingItems) {
-			return (<View></View>);
-		}
-
-
 		return (
-			<SafeAreaView style={{flex: 1, backgorundColor: '#2EA9DF'}} forceInset={{'top': 'never'}}>
-				<View style={{backgroundColor: '#f7f7f7'}}>
-				<View style={{margin: 0}}>
+			<SafeAreaView style={{flex: 1, backgroundColor: '#2EA9DF'}}>
+				<View style={{flex: 1, backgroundColor: '#f7f7f7'}}>
 					<SearchBar
 						placeholder="Search Keywords"
 						lightTheme={true}
 						round={true}
-						containerStyle={{backgroundColor: '#2EA9DF', height: 100}}
-						inputContainerStyle={{backgroundColor: 'white', marginStart:30, marginEnd:30, marginTop: 30, width: '85%', flexDirection: 'row-reverse'}}
+						containerStyle={{backgroundColor: '#2EA9DF', height: 70, borderTopWidth: 0}}
+						inputContainerStyle={{backgroundColor: 'white', marginStart:30, marginEnd:30, width: '85%', flexDirection: 'row-reverse'}}
 						onChangeText={this.updateSearchQuery}
 						value={this.state.searchQuery}
 						onClear={this.getHousingData}
@@ -178,25 +172,24 @@ export default class HousingSearchPage extends React.Component{
 							</TouchableOpacity>
 						}
 					/>
-				</View>
 
-				<FlatList
-					keyExtractor={(item, index) => index.toString()}
-					data={this.state.displayList}
-					onRefresh={this.getHousingData}
-					refreshing={this.state.isFetchingHouseData}
-					onEndReached={this.loadMore}
-					onEndReachedThreshold={0.7}
-					renderItem={({item}) => (
-							<HousePreviewView
-								house={item}
-								onTouch={this.openHouse}
-								curUser={this.state.curUser}
-							/>
-					)}
-				/>
+					<FlatList
+						keyExtractor={(item, index) => index.toString()}
+						data={this.state.displayList}
+						onRefresh={this.getHousingData}
+						refreshing={this.state.isFetchingHouseData}
+						onEndReached={this.loadMore}
+						onEndReachedThreshold={0.7}
+						renderItem={({item}) => (
+								<HousePreviewView
+									house={item}
+									onTouch={this.openHouse}
+									curUser={this.state.curUser}
+								/>
+						)}
+					/>
 				</View>
-      		</SafeAreaView>
+			</SafeAreaView>
 		);
 	}
 

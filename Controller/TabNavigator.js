@@ -6,8 +6,7 @@ import HousingSearchStackNavigator from './HousingSearchStackNavigator';
 import HousingListingStackNavigator from './HousingListingStackNavigator';
 import RoomateSearchStackNavigator from './RoomateSearchStackNavigator';
 import ProfilePage from './ProfilePage';
-import FavHousingPage from './FavHousingPage';
-import FavRoommatePage from './FavoriteRoommatePage';
+import FavoriteTopTabNavigator from './FavoriteTopTabNavigator';
 const TabNavigator = createBottomTabNavigator(
 	{
 		HousingSearchStackNavigator: {
@@ -38,8 +37,8 @@ const TabNavigator = createBottomTabNavigator(
 				tabBarIcon: <Icon name="id-badge" type="font-awesome"/>
 			}
 		},
-		FavoritePage:{
-			screen: FavRoommatePage,
+		FavoriteTopTabNavigator:{
+			screen: FavoriteTopTabNavigator,
 			navigationOptions:{
 				tabBarLabel:"Favorite",
 				tabBarIcon: <Icon name="heart" type="font-awesome"/>
