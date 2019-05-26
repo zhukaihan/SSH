@@ -4,6 +4,7 @@ import Icon from 'react-native-vector-icons/AntDesign';
 import { StyleSheet, View, Image, Text, StatusBar, Dimensions, SafeAreaView } from 'react-native';
 import { TouchableOpacity, TouchableHighlight } from 'react-native';
 import { Badge } from 'react-native-elements';
+import firebase from 'firebase';
 import User from '../Model/User';
 import BadgesView from '../View/BadgesView';
 
@@ -19,7 +20,10 @@ export default class ProfilePage extends Component{
 	}
 
 	componentWillMount = () => {
-		let userId = this.props.navigation.getParam("userId");
+		var userId = this.props.navigation.getParam("userId");
+		if (!userId || userId == "") {
+			userId = firebase.auth().currentUser.uid;
+		}
 		console.log(userId);
 		User.getUserWithUID(userId, (user) => {
 			this.setState({
