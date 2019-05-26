@@ -233,11 +233,6 @@ export default class EditHousingPage extends React.Component{
 				
 			));
 		});
-
-		var deleteButton;
-		if (this.state.house.id != "") {
-			deleteButton = (<Button title="Delete this house" onPress={this.deleteHouse}/>)
-		}
 		
 		content = (
 			<View style={styles.pageContainer}> 
@@ -348,6 +343,9 @@ export default class EditHousingPage extends React.Component{
 					</View>
 					<View style={styles.cancelButton}>
 						<Button title="Cancel" color='white' onPress={this.saveHouse}/>
+					</View>
+					<View style={styles.deleteButton}>
+						<Button title="Delete" color='white' onPress={this.deleteHouse}/>
 					</View>
 				</View>
 
@@ -508,6 +506,14 @@ const styles = StyleSheet.create({
 
 	cancelButton: {
 		backgroundColor: '#f17c67',
+		color: 'white',
+		borderRadius: 10,
+		marginLeft: 3,
+		marginRight: 3,
+	},
+
+	deleteButton: {
+		backgroundColor: '#ff4444',
 		color: 'white',
 		borderRadius: 10,
 		marginLeft: 3,

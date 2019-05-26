@@ -38,7 +38,7 @@ export default class HouseFavButton extends React.Component {
 		}
 
 		this.state.curUser.dbRef.update({
-			house_favorite: firebase.firestore.FieldValue.arrayUnion(house.id)
+			house_favorite: firebase.firestore.FieldValue.arrayUnion(house.dbRef)
 		}).then(() => {
 			this.setState({
 				isHouseFav: true
