@@ -3,7 +3,7 @@
 // To add a house listing, the user will be navigated to EditHousingPage with fields empty. 
 
 import React, { Component } from 'react';
-import { StyleSheet, View, Image, Text, StatusBar, Button, Alert, FlatList, TouchableHighlight } from 'react-native';
+import { StyleSheet, View, Image, Text, Dimensions, StatusBar, Button, Alert, FlatList, TouchableHighlight } from 'react-native';
 import { Icon, Card, Badge, SearchBar } from 'react-native-elements';
 import { SafeAreaView } from 'react-navigation';
 import firebase from 'firebase';
@@ -69,8 +69,23 @@ export default class HousingListingPage extends React.Component{
 	render = () => {
 
 		return (
-			<SafeAreaView style={{flex: 1}}>
-				<Button title="Add House" onPress={this.addHouse}/>
+			<SafeAreaView style={{flex: 1}} forceInset={{'top': 'never'}}>
+
+				<View style={styles.header}>
+					<View style={styles.titleContainer}>	
+						<Text style={styles.title}>Listings</Text>
+					</View>
+				</View>
+
+				<View style={styles.buttonContainer}>
+					<View style={{borderBottomWidth: 1,}}>
+						<Button title="Add House" onPress={this.addHouse}/>
+					</View>
+					<View style={{borderBottomWidth: 1,}}>
+						<Button title="Find Roommate" onPress={this.addHouse}/>
+					</View>
+				</View>
+
 				<FlatList
 					keyExtractor={(item, index) => index.toString()}
 					data={this.state.housingItems}
@@ -87,3 +102,35 @@ export default class HousingListingPage extends React.Component{
 	}
 
 }
+
+const {width, height, scale} = Dimensions.get('window');
+
+const styles = StyleSheet.create({
+
+	header:{
+		flexDirection: 'row',
+		justifyContent: 'center',
+		alignItems: 'center',
+		backgroundColor: '#2ea9df',
+		paddingTop: RF(2),
+		paddingBottom: RF(1),
+	},
+
+	titleContainer:{
+		flexDirection: 'row',
+		justifyContent: 'flex-start',
+		alignItems: 'center',
+		paddingTop: RF(4),
+	},
+
+	title:{
+		color: "white",
+		fontSize: RF(4),
+	},
+
+	buttonContainer: {
+		flexDirection: 'row',
+		justifyContent: 'space-around',
+	},
+
+})

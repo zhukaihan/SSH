@@ -5,6 +5,9 @@ export default class House {
 	constructor(entry = {}, id = "") {
 		this.rawData = entry;
 		this.id = id;
+		if (id != "") {
+			this.dbRef = firebase.firestore().collection("houses").doc(id);
+		}
 		this.landlord = entry.landlord ? entry.landlord : "";
 		this.cur_tenant = entry.cur_tenant ? entry.cur_tenant : [];
 		this.pictures = entry.pictures ? entry.pictures : [];
@@ -18,7 +21,8 @@ export default class House {
 		this.num_bathroom = entry.num_bathroom ? entry.num_bathroom : 0;
 		this.num_parking = entry.num_parking ? entry.num_parking : 0;
 		this.num_tenant = entry.num_tenant ? entry.num_tenant : 0;
-		this.additional_tags = entry.additional_tags ? entry.additional_tags : []
+		this.additional_tags = entry.additional_tags ? entry.additional_tags : [],
+		this.bloomfilter = entry.bloomfilter ? entry.bloomfilter: ""
 		
 	}
 

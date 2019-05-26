@@ -9,7 +9,7 @@ import firebase from 'firebase';
 import User from '../Model/User';
 import { SafeAreaView } from 'react-navigation';
 
-export default class RoomateSearchPage extends React.Component{
+export default class FavoritePage extends React.Component{
     constructor(props){
         super(props);
         //this.GoTo = this.GoTo.bind(this);
@@ -154,10 +154,6 @@ export default class RoomateSearchPage extends React.Component{
         );
     }
 
-    renderHeader = () =>{
-        return <SearchBar placeholder="Type Here..."/>;
-    };
-
     renderSeparator = () =>{
         return (
             <View
@@ -173,47 +169,17 @@ export default class RoomateSearchPage extends React.Component{
     render = () => {
         
         return(
-            <SafeAreaView style={{flex: 1, backgroundColor: '#F7F7F7'}} forceInset={{'top': 'never'}}>
-            <View style={{backgroundColor: '#f7f7f7'}}>
-                <View style={{margin: 0}}>
-                    <SearchBar
-						placeholder="Search Keywords"
-						lightTheme={true}
-						round={true}
-						containerStyle={{backgroundColor: '#2EA9DF', height: 100}}
-						inputContainerStyle={{backgroundColor: 'white', marginStart:30, marginEnd:30, marginTop: 30, width: '85%'}}
-						onChangeText={this.updateSearchQuery}
-						value={this.state.searchQuery}
-					/>
-                </View>
+                 <SafeAreaView style={{flex: 1, backgroundColor: '#F7F7F7'}}>
                 <FlatList 
 					keyExtractor={(item, index) => {return item.id}}
                     data={this.state.items}
                     renderItem={({item}) => {return this.renderItem(item)}}  
                     numColumns={2}       
                 />
-            </View>
             </SafeAreaView>
         );
     };
 }
-
-class SearchBars extends React.Component{
-    render(){
-        const Nothing = () =>{
-
-        };
-        return(
-            <View style={styles.searchBar}>
-                <Input placeholder="type something"
-                    >
-                </Input>                
-            </View>
-        )
-    }
-}
-
-
 
 const styles = StyleSheet.create({
     container:{
@@ -250,10 +216,6 @@ const styles = StyleSheet.create({
         flexDirection:'column', 
         justifyContent: "center"
     },
-    searchBar:{
-        marginLeft:10,
-        marginRight:10,
-    }
 })
 
 

@@ -6,7 +6,7 @@ import HousingSearchStackNavigator from './HousingSearchStackNavigator';
 import HousingListingStackNavigator from './HousingListingStackNavigator';
 import RoomateSearchStackNavigator from './RoomateSearchStackNavigator';
 import ProfilePage from './ProfilePage';
-
+import FavoritePage from './FavoritePage';
 const TabNavigator = createBottomTabNavigator(
 	{
 		HousingSearchStackNavigator: {
@@ -36,14 +36,15 @@ const TabNavigator = createBottomTabNavigator(
 				tabBarLabel:"My Profile",
 				tabBarIcon: <Icon name="id-badge" type="font-awesome"/>
 			}
-		}
-		/*CreateHousingRoommatePageIDKIDK: {
-			screen: CreateHousingRoommatePageIDKIDK,
-			navigationOptions: {
-				title: 'Profile Page',
-				headerLeft: null
+		},
+		FavoritePage:{
+			screen: FavoritePage,
+			navigationOptions:{
+				tabBarLabel:"Favorite",
+				tarBarIcon: <Icon name="heart" type="font-awesome"/>
 			}
-		}*/
+		}
+	
 	},
 );
 

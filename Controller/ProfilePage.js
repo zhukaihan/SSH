@@ -44,18 +44,12 @@ export default class ProfilePage extends Component{
 				<View style={styles.header}>
 
 					<View style={styles.titleContainer}>	
-						<TouchableOpacity onPress={() => (this.props.navigation.goBack())}>
-							<Icon name={"left"} size={RF(4)} color="white"></Icon>
-						</TouchableOpacity>
 						<Text style={styles.title}>{this.state.user.first_name}'s Profile</Text>
 					</View>
 
 				</View>
 				<View style={styles.mainpage}>
 					<View style={styles.star}>
-						<TouchableOpacity>
-							<Icon name={"staro"} size={20}></Icon>
-						</TouchableOpacity>
 					</View>
 					
 					<View style={styles.pictureContainer}>
@@ -122,10 +116,10 @@ const styles = StyleSheet.create({
 
 	header:{
 		flexDirection: 'row',
-		justifyContent: 'flex-start',
+		justifyContent: 'center',
 		alignItems: 'center',
-		height: 1.1 * height / 10,
 		backgroundColor: '#2ea9df',
+		paddingTop: RF(2),
 	},
 
 	titleContainer:{
@@ -133,13 +127,10 @@ const styles = StyleSheet.create({
 		justifyContent: 'flex-start',
 		alignItems: 'center',
 		paddingTop: RF(4),
-		paddingLeft: RF(1),
 	},
 
 	title:{
 		color: "white",
-		paddingLeft: RF(1),
-		paddingBottom: 2,
 		fontSize: RF(4),
 	},
 
@@ -161,7 +152,6 @@ const styles = StyleSheet.create({
 		justifyContent: 'center',
 		alignItems: 'center',
 		paddingTop: 2,
-		borderWidth: 1,
 	},
 
 	profilePic:{

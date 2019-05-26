@@ -14,11 +14,28 @@ export default class HouseFavButton extends React.Component {
 		isHouseFav: false
 	}
 
-	componentWillMount() {
+	componentDidMount = () => {
+		// var unsubscribe = firebase.firestore().collection("users").doc(firebase.auth().currentUser.uid)
+		// .onSnapshot((snapshot) => {
+		// 	snapshot.docChanges().forEach(function(change) {
+		// 			if (change.type === "modified") {
+		// 					console.log("Modified city: ", change.doc.data());
+		// 			}
+		// 			if (change.type === "removed") {
+		// 					console.log("Removed city: ", change.doc.data());
+		// 			}
+		// 		});
+		// });
 		User.getUserWithUID(firebase.auth().currentUser.uid, (user) => {
 			this.setState({
-				isHouseFav: user.house_favorite.includes(this.props.house.id),
 				curUser: user
+			})
+			user.house_favorite.forEach((favHouse) => {
+				if (favHouse.isEqual(this.props.house.dbRef)) {
+					this.setState({
+						isHouseFav: true
+					})
+				}
 			})
 		})
 	}
@@ -38,7 +55,7 @@ export default class HouseFavButton extends React.Component {
 		}
 
 		this.state.curUser.dbRef.update({
-			house_favorite: firebase.firestore.FieldValue.arrayUnion(house.id)
+			house_favorite: firebase.firestore.FieldValue.arrayUnion(house.dbRef)
 		}).then(() => {
 			this.setState({
 				isHouseFav: true
@@ -64,7 +81,7 @@ export default class HouseFavButton extends React.Component {
 		}
 
 		this.state.curUser.dbRef.update({
-			house_favorite: firebase.firestore.FieldValue.arrayRemove(house.id)
+			house_favorite: firebase.firestore.FieldValue.arrayRemove(house.dbRef)
 		}).then(() => {
 			this.setState({
 				isHouseFav: false
