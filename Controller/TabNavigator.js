@@ -16,13 +16,6 @@ const TabNavigator = createBottomTabNavigator(
 				tabBarIcon: <Icon name="home" type="font-awesome"/>
 			}
 		},
-		HousingListingStackNavigator: {
-			screen: HousingListingStackNavigator, 
-			navigationOptions: {
-				tabBarLabel:"Listings",
-				tabBarIcon: <Icon name="list" type="font-awesome"/>
-			}
-		},
 		RoomateSearchStackNavigator: {
 			screen: RoomateSearchStackNavigator,
 			navigationOptions: {
@@ -30,18 +23,25 @@ const TabNavigator = createBottomTabNavigator(
 				tabBarIcon: <Icon name="users" type="font-awesome"/>
 			}
 		},
-		MyProfilePage:{
-			screen: ProfilePage,
-			navigationOptions:{
-				tabBarLabel:"My Profile",
-				tabBarIcon: <Icon name="id-badge" type="font-awesome"/>
-			}
-		},
 		FavoriteTopTabNavigator:{
 			screen: FavoriteTopTabNavigator,
 			navigationOptions:{
 				tabBarLabel:"Favorite",
 				tabBarIcon: <Icon name="heart" type="font-awesome"/>
+			}
+		},
+		HousingListingStackNavigator: {
+			screen: HousingListingStackNavigator, 
+			navigationOptions: {
+				tabBarLabel:"Listings",
+				tabBarIcon: <Icon name="list" type="font-awesome"/>
+			}
+		},
+		MyProfilePage:{
+			screen: ProfilePage,
+			navigationOptions:{
+				tabBarLabel:"My Profile",
+				tabBarIcon: <Icon name="id-badge" type="font-awesome"/>
 			}
 		}
 	
