@@ -1,6 +1,7 @@
 import { createStackNavigator } from 'react-navigation';
 import HousingListingPage from './HousingListingPage';
 import EditHousingPage from './EditHousingPage';
+import IndividualUserSearch from '../View/IndividualUserSearch';
 
 const HousingListingStackNavigator = createStackNavigator(
 	{
@@ -13,6 +14,9 @@ const HousingListingStackNavigator = createStackNavigator(
 		EditHousingPage: {
 			screen: EditHousingPage
 		},
+		IndividualUserSearch: {
+			screen: IndividualUserSearch
+		}
 	},
 	{
 		initialRouteName: 'HousingListingPage',

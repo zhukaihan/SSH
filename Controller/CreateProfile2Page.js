@@ -55,7 +55,8 @@ export default class CreateProfile2Page extends Component{
             additional_tags: this.state.additional_tags,
             clean: this.state.clean,
             wake_early: this.state.wake_early,
-            description: this.state.description});
+            description: this.state.description,
+        });
     }
     nextslide=()=>{
         if(this.state.major == "" || 
@@ -73,7 +74,8 @@ export default class CreateProfile2Page extends Component{
                 additional_tags: this.state.additional_tags,
                 clean: this.state.clean,
                 wake_early: this.state.wake_early,
-                description: this.state.description});
+                description: this.state.description,
+            });
         }
     }
     render(){

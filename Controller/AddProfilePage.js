@@ -1,18 +1,18 @@
 import React from 'react';
 import {
-ActivityIndicator,
-Button,
-Clipboard,
-Image,
-Share,
-StatusBar,
-StyleSheet,
-Text,
-View,
-SafeAreaView,
-Dimensions,
-TouchableOpacity,
-Alert
+    ActivityIndicator,
+    Button,
+    Clipboard,
+    Image,
+    Share,
+    StatusBar,
+    StyleSheet,
+    Text,
+    View,
+    SafeAreaView,
+    Dimensions,
+    TouchableOpacity,
+    Alert
 } from 'react-native';
 import { Overlay } from 'react-native-elements';
 import { Constants, ImagePicker, Permissions } from 'expo';
@@ -37,6 +37,7 @@ export default class AddProfilePage extends React.Component{
         this.clean = props.navigation.state.params.clean;
         this.wake_early = props.navigation.state.params.wake_early;
         this.description = props.navigation.state.params.description;
+        //this.email = props.navigate.state.params.email;
         var bf = require("./bloomfilter"),
         bloom=bf.BloomFilter;
         this.f = new bloom(32*256,16);
@@ -46,6 +47,7 @@ export default class AddProfilePage extends React.Component{
         this.f.add(this.gender);
         this.f.add(this.major);
         this.f.add(this.graduation);
+        //this.f.add(this.email);
         var AT = this.additional_tags.split(" ");
         for(var i = 0; i < AT.length - 1; i++){
             this.f.add(AT[i]);
@@ -142,7 +144,8 @@ export default class AddProfilePage extends React.Component{
             additional_tags: this.state.additional_tags,
             clean: this.state.clean,
             wake_early: this.state.wake_early,
-            description: this.state.description});
+            description: this.state.description,
+        });
     }
     uploadToFirebase = () =>{
         let userId = firebase.auth().currentUser.uid;
@@ -159,7 +162,7 @@ export default class AddProfilePage extends React.Component{
             wake_early: this.state.wake_early,
             description: this.state.description,
             profileimage: this.state.profileimage,
-            bloomfilter: this.state.bloomfilter
+            bloomfilter: this.state.bloomfilter,
         }
         firebase.firestore().collection("users").doc(`${userId}`).set(Object.assign({}, data)
         )
@@ -197,14 +200,7 @@ export default class AddProfilePage extends React.Component{
                 </View>
         );
     };
-    /*
-    <Text
-    onPress={this._copyToClipboard}
-    onLongPress={this._share}
-    style={{ paddingVertical: 10, paddingHorizontal: 10 }}>
-    {image}
-    </Text>*/
-    
+   
     _share = () => {
         Share.share({
             message: this.state.image,
