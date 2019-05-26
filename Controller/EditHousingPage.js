@@ -481,6 +481,7 @@ const styles = StyleSheet.create({
 		paddingBottom: 10,
 		paddingTop: 5,
 		paddingRight: 10,
+		borderWidth: 1,
 	},
 
 	saveButton: {

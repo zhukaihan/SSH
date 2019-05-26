@@ -108,7 +108,7 @@ export default class RoomateSearchPage extends React.Component{
                         <Image style={styles.profilePic}
                             source={{uri: image}} />
                     </View>
-
+                    
                     <TouchableOpacity>
                     <View style={{paddingRight: RF(0.5),flexDirection:"column", justifyContent:"flex-start", alignItems: "flex_left"}}>
                         <Icon name={"staro"} size={20}></Icon>
@@ -229,6 +229,7 @@ const styles = StyleSheet.create({
 
     },
     roommateIcon:{
+        flex:.6,
         flexDirection:'row',
     },
     roommateText:{
