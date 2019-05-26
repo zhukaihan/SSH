@@ -1,7 +1,7 @@
 // This page will be displayed to allow user to add a house listing or edit a current one. 
 
 import React, { Component } from 'react';
-import { StyleSheet, View, Image, Text, Button, Alert, FlatList, TouchableHighlight, ScrollView, TextInput, Overlay, ActivityIndicator } from 'react-native';
+import { StyleSheet, View, Image, Text, Button, Alert, FlatList, TouchableHighlight, ScrollView, TextInput, Dimensions, Overlay, ActivityIndicator } from 'react-native';
 import { Icon } from 'react-native-elements';
 import { SafeAreaView } from 'react-navigation';
 import firebase from 'firebase';
@@ -241,69 +241,92 @@ export default class EditHousingPage extends React.Component{
 		}
 		
 		content = (
-			<View>
-				<Button title="Save House" onPress={this.saveHouse}/>
-				<View style={{
-					backgroundColor: 'white',
-					alignItems: "stretch",
-					marginBottom: 10,
-					padding: 5
-				}}>
+			<View style={styles.pageContainer}> 
+				<View style={styles.imageContainer}>
+
 					<ImageHorizontalScrollView pictureUrls={item.pictures}/>
 					<Button title="Add Picture" onPress={this.addPicture}/>
 
-					<TextInput
-						style={styles.roomTitleText}
-						onChangeText={(title) => {item.title = title}}
-						defaultValue={item.title}
-					/>
+				</View>
+
+				<View style={styles.infoContainer}>
+
+					<View style={styles.bigTitle}>
+						<Text style={{fontSize: RF(3.5), fontWeight: '500',}}>Create Your House Profile</Text>
+					</View>
+
+					<View style={styles.titleContainer}>
+						<Text style={styles.title}>Title:</Text>
+						<TextInput
+							style={styles.roomTitleText}
+							onChangeText={(title) => {item.title = title}}
+							defaultValue={item.title}
+						/>
+					</View>
+
+					<View style={styles.priceContainer}>
+						<Text style={styles.priceTitle}>Price:</Text>
+						<TextInput
+						style={styles.priceTextInput}
+						onChangeText={(num) => {item.price = parseInt(num)}}
+						defaultValue={item.price.toString()}
+						keyboardType="numeric"
+						/>
+					</View>
 				
 					<View style={styles.roomInfoSpecDetailsView}>
 						<Icon name="users" type="font-awesome"/>
+						<Text style={styles.roomInfoTitle}>How many tenants?</Text>
 						<TextInput
 							style={styles.roomInfoSpecDetailsTextInput}
 							onChangeText={(num) => {item.num_tenant = parseInt(num)}}
 							defaultValue={item.num_tenant.toString()}
 							keyboardType="numeric"
 						/>
-						<Text>Tenants</Text>
 					</View>
+
 					<View style={styles.roomInfoSpecDetailsView}>
 						<Icon name="bed" type="font-awesome"/>
+						<Text style={styles.roomInfoTitle}>How many bedroom?</Text>
 						<TextInput
 							style={styles.roomInfoSpecDetailsTextInput}
 							onChangeText={(num) => {item.num_bedroom = parseInt(num)}}
 							defaultValue={item.num_bedroom.toString()}
 							keyboardType="numeric"
 						/>
-						<Text>Bedrooms</Text>
 					</View>
+
 					<View style={styles.roomInfoSpecDetailsView}>
 						<Icon name="bath" type="font-awesome"/>
+						<Text style={styles.roomInfoTitle}>How many bathroom?</Text>
 						<TextInput
 							style={styles.roomInfoSpecDetailsTextInput}
 							onChangeText={(num) => {item.num_bathroom = parseInt(num)}}
 							defaultValue={item.num_bathroom.toString()}
 							keyboardType="numeric"
 						/>
-						<Text>Bathrooms</Text>
 					</View>
+
 					<View style={styles.roomInfoSpecDetailsView}>
 						<Icon name="car" type="font-awesome"/>
+						<Text style={styles.roomInfoTitle}>How many parking?</Text>
 						<TextInput
 							style={styles.roomInfoSpecDetailsTextInput}
 							onChangeText={(num) => {item.num_parking = parseInt(num)}}
 							defaultValue={item.num_parking.toString()}
 							keyboardType="numeric"
 						/>
-						<Text>Parkings</Text>
 					</View>
-				</View>
-				<BadgesView tags={item.additional_tags} />
+
+					<BadgesView tags={item.additional_tags} />
+
+				</View>  
+				{/* End before Description */}
 				
-				<View>
-					<Text>Description</Text>
+				<View style={styles.descriptionContainer}>
+					<Text style={styles.descriptionTitle}>Description:</Text>
 					<TextInput
+						style={styles.descriptionInput}
 						multiline={true}
 						editable = {true}
 						maxLength = {400}
@@ -312,55 +335,186 @@ export default class EditHousingPage extends React.Component{
 					/>
 				</View>
 				
-				<View>
+				<View style={{borderWidth: 1,}}>
 					<Text>Current Tenants</Text>
 					<View>
 						{tenants}
 					</View>
+					<Button title="Add Tenants" onPress={this.addTenant}/>
 				</View>
-				<Button title="Add Tenants" onPress={this.addTenant}/>
-				<TextInput
-					style={{fontSize: RF(2.5), color: 'rgb(50, 150, 255)'}}
-					onChangeText={(num) => {item.price = parseInt(num)}}
-					defaultValue={item.price.toString()}
-					keyboardType="numeric"
-				/>
-				
-				{deleteButton}
+
+				<View style={styles.buttonContainer}>
+					<View style={styles.saveButton}>
+						<Button title="Save House" color='white' onPress={this.saveHouse}/>
+					</View>
+					<View style={styles.cancelButton}>
+						<Button title="Cancel" color='white' onPress={this.saveHouse}/>
+					</View>
+				</View>
+
 			</View>
 			
 		);
 
 		return (
-			<SafeAreaView style={{flex: 1}}>
+			<SafeAreaView style={{flex: 1, backgroundColor: '#f7f7f7',}}>
 				{/* <Overlay isVisible={this.state.isUploadingPicture}>
 					<ActivityIndicator size="large" color="#0000ff" />
 				</Overlay> */}
 				<KeyboardAwareScrollView style={{flex: 1}}>
 					{content}
 				</KeyboardAwareScrollView>
-      </SafeAreaView>
+      		</SafeAreaView>
 		);
 	}
 
 }
 
+const {width, height, scale} = Dimensions.get('window');
+
 const styles = StyleSheet.create({
-	roomTitleText: {
-		fontSize: RF(2.5), 
-		fontWeight: 'bold'
+
+	imageContainer: {
+		borderWidth: 1,
 	},
-	roomInfoSpecDetailsView: {
-		marginTop: 5,
-		marginBottom: 5,
+
+	pageContainer: {
+		flex: 1,
+		flexDirection: 'column',
+		backgroundColor: '#f7f7f7',
+		alignItems: "stretch",
+	},
+
+	pictureContainer: {
+		flex: 1,
+		flexDirection: 'column',
+		backgroundColor: '#f7f7f7',
+		alignItems: "stretch",
+		borderWidth: 1,
+	},
+
+	infoContainer:{
+		paddingLeft: RF(1.5),
+		paddingRight: RF(1.5),
+		paddingTop: RF(1),
+	},
+
+	bigTitle:{
 		flexDirection: 'row',
 		justifyContent: 'flex-start',
-		alignItems: 'center'
+		paddingBottom: 5,
 	},
-	roomInfoSpecDetailsTextInput: {
+
+	titleContainer: {
+		flexDirection: 'row',
+		justifyContent: 'flex-start',
+		paddingBottom: 8,
+	},
+
+	title: {
+		fontSize: RF(3),
+		paddingRight: 5,
+		fontWeight: '300',
+	},
+
+	roomTitleText: {
+		fontWeight: '400',
+		fontSize: RF(3),
 		borderWidth: 1,
-		width: "50%",
-		marginLeft: 10,
-		marginRight: 10
-	}
+		borderRadius: 5,
+		width: 0.7 * width,
+		backgroundColor: 'white',
+		paddingLeft: 2,
+	},
+
+	priceContainer: {
+		flexDirection: 'row',
+		justifyContent: 'flex-start',
+		paddingBottom: 8,
+	},
+
+	priceTitle: {
+		fontSize: RF(3),
+		paddingRight: 5,
+		fontWeight: '300',
+	},
+
+	priceTextInput:{
+		paddingTop: 1,
+		paddingLeft: 2,
+		width: 0.2 * width,
+		fontSize: RF(3), 
+		borderWidth: 1,
+		borderRadius: 5,
+		backgroundColor: 'white',
+		color: '#2ea9df',
+	},
+
+	roomInfoSpecDetailsView: {
+		flexDirection: 'row',
+		justifyContent: 'flex-start',
+		alignItems: 'center',
+		paddingBottom: 8,
+	},
+
+	roomInfoTitle: {
+		fontSize: RF(3),
+		paddingRight: 5,
+		paddingLeft: 5,
+		fontWeight: '300',
+	},
+
+	roomInfoSpecDetailsTextInput: {
+		flex: 1,
+		fontWeight: '200',
+		fontSize: RF(3),
+		borderWidth: 1,
+		borderRadius: 5,
+		width: 0.3 * width,
+		backgroundColor: 'white',
+		paddingLeft: 2,
+	},
+
+	descriptionContainer: {
+		borderWidth: 1,
+		paddingLeft: RF(1.5),
+		paddingRight: RF(1.5),
+		paddingBottom: RF(1),
+	},
+
+	descriptionTitle: {
+		fontSize: RF(3),
+		fontWeight: '300',
+	},
+
+	descriptionInput: {
+		borderWidth: 1,
+		borderRadius: 5,
+		height: 0.2 * height,
+	},
+
+	buttonContainer: {
+		flexDirection: 'row',
+		justifyContent: 'flex-end',
+		paddingBottom: 10,
+		paddingTop: 5,
+		paddingRight: 10,
+		borderWidth: 1,
+	},
+
+	saveButton: {
+		backgroundColor: '#2ea9df',
+		color: 'white',
+		borderRadius: 10,
+		marginLeft: 3,
+		marginRight: 3,
+	},
+
+	cancelButton: {
+		backgroundColor: '#f17c67',
+		color: 'white',
+		borderRadius: 10,
+		marginLeft: 3,
+		marginRight: 3,
+	},
 })

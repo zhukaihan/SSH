@@ -7,6 +7,7 @@ import RF from 'react-native-responsive-fontsize';
 import 'firebase/firestore' //Must import if you're using firestoreee
 import firebase from 'firebase';
 import User from '../Model/User';
+import { SafeAreaView } from 'react-navigation';
 
 export default class RoomateSearchPage extends React.Component{
     constructor(props){
@@ -104,22 +105,24 @@ export default class RoomateSearchPage extends React.Component{
                 
                 <View style={styles.roommateIcon}>
 
-                    <View style = {{paddingLeft: RF(3),flexDirection: 'row' ,alignItems: "flex-right"}}> 
-                        <Image style={styles.profilePic}
-                            source={{uri: image}} />
-                    </View>
                     <TouchableOpacity>
-                    <View style={{paddingRight: RF(0.5),flexDirection:"column", justifyContent:"flex-start", alignItems: "flex_left"}}>
+                    <View style={{ flexDirection:"row", justifyContent:"flex-end", }}>
                         <Icon name={"staro"} size={20}></Icon>
                     </View>
                     </TouchableOpacity>
-                    
 
+                    <View style = {{flexDirection: 'row' , justifyContent: "center"}}> 
+                        <Image style={styles.profilePic}
+                            source={{uri: image}} />
+                    </View>
+                    
                 </View>
+
                 <View style={{flex:.4 ,alignItems: "center"}}>
                     <Text>{item.first_name} {item.last_name}</Text>
                     <Text>{item.graduation} | {item.major}</Text>
                 </View>
+
             </TouchableOpacity>
             </View>
         )
@@ -170,17 +173,25 @@ export default class RoomateSearchPage extends React.Component{
     render = () => {
         
         return(
-                <View style={{backgroundColor: '#F7F7F7',flex:1, paddingTop:25}} >
-                <View style={{flex:.1}}>
-                    <SearchBars />
+                 <SafeAreaView style={{flex: 1, backgroundColor: '#F7F7F7'}}>
+                <View style={{margin: 0}}>
+                    <SearchBar
+						placeholder="Search Keywords"
+						lightTheme={true}
+						round={true}
+						containerStyle={{backgroundColor: '#2EA9DF', height: 100}}
+						inputContainerStyle={{backgroundColor: 'white', marginTop: 30, width: '80%'}}
+						onChangeText={this.updateSearchQuery}
+						value={this.state.searchQuery}
+					/>
                 </View>
-                <FlatList style={{flex:.7}}
+                <FlatList 
 					keyExtractor={(item, index) => {return item.id}}
                     data={this.state.items}
                     renderItem={({item}) => {return this.renderItem(item)}}  
                     numColumns={2}       
                 />
-                </View>
+            </SafeAreaView>
         );
     };
 }
@@ -216,7 +227,6 @@ const styles = StyleSheet.create({
         backgroundColor: '#FFF',
         elevation:2,
         alignItems: "center",
-        borderWidth: 1,
     },
     profilePic:{
         width: 120,
@@ -228,7 +238,7 @@ const styles = StyleSheet.create({
     },
     roommateIcon:{
         flex:.6,
-        flexDirection:'row',
+        flexDirection:'column',
     },
     roommateText:{
         flexDirection: 'column',
