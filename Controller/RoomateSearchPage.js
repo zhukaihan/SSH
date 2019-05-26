@@ -8,6 +8,7 @@ import 'firebase/firestore' //Must import if you're using firestoreee
 import firebase from 'firebase';
 import User from '../Model/User';
 import { SafeAreaView } from 'react-navigation';
+import RoommateFavButton from '../View/RoommateFavButton';
 
 export default class RoomateSearchPage extends React.Component{
     constructor(props){
@@ -107,7 +108,7 @@ export default class RoomateSearchPage extends React.Component{
 
                     <TouchableOpacity>
                     <View style={{ flexDirection:"row", justifyContent:"flex-end", }}>
-                        <Icon name={"staro"} size={20}></Icon>
+                        <RoommateFavButton roommate={item}/>
                     </View>
                     </TouchableOpacity>
 
