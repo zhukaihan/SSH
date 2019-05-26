@@ -22,6 +22,7 @@ export default class CreateProfile3Page extends Component{
             first_name: this.first_name,
             last_name: this.last_name,
             name_preferred: this.name_preferred,
+            email:this.email,
             gender:this.gender,
             major:this.major,
             graduation:this.graduation,
@@ -64,6 +65,7 @@ export default class CreateProfile3Page extends Component{
             first_name: this.state.first_name,
             last_name: this.state.last_name,
             name_preferred: this.state.name_preferred,
+            email: this.state.email,
             gender: this.state.gender,
             major: this.state.major,      
             graduation: this.state.graduation,
@@ -87,7 +89,9 @@ export default class CreateProfile3Page extends Component{
                 additional_tags: this.state.additional_tags,
                 clean: this.state.clean,
                 wake_early: this.state.wake_early,
-                description: this.state.description});
+                description: this.state.description,
+                email:this.state.email,
+            });
         }
     }
     render(){

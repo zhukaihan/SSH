@@ -37,6 +37,7 @@ export default class AddProfilePage extends React.Component{
         this.clean = props.navigation.state.params.clean;
         this.wake_early = props.navigation.state.params.wake_early;
         this.description = props.navigation.state.params.description;
+        this.email = props.navigate.state.params.email;
         var bf = require("./bloomfilter"),
         bloom=bf.BloomFilter;
         this.f = new bloom(32*256,16);
@@ -75,6 +76,7 @@ export default class AddProfilePage extends React.Component{
             image: defaultimage,
             uploading: false,
             isVisible: false,
+            email:this.email,
         }
     }   
 
