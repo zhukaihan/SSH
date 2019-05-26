@@ -209,7 +209,6 @@ export default class EditHousingPage extends React.Component{
 
 	render = () => {
 		var content;
-		
 		if (!this.state.house) {
 			return (<View></View>);
 		}
@@ -358,9 +357,6 @@ export default class EditHousingPage extends React.Component{
 
 		return (
 			<SafeAreaView style={{flex: 1, backgroundColor: '#f7f7f7',}}>
-				{/* <Overlay isVisible={this.state.isUploadingPicture}>
-					<ActivityIndicator size="large" color="#0000ff" />
-				</Overlay> */}
 				<KeyboardAwareScrollView style={{flex: 1}}>
 					{content}
 				</KeyboardAwareScrollView>

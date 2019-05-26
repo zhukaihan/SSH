@@ -1,213 +1,226 @@
-import React, {Component} from 'react';
-import RF from 'react-native-responsive-fontsize';
+import { AppRegistry, Platform, Picker, TextInput, Button, View, FlatList, ActivityIndicator, Text, StyleSheet, Image, Dimensions} from 'react-native';
+import { ListItem, List , SearchBar, Input} from 'react-native-elements';
+import React from 'react';
 import Icon from 'react-native-vector-icons/AntDesign';
-import { StyleSheet, View, Image, Text, StatusBar, Dimensions, SafeAreaView } from 'react-native';
 import { TouchableOpacity, TouchableHighlight } from 'react-native';
-import { Badge } from 'react-native-elements';
+import RF from 'react-native-responsive-fontsize';
+import 'firebase/firestore' //Must import if you're using firestoreee
 import firebase from 'firebase';
 import User from '../Model/User';
-import BadgesView from '../View/BadgesView';
+import { SafeAreaView } from 'react-navigation';
 
+export default class FavoritePage extends React.Component{
+    constructor(props){
+        super(props);
+        //this.GoTo = this.GoTo.bind(this);
+        this.state={
+            hello: '',
+            items : [],
+            loading: false,
+            page: 1,
+            seed: 1,
+            error: null,
+            refreshing: false,
+        };
+        //this.ref is just a easier reference to use function like db.collection("users");
+        // collection is a function from firestore, that basically load onto the data you specify
+        //"users" is the name of the data document
+        //firestore uses "subscriptions", it means that as long as you're subscribe,
+        //you will continuous getting data. this varialbe is when we close the screen, we
+        //shut off the constant stream of data coming in.
+        this.ref = firebase.firestore().collection("users");
+				this.unsubscribe = null;
+    }
+    //componentDidMount is a function called when this page is being called.
+    //as the name suggested, 
+    componentDidMount(){
+        this.ref.get().then(this.onCollectionUpdate);
+        //this.unsubscribe = this.ref.onSnapshot(this.onCollectionUpdate);
+            //Here we use it to set the subscription and also call onCollectionUpdate.
 
-export default class FavoritePage extends Component{
+    }
+    componentWillUnmount(){
+    //this function will close the subsciption when user stop using this page
+        //this.unsubscribe();
+    }
+    _getImage(){
+				firebase.firestore().ref(``).child(`profileImage.jpg`).getDownloadURL().then(function(url){
+            var xhr = new XMLHttpRequest();
+            xhr.onload = function(event){
+                var blob = xhr.response;
+            };
+            xhr.open('GET',url);
+            xhr.send();
 
-	state = {
-	}
+            var img = document.getElementbyId('myimg');
+            img.src = url;
+            return img;
+        }).catch(function(error){
 
-	constructor() {
-		super();
+        });
+    }
+    //OnColectionUpdate = (querysnapshot) =>{} 
+    // onCollectionUpdate is just a function that we called. we can rename it anything else.
+    // = (queryshot) querysnapshot is a paramater, that contain zero or more documentsnapshot objects
+    // as the result of a query(back end command with database)
+    //we pass in queryshot in order to use its forEach function,
+    //forEach a for loop running through each user(in this case) you have in the data.
+    onCollectionUpdate = (querySnapshot) =>{
+        const items = [];//create a temp variable to hold all data before storing
+        querySnapshot.forEach((doc) => {
+            items.push(new User(doc.data(), doc.id));
+            // const { first_name,last_name,graduation,major,profileimage } = doc.data();
+            // // login_email is the data_title in our database that contains
+            // // the login_email of certain user. 
+            // items.push({
+            //     key: doc.id,
+            //     doc,
+            //     first_name,
+            //     last_name,
+            //     graduation,
+            //     major,
+            //     profileimage,        //We just put all the information into items to process it later.
+            // });
+        });
 
-	}
+        //Set the state for the items array.
+        this.setState({
+            items
+        });
+    }
 
-	componentWillMount = () => {
-		var userId = this.props.navigation.getParam("userId");
-		if (!userId || userId == "") {
-			userId = firebase.auth().currentUser.uid;
-		}
-		console.log(userId);
-		User.getUserWithUID(userId, (user) => {
-			this.setState({
-				user: user
-			})
-		})
-	}
+    GoTo = (userId) => {
+        this.props.navigation.push("ProfilePage", {
+            userId: userId
+        });
+    }
+    
+    renderItem = (item) => {
+        if(item.profileimage){
+            var image = item.profileimage
+        }
+        return( 
+            <View style={styles.container}>
+            <TouchableOpacity style={styles.roommateContainer} onPress={() => this.GoTo(item.id)}>
+                
+                <View style={styles.roommateIcon}>
 
-	render = () => {
-		if (!this.state.user) {
-			return (
-				<View></View>
-			)
-		}
+                    <TouchableOpacity>
+                    <View style={{ flexDirection:"row", justifyContent:"flex-end", }}>
+                        <Icon name={"staro"} size={20}></Icon>
+                    </View>
+                    </TouchableOpacity>
 
-		return(
-			<View style={styles.pageContainer}>
-				<View style={styles.header}>
+                    <View style = {{flexDirection: 'row' , justifyContent: "center"}}> 
+                        <Image style={styles.profilePic}
+                            source={{uri: image}} />
+                    </View>
+                    
+                </View>
 
-					<View style={styles.titleContainer}>	
-						<TouchableOpacity onPress={() => (this.props.navigation.goBack())}>
-							<Icon name={"left"} size={RF(4)} color="white"></Icon>
-						</TouchableOpacity>
-						<Text style={styles.title}>{this.state.user.first_name}'s Profile</Text>
-					</View>
+                <View style={{flex:.4 ,alignItems: "center"}}>
+                    <Text>{item.first_name} {item.last_name}</Text>
+                    <Text>{item.graduation} | {item.major}</Text>
+                </View>
 
-				</View>
-				<View style={styles.mainpage}>
-					<View style={styles.star}>
-						<TouchableOpacity>
-							<Icon name={"staro"} size={20}></Icon>
-						</TouchableOpacity>
-					</View>
-					
-					<View style={styles.pictureContainer}>
-						<Image style={styles.profilePic}
-                    source={{uri: this.state.user.profileimage}} />
-					</View>
+            </TouchableOpacity>
+            </View>
+        )
+    }
 
-					<View style={styles.nameContainer}>
-						<Text style={styles.name}>{this.state.user.first_name} {this.state.user.last_name}</Text>
-						<Text style={styles.major}>{this.state.user.major}</Text>
-					</View>
+    handleRefresh = () => {
+        this.setState({
+            page:1,
+            seed: this.state.seed + 1,
+            refreshing: true
+        },
+        () => {
+            this.renderItem();
+        }
+        );
+    };
 
-					<View style={styles.badgeContainer}>
-						<BadgesView tags={this.state.user.additional_tags}/>
-					</View>
+    renderFooter = () =>{
+        if(!this.state.loading) return null;
+        return(
+            <View
+                style={{
+                    paddingVertical:20,
+                    borderTopWidth:1,
+                }}
+                >
+                <ActivityIndicator animating size="large"/>
+                </View>
+        );
+    }
 
-					<View style={styles.descriptionContainer}>
-						<Text style={styles.description}>Description</Text>
-						<View style={styles.dscriptcontent}>
-							<Text>
-								{this.state.user.description}
-							</Text>
-						</View>
-					</View>
-				</View>
-			</View>
-		)
-	}
+    renderSeparator = () =>{
+        return (
+            <View
+            style={{ height:1,
+            width: "86%",
+            backgroundColor: "blue",
+            marginLeft: "14%"}}
+                />
+        );
+    };
+    _keyExtractor = (item, index) => {index.toString()}
+
+    render = () => {
+        
+        return(
+                 <SafeAreaView style={{flex: 1, backgroundColor: '#F7F7F7'}}>
+                <FlatList 
+					keyExtractor={(item, index) => {return item.id}}
+                    data={this.state.items}
+                    renderItem={({item}) => {return this.renderItem(item)}}  
+                    numColumns={2}       
+                />
+            </SafeAreaView>
+        );
+    };
 }
 
-const {width, height, scale} = Dimensions.get('window');
-
 const styles = StyleSheet.create({
-
-	pageContainer:{
-		flex: 1,
-		flexDirection: 'column',
-		backgroundColor: '#2ea9df',
-		alignItems: 'stretch',
-	},
-
-	header:{
-		flexDirection: 'row',
-		justifyContent: 'flex-start',
-		alignItems: 'center',
-		height: 1.1 * height / 10,
-		backgroundColor: '#2ea9df',
-	},
-
-	titleContainer:{
-		flexDirection: 'row',
-		justifyContent: 'flex-start',
-		alignItems: 'center',
-		paddingTop: RF(4),
-		paddingLeft: RF(1),
-	},
-
-	title:{
-		color: "white",
-		paddingLeft: RF(1),
-		paddingBottom: 2,
-		fontSize: RF(4),
-	},
-
-	mainpage:{
-		alignItems: 'stretch',
-		backgroundColor: '#f7f7f7',
-		height: 8.9 * height / 10,
-	},
-
-	star: {
-		flexDirection: 'row',
-		justifyContent: 'flex-end',
-		paddingTop: RF(1),
-		paddingRight: RF(0.5),
-	},
-
-	pictureContainer: {
-		flexDirection: 'row',
-		justifyContent: 'center',
-		alignItems: 'center',
-		paddingTop: 2,
-		borderWidth: 1,
-	},
-
-	profilePic:{
-		width: 0.5 * width,
-        height: 0.5 * width,
+    container:{
+        flex: 1,
+        flexDirection: 'column',
+        padding: 10,
+        marginLeft: 16,
+        marginRight:16,
+        justifyContent: 'space-between',
+        marginTop:8,
+        marginBottom:8,
+        borderRadius:5,
+        backgroundColor: '#FFF',
+        elevation:2,
         alignItems: "center",
-		borderRadius: 0.25 * width,
-		borderWidth: 1,
-		
-	},
+    },
+    profilePic:{
+        width: 120,
+        height: 120,
+        alignItems: "center",
+        borderRadius:120/2,
+        margin:5,
 
-	nameContainer:{
-		flexDirection: 'column',
-		justifyContent: 'flex-start',
-		alignItems:'center',
-	},
-
-	name:{
-		fontSize: RF(4),
-		fontWeight: '400',
-	},
-
-	major:{
-		fontSize: RF(2),
-	},
-
-	badgeContainer: {
-		flexDirection: 'row',
-		justifyContent: 'center',
-		paddingTop: 2,
-		paddingBottom: 2,
-		borderWidth: 1,
-	},
-
-	badges:{
-		marginRight: 5,
-	},
-
-	badgeText: {
-		color: 'white',
-		paddingLeft: 10, 
-		paddingRight: 10,
-	},
-
-	descriptionContainer:{
-		flexDirection: 'column',
-		justifyContent: 'flex-start',
-		paddingLeft: 10,
-		paddingRight: 10,
-	},
-
-	description:{
-		fontWeight: '400',
-		fontSize: RF(3),
-		paddingTop: 1,
-	},
-
-	descriptcontent:{
-		paddingLeft: 2,
-
-	},
-
-	preferenceContainer:{
-		flexDirection: 'column',
-		justifyContent: 'flex-start',
-		paddingTop: 10,
-		paddingLeft: 10,
-		paddingRight: 10,
-	},
-
-
+    },
+    roommateIcon:{
+        flex:.6,
+        flexDirection:'column',
+    },
+    roommateText:{
+        flexDirection: 'column',
+    },
+    roommateContainer:{
+        flex:.45,
+        flexDirection:'column', 
+        justifyContent: "center"
+    },
 })
+
+
+
+
+
+
+

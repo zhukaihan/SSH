@@ -40,7 +40,7 @@ const TabNavigator = createBottomTabNavigator(
 		FavoritePage:{
 			screen: FavoritePage,
 			navigationOptions:{
-				tarBarLabel:"Favorite",
+				tabBarLabel:"Favorite",
 				tarBarIcon: <Icon name="heart" type="font-awesome"/>
 			}
 		}
