@@ -117,7 +117,7 @@ export default class EditHousingPage extends React.Component{
 		})
 	}
 
-	splitText(bloomfilter, props){
+	splitText = (bloomfilter, props) =>{
 		var item = props.toString();
 		var text = item.split(" ");
 		for(var i = 0; i < text.length - 1; i++){
