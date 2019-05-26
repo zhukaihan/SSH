@@ -111,12 +111,23 @@ export default class HousingSearchPage extends React.Component{
 		if(this.state.searchQuery == ""){
 			this.getHousingData();
 		}
+
+		// Find query about bedrooms. 
+		let numBathStrs = this.state.searchQuery.match(/[0-9]+( )*(bathroom|bath|ba)[es]*/g);
+		let numBath = numBathStrs && numBathStrs.length > 0 ? numBathStrs[0].match(/[0-9]*/g)[0] : 0
+
 		var searchString = this.state.searchQuery.toString().split(" ");
 		console.log(searchString);
 		var bf = require("./bloomfilter"),
         bloom=bf.BloomFilter;
 		let newHousingItems = [];
 	 	this.state.housingItems.forEach(function(housingItem){
+
+			if (numBath > 0 && housingItem.num_bathroom == numBath) {
+				// This house matches the required number of bathrooms. 
+				newHousingItems.push(housingItem);
+			}
+
 			let bloomfilterArr = JSON.parse(housingItem.bloomfilter);
 			var Bloom = new bloom(bloomfilterArr,16);
 			for(var i = 0; i < searchString.length; i++){
