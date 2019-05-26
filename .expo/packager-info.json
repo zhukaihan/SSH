@@ -1,9 +1,8 @@
 {
-  "devToolsPort": 19002,
   "expoServerPort": 19000,
   "packagerPort": 19001,
-  "packagerPid": 19956,
-  "expoServerNgrokUrl": "https://b9-j9m.anonymous.ssh.exp.direct",
-  "packagerNgrokUrl": "https://packager.b9-j9m.anonymous.ssh.exp.direct",
-  "ngrokPid": 20748
+  "packagerPid": 15760,
+  "expoServerNgrokUrl": "https://83-da3.anonymous.ssh.exp.direct",
+  "packagerNgrokUrl": "https://packager.83-da3.anonymous.ssh.exp.direct",
+  "ngrokPid": 24064
 }
