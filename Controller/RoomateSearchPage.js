@@ -227,7 +227,6 @@ const styles = StyleSheet.create({
         backgroundColor: '#FFF',
         elevation:2,
         alignItems: "center",
-        borderWidth: 1,
     },
     profilePic:{
         width: 120,
