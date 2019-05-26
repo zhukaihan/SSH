@@ -83,12 +83,17 @@ export default class HousingSearchPage extends React.Component{
 		const end = (page+1)*Items_Per_Page-1;
 		console.log("start:" + start);
 		console.log("end" + end);
+		if(this.state.housingItems.length > end){
 		var newData = this.state.housingItems.slice(start,end);
 		this.setState({
 			displayList:[...displayList,...newData],
 			page:page+1,
+			
+		});
+		this.setState({
 			isFetchingHouseData: false
 		});
+	}
 	}
 
 	componentWillMount() {
@@ -121,7 +126,8 @@ export default class HousingSearchPage extends React.Component{
 					break;
 				}
 			}
-			});
+
+		});
 		this.setState({
 				displayList: newHousingItems,
 				isFetchingHouseData: false
@@ -151,6 +157,7 @@ export default class HousingSearchPage extends React.Component{
 						inputContainerStyle={{backgroundColor: 'white', marginStart:30, marginEnd:30, marginTop: 30, width: '85%'}}
 						onChangeText={this.updateSearchQuery}
 						value={this.state.searchQuery}
+						onClear={this.getHousingData}
 					/>
 
 					<TouchableOpacity onPress={this.searchAndUpdateWithQuery}>
