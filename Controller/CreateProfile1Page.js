@@ -23,7 +23,6 @@ export default class CreateProfile1Page extends Component{
             first_name: "",
             last_name: "",
             name_preferred: "",
-            email: "",
             gender: "",
             major: "",
             graduation: "",
@@ -80,7 +79,6 @@ export default class CreateProfile1Page extends Component{
                 clean: this.state.clean,
                 wake_early: this.state.wake_early,
                 description: this.state.description,
-                email: this.state.email
             });
         }
     }
@@ -126,13 +124,6 @@ export default class CreateProfile1Page extends Component{
                         style={styles.textBox}
                         placeholder={"Preferred Name"}
                         onChangeText={(name_preferred)=>{this.setState({name_preferred})}}></TextInput>
-                </View>
-                <View style={styles.inputContainer}>
-                <TextInput 
-                        style={styles.textBox}
-                        placeholder={"Email"}
-                        onChangeText={(email)=>{this.setState({email})}}></TextInput>
-                    <Icon name={"asterisk"} style={styles.ast}></Icon>
                 </View>
                 <View style={styles.tpickerBox}>
                 <RNPickerSelect

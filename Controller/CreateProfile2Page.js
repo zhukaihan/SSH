@@ -22,7 +22,6 @@ export default class CreateProfile2Page extends Component{
             first_name: this.first_name,
             last_name: this.last_name,
             name_preferred: this.name_preferred,
-            email:this.email,
             gender:this.gender,
             major:this.major,
             graduation:this.graduation,
@@ -57,7 +56,6 @@ export default class CreateProfile2Page extends Component{
             clean: this.state.clean,
             wake_early: this.state.wake_early,
             description: this.state.description,
-            email:this.state.email,
         });
     }
     nextslide=()=>{
@@ -77,7 +75,6 @@ export default class CreateProfile2Page extends Component{
                 clean: this.state.clean,
                 wake_early: this.state.wake_early,
                 description: this.state.description,
-                email:this.state.email,
             });
         }
     }
