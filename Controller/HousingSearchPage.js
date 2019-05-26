@@ -140,7 +140,8 @@ export default class HousingSearchPage extends React.Component{
 
 
 		return (
-			<SafeAreaView style={{flex: 1, backgorundColor: '#2EA9DF'}}>
+			<SafeAreaView style={{flex: 1, backgorundColor: '#2EA9DF'}} forceInset={{'top': 'never'}}>
+				<View style={{backgroundColor: '#f7f7f7'}}>
 				<View style={{margin: 0}}>
 					<SearchBar
 						placeholder="Search Keywords"
@@ -151,11 +152,13 @@ export default class HousingSearchPage extends React.Component{
 						onChangeText={this.updateSearchQuery}
 						value={this.state.searchQuery}
 					/>
+
 					<TouchableOpacity onPress={this.searchAndUpdateWithQuery}>
 							<View>
 								<Text>Search</Text>
 							</View>
 					</TouchableOpacity>
+					
 				</View>
 				<FlatList
 					keyExtractor={(item, index) => index.toString()}
@@ -172,7 +175,8 @@ export default class HousingSearchPage extends React.Component{
 							/>
 					)}
 				/>
-      </SafeAreaView>
+				</View>
+      		</SafeAreaView>
 		);
 	}
 

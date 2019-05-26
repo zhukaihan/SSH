@@ -173,7 +173,8 @@ export default class RoomateSearchPage extends React.Component{
     render = () => {
         
         return(
-                 <SafeAreaView style={{flex: 1, backgroundColor: '#F7F7F7'}}>
+            <SafeAreaView style={{flex: 1, backgroundColor: '#F7F7F7'}} forceInset={{'top': 'never'}}>
+            <View style={{backgroundColor: '#f7f7f7'}}>
                 <View style={{margin: 0}}>
                     <SearchBar
 						placeholder="Search Keywords"
@@ -191,6 +192,7 @@ export default class RoomateSearchPage extends React.Component{
                     renderItem={({item}) => {return this.renderItem(item)}}  
                     numColumns={2}       
                 />
+            </View>
             </SafeAreaView>
         );
     };
