@@ -38,6 +38,7 @@ export default class HousingSearchPage extends React.Component{
 	getHousingData = () => {
 		console.log("getting all Data");
 		this.setState({
+			displayList:[],
 			isFetchingHouseData: true
 		})
 		const zero = 0;
@@ -60,6 +61,22 @@ export default class HousingSearchPage extends React.Component{
 				page:page+1,
 				isFetchingHouseData: false
 			});
+		});
+	}
+
+	onRefresh = () => {
+		this.setState({
+			isFetchingHouseData: true,
+			page: 0,
+		})
+		const { page, displayList } = this.state;
+		const start = page*Items_Per_Page;
+		const end = (page+1)*Items_Per_Page-1;
+		var newData = this.state.displayList.slice(start,end);
+		this.setState({
+			displayList:[...displayList,...newData],
+			page:page+1,
+			isFetchingHouseData: false
 		});
 	}
 
@@ -106,15 +123,25 @@ export default class HousingSearchPage extends React.Component{
 	
 	searchAndUpdateWithQuery = () => {
 		this.setState({
+			displayList:[],
 			isFetchingHouseData: true
 		})
 		if(this.state.searchQuery == ""){
 			this.getHousingData();
 		}
 
-		// Find query about bedrooms. 
-		let numBathStrs = this.state.searchQuery.match(/[0-9]+( )*(bathroom|bath|ba)[es]*/g);
-		let numBath = numBathStrs && numBathStrs.length > 0 ? numBathStrs[0].match(/[0-9]*/g)[0] : 0
+		// Find query about bathrooms. 
+		let numBathStrs = this.state.searchQuery.match(/[0-9]+( )*(Bathroom|BA|bathroom|bath|ba)[es|s]*/g);
+		let numBath = numBathStrs && numBathStrs.length > 0 ? numBathStrs[0].match(/[0-9]*/g)[0] : 0;
+		// Find query about bedrooms
+		let numBedStrs = this.state.searchQuery.match(/[0-9]+( )*(Bedroom|BED|bedroom|bed|be)[s]*/g);
+		let numBed = numBedStrs && numBedStrs.length > 0 ? numBedStrs[0].match(/[0-9]*/g)[0] : 0;
+		// Find query about parkings
+		let numParkStrs = this.state.searchQuery.match(/[0-9]+( )*(parking|Parking|P)[s]*/g);
+		let numPark = numParkStrs && numParkStrs.length > 0 ? numParkStrs[0].match(/[0-9]*/g)[0] : 0;
+		// Find query about pricing
+		let pricingStrs = this.state.searchQuery.match(/[0-9]\d\d|[0-9]\d\d\d/g);
+		let maxPrice = pricingStrs && pricingStrs.length > 2 ? pricingStrs.match(/[0-9]\d\d|[0-9]\d\d\d/g) : 0;
 
 		var searchString = this.state.searchQuery.toString().split(" ");
 		console.log(searchString);
@@ -123,10 +150,21 @@ export default class HousingSearchPage extends React.Component{
 		let newHousingItems = [];
 	 	this.state.housingItems.forEach(function(housingItem){
 
-			if (numBath > 0 && housingItem.num_bathroom == numBath) {
+			if (numBath > 0 && housingItem.num_bathroom >= numBath) {
 				// This house matches the required number of bathrooms. 
 				newHousingItems.push(housingItem);
 			}
+			if (numBed > 0 && housingItem.num_bedroom >= numBath) {
+				// This house matches the required number of bedroom. 
+				newHousingItems.push(housingItem);
+			}
+			if (numPark > 0 && housingItem.num_parking >= numBath) {
+				// This house matches the required number of parking. 
+				newHousingItems.push(housingItem);
+			}	
+			if (maxPrice > 0 && housingItem.price+50 <= maxPrice) {
+				newHousingItems.push(housingItem);
+			}	// This house is within $50 dollar radius of the price people entered.
 
 			let bloomfilterArr = JSON.parse(housingItem.bloomfilter);
 			var Bloom = new bloom(bloomfilterArr,16);
@@ -163,6 +201,7 @@ export default class HousingSearchPage extends React.Component{
 						onChangeText={this.updateSearchQuery}
 						value={this.state.searchQuery}
 						onClear={this.getHousingData}
+						onSubmitEditing={this.searchAndUpdateWithQuery}
 
 						searchIcon={
 							<TouchableOpacity onPress={this.searchAndUpdateWithQuery}>
@@ -176,7 +215,7 @@ export default class HousingSearchPage extends React.Component{
 					<FlatList
 						keyExtractor={(item, index) => index.toString()}
 						data={this.state.displayList}
-						onRefresh={this.getHousingData}
+						onRefresh={this.onRefresh}
 						refreshing={this.state.isFetchingHouseData}
 						onEndReached={this.loadMore}
 						onEndReachedThreshold={0.7}
