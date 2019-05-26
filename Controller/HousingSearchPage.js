@@ -158,7 +158,6 @@ export default class HousingSearchPage extends React.Component{
 						onChangeText={this.updateSearchQuery}
 						value={this.state.searchQuery}
 						onClear={this.getHousingData}
-					/>
 
 						searchIcon={
 							<TouchableOpacity onPress={this.searchAndUpdateWithQuery}>
