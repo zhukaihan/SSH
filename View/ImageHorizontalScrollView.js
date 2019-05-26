@@ -19,10 +19,10 @@ export default class ImageHorizontalScrollView extends React.Component {
 				/>
 			))
 		}
-		pictureUrls.forEach((picture) => {
+		pictureUrls.forEach((picture, index) => {
 			imgs.push((
 				<ImageLoad
-					key={picture}
+					key={index}
 					source={{url: picture}}
 					style={{
 						height: 200,
