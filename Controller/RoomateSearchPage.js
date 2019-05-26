@@ -1,7 +1,6 @@
 import { AppRegistry, Platform, Picker, TextInput, Button, View, FlatList, ActivityIndicator, Text, StyleSheet, Image, Dimensions} from 'react-native';
-import { ListItem, List , SearchBar, Input} from 'react-native-elements';
+import { ListItem, List , Icon, SearchBar, Input} from 'react-native-elements';
 import React from 'react';
-import Icon from 'react-native-vector-icons/AntDesign';
 import { TouchableOpacity, TouchableHighlight } from 'react-native';
 import RF from 'react-native-responsive-fontsize';
 import 'firebase/firestore' //Must import if you're using firestoreee
