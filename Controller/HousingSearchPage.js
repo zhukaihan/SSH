@@ -113,7 +113,7 @@ export default class HousingSearchPage extends React.Component{
 	}
 	}
 
-	componentWillMount() {
+	componentDidMount() {
 		this.getHousingData();
 	}
 
@@ -196,7 +196,7 @@ export default class HousingSearchPage extends React.Component{
 						placeholder="Search Keywords"
 						lightTheme={true}
 						round={true}
-						containerStyle={{backgroundColor: '#2EA9DF', height: 70, borderTopWidth: 0}}
+						containerStyle={{backgroundColor: '#f7f7f7', borderTopWidth: 0}}
 						inputContainerStyle={{backgroundColor: 'white', marginStart:30, marginEnd:30, width: '85%', flexDirection: 'row-reverse'}}
 						onChangeText={this.updateSearchQuery}
 						value={this.state.searchQuery}
