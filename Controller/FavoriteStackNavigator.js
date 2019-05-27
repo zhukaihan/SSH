@@ -7,45 +7,6 @@ import ProfilePage from './ProfilePage';
 import FavHousingPage from './FavHousingPage';
 import FavRoommatePage from './FavRoommatePage';
 
-const FavHousingTabNavigator = createStackNavigator(
-	{
-		FavHousingPage: {
-			screen: FavHousingPage, 
-			navigationOptions: {
-				headerVisible: false
-			}
-		},
-		ViewHousingPage: {
-			screen: ViewHousingPage
-		},
-	},
-	{
-		initialRouteName: 'FavHousingPage',
-		headerMode: 'none',
-		navigationOptions: {
-		}
-	}
-)
-
-const FavRoommateTabNavigator = createStackNavigator(
-	{
-		FavRoommatePage: {
-			screen: FavRoommatePage, 
-			navigationOptions: {
-				headerVisible: false
-			}
-		},
-		ProfilePage: {
-			screen: ProfilePage
-		},
-	},
-	{
-		initialRouteName: 'FavRoommatePage',
-		headerMode: 'none',
-		navigationOptions: {
-		}
-	}
-)
 
 function SafeAreaMaterialTopTabBar (props) {
   return (
@@ -57,14 +18,14 @@ function SafeAreaMaterialTopTabBar (props) {
 
 const FavoriteTopTabNavigator = createMaterialTopTabNavigator(
 	{
-		FavHousingTabNavigator:{
-			screen: FavHousingTabNavigator,
+		FavHousingPage:{
+			screen: FavHousingPage,
 			navigationOptions:{
 				tabBarLabel:"Housing",
 			}
 		},
-		FavRoommateTabNavigator:{
-			screen: FavRoommateTabNavigator,
+		FavRoommatePage:{
+			screen: FavRoommatePage,
 			navigationOptions:{
 				tabBarLabel:"Roommates",
 			}
@@ -72,8 +33,36 @@ const FavoriteTopTabNavigator = createMaterialTopTabNavigator(
 	},
 	{
 		tabBarComponent: SafeAreaMaterialTopTabBar,
-		lazy: true
+		lazy: true,
+		tabBarOptions: {
+			style: {
+				backgroundColor: '#2EA9DF'
+			}
+		}
 	}
 );
 
-export default FavoriteTopTabNavigator;
+const FavoriteStackNavigator = createStackNavigator(
+	{
+		FavoriteTopTabNavigator: {
+			screen: FavoriteTopTabNavigator, 
+			navigationOptions: {
+				headerVisible: false
+			}
+		},
+		ViewHousingPage: {
+			screen: ViewHousingPage
+		},
+		ProfilePage: {
+			screen: ProfilePage
+		},
+	},
+	{
+		initialRouteName: 'FavoriteTopTabNavigator',
+		headerMode: 'none',
+		navigationOptions: {
+		}
+	}
+)
+
+export default FavoriteStackNavigator;

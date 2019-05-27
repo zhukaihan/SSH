@@ -19,12 +19,11 @@ export default class ProfilePage extends Component{
 
 	}
 
-	componentWillMount = () => {
+	componentDidMount = () => {
 		var userId = this.props.navigation.getParam("userId");
 		if (!userId || userId == "") {
 			userId = firebase.auth().currentUser.uid;
 		}
-		console.log(userId);
 		User.getUserWithUID(userId, (user) => {
 			this.setState({
 				user: user
