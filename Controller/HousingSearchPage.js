@@ -2,14 +2,14 @@
 
 import React, { Component } from 'react';
 import { StyleSheet, View, Image, Text, StatusBar, Button, Alert, FlatList, TouchableHighlight } from 'react-native';
-import { Icon, Card, Badge, SearchBar } from 'react-native-elements';
+import { Icon, Card, Badge, SearchBar,Overlay } from 'react-native-elements';
 import { SafeAreaView } from 'react-navigation';
 import firebase from 'firebase';
 import House from '../Model/House';
 import User from '../Model/User';
 import RF from "react-native-responsive-fontsize";
 import HousePreviewView from '../View/HousePreviewView';
-import { TouchableOpacity } from 'react-native-gesture-handler';
+import { TouchableOpacity, TextInput } from 'react-native-gesture-handler';
 
 const Items_Per_Page = 6;
 
@@ -19,7 +19,15 @@ export default class HousingSearchPage extends React.Component{
 		displayList: [],
 		isFetchingHouseData: true,
 		page: 0,
-		searchQuery: ""
+		searchQuery: "",
+		advSearchisVisible: false,
+		minPrice: null,
+		maxPrice: null,
+		bed: null,
+		bath: null,
+		parking: null,
+		tenant: null,
+		additional_tags: [],
 	}
 
 	constructor() {
@@ -127,7 +135,7 @@ export default class HousingSearchPage extends React.Component{
 	};
 
 	advanceSearchFilter = () =>{
-
+        
 	}
 	
 	searchAndUpdateWithQuery = () => {
@@ -196,6 +204,78 @@ export default class HousingSearchPage extends React.Component{
 
 	}
 
+	updateFilter = () =>{
+		this.setState({
+			displayList:[],
+			isFetchingHouseData: true
+		})
+		const zero = 0;
+		var filter = this.housesRef;
+		if(this.state.minPrice != null){
+            filter = this.housesRef.where("price", ">", parseInt(this.state.minPrice));
+		}
+		if(this.state.maxPrice != null){
+			filter = this.housesRef.where("price", "<", parseInt(this.state.maxPrice));
+		}
+		if(this.state.bed != null){
+			filter = this.housesRef.where("num_bedroom", ">=", parseInt(this.state.bed));
+		}
+		if(this.state.bath != null){
+			filter = this.housesRef.where("num_bathroom", ">=", parseInt(this.state.bath));
+		}
+		if(this.state.parking != null){
+			filter = this.housesRef.where("num_parking", ">=", parseInt(this.state.parking));
+		}
+		if(this.state.tenant != null){
+			filter = this.housesRef.where("num_tenant", ">=", parseInt(this.state.tenant));
+		}
+		filter.get().then(snapshot => {
+			let housingItems = [];
+			snapshot.forEach(house => {
+				var aHouse = new House(house.data(), house.id);
+				housingItems.push(aHouse);
+			});
+			this.setState({
+				housingItems: housingItems,
+				page: zero,
+			});
+			const { page, displayList } = this.state;
+			const start = page*Items_Per_Page;
+			const end = (page+1)*Items_Per_Page-1;
+			var newData = housingItems.slice(start,end);
+			this.setState({
+				displayList:[...displayList,...newData],
+				page:page+1,
+			});
+		});
+		this.setState({
+            isFetchingHouseData: false
+		})
+	}
+	
+	clearFilter = () =>{  
+        this.setState({
+			minPrice: null,
+			maxPrice: null,
+			bed: null,
+			bath: null,
+			parking: null,
+			tenant: null,
+		})
+	}
+	applyFilter = () =>{
+		this.setState({
+			advSearchisVisible:false,
+		})
+		this.updateFilter();
+	}
+
+	cancelFilter = () =>{
+		this.setState({
+			advSearchisVisible:false,
+		})
+	}
+
 	render = () => {
 
 		return (
@@ -220,7 +300,131 @@ export default class HousingSearchPage extends React.Component{
 							</TouchableOpacity>
 						}
 					/>
-
+				    <TouchableOpacity onPress={()=> this.setState({advSearchisVisible:true})}>
+						<Text>Advance Search</Text>
+					</TouchableOpacity>
+                    <Overlay
+						isVisible={this.state.advSearchisVisible}
+						width="auto"
+						height="auto"
+						onBackdropPress={() =>
+							this.setState({advSearchisVisible: false})
+						}
+					>
+					<View style={{flexDirection:"column"}}>
+					    <View style={styles.OverlayContainer}>
+						<Text>Price:</Text>
+							<TextInput placeholder="0" style={styles.textInput} 
+							onChangeText={ minPrice =>{
+								if(minPrice != ""){
+								this.setState({minPrice})
+								}else{
+									this.setState({minPrice:null})
+								}
+								console.log(this.state.minPrice);
+								}}
+							keyboardType={"number-pad"}
+							value={this.state.minPrice}></TextInput>
+							<Text> To </Text>
+							<TextInput placeholder="0" id="maxPrice" style={styles.textInput} 
+							onChangeText={maxPrice =>{
+								if(maxPrice !=""){
+								this.setState({maxPrice})
+								}else{
+									this.setState({maxPrice:null})
+								}
+								console.log(this.state.maxPrice);
+								}}
+							keyboardType={"number-pad"}
+							value={this.state.maxPrice}></TextInput>
+						</View>
+						<View style={styles.OverlayContainer}>
+						<Text>Bath:</Text>
+							<TextInput placeholder="0" id="bath" style={styles.textInput} 
+							onChangeText={bath =>{
+								if(bath != ""){
+								this.setState({bath})}
+								else{
+									this.setState({bath:null})
+								}
+								console.log(this.state.bath);
+								}
+				
+							}
+							keyboardType={"number-pad"}
+							value={this.state.bath}>
+							</TextInput>
+						</View>
+						<View style={styles.OverlayContainer}>
+						<Text>Bed:</Text>
+							<TextInput placeholder="0"id="bed" style={styles.textInput} 
+							onChangeText={bed =>{
+								if(!bed){
+								this.setState({bed})}
+								else{
+									this.setState({bed:null})
+								}
+								console.log(this.state.bed);
+								}}
+							keyboardType={"number-pad"}
+							value={this.state.bed}>
+							</TextInput>
+						</View>
+						<View style={styles.OverlayContainer}>
+						<Text>Parking:</Text>
+							<TextInput placeholder="0" id="parking" style={styles.textInput} 
+							onChangeText={parking =>{
+								if(!parking){
+								this.setState({parking})}
+								else{
+									this.setState({parking:null})
+								}
+								console.log(this.state.parking);
+								}}
+							keyboardType={"number-pad"}
+							value={this.state.parking}></TextInput>
+						</View>
+						<View style={styles.OverlayContainer}>
+						<Text>Tenant:</Text>
+							<TextInput placeholder="0" id="tenant" style={styles.textInput} 
+							onChangeText={tenant =>{
+								if(!tenant){
+								this.setState({tenant})}
+								else{
+									this.setState({tenant:null})
+								}
+								console.log(this.state.tenant);
+								}}
+							keyboardType={"number-pad"}
+							value={this.state.tenant}></TextInput>
+						</View>
+						<View style={styles.OverlayContainer}>
+						<Text>Additional Tags:</Text>
+							<TextInput placeholder="0" id="additional_tags" style={styles.textInput} 
+							onChangeText={additional_tags =>{
+								this.setState({additional_tags})
+								console.log(this.state.additional_tags);
+								}}
+							keyboardType={"number-pad"}
+							></TextInput>
+						</View>
+						<TouchableOpacity onPress={()=>{
+							this.applyFilter();
+						}}>
+							<Text>Apply Filter</Text>
+						</TouchableOpacity>
+						<TouchableOpacity onPress={()=>{
+							this.cancelFilter();
+						}}>
+							<Text>Cancel</Text>
+						</TouchableOpacity>
+						<TouchableOpacity onPress={()=>{
+							this.clearFilter();
+						}}>
+							<Text>Clear</Text>
+						</TouchableOpacity>
+						</View>
+					</Overlay>
 					<FlatList
 						keyExtractor={(item, index) => index.toString()}
 						data={this.state.displayList}
@@ -245,4 +449,11 @@ export default class HousingSearchPage extends React.Component{
 
 
 const styles = StyleSheet.create({
+	OverlayContainer:{
+        flexDirection:"row",
+	},
+	textInput:{
+		borderWidth:1,
+		borderColor:"#fff",
+	}
 })
