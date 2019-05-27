@@ -32,7 +32,7 @@ export default class RoomateSearchPage extends React.Component{
     }
     componentWillUnmount(){
     //this function will close the subsciption when user stop using this page
-        //this.unsubscribe();
+        this.unsubscribe();
     }
     //OnColectionUpdate = (querysnapshot) =>{} 
     // onCollectionUpdate is just a function that we called. we can rename it anything else.
@@ -64,7 +64,7 @@ export default class RoomateSearchPage extends React.Component{
         });
     }
 
-    componentDidMount(){
+    componentWillMount(){
         this.getRoommateData();
     }
 
@@ -97,19 +97,26 @@ export default class RoomateSearchPage extends React.Component{
     }
 
     onRefresh = () => {
+        if( this.state.searchQuery == ""){
+            this.getRoommateData();
+        }
+        else{
+        const zero = 0;
         this.setState({
+            displayList:[],
 			isFetchingHouseData: true,
-			page: 0,
+			page: zero,
 		})
-		const { page, displayList } = this.state;
+		const { page } = this.state;
 		const start = page*Items_Per_Page;
 		const end = (page+1)*Items_Per_Page-1;
 		var newData = this.state.displayList.slice(start,end);
 		this.setState({
-			displayList:[...displayList,...newData],
+			displayList:[...newData],
 			page:page+1,
 			isFetchingHouseData: false
-		});
+        });
+    }
     }
 
     LoadMore = () => {
@@ -145,43 +152,29 @@ export default class RoomateSearchPage extends React.Component{
 			isFetchingHouseData: true
 		})
 		if(this.state.searchQuery == ""){
-			this.getRoommateData();
+			this.onRefresh;
         }
-
-        let genderStr = this.state.searchQuery.match(/{male|boy|men|man}[s]*/g) || 
-        this.state.searchQuery.match(/{female|girl|woman|women}[s]*/g)? "male" : "female";
-        
-        var searchString = this.state.searchQuery.toString().split(" ");
-		console.log(searchString);
-		var bf = require("./bloomfilter"),
-        bloom=bf.BloomFilter;
-		let newRoommateItems = [];
-	 	this.state.roommateItems.forEach(function(roommateItem){
-
-            if ( roommateItem.gender == genderStr) {
-				// This house matches the required number of bathrooms. 
-				newRoommateItems.push(roommateItem);
-			}
-			let bloomfilterArr = JSON.parse(roommateItem.bloomfilter);
-			var Bloom = new bloom(bloomfilterArr,16);
-			for(var i = 0; i < searchString.length; i++){
-				if(Bloom.test(searchString[i])){
-					newRoommateItems.push(roommateItem);
-					console.log(roommateItem.title);
-					break;
-				}
-			}
-
-		});
-		this.setState({
-				displayList: newRoommateItems,
-				isFetchingHouseData: false
-		});
+        const newData = this.state.roommateItems.filter(item =>{
+            const ItemData = `${item.first_name.toUpperCase()}
+            ${item.last_name.toUpperCase()}`;
+            const textData = this.state.searchQuery.toUpperCase();
+            return ItemData.indexOf(textData) > -1;
+        })
+        this.setState({displayList: newData,
+            isFetchingHouseData: false});
 
     }
 
 	updateSearchQuery = searchQuery => {
-		this.setState({ searchQuery });
+        this.setState({ searchQuery });
+        const newData = this.state.roommateItems.filter(item =>{
+            const ItemData = `${item.first_name.toUpperCase()}
+            ${item.last_name.toUpperCase()}
+            ${item.name_preferred.toUpperCase()}`;
+            const textData = searchQuery.toUpperCase();
+            return ItemData.indexOf(textData) > -1;
+        })
+        this.setState({displayList: newData})
 	};
 
     GoTo = (userId) => {
@@ -228,14 +221,14 @@ export default class RoomateSearchPage extends React.Component{
             <SafeAreaView style={{flex: 1, backgroundColor: '#2EA9DF'}}>
                 <View style={{flex: 1, backgroundColor: '#f7f7f7'}}>
                 <SearchBar
-						placeholder="Search Keywords"
+						placeholder="Search for Name"
 						lightTheme={true}
 						round={true}
-						containerStyle={{backgroundColor: '#f7f7f7', borderTopWidth: 0}}
+						containerStyle={{backgroundColor: '#2EA9DF', height: 70, borderTopWidth: 0}}
 						inputContainerStyle={{backgroundColor: 'white', marginStart:30, marginEnd:30, width: '85%', flexDirection: 'row-reverse'}}
 						onChangeText={this.updateSearchQuery}
 						value={this.state.searchQuery}
-                        onClear={this.getRoommateData}
+                        onClear={this.onRefresh}
                         onSubmitEditing={this.onSearch}
 						searchIcon={
 							<TouchableOpacity onPress={this.onSearch}>
