@@ -12,8 +12,8 @@ const TabNavigator = createBottomTabNavigator(
 		SearchStackNavigator: {
 			screen: SearchStackNavigator, 
 			navigationOptions: {
-				tabBarLabel:"Houses",
-				tabBarIcon: <Icon name="home" type="font-awesome"/>
+				tabBarLabel:"Search",
+				tabBarIcon: <Icon name="search" type="font-awesome"/>
 			}
 		},
 		FavoriteStackNavigator:{
