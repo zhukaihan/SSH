@@ -65,6 +65,10 @@ export default class HousingSearchPage extends React.Component{
 	}
 
 	onRefresh = () => {
+		if(this.state.searchQuery == ""){
+			this.getHousingData();
+		}
+		else{
 		this.setState({
 			isFetchingHouseData: true,
 			page: 0,
@@ -78,6 +82,7 @@ export default class HousingSearchPage extends React.Component{
 			page:page+1,
 			isFetchingHouseData: false
 		});
+	}
 	}
 
 	openHouse = (house) => {
@@ -120,6 +125,10 @@ export default class HousingSearchPage extends React.Component{
 	updateSearchQuery = searchQuery => {
 		this.setState({ searchQuery });
 	};
+
+	advanceSearchFilter = () =>{
+
+	}
 	
 	searchAndUpdateWithQuery = () => {
 		this.setState({
@@ -140,7 +149,7 @@ export default class HousingSearchPage extends React.Component{
 		let numParkStrs = this.state.searchQuery.match(/[0-9]+( )*(parking|Parking|P)[s]*/g);
 		let numPark = numParkStrs && numParkStrs.length > 0 ? numParkStrs[0].match(/[0-9]*/g)[0] : 0;
 		// Find query about pricing
-		let pricingStrs = this.state.searchQuery.match(/[0-9]\d\d|[0-9]\d\d\d/g);
+		let pricingStrs = this.state.searchQuery.match(/[$]*[0-9]\d\d|[0-9]\d\d\d/g);
 		let maxPrice = pricingStrs && pricingStrs.length > 2 ? pricingStrs.match(/[0-9]\d\d|[0-9]\d\d\d/g) : 0;
 
 		var searchString = this.state.searchQuery.toString().split(" ");
