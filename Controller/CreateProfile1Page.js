@@ -179,13 +179,13 @@ export default class CreateProfile1Page extends Component{
             </View>
                     <View style={[styles.inputView, {paddingBottom: this.state.paddingBottom}]}>
                     <View style={{flexDirection:"row", alignItems: "center", marginBottom: RF(3)}}>
-                       <Text style={{fontSize:RF(2.4)}}> Required Field </Text>
-                       <Text style={{fontSize:RF(2.4), color: 'red'}}>*</Text>
+                       <Text style={{fontSize:RF(2.4), color: 'red'}}> Required Field </Text>
                    </View>
                    <View style={styles.inputContainer}>
                    <TextInput
                         style={styles.tinput}
                         placeholder={"First Name"}
+                        placeholderTextColor={'red'}
                         onChangeText={(first_name)=>{this.setState({first_name})}}
                         onFocus={(event: Event) => {
                             // `bind` the function if you're using ES6 classes
@@ -196,6 +196,7 @@ export default class CreateProfile1Page extends Component{
                   <TextInput
                         style={styles.tinput}
                         placeholder={"Last Name"}
+                        placeholderTextColor={'red'}
                         onChangeText={(last_name)=>{this.setState({last_name})}}
                         onFocus={(event: Event) => {
                             // `bind` the function if you're using ES6 classes
@@ -225,6 +226,7 @@ export default class CreateProfile1Page extends Component{
                         style={{...pickerSelectStyles}}
                         onValueChange={(itemValue, itemIndex)=> this.setState({gender: itemValue})}
                         placeholder={{label: 'Gender', value: null}}
+                        placeholderTextColor={'red'}
                         items={this.state.items}
                         onValueChange={(value) =>{
                             this.setState({
