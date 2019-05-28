@@ -38,24 +38,45 @@ export default class LogInPage extends React.Component{
 
       const result = await Google.logInAsync({
 				// Client IDs, needed to be created on Google Developers Console.
+				behavior: 'web',
 				clientId: "294694508822-hfqkhpg9mch5dp4k87um6ri6ka8vj5kg.apps.googleusercontent.com",
 				webClientId,
-				behavior: 'web'
       })
 
       if (result.type === "success") {
 				// If user is a UCSD user, also log into firebase to access data. 
         if (result.user.email.endsWith("@ucsd.edu")) {
 					const credential = firebase.auth.GoogleAuthProvider.credential(result.idToken, result.accessToken);
-					firebase.auth().signInAndRetrieveDataWithCredential(credential).then(() => this.navigateToHome());
+					firebase.auth().signInAndRetrieveDataWithCredential(credential)
+					.then(() => this.navigateToHome())
+					.catch(() => {
+						Alert.alert(
+							'Log In Failed',
+							'Please try again later. ',
+							[{text: 'Okay'}],
+							{cancelable: false},
+						)
+					});
         } else {
 					this.showAlert();
 				}
       } else {
-        // log in cancelled
+				// log in cancelled
+				Alert.alert(
+					'Authentication Failed',
+					'Please try again later. ',
+					[{text: 'Okay'}],
+					{cancelable: false},
+				)
       }
 		} catch (e) {
 			// log in error
+			Alert.alert(
+				'Unexpected Error',
+				'Please try again later. ',
+				[{text: 'Okay'}],
+				{cancelable: false},
+			)
 		}
   }
 
