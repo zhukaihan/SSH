@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
-import { StyleSheet, View, Image, Text, Button, FlatList, TouchableHighlight, ScrollView } from 'react-native';
-import { Icon } from 'react-native-elements';
+import { StyleSheet, View, Text, Button, FlatList, TouchableHighlight, ScrollView } from 'react-native';
+import { Icon, Image } from 'react-native-elements';
 import { SafeAreaView } from 'react-navigation';
 import firebase from 'firebase';
 import House from '../Model/House';
@@ -78,7 +78,7 @@ export default class ViewHousingPage extends React.Component{
 					>
 						<Image
 							key={tenant.profileimage}
-							source={{url: tenant.profileimage}}
+							source={{url: tenant.profileimage, cache: 'force-cache'}}
 							style={{
 								height: 200
 							}}
@@ -130,7 +130,7 @@ export default class ViewHousingPage extends React.Component{
 							<View style={styles.roomInfoRightView}>
 								{this.state.landlord.profileimage != "" ?
 									(<Image
-										source={{uri: this.state.landlord.profileimage}}
+										source={{uri: this.state.landlord.profileimage, cache: 'force-cache'}}
 										style={styles.roomInfoRightImage}
 									/>) : 
 									(<View style={styles.roomInfoRightImage}></View>)

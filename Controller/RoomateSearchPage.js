@@ -1,5 +1,5 @@
-import { AppRegistry, Platform, Picker, TextInput, Button, View, FlatList, ActivityIndicator, Text, StyleSheet, Image, Dimensions} from 'react-native';
-import { ListItem, List , Icon, SearchBar, Input} from 'react-native-elements';
+import { AppRegistry, Platform, Picker, TextInput, Button, View, FlatList, ActivityIndicator, Text, StyleSheet, Dimensions} from 'react-native';
+import { ListItem, List , Icon, SearchBar, Input, Image} from 'react-native-elements';
 import React from 'react';
 import { TouchableOpacity, TouchableHighlight } from 'react-native';
 import RF from 'react-native-responsive-fontsize';

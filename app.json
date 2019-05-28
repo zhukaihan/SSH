@@ -10,9 +10,9 @@
     ],
     "version": "1.0.0",
     "orientation": "portrait",
-    "icon": "./View/assets/icon.png",
+    "icon": "./View/assets/icon.jpg",
     "splash": {
-      "image": "./View/assets/splash.png",
+      "image": "./View/assets/splash.jpg",
       "resizeMode": "contain",
       "backgroundColor": "#ffffff"
     },
@@ -23,7 +23,7 @@
       "**/*"
     ],
     "ios": {
-      "supportsTablet": true
+      "supportsTablet": false
     },
     "description": ""
   }
