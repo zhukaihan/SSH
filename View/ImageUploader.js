@@ -46,7 +46,7 @@ export default class ImageUploader {
 		_handleImagePicked = async pickerResult => {
 			try {
 				if (!pickerResult.cancelled) {
-					// Resize the image to a width of 320, and height calculated. 
+					// Resize the image to a width of 320, and height calculated automatically. 
 					const manipResult = await ImageManipulator.manipulateAsync(
 						pickerResult.uri,
 						[{ resize: { width: 320 }}],
