@@ -23,6 +23,7 @@
       "**/*"
     ],
     "ios": {
+      "buildNumber": "3",
       "bundleIdentifier": "com.zhukaihan.SSH",
       "supportsTablet": false
     },

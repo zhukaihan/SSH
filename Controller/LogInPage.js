@@ -40,6 +40,7 @@ export default class LogInPage extends React.Component{
 				// Client IDs, needed to be created on Google Developers Console.
 				clientId: "294694508822-hfqkhpg9mch5dp4k87um6ri6ka8vj5kg.apps.googleusercontent.com",
 				webClientId,
+				behavior: 'web'
       })
 
       if (result.type === "success") {
