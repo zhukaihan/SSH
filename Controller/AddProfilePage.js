@@ -278,7 +278,7 @@ async function uploadImageAsync(uri) {
     const ref = firebase
         .storage()
         .ref()
-        .child(`./users/${userId}/images/${uuid.v4()}.jpg`);
+        .child(`users/${userId}/images/${uuid.v4()}.jpg`);
     const snapshot = await ref.put(blob);
     
     // We're done with the blob, close and release it

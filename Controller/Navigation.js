@@ -1,12 +1,14 @@
 import { createStackNavigator, createAppContainer} from 'react-navigation';
 import LogInPage from './LogInPage';
 import TabNavigator from './TabNavigator';
-import RoomateSearchPage from './RoomateSearchPage';
-import ProfilePage from './ProfilePage';
 import CreateProfile1Page from './CreateProfile1Page';
 import CreateProfile2Page from './CreateProfile2Page';
 import CreateProfile3Page from './CreateProfile3Page';
 import AddProfilePage from './AddProfilePage';
+import HousingSearchPage from './HousingSearchPage';
+import ViewHousingPage from './ViewHousingPage';
+import RoomateSearchPage from './RoomateSearchPage';
+import ProfilePage from './ProfilePage';
 
 const MainNavigator = createStackNavigator(
 	{
@@ -19,12 +21,6 @@ const MainNavigator = createStackNavigator(
 				gesturesEnabled: false
 			}
 		},
-		RoomateSearchPage:{
-			screen: RoomateSearchPage,
-		},
-		ProfilePage:{
-			screen: ProfilePage,
-		},
 		CreateProfile1Page:{
 			screen: CreateProfile1Page,
 		},
@@ -36,7 +32,7 @@ const MainNavigator = createStackNavigator(
 		},
 		AddProfilePage:{
 			screen: AddProfilePage,
-		}
+		},
 	},
 	{
 		//initialize initial screen to createProfilepage2g
