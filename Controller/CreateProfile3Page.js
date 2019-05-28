@@ -42,21 +42,37 @@ export default class CreateProfile3Page extends Component{
                 {
                     label: 'Night', value:'night',
                 }
-            ]
+            ],
+            paddingBottom: 10
         }
     }
 
-    //alert function in case user did not enter anything
-    _showAlert = () => {
-        Alert.alert(
-          'Please enter required information',
-          'This is an alert message',
-          [
-            {text: 'OK', onPress: () => console.log('OK Pressed')},
-            {text: 'Cancel', onPress: () => console.log('Cancel Pressed'), style: 'cancel'},
-          ],
-          { cancelable: false }
-        )
+    _checkCleanOrMessy = () =>{
+        if(this.state.clean == ""){
+            return false;
+        }
+        return true;
+    }
+    _checkMorningOrNight = () =>{
+        if(this.state.wake_early == ""){
+            return false;
+        }
+        return true;
+    }
+    _checkDescription = () =>{
+        if(this.state.description == ""){
+            return false;
+        }
+        var wordCounter = 0;
+        for(var i = 0; i < this.state.description.length; i++){
+            if(this.state.description.charAt(i) == ' '){
+                wordCounter++;
+            }
+        }
+        if(wordCounter < 10){
+            return false;
+        }
+        return true;
     }
 
     backslide =() =>{
@@ -72,17 +88,45 @@ export default class CreateProfile3Page extends Component{
             wake_early: this.state.wake_early,
             description: this.state.description});
     }
-    nextslide = () =>{
-        if(this.state.description == ""){
-            this._showAlert();
-        } else{
+    nextslide = () => {
+        if (!this._checkCleanOrMessy()) {
+            Alert.alert(
+                'Invalid selection',
+                'Please select clean or messy',
+                [
+                    {text: 'OK', onPress: () => console.log('OK Pressed')},
+                    {text: 'Cancel', onPress: () => console.log('Cancel Pressed'), style: 'cancel'},
+                ],
+                {cancelable: false}
+            )
+        } else if (!this._checkMorningOrNight()) {
+            Alert.alert(
+                'Invalid selection',
+                'Please select morning or night',
+                [
+                    {text: 'OK', onPress: () => console.log('OK Pressed')},
+                    {text: 'Cancel', onPress: () => console.log('Cancel Pressed'), style: 'cancel'},
+                ],
+                {cancelable: false}
+            )
+        } else if (!this._checkDescription()) {
+            Alert.alert(
+                'Invalid response',
+                'Please make sure the description is over 10 words',
+                [
+                    {text: 'OK', onPress: () => console.log('OK Pressed')},
+                    {text: 'Cancel', onPress: () => console.log('Cancel Pressed'), style: 'cancel'},
+                ],
+                {cancelable: false}
+            )
+        } else {
             console.log(`${this.state.first_name}`);
-            this.props.navigation.navigate("AddProfilePage",{
+            this.props.navigation.navigate("AddProfilePage", {
                 first_name: this.state.first_name,
                 last_name: this.state.last_name,
                 name_preferred: this.state.name_preferred,
                 gender: this.state.gender,
-                major: this.state.major,      
+                major: this.state.major,
                 graduation: this.state.graduation,
                 additional_tags: this.state.additional_tags,
                 clean: this.state.clean,
@@ -91,6 +135,30 @@ export default class CreateProfile3Page extends Component{
             });
         }
     }
+
+    //Method for adding padding for keyboard inputs
+    //on bottom fields
+    Add_Padding=()=>{
+
+        this.setState({
+
+            paddingBottom : 100
+
+        })
+
+    }
+
+    //Method for deleting padding for keyboard inputs
+    //for bottom fields
+    Delete_Padding=()=>{
+
+        this.setState({
+
+            paddingBottom : 10
+        })
+    }
+
+
     render(){
         return(
             <SafeAreaView style={styles.pageContainer}>
@@ -113,6 +181,7 @@ export default class CreateProfile3Page extends Component{
                         style={{...pickerSelectStyles}}
                         onValueChange={(itemValue, itemIndex)=> this.setState({clean: itemValue})}
                         placeholder={{label: 'Select Here', value: null}}
+                        placeholderTextColor={'red'}
                         items={this.state.cleanPicker}
                         onValueChange={(value) =>{
                             this.setState({
@@ -127,6 +196,7 @@ export default class CreateProfile3Page extends Component{
                         style={{...pickerSelectStyles}}
                         onValueChange={(itemValue, itemIndex)=> this.setState({wake_early: itemValue})}
                         placeholder={{label: 'Select Here', value: null}}
+                        placeholderTextColor={'red'}
                         items={this.state.wake_earlyPicker}
                         onValueChange={(value) =>{
                             this.setState({
@@ -136,13 +206,23 @@ export default class CreateProfile3Page extends Component{
                         value={this.state.wake_early}
                         />
                 </View>
-                <View style={{flex:.5}}>
+                <View style={[{flex:.5,paddingBottom: this.state.paddingBottom}]}>
                 <Text style={{textAlign:"center", fontSize:RF(2.3)}}> Tell Us About Yourself </Text>
                 <View>
                     <TextInput style={{borderColor:"#243456", borderWidth:1,height:"90%", textAlignVertical:"top"}}
                                 onChangeText={(description)=> this.setState({description})}
                                 value = {this.state.description}
                                 placeholder = {"Type here"}
+                                placeholderTextColor={'red'}
+                                //Adds padding when user clicks on preferred gender field so the keyboard does not
+                                //cover the input field
+                               onFocus={(event: Event) => {
+                                   this.Add_Padding()
+                               }}
+                                //Deletes the extra padding when the user is not on the preferred gender field
+                               onBlur={(event: Event) => {
+                                   this.Delete_Padding()
+                               }}
                     />
                 </View>
                 </View>
@@ -178,16 +258,16 @@ const styles = StyleSheet.create({
     },
     additionalInfo:{
         width: "90%",
-        height: "33%",
+        height: "45%",
         justifyContent: 'center',
         textAlign:'center',
-        backgroundColor: '#2ea9df',
-        borderColor:'#2ea9df',
+        backgroundColor: '#00C488',
+        borderColor:'#00C488',
         borderRadius: 10,
         borderWidth: 10,
     },
     additionalInfoText:{
-        fontSize: RF(4),
+        fontSize: RF(4.5),
         fontWeight: 'bold',
         color: "#fff",
         textAlign: 'center',
@@ -238,7 +318,8 @@ const styles = StyleSheet.create({
         flex:.5,
     },
     nextButtonStyle:{
-        height: "80%",
+        height: "90%",
+        width: "100%",
         borderRadius:10,
         backgroundColor:"#2ea9df",
         borderColor:"#2ea9df",
@@ -256,7 +337,8 @@ const styles = StyleSheet.create({
         flex:.5,
     },
     backButtonStyle:{
-        height: "80%",
+        height: "90%",
+        width: "100%",
         borderRadius:10,
         backgroundColor:"#2ea9df",
         borderColor:"#2ea9df",
@@ -266,7 +348,7 @@ const styles = StyleSheet.create({
     },
     buttontextstyle:{
         textAlign:'center',
-        fontSize:RF(3),
+        fontSize:RF(4),
         color: "#fff",
         paddingLeft: RF(1),
         paddingRight: RF(1),

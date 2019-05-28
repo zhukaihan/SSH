@@ -19,7 +19,7 @@ export default class EditHousingPage extends React.Component{
 		txtInput: ""
 	}
 
-	componentWillMount() {
+	componentDidMount() {
 		let houseId = this.props.navigation.getParam("houseId", "")
 		if (houseId != "") {
 			// Get existing house. 

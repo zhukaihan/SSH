@@ -8,56 +8,31 @@ import firebase from 'firebase';
 import User from '../Model/User';
 import { SafeAreaView } from 'react-navigation';
 import RoommateFavButton from '../View/RoommateFavButton';
+import ImageLoad from 'react-native-image-placeholder';
+
+const Items_Per_Page = 21;
 
 export default class RoomateSearchPage extends React.Component{
+    state = {
+		roommateItems: [],
+		displayList: [],
+		isFetchingHouseData: true,
+		page: 0,
+		searchQuery: ""
+	}
     constructor(props){
         super(props);
-        //this.GoTo = this.GoTo.bind(this);
-        this.state={
-            hello: '',
-            items : [],
-            loading: false,
-            page: 1,
-            seed: 1,
-            error: null,
-            refreshing: false,
-        };
-        //this.ref is just a easier reference to use function like db.collection("users");
-        // collection is a function from firestore, that basically load onto the data you specify
-        //"users" is the name of the data document
-        //firestore uses "subscriptions", it means that as long as you're subscribe,
-        //you will continuous getting data. this varialbe is when we close the screen, we
-        //shut off the constant stream of data coming in.
-        this.ref = firebase.firestore().collection("users");
-				this.unsubscribe = null;
-    }
-    //componentDidMount is a function called when this page is being called.
-    //as the name suggested, 
-    componentDidMount(){
-        this.ref.get().then(this.onCollectionUpdate);
-        //this.unsubscribe = this.ref.onSnapshot(this.onCollectionUpdate);
-            //Here we use it to set the subscription and also call onCollectionUpdate.
-
+        this.roommateRef = firebase.firestore().collection("users");
+		User.getUserWithUID(firebase.auth().currentUser.uid, (user) => {
+			this.setState({
+				curUser: user
+			})
+		});
+		this.unsubscribe = null;
     }
     componentWillUnmount(){
     //this function will close the subsciption when user stop using this page
-        //this.unsubscribe();
-    }
-    _getImage(){
-				firebase.firestore().ref(``).child(`profileImage.jpg`).getDownloadURL().then(function(url){
-            var xhr = new XMLHttpRequest();
-            xhr.onload = function(event){
-                var blob = xhr.response;
-            };
-            xhr.open('GET',url);
-            xhr.send();
-
-            var img = document.getElementbyId('myimg');
-            img.src = url;
-            return img;
-        }).catch(function(error){
-
-        });
+        this.unsubscribe();
     }
     //OnColectionUpdate = (querysnapshot) =>{} 
     // onCollectionUpdate is just a function that we called. we can rename it anything else.
@@ -89,6 +64,119 @@ export default class RoomateSearchPage extends React.Component{
         });
     }
 
+    componentWillMount(){
+        this.getRoommateData();
+    }
+
+    getRoommateData = () => {
+        this.setState({
+			displayList:[],
+			isFetchingHouseData: true
+		})
+		const zero = 0;
+		this.roommateRef.get().then(snapshot => {
+			let roommateItems = [];
+			snapshot.forEach(roommate => {
+				var aUser = new User(roommate.data(), roommate.id);
+				roommateItems.push(aUser);
+			});
+			this.setState({
+				roommateItems: roommateItems,
+				page: zero,
+			});
+			const { page, displayList } = this.state;
+			const start = page*Items_Per_Page;
+			const end = (page+1)*Items_Per_Page-1;
+			var newData = roommateItems.slice(start,end);
+			this.setState({
+				displayList:[...displayList,...newData],
+				page:page+1,
+				isFetchingHouseData: false
+			});
+		});
+    }
+
+    onRefresh = () => {
+        if( this.state.searchQuery == ""){
+            this.getRoommateData();
+        }
+        else{
+        const zero = 0;
+        this.setState({
+            displayList:[],
+			isFetchingHouseData: true,
+			page: zero,
+		})
+		const { page } = this.state;
+		const start = page*Items_Per_Page;
+		const end = (page+1)*Items_Per_Page-1;
+		var newData = this.state.displayList.slice(start,end);
+		this.setState({
+			displayList:[...newData],
+			page:page+1,
+			isFetchingHouseData: false
+        });
+    }
+    }
+
+    LoadMore = () => {
+        console.log("load data");
+		if(this.state.roommateItems == null)
+		{
+			this.getRoommateData();
+		}
+		this.setState({
+			isFetchingHouseData: true
+		})
+		const { page, displayList } = this.state;
+		const start = page*Items_Per_Page;
+		const end = (page+1)*Items_Per_Page-1;
+		console.log("start:" + start);
+		console.log("end" + end);
+		if(this.state.roommateItems.length > end){
+		var newData = this.state.roommateItems.slice(start,end);
+		this.setState({
+			displayList:[...displayList,...newData],
+			page:page+1,
+			
+		});
+		this.setState({
+			isFetchingHouseData: false
+		});
+	}
+    }
+
+    onSearch = () => {
+        this.setState({
+			displayList:[],
+			isFetchingHouseData: true
+		})
+		if(this.state.searchQuery == ""){
+			this.onRefresh;
+        }
+        const newData = this.state.roommateItems.filter(item =>{
+            const ItemData = `${item.first_name.toUpperCase()}
+            ${item.last_name.toUpperCase()}`;
+            const textData = this.state.searchQuery.toUpperCase();
+            return ItemData.indexOf(textData) > -1;
+        })
+        this.setState({displayList: newData,
+            isFetchingHouseData: false});
+
+    }
+
+	updateSearchQuery = searchQuery => {
+        this.setState({ searchQuery });
+        const newData = this.state.roommateItems.filter(item =>{
+            const ItemData = `${item.first_name.toUpperCase()}
+            ${item.last_name.toUpperCase()}
+            ${item.name_preferred.toUpperCase()}`;
+            const textData = searchQuery.toUpperCase();
+            return ItemData.indexOf(textData) > -1;
+        })
+        this.setState({displayList: newData})
+	};
+
     GoTo = (userId) => {
         this.props.navigation.push("ProfilePage", {
             userId: userId
@@ -112,7 +200,7 @@ export default class RoomateSearchPage extends React.Component{
                     </TouchableOpacity>
 
                     <View style = {{flexDirection: 'row' , justifyContent: "center"}}> 
-                        <Image style={styles.profilePic}
+                        <ImageLoad style={styles.profilePic}
                             source={{uri: image}} />
                     </View>
                     
@@ -127,101 +215,48 @@ export default class RoomateSearchPage extends React.Component{
             </View>
         )
     }
-
-    handleRefresh = () => {
-        this.setState({
-            page:1,
-            seed: this.state.seed + 1,
-            refreshing: true
-        },
-        () => {
-            this.renderItem();
-        }
-        );
-    };
-
-    renderFooter = () =>{
-        if(!this.state.loading) return null;
-        return(
-            <View
-                style={{
-                    paddingVertical:20,
-                    borderTopWidth:1,
-                }}
-                >
-                <ActivityIndicator animating size="large"/>
-                </View>
-        );
-    }
-
-    renderHeader = () =>{
-        return <SearchBar placeholder="Type Here..."/>;
-    };
-
-    renderSeparator = () =>{
-        return (
-            <View
-            style={{ height:1,
-            width: "86%",
-            backgroundColor: "blue",
-            marginLeft: "14%"}}
-                />
-        );
-    };
-    _keyExtractor = (item, index) => {index.toString()}
-
     render = () => {
         
         return(
-            <SafeAreaView style={{flex: 1, backgroundColor: '#F7F7F7'}} forceInset={{'top': 'never'}}>
-            <View style={{backgroundColor: '#f7f7f7'}}>
-                <View style={{margin: 0}}>
-                    <SearchBar
-						placeholder="Search Keywords"
+            <SafeAreaView style={{flex: 1, backgroundColor: '#2EA9DF'}}>
+                <View style={{flex: 1, backgroundColor: '#f7f7f7'}}>
+                <SearchBar
+						placeholder="Search for Name"
 						lightTheme={true}
 						round={true}
-						containerStyle={{backgroundColor: '#2EA9DF', height: 100}}
-						inputContainerStyle={{backgroundColor: 'white', marginStart:30, marginEnd:30, marginTop: 30, width: '85%', flexDirection:'row-reverse'}}
+						containerStyle={{backgroundColor: '#2EA9DF', height: 70, borderTopWidth: 0}}
+						inputContainerStyle={{backgroundColor: 'white', marginStart:30, marginEnd:30, width: '85%', flexDirection: 'row-reverse'}}
 						onChangeText={this.updateSearchQuery}
-                        value={this.state.searchQuery}
-                        
-                        searchIcon={
-							<TouchableOpacity onPress={this.searchAndUpdateWithQuery}>
+						value={this.state.searchQuery}
+                        onClear={this.onRefresh}
+                        onSubmitEditing={this.onSearch}
+						searchIcon={
+							<TouchableOpacity onPress={this.onSearch}>
 								<View style={{paddingRight: 10,}}>
 									<Icon name="search" type="font-awesome" color='darkgrey' />
 								</View>
 							</TouchableOpacity>
 						}
 
-					/>
+                    />
+                    <FlatList 
+                        keyExtractor={(item, index) => {return item.id}}
+						data={this.state.displayList}
+						onRefresh={this.onRefresh}
+						refreshing={this.state.isFetchingHouseData}
+						onEndReached={this.loadMore}
+						onEndReachedThreshold={0.7}
+                        renderItem={({item}) => {return this.renderItem(item)}}  
+                        numColumns={2} 
+                        style={{
+                            flex: 1
+                        }}      
+                    />
                 </View>
-                <FlatList 
-					keyExtractor={(item, index) => {return item.id}}
-                    data={this.state.items}
-                    renderItem={({item}) => {return this.renderItem(item)}}  
-                    numColumns={2}       
-                />
-            </View>
             </SafeAreaView>
         );
     };
 }
-
-class SearchBars extends React.Component{
-    render(){
-        const Nothing = () =>{
-
-        };
-        return(
-            <View style={styles.searchBar}>
-                <Input placeholder="type something"
-                    >
-                </Input>                
-            </View>
-        )
-    }
-}
-
 
 
 const styles = StyleSheet.create({

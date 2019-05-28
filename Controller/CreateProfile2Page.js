@@ -1,8 +1,9 @@
 import React, {Component} from 'react';
-import { StyleSheet, View, Text, Button, Alert, TextInput, Picker,TouchableOpacity, SafeAreaView, Dimensions, PixelRatio } from 'react-native';
+import ReactNative, { StyleSheet, View, Text, Button, Alert, TextInput, Picker,TouchableOpacity, SafeAreaView, Dimensions, PixelRatio } from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import RNPickerSelect from 'react-native-picker-select';
 import RF from 'react-native-responsive-fontsize';
+
 
 
 export default class CreateProfile2Page extends Component{
@@ -29,21 +30,34 @@ export default class CreateProfile2Page extends Component{
             clean:this.clean,
             wake_early:this.wake_early,
             description:this.description,
+            paddingBottom: 10
         }
     }
-    //alert function in case user did not enter anything
-    _showAlert = () => {
-        Alert.alert(
-          'Please enter required information',
-          'This is an alert message',
-          [
-            {text: 'OK', onPress: () => console.log('OK Pressed')},
-            {text: 'Cancel', onPress: () => console.log('Cancel Pressed'), style: 'cancel'},
-          ],
-          { cancelable: false }
-        )
+
+    _checkMajor = () =>{
+        if(this.state.major == ""){
+            return false;
+        }
+        return true;
     }
 
+    _checkGraduation = () => {
+        if(this.state.graduation == ""){
+            return false;
+        }
+        console.log(this.state.graduation);
+        var graduationYearInNumber = parseInt(this.state.graduation, 10);
+        if(graduationYearInNumber > 1900 && graduationYearInNumber < 2030){
+            return true;
+        }
+        return false;
+    }
+    _checkAdditional_tags = () => {
+        if(this.state.additional_tags == ""){
+            return false;
+        }
+        return true;
+    }
     backslide = ()=>{
         this.props.navigation.navigate("CreateProfile1Page",{
             first_name: this.state.first_name,
@@ -58,18 +72,44 @@ export default class CreateProfile2Page extends Component{
             description: this.state.description,
         });
     }
-    nextslide=()=>{
-        if(this.state.major == "" || 
-            this.state.graduation == ""){
-            this._showAlert();
-        } else{
-            console.log(`${this.state.first_name}`)
-            this.props.navigation.navigate("CreateProfile3Page",{       
+    nextslide=()=> {
+        if (!this._checkMajor()) {
+            Alert.alert(
+                'Invalid Major',
+                'Please enter a valid major',
+                [
+                    {text: 'OK', onPress: () => console.log('OK Pressed')},
+                    {text: 'Cancel', onPress: () => console.log('Cancel Pressed'), style: 'cancel'},
+                ],
+                {cancelable: false}
+            )
+        } else if (!this._checkGraduation()) {
+            Alert.alert(
+                'Invalid graduation year',
+                'Please enter a valid graduation year',
+                [
+                    {text: 'OK', onPress: () => console.log('OK Pressed')},
+                    {text: 'Cancel', onPress: () => console.log('Cancel Pressed'), style: 'cancel'},
+                ],
+                {cancelable: false}
+            )
+        } else if (!this._checkAdditional_tags()) {
+            Alert.alert(
+                'Invalid response for interest',
+                'Please enter a valid response for interest',
+                [
+                    {text: 'OK', onPress: () => console.log('OK Pressed')},
+                    {text: 'Cancel', onPress: () => console.log('Cancel Pressed'), style: 'cancel'},
+                ],
+                {cancelable: false}
+            )
+        } else {
+            this.props.navigation.navigate("CreateProfile3Page", {
                 first_name: this.state.first_name,
                 last_name: this.state.last_name,
                 name_preferred: this.state.name_preferred,
                 gender: this.state.gender,
-                major: this.state.major,      
+                major: this.state.major,
                 graduation: this.state.graduation,
                 additional_tags: this.state.additional_tags,
                 clean: this.state.clean,
@@ -78,6 +118,31 @@ export default class CreateProfile2Page extends Component{
             });
         }
     }
+
+
+    //Method for adding padding for keyboard inputs
+    //on bottom fields
+    Add_Padding=()=>{
+
+        this.setState({
+
+            paddingBottom : 130
+
+        })
+
+    }
+
+    //Method for deleting padding for keyboard inputs
+    //for bottom fields
+    Delete_Padding=()=>{
+
+        this.setState({
+
+            paddingBottom : 10
+        })
+    }
+
+
     render(){
         return(
             <SafeAreaView style={styles.pageContainer}>
@@ -93,7 +158,7 @@ export default class CreateProfile2Page extends Component{
                     <Text style={styles.oneOverthree}> 2/3 </Text>
                 </View>
             </View>
-            <View style={styles.inputView}>
+            <View style={[styles.inputView, {paddingBottom: this.state.paddingBottom}]}>
                 <View
                     style={{flexDirection:"row", justifyContent: "center", alignItems: "center", marginBottom: RF(1), textAlign:'center'}}>
                     <Text style={{fontSize:RF(2.4), textAlign:"center"}}>Major</Text>
@@ -101,7 +166,9 @@ export default class CreateProfile2Page extends Component{
                 <TextInput 
                         style={styles.textBox}
                         placeholder={"Major"}
-                        onChangeText={(major)=>{this.setState({major})}}></TextInput>
+                        placeholderTextColor={'red'}
+                        onChangeText={(major)=>{this.setState({major})}}
+                ></TextInput>
                 <View
                     style={{flexDirection:"row", justifyContent: "center", alignItems: "center", marginBottom: RF(1), textAlign:'center'}}>
                     <Text style={{fontSize:RF(2.4)}}> Expected Graduating Year </Text>
@@ -109,7 +176,9 @@ export default class CreateProfile2Page extends Component{
                 <TextInput 
                         style={styles.textBox}
                         placeholder={"Graduation Year"}
-                        onChangeText={(graduation)=>{this.setState({graduation})}}></TextInput>
+                        placeholderTextColor={'red'}
+                        onChangeText={(graduation)=>{this.setState({graduation})}}
+                ></TextInput>
                 <View
                     style={{flexDirection:"row", justifyContent: "center", alignItems: "center", marginBottom: RF(1)}}>
                     <Text style={{fontSize:RF(2.4), textAlign:"center"}}> Interests and Hobbies </Text>
@@ -117,7 +186,18 @@ export default class CreateProfile2Page extends Component{
                 <TextInput 
                         style={styles.textBox}
                         placeholder={"Interest and Hobbies"}
-                        onChangeText={(additional_tags)=>{this.setState({additional_tags})}}></TextInput>
+                        placeholderTextColor={'red'}
+                        onChangeText={(additional_tags)=>{this.setState({additional_tags})}}
+                        //Adds padding when user clicks on the interest field so the keyboard does not
+                        //cover the input field
+                        onFocus={(event: Event) => {
+                            this.Add_Padding()
+                        }}
+                        //Deletes the extra padding when the user is not on the interest field
+                        onBlur={(event: Event) => {
+                            this.Delete_Padding()
+                        }}
+                ></TextInput>
                 <View style={{flexDirection:'row', height:"20%"}}>
                     <View style={styles.backButton}>
                         <TouchableOpacity onPress={this.backslide} style={styles.backButtonStyle}>
@@ -149,16 +229,16 @@ const styles = StyleSheet.create({
     },
     additionalInfo:{
         width: "90%",
-        height: "33%",
+        height: "45%",
         justifyContent: 'center',
         textAlign:'center',
-        backgroundColor: '#2ea9df',
-        borderColor:'#2ea9df',
+        backgroundColor: '#00C488',
+        borderColor:'#00C488',
         borderRadius: 10,
         borderWidth: 10,
     },
     additionalInfoText:{
-        fontSize: RF(4),
+        fontSize: RF(4.5),
         fontWeight: 'bold',
         color: "#fff",
         textAlign: 'center',
@@ -209,11 +289,12 @@ const styles = StyleSheet.create({
         flex:.5,
     },
     nextButtonStyle:{
-        height: "80%",
+        height: "90%",
+        width: "100%",
         borderRadius:10,
         backgroundColor:"#2ea9df",
         borderColor:"#2ea9df",
-        borderWidth:4, 
+        borderWidth:4,
         alignItems: "center",
         justifyContent: "center",
     },
@@ -227,17 +308,18 @@ const styles = StyleSheet.create({
         flex:.5,
     },
     backButtonStyle:{
-        height: "80%",
+        height: "90%",
+        width: "100%",
         borderRadius:10,
         backgroundColor:"#2ea9df",
         borderColor:"#2ea9df",
-        borderWidth:4, 
+        borderWidth:4,
         alignItems: "center",
         justifyContent: "center",
     },
     buttontextstyle:{
         textAlign:'center',
-        fontSize:RF(3),
+        fontSize:RF(4),
         color: "#fff",
         paddingLeft: RF(1),
         paddingRight: RF(1),
