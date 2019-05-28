@@ -210,22 +210,22 @@ export default class HousingSearchPage extends React.Component{
 		const zero = 0;
 		var filter = this.housesRef;
 		if(this.state.minPrice != null){
-            filter = this.housesRef.where("price", ">", parseInt(this.state.minPrice));
+            filter = filter.where("price", ">", parseInt(this.state.minPrice));
 		}
 		if(this.state.maxPrice != null){
-			filter = this.housesRef.where("price", "<", parseInt(this.state.maxPrice));
+			filter = filter.where("price", "<", parseInt(this.state.maxPrice));
 		}
 		if(this.state.bed != null){
-			filter = this.housesRef.where("num_bedroom", ">=", parseInt(this.state.bed));
+			filter = filter.where("num_bedroom", ">=", parseInt(this.state.bed));
 		}
 		if(this.state.bath != null){
-			filter = this.housesRef.where("num_bathroom", ">=", parseInt(this.state.bath));
+			filter = filter.where("num_bathroom", ">=", parseInt(this.state.bath));
 		}
 		if(this.state.parking != null){
-			filter = this.housesRef.where("num_parking", ">=", parseInt(this.state.parking));
+			filter = filter.where("num_parking", ">=", parseInt(this.state.parking));
 		}
 		if(this.state.tenant != null){
-			filter = this.housesRef.where("num_tenant", ">=", parseInt(this.state.tenant));
+			filter = filter.where("num_tenant", ">=", parseInt(this.state.tenant));
 		}
 		filter.get().then(snapshot => {
 			let housingItems = [];
