@@ -406,19 +406,19 @@ export default class HousingSearchPage extends React.Component{
 							keyboardType={"number-pad"}
 							></TextInput>
 						</View>
-						<TouchableOpacity onPress={()=>{
-							this.applyFilter();
-						}}>
+						<TouchableOpacity onPress={
+							this.applyFilter
+						}>
 							<Text>Apply Filter</Text>
 						</TouchableOpacity>
-						<TouchableOpacity onPress={()=>{
-							this.cancelFilter();
-						}}>
+						<TouchableOpacity onPress={
+							this.cancelFilter
+						}>
 							<Text>Cancel</Text>
 						</TouchableOpacity>
-						<TouchableOpacity onPress={()=>{
-							this.clearFilter();
-						}}>
+						<TouchableOpacity onPress={
+							this.clearFilter
+						}>
 							<Text>Clear</Text>
 						</TouchableOpacity>
 						</View>
