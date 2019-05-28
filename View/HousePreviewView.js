@@ -4,7 +4,7 @@
 // The HousePreviewView will display the information about ahouse and will call this.onHouseTouch when touched. 
 
 import React, { Component } from 'react';
-import { StyleSheet, View, Image, Text, StatusBar, Button, Alert, FlatList, TouchableHighlight, TouchableOpacity } from 'react-native';
+import { StyleSheet, View, Text, StatusBar, Button, Alert, FlatList, TouchableHighlight, TouchableOpacity } from 'react-native';
 import { Icon, Card, Badge, SearchBar } from 'react-native-elements';
 import RF from "react-native-responsive-fontsize";
 import ImageHorizontalScrollView from '../View/ImageHorizontalScrollView';

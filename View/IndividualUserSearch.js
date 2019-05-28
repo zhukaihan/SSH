@@ -9,7 +9,6 @@ import 'firebase/firestore' //Must import if you're using firestoreee
 import firebase from 'firebase';
 import User from '../Model/User';
 import { ScrollView } from 'react-native-gesture-handler';
-import ImageLoad from 'react-native-image-placeholder';
 
 export default class RoomateSearchPage extends React.Component{
 	state = {
@@ -63,8 +62,8 @@ export default class RoomateSearchPage extends React.Component{
 					flexDirection: 'row',
 					justifyContent: 'space-around',
 				}}>
-					<ImageLoad
-						source={{url: user.profileimage}}
+					<Image
+						source={{url: user.profileimage, cache: 'force-cache'}}
 						style={{
 							height: 50,
 							width: "20%"

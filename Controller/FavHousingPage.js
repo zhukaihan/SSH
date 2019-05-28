@@ -24,23 +24,23 @@ export default class FavHousingPage extends React.Component{
 	getHousingData = () => {
 
 		this.setState({
-			isFetchingHouseData: true,
-			housingItems: []
+			isFetchingHouseData: true
 		})
 
 		User.getUserWithUID(firebase.auth().currentUser.uid, (user) => {
 			this.setState({
 				curUser: user
 			})
+			this.state.housingItems = [];
 			user.house_favorite.forEach((house) => {
 				house.get().then((snapshot) => {
 					this.state.housingItems.push(new House(snapshot.data(), snapshot.id));
+					this.setState({
+						isFetchingHouseData: false
+					});
 					this.forceUpdate();
 				})
 			})
-			this.setState({
-				isFetchingHouseData: false
-			});
 		});
 	}
 

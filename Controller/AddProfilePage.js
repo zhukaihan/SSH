@@ -196,7 +196,7 @@ export default class AddProfilePage extends React.Component{
                     style={
                         styles.imageContainer
                     }>
-                        <Image source={{ uri: image }} style={styles.imageStyle} />
+                        <Image source={{ uri: image, cache: 'force-cache' }} style={styles.imageStyle} />
                 </View>
         );
     };
