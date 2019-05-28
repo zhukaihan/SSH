@@ -18,6 +18,8 @@ export default class User {
 			this.name_preferred = entry.name_preferred ? entry.name_preferred : "";
 			this.wake_early = entry.wake_early ? entry.wake_early : "";
 			this.profileimage = entry.profileimage ? entry.profileimage : "";
+			this.pets = entry.pets ? entry.pets: "";
+			this.smoke = entry.smoke ? entry.smoke: "";
 			this.additional_tags = entry.additional_tags ? entry.additional_tags : [];
 			this.house_favorite = entry.house_favorite ? entry.house_favorite : [];
 			this.roommate_favorite = entry.roommate_favorite ? entry.roommate_favorite : [];
