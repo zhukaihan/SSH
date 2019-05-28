@@ -41,19 +41,31 @@ export default class LogInPage extends React.Component{
   // Log in with Google. 
   googleLogin = async () => {
     try {
+			Alert.alert(
+				'Initiated Log In',
+				'',
+				[{text: 'Okay'}],
+				{cancelable: false},
+			)
 
       const result = await Google.logInAsync({
 				// Client IDs, needed to be created on Google Developers Console.
 				behavior: 'web',
 				clientId: "294694508822-hfqkhpg9mch5dp4k87um6ri6ka8vj5kg.apps.googleusercontent.com",
 				webClientId,
-      })
+			})
+			Alert.alert(
+				'Returned from Google.logInAsync',
+				'',
+				[{text: 'Okay'}],
+				{cancelable: false},
+			)
 
       if (result.type === "success") {
 				// If user is a UCSD user, also log into firebase to access data. 
         if (result.user.email.endsWith("@ucsd.edu")) {
 					Alert.alert(
-						'Logging In',
+						'Logging In with UCSD',
 						'',
 						[{text: 'Okay'}],
 						{cancelable: false},
@@ -63,7 +75,7 @@ export default class LogInPage extends React.Component{
 					.then(() => this.navigateToHome())
 					.catch(() => {
 						Alert.alert(
-							'Log In Failed',
+							'Firebase auth Failed',
 							'Please try again later. ',
 							[{text: 'Okay'}],
 							{cancelable: false},
