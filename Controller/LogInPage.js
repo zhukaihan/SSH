@@ -21,6 +21,12 @@ export default class LogInPage extends React.Component{
 	}
 	//this function will navigator to CreateProfile1Page
 	navigateToHome = () => {
+		Alert.alert(
+			'Logged In',
+			'',
+			[{text: 'Okay'}],
+			{cancelable: false},
+		)
 		let userRef = firebase.firestore().collection("users").doc(firebase.auth().currentUser.uid);
 		var getDoc = userRef.get().then(doc => {
 			if (!doc.exists) {
@@ -46,6 +52,12 @@ export default class LogInPage extends React.Component{
       if (result.type === "success") {
 				// If user is a UCSD user, also log into firebase to access data. 
         if (result.user.email.endsWith("@ucsd.edu")) {
+					Alert.alert(
+						'Logging In',
+						'',
+						[{text: 'Okay'}],
+						{cancelable: false},
+					)
 					const credential = firebase.auth.GoogleAuthProvider.credential(result.idToken, result.accessToken);
 					firebase.auth().signInAndRetrieveDataWithCredential(credential)
 					.then(() => this.navigateToHome())
@@ -80,7 +92,7 @@ export default class LogInPage extends React.Component{
 		}
   }
 
-  componentDidMount() {
+  componentDidMount = () => {
     // Set up notification for logging into firebase. 
     this.authSubscription = firebase.auth().onAuthStateChanged((user) => {
 			// This is perhaps useful to retain a log in across different app sessions. 
@@ -89,8 +101,8 @@ export default class LogInPage extends React.Component{
 			// Since iOS does shuts down app for extra memory, this could be user friendly. 
 			// Firebase handles this automagically. It changes the user authorization state soon after initialization. 
 			if (user) {
-				console.log("state changed");
-				//this.props.navigation.navigate('HomeTabNavigator');
+				console.log("state changed with logged in user: " + firebase.auth().currentUser.email);
+				this.navigateToHome();
 			} else {
 			}
       
