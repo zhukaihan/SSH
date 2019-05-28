@@ -24,11 +24,11 @@
     ],
     "ios": {
       "buildNumber": "4",
-      "bundleIdentifier": "com.zhukaihan.SSH",
+      "bundleIdentifier": "com.zhukaihan.ssh",
       "supportsTablet": false
     },
     "android": {
-      "package": "com.zhukaihan.SSH"
+      "package": "com.zhukaihan.ssh"
     },
     "description": "Let UCSD students find housing with ease. "
   }
