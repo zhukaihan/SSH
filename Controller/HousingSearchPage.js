@@ -1,7 +1,7 @@
 // HousingSearchPage will be used for the user to search for a house. It will display all houses available for renting and has the ability to filter (WIP). 
 
 import React, { Component } from 'react';
-import { StyleSheet, View, Image, Text, StatusBar, Button, Alert, FlatList, TouchableHighlight } from 'react-native';
+import { StyleSheet, View, Image, Text, StatusBar, Button, Alert, FlatList, TouchableHighlight,TouchableOpacity,TextInput } from 'react-native';
 import { Icon, Card, Badge, SearchBar,Overlay } from 'react-native-elements';
 import { SafeAreaView } from 'react-navigation';
 import firebase from 'firebase';
@@ -9,8 +9,6 @@ import House from '../Model/House';
 import User from '../Model/User';
 import RF from "react-native-responsive-fontsize";
 import HousePreviewView from '../View/HousePreviewView';
-import { TouchableOpacity, TextInput } from 'react-native-gesture-handler';
-
 const Items_Per_Page = 6;
 
 export default class HousingSearchPage extends React.Component{
