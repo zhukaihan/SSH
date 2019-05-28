@@ -8,7 +8,6 @@ import firebase from 'firebase';
 import User from '../Model/User';
 import { SafeAreaView } from 'react-navigation';
 import RoommateFavButton from '../View/RoommateFavButton';
-import ImageLoad from 'react-native-image-placeholder';
 
 const Items_Per_Page = 21;
 
@@ -200,8 +199,8 @@ export default class RoomateSearchPage extends React.Component{
                     </TouchableOpacity>
 
                     <View style = {{flexDirection: 'row' , justifyContent: "center"}}> 
-                        <ImageLoad style={styles.profilePic}
-                            source={{uri: image}} />
+                        <Image style={styles.profilePic}
+                            source={{uri: image, cache: 'force-cache'}} />
                     </View>
                     
                 </View>

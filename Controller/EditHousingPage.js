@@ -1,8 +1,8 @@
 // This page will be displayed to allow user to add a house listing or edit a current one. 
 
 import React, { Component } from 'react';
-import { StyleSheet, View, Image, Text, Button, Alert, FlatList, TouchableHighlight, ScrollView, TextInput, Dimensions, Overlay, ActivityIndicator } from 'react-native';
-import { Icon } from 'react-native-elements';
+import { StyleSheet, View, Text, Button, Alert, FlatList, TouchableHighlight, ScrollView, TextInput, Dimensions, Overlay, ActivityIndicator } from 'react-native';
+import { Icon, Image } from 'react-native-elements';
 import { SafeAreaView } from 'react-navigation';
 import firebase from 'firebase';
 import House from '../Model/House';
@@ -222,7 +222,7 @@ export default class EditHousingPage extends React.Component{
 				<View key={tenant.id}>
 					<Image
 						key={tenant.profileimage}
-						source={{url: tenant.profileimage}}
+						source={{url: tenant.profileimage, cache: 'force-cache'}}
 						style={{
 							height: 200
 						}}

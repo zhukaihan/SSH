@@ -1,9 +1,9 @@
 import React, {Component} from 'react';
 import RF from 'react-native-responsive-fontsize';
 import Icon from 'react-native-vector-icons/AntDesign';
-import { StyleSheet, View, Image, Text, StatusBar, Dimensions, SafeAreaView } from 'react-native';
+import { StyleSheet, View, Text, StatusBar, Dimensions, SafeAreaView } from 'react-native';
 import { TouchableOpacity, TouchableHighlight } from 'react-native';
-import { Badge } from 'react-native-elements';
+import { Badge, Image } from 'react-native-elements';
 import firebase from 'firebase';
 import User from '../Model/User';
 import BadgesView from '../View/BadgesView';
@@ -54,7 +54,7 @@ export default class ProfilePage extends Component{
 						
 						<View style={styles.pictureContainer}>
 							<Image style={styles.profilePic}
-											source={{uri: this.state.user.profileimage}} />
+											source={{uri: this.state.user.profileimage, cache: 'force-cache'}} />
 						</View>
 
 						<View style={styles.nameContainer}>

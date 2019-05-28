@@ -10,9 +10,9 @@
     ],
     "version": "1.0.0",
     "orientation": "portrait",
-    "icon": "./View/assets/icon.jpg",
+    "icon": "./View/assets/icon.png",
     "splash": {
-      "image": "./View/assets/splash.jpg",
+      "image": "./View/assets/splash.png",
       "resizeMode": "contain",
       "backgroundColor": "#ffffff"
     },
@@ -23,8 +23,12 @@
       "**/*"
     ],
     "ios": {
+      "bundleIdentifier": "com.zhukaihan.SSH",
       "supportsTablet": false
     },
-    "description": ""
+    "android": {
+      "package": "com.zhukaihan.SSH"
+    },
+    "description": "Let UCSD students find housing with ease. "
   }
 }

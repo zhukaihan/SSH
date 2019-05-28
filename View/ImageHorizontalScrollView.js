@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { StyleSheet, View, Text, StatusBar, Button, Alert, FlatList, TouchableHighlight, ScrollView, Dimensions, ActivityIndicator } from 'react-native';
 import { Image } from 'react-native-elements';
 
-const defaultImg = require("./assets/icon.jpg");
+const defaultImg = require("./assets/icon.png");
 
 function makeid(length) {
 	var result           = '';
