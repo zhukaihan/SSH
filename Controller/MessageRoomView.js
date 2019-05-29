@@ -16,7 +16,7 @@ import { Message, MessageRoom } from '../Model/Messaging';
 
 export default class MessageRoomView extends React.Component{
 	state = {
-		room: new MessageRoom()
+		room: null
 	}
 
 	constructor() {
@@ -67,41 +67,28 @@ export default class MessageRoomView extends React.Component{
 	}
 
 	render = () => {
-		var content;
-		
-		if (this.state.room) {
-			let item = this.state.room;
-
-			var messages = [];
-			this.state.messages.forEach((msg, index) => {
-				messages.push((
-					<View
-						key={index}
-					>
-						<Text>{msg.timestamp} {msg.isSentByUser ? "me: " : "they: "} {msg.message}</Text>
-					</View>
-				));
-				msg.isRead = true;
-			});
-			
-
-			content = (
-				<View style={{flex: 1}}>
-						{messages}
-				</View>
-			);
+		if (!this.state.room || !this.state.room.messages) {
+			return (<View></View>)
 		}
 		// this.updateReadMessage();
 
 		return (
 			<SafeAreaView style={{flex: 1}} forceInset={{top: 'never'}}>
 				<KeyboardAwareScrollView>
-					<ScrollView style={{flex: 1}}>
-						{content}
-					</ScrollView>
-					<TextInput onSubmitEditing={({event}) => {
-						this.sendMessage(event.text)
-					}}/>
+					<FlatList
+						keyExtractor={(item, index) => index.toString()}
+						data={this.state.room.messages}
+						renderItem={({item}) => {
+							return (<Text>{item.timestamp.toString()} {item.isSentByUser ? "me: " : "they: "} {item.message}</Text>);
+						}}
+					/>
+					<TextInput
+						style={{borderColor: 'black', borderWidth: 3}}
+						onSubmitEditing={(event) => {
+							this.sendMessage(event.nativeEvent.text)
+						}}
+						ref={this.newMsgTextInput}
+					/>
 				</KeyboardAwareScrollView>
       </SafeAreaView>
 		);

@@ -3,10 +3,11 @@ import RF from 'react-native-responsive-fontsize';
 import Icon from 'react-native-vector-icons/AntDesign';
 import { StyleSheet, View, Text, StatusBar, Dimensions, SafeAreaView } from 'react-native';
 import { TouchableOpacity, TouchableHighlight } from 'react-native';
-import { Badge, Image } from 'react-native-elements';
+import { Badge, Image, Button } from 'react-native-elements';
 import firebase from 'firebase';
 import User from '../Model/User';
 import BadgesView from '../View/BadgesView';
+import MessageCenter from './MessageCenter';
 
 
 export default class ProfilePage extends Component{
@@ -46,7 +47,6 @@ export default class ProfilePage extends Component{
 						<View style={styles.titleContainer}>
 							<Text style={styles.title}>{this.state.user.first_name}'s Profile</Text>
 						</View>
-
 					</View>
 					<View style={styles.mainpage}>
 						<View style={styles.star}>
@@ -61,6 +61,10 @@ export default class ProfilePage extends Component{
 							<Text style={styles.name}>{this.state.user.first_name} {this.state.user.last_name}</Text>
 							<Text style={styles.major}>{this.state.user.major}</Text>
 						</View>
+						<Button
+							title="Message"
+							onPress={() => {MessageCenter.createRoomWith(this.state.user.id)}}
+						/>
 
 						<View style={styles.badgeContainer}>
 							{/* <View style={styles.badges}>

@@ -10,6 +10,15 @@ import RF from "react-native-responsive-fontsize";
 
 
 export default class MessageCenter extends React.Component{
+
+	static createRoomWith = (userId) => {
+		console.log("createRoomWith Called");
+		firebase.firestore().collection("messages").doc(firebase.auth().currentUser.uid).collection("rooms").doc(userId).set({
+			last_contact_date: firebase.firestore.Timestamp.now(),
+			messages: []
+		});
+	}
+
 	state = {
 		roomsItems: [],
 	}
@@ -55,7 +64,7 @@ export default class MessageCenter extends React.Component{
 						data={this.state.roomsItems}
 						renderItem={({item}) => (
 								<TouchableOpacity onPress={() => {this.openRoom(item)}}>
-									<Text>{item.recipient.first_name} {item.recipient.last_name}</Text>
+									<Text>User ID: {item.id}</Text>
 								</TouchableOpacity>
 						)}
 					/>

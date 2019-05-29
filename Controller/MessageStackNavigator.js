@@ -14,12 +14,12 @@ const MessageStackNavigator = createStackNavigator(
 		},
 		MessageRoomView: {
 			screen: MessageRoomView,
-			navigationOptions: {
-				headerBackTitleStyle: {
-					color: 'white'
-				},
-				headerTransparent: true
-			}
+			// navigationOptions: {
+			// 	headerBackTitleStyle: {
+			// 		color: 'white'
+			// 	},
+			// 	headerTransparent: true
+			// }
 		},
 		ProfilePage: {
 			screen: ProfilePage,
