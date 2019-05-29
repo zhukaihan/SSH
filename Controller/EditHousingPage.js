@@ -1,7 +1,7 @@
 // This page will be displayed to allow user to add a house listing or edit a current one. 
 
 import React, { Component } from 'react';
-import { StyleSheet, View, Text, Button, Alert, FlatList, TouchableHighlight, ScrollView, TextInput, Dimensions, Overlay, ActivityIndicator } from 'react-native';
+import { StyleSheet, View, Text, Button, Alert, FlatList, TouchableHighlight, ScrollView, TextInput, Dimensions, Overlay, ActivityIndicator, Switch } from 'react-native';
 import { Icon, Image } from 'react-native-elements';
 import { SafeAreaView } from 'react-navigation';
 import firebase from 'firebase';
@@ -16,7 +16,8 @@ import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view
 export default class EditHousingPage extends React.Component{
 	state = {
 		cur_tenant: [],
-		txtInput: ""
+		txtInput: "",
+		first_save: true
 	}
 
 	componentDidMount = async () => {
@@ -144,8 +145,8 @@ export default class EditHousingPage extends React.Component{
 			landlord: this.state.house.landlord, // Firebase Reference
 			cur_tenant: this.state.house.cur_tenant, // Array of Firebase References
 			pictures: this.state.house.pictures, // Array of Strings
-			availability: this.state.house.availability, // String?
-			post_date: firebase.firestore.Timestamp.now(), // Timestamp
+			availability: this.state.house.availability, // Boolean
+			post_date: this.state.first_save ? this.state.house.post_date : firebase.firestore.Timestamp.now(), // Timestamp
 			title: this.state.house.title.toString(), // String
 			description: this.state.house.description,
 			location: this.state.house.location, // String?
@@ -158,6 +159,64 @@ export default class EditHousingPage extends React.Component{
 			bloomfilter: this.bloomfilter
 		};
 
+		if (houseToAdd.availability) {
+			// If the house is for listing, check required fields. 
+			if (houseToAdd.pictures.length < 1) {
+				Alert.alert(
+					'Add some pictures... ',
+					'',
+					[{text: 'Okay'}],
+					{cancelable: false},
+				)
+				return;
+			}
+			if (houseToAdd.title == "") {
+				Alert.alert(
+					'Add some title... ',
+					'',
+					[{text: 'Okay'}],
+					{cancelable: false},
+				)
+				return;
+			}
+			if (houseToAdd.description == "") {
+				Alert.alert(
+					'Add some description... ',
+					'',
+					[{text: 'Okay'}],
+					{cancelable: false},
+				)
+				return;
+			}
+			if (houseToAdd.location == "") {
+				Alert.alert(
+					'Add some location... ',
+					'',
+					[{text: 'Okay'}],
+					{cancelable: false},
+				)
+				return;
+			}
+			if (houseToAdd.num_bedroom == "") {
+				Alert.alert(
+					'Add some bedrooms... ',
+					'',
+					[{text: 'Okay'}],
+					{cancelable: false},
+				)
+				return;
+			}
+			if (houseToAdd.num_bathroom == "") {
+				Alert.alert(
+					'Add some bathrooms... ',
+					'',
+					[{text: 'Okay'}],
+					{cancelable: false},
+				)
+				return;
+			}
+		}
+
 		if (this.state.house.id == "") {
 			// Add a house, house does not exist in firebase, use add. 
 			firebase.firestore().collection("houses").add(Object.assign({}, houseToAdd))
@@ -169,10 +228,11 @@ export default class EditHousingPage extends React.Component{
 					[{text: 'Okay'}],
 					{cancelable: false},
 				)
+				this.state.first_save = false;
 			})
 			.catch((error) => {
 				Alert.alert(
-					'Saving Failed',
+					'House Creation Failed',
 					'Please try again later',
 					[{text: 'Okay'}],
 					{cancelable: false},
@@ -191,12 +251,15 @@ export default class EditHousingPage extends React.Component{
 				} else {
 				}
 			}).then(() => {
-				Alert.alert(
-					'House Saved',
-					'',
-					[{text: 'Okay'}],
-					{cancelable: false},
-				)
+				if (!this.state.first_save) {
+					Alert.alert(
+						'House Saved',
+						'',
+						[{text: 'Okay'}],
+						{cancelable: false},
+					)
+				}
+				this.state.first_save = false;
 			})
 		}
 	}
@@ -319,6 +382,17 @@ export default class EditHousingPage extends React.Component{
 						/>
 					</View>
 
+					<View style={styles.roomInfoSpecDetailsView}>
+						<Icon name="pin" type="font-awesome"/>
+						<Text style={styles.roomInfoTitle}>Location: </Text>
+						<TextInput
+							style={styles.roomInfoSpecDetailsTextInput}
+							onChangeText={(loc) => {item.location = loc}}
+							defaultValue={item.location.toString()}
+							keyboardType="default"
+						/>
+					</View>
+
 					<BadgesView tags={item.additional_tags} />
 
 				</View>  
@@ -345,11 +419,15 @@ export default class EditHousingPage extends React.Component{
 				</View>
 
 				<View style={styles.buttonContainer}>
+					<View>
+						<Text>Posted For View: </Text>
+						<Switch
+							onValueChange={() => {this.state.house.availability = !this.state.house.availability; this.forceUpdate()}}
+							value={this.state.house.availability}
+						/>
+					</View>
 					<View style={styles.saveButton}>
 						<Button title="Save House" color='white' onPress={this.saveHouse}/>
-					</View>
-					<View style={styles.cancelButton}>
-						<Button title="Cancel" color='white' onPress={this.saveHouse}/>
 					</View>
 					<View style={styles.deleteButton}>
 						<Button title="Delete" color='white' onPress={this.deleteHouse}/>
