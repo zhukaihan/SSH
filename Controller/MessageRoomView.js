@@ -31,7 +31,9 @@ export default class MessageRoomView extends React.Component{
 		this.roomRef = firebase.firestore().collection("messages").doc(firebase.auth().currentUser.uid).collection("rooms").doc(roomId);
 		this.oppositeSideRoomRef = firebase.firestore().collection("messages").doc(roomId).collection("rooms").doc(firebase.auth().currentUser.uid);
 		this.observer = this.roomRef.onSnapshot(roomSnapshot => {
-			var room = new MessageRoom(roomSnapshot.data(), roomSnapshot.id);
+			var room = new MessageRoom(roomSnapshot.data(), roomSnapshot.id, () => {
+				this.forceUpdate();
+			});
 			this.setState({
 				room: room
 			});
@@ -46,7 +48,7 @@ export default class MessageRoomView extends React.Component{
 	}
 
 	sendMessage = (txt) => {
-		this.roomRef.update({
+		this.roomRef.set({
 			messages: firebase.firestore.FieldValue.arrayUnion({
 				timestamp: firebase.firestore.Timestamp.now(),
 				message: txt,
@@ -54,8 +56,8 @@ export default class MessageRoomView extends React.Component{
 				isSentByUser: true
 			}),
 			last_contact_date: firebase.firestore.Timestamp.now()
-		})
-		this.oppositeSideRoomRef.update({
+		}, {merge: true})
+		this.oppositeSideRoomRef.set({
 			messages: firebase.firestore.FieldValue.arrayUnion({
 				timestamp: firebase.firestore.Timestamp.now(),
 				message: txt,
@@ -63,7 +65,8 @@ export default class MessageRoomView extends React.Component{
 				isSentByUser: false
 			}),
 			last_contact_date: firebase.firestore.Timestamp.now()
-		})
+		}, {merge: true})
+		this.newMsgTextInput.clear();
 	}
 
 	render = () => {
@@ -87,7 +90,7 @@ export default class MessageRoomView extends React.Component{
 						onSubmitEditing={(event) => {
 							this.sendMessage(event.nativeEvent.text)
 						}}
-						ref={this.newMsgTextInput}
+						ref={input => { this.newMsgTextInput = input }}
 					/>
 				</KeyboardAwareScrollView>
       </SafeAreaView>

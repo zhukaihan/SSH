@@ -32,6 +32,12 @@ export default class ProfilePage extends Component{
 		})
 	}
 
+	createRoomWith = (userId) => {
+		this.props.navigation.navigate("MessageRoomView", {
+			roomId: userId
+		});
+	}
+
 	render = () => {
 		if (!this.state.user) {
 			return (
@@ -63,7 +69,7 @@ export default class ProfilePage extends Component{
 						</View>
 						<Button
 							title="Message"
-							onPress={() => {MessageCenter.createRoomWith(this.state.user.id)}}
+							onPress={() => {this.createRoomWith(this.state.user.id)}}
 						/>
 
 						<View style={styles.badgeContainer}>

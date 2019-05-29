@@ -7,17 +7,10 @@ import firebase from 'firebase';
 import { MessageRoom } from '../Model/Messaging';
 import User from '../Model/User';
 import RF from "react-native-responsive-fontsize";
+import { ScrollView } from 'react-native-gesture-handler';
 
 
 export default class MessageCenter extends React.Component{
-
-	static createRoomWith = (userId) => {
-		console.log("createRoomWith Called");
-		firebase.firestore().collection("messages").doc(firebase.auth().currentUser.uid).collection("rooms").doc(userId).set({
-			last_contact_date: firebase.firestore.Timestamp.now(),
-			messages: []
-		});
-	}
 
 	state = {
 		roomsItems: [],
@@ -39,7 +32,9 @@ export default class MessageCenter extends React.Component{
 		this.observer = this.roomsRef.onSnapshot(roomsSnapshot => {
 			let roomsItems = [];
 			roomsSnapshot.forEach(room => {
-				var aRooms = new MessageRoom(room.data(), room.id);
+				var aRooms = new MessageRoom(room.data(), room.id, () => {
+					this.forceUpdate();
+				});
 				roomsItems.push(aRooms);
 			});
 			this.setState({
@@ -56,18 +51,25 @@ export default class MessageCenter extends React.Component{
 
 	render = () => {
 
+		var content = []
+		this.state.roomsItems.forEach((item, index) => {
+			if (!item.recipient) {
+				content.push((<Text key={index}>Loading...</Text>))
+			} else {
+				content.push((
+					<TouchableOpacity key={index} onPress={() => {this.openRoom(item)}}>
+						<Text>{item.recipient.first_name} {item.recipient.last_name}</Text>
+					</TouchableOpacity>
+				))
+			}
+		})
+
 		return (
 			<SafeAreaView style={{flex: 1, backgroundColor: '#2EA9DF'}}>
 				<View style={{flex: 1, backgroundColor: '#f7f7f7'}}>
-					<FlatList
-						keyExtractor={(item, index) => index.toString()}
-						data={this.state.roomsItems}
-						renderItem={({item}) => (
-								<TouchableOpacity onPress={() => {this.openRoom(item)}}>
-									<Text>User ID: {item.id}</Text>
-								</TouchableOpacity>
-						)}
-					/>
+					<ScrollView>
+						{content}
+					</ScrollView>
 				</View>
 			</SafeAreaView>
 		);
