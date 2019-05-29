@@ -103,14 +103,16 @@ export default class LogInPage extends React.Component{
   }
 
   componentDidMount = async () => {
-		try {
-      await GoogleSignIn.initAsync({
-        isOfflineEnabled: true,
-        isPromptEnabled: true,
-				clientId: iosStandaloneClientId
-			});
-    } catch ({ message }) {
-      alert('GoogleSignIn.initAsync(): ' + message);
+		if (!isInExpoClient) {
+			try {
+				await GoogleSignIn.initAsync({
+					isOfflineEnabled: true,
+					isPromptEnabled: true,
+					clientId: iosStandaloneClientId
+				});
+			} catch ({ message }) {
+				alert('GoogleSignIn.initAsync(): ' + message);
+			}
 		}
 		
     // Set up notification for logging into firebase. 
