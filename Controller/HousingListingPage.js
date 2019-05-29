@@ -58,7 +58,7 @@ export default class HousingListingPage extends React.Component{
 		})
 	}
 
-	componentDidMount = () => {
+	componentDidMount = async () => {
 		if (this.flatList) {
 			this.flatList.recordInteraction();
 			this.flatList.scrollToOffset({offset: -60})

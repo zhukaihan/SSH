@@ -2,31 +2,30 @@ import React, { Component } from 'react';
 import { StyleSheet, View, Image, Dimensions, Text, StatusBar, Button, Alert,Platform } from 'react-native';
 import GoogleSignInButton from '../View/GoogleSignInButton';
 import firebase from 'firebase';
-import { Google } from 'expo';
+import { Google, Constants } from 'expo';
+import { GoogleSignIn } from 'expo-google-sign-in';
+import { AppAuth } from 'expo-app-auth';
 
-const webClientId = Platform.select({
-  android: "294694508822-uotjg9q0e8545747tpketffgobisa6nj.apps.googleusercontent.com"
+const { OAuthRedirect, URLSchemes } = AppAuth;
+
+const isInExpoClient = Constants.appOwnership === 'expo';
+
+const androidExpoClientId = Platform.select({
+  android: "356347240170-i5dkkfk03tp43dkrccf2m4ino14mn6lr.apps.googleusercontent.com"
+});
+const iosExpoClientId = Platform.select({
+	ios: "356347240170-nhtv21h7orkdcbne8kg94halnm211k67.apps.googleusercontent.com"
+})
+
+// Android's client ID is read from the google-services.json.
+const iosStandaloneClientId = Platform.select({
+  ios: '356347240170-htj75l7uv8146j7itvtqarb4d6ko79ki.apps.googleusercontent.com',
 });
 
 export default class LogInPage extends React.Component{
 	
-	// Alert for non-UCSD domain accounts. 
-	showAlert = () => {
-		Alert.alert(
-			'Unauthorized Account',
-			'The account you attempt to login with was not an UCSD registered account',
-			[{text: 'Okay'}],
-			{cancelable: false},
-		)
-	}
 	//this function will navigator to CreateProfile1Page
 	navigateToHome = () => {
-		Alert.alert(
-			'Logged In',
-			'',
-			[{text: 'Okay'}],
-			{cancelable: false},
-		)
 		let userRef = firebase.firestore().collection("users").doc(firebase.auth().currentUser.uid);
 		var getDoc = userRef.get().then(doc => {
 			if (!doc.exists) {
@@ -41,48 +40,47 @@ export default class LogInPage extends React.Component{
   // Log in with Google. 
   googleLogin = async () => {
     try {
-			Alert.alert(
-				'Initiated Log In',
-				'',
-				[{text: 'Okay'}],
-				{cancelable: false},
-			)
 
-      const result = await Google.logInAsync({
-				// Client IDs, needed to be created on Google Developers Console.
-				behavior: 'web',
-				clientId: "294694508822-hfqkhpg9mch5dp4k87um6ri6ka8vj5kg.apps.googleusercontent.com",
-				webClientId,
-			})
-			Alert.alert(
-				'Returned from Google.logInAsync',
-				'',
-				[{text: 'Okay'}],
-				{cancelable: false},
-			)
+			var result;
+			var user;
+			var userAuth;
+			if (isInExpoClient) {
+				result = await Google.logInAsync({
+					// Client IDs, needed to be created on Google Developers Console.
+					behavior: 'web',
+					clientId: iosExpoClientId,
+					webClientId: androidExpoClientId,
+				})
+				user = result.user;
+				userAuth = result;
+			} else {
+				await GoogleSignIn.askForPlayServicesAsync();
+				result = await GoogleSignIn.signInAsync();
+				user = result.user;
+				userAuth = await user.refreshAuth();
+			}
 
       if (result.type === "success") {
 				// If user is a UCSD user, also log into firebase to access data. 
-        if (result.user.email.endsWith("@ucsd.edu")) {
-					Alert.alert(
-						'Logging In with UCSD',
-						'',
-						[{text: 'Okay'}],
-						{cancelable: false},
-					)
-					const credential = firebase.auth.GoogleAuthProvider.credential(result.idToken, result.accessToken);
+        if (user.email.endsWith("@ucsd.edu")) {
+					const credential = firebase.auth.GoogleAuthProvider.credential(userAuth.idToken, userAuth.accessToken);
 					firebase.auth().signInAndRetrieveDataWithCredential(credential)
 					.then(() => this.navigateToHome())
-					.catch(() => {
+					.catch((e) => {
 						Alert.alert(
-							'Firebase auth Failed',
-							'Please try again later. ',
+							'Database Authentication Failed',
+							'Please try again later. Message: ' + e.message,
 							[{text: 'Okay'}],
 							{cancelable: false},
 						)
 					});
         } else {
-					this.showAlert();
+					Alert.alert(
+						'Unauthorized Account',
+						'The account you attempt to login with was not an UCSD registered account',
+						[{text: 'Okay'}],
+						{cancelable: false},
+					)
 				}
       } else {
 				// log in cancelled
@@ -97,14 +95,24 @@ export default class LogInPage extends React.Component{
 			// log in error
 			Alert.alert(
 				'Unexpected Error',
-				'Please try again later. ',
+				'Please try again later. Error message: ' + e.message,
 				[{text: 'Okay'}],
 				{cancelable: false},
 			)
 		}
   }
 
-  componentDidMount = () => {
+  componentDidMount = async () => {
+		try {
+      await GoogleSignIn.initAsync({
+        isOfflineEnabled: true,
+        isPromptEnabled: true,
+				clientId: iosStandaloneClientId
+			});
+    } catch ({ message }) {
+      alert('GoogleSignIn.initAsync(): ' + message);
+		}
+		
     // Set up notification for logging into firebase. 
     this.authSubscription = firebase.auth().onAuthStateChanged((user) => {
 			// This is perhaps useful to retain a log in across different app sessions. 
@@ -114,11 +122,10 @@ export default class LogInPage extends React.Component{
 			// Firebase handles this automagically. It changes the user authorization state soon after initialization. 
 			if (user) {
 				console.log("state changed with logged in user: " + firebase.auth().currentUser.email);
-				this.navigateToHome();
+				//this.navigateToHome();
 			} else {
 			}
-      
-    });
+		});
   }
 
   componentWillUnmount() {

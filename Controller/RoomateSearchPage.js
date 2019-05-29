@@ -113,7 +113,7 @@ export default class RoomateSearchPage extends React.Component{
         });
     }
 
-    componentWillMount(){
+    componentWillMount = async () => {
         this.getRoommateData();
     }
 

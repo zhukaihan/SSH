@@ -50,7 +50,7 @@ export default class FavHousingPage extends React.Component{
 		});
 	}
 
-	componentDidMount() {
+	componentDidMount = async () => {
 		this.getHousingData();
 	}
 
