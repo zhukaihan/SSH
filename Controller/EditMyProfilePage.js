@@ -78,6 +78,7 @@ export default class ProfilePage extends Component{
 				[{text: 'Okay'}],
 				{cancelable: false},
 			)
+			this.forceUpdate();
 		})
 		
 	}
@@ -162,7 +163,7 @@ export default class ProfilePage extends Component{
 								]}
 								value={this.state.user.gender}
 							/>
-							
+
 							<RNPickerSelect
 								onValueChange={(itemValue) => {this.state.user.clean = itemValue; this.forceUpdate()}}
 								placeholder={{label: 'Clean', value: null}}

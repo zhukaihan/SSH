@@ -91,83 +91,85 @@ export default class ViewHousingPage extends React.Component{
 			
 
 			content = (
-				<View style={{
-						backgroundColor: 'white',
-						alignItems: "stretch",
-						marginBottom: 10,
-						padding: 5
-				}}>
-					<ImageHorizontalScrollView pictureUrls={item.pictures}/>
+				<View style={{flex: 1}}>
+					<ImageHorizontalScrollView pictureUrls={item.pictures} height={275}/>
+					<View style={{
+							backgroundColor: 'white',
+							alignItems: "stretch",
+							marginBottom: 10,
+							padding: 10
+					}}>
 
-					<View>
-						<View style={styles.roomTitleView}>
-							<Text style={styles.roomTitleText}>{item.title}</Text>
-							<HouseFavButton house={item}/>
-						</View>
-					
-						<View style={styles.roomInfoView}>
-							<View style={styles.roomInfoLeftView}>
-								<View style={styles.roomInfoLeftSpecsView}>
-									<View style={styles.roomInfoLeftSpecDetailsView}>
-										<Icon name="users" type="font-awesome"/>
-										<Text>  {item.num_tenant} Tenants</Text>
-									</View>
-									<View style={styles.roomInfoLeftSpecDetailsView}>
-										<Icon name="bed" type="font-awesome"/>
-										<Text>  {item.num_bedroom} Bedrooms</Text>
-									</View>
-									<View style={styles.roomInfoLeftSpecDetailsView}>
-										<Icon name="bath" type="font-awesome"/>
-										<Text>  {item.num_bathroom} Bathrooms</Text>
-									</View>
-									<View style={styles.roomInfoLeftSpecDetailsView}>
-										<Icon name="car" type="font-awesome"/>
-										<Text>  {item.num_parking} Parkings</Text>
-									</View>
-								</View>
-								<BadgesView tags={item.additional_tags} />
-							</View>
-							<View style={styles.roomInfoRightView}>
-								{this.state.landlord.profileimage != "" ?
-									(<Image
-										source={{uri: this.state.landlord.profileimage, cache: 'force-cache'}}
-										style={styles.roomInfoRightImage}
-									/>) : 
-									(<View style={styles.roomInfoRightImage}></View>)
-								}
-								
-								<Text style={styles.roomInfoRightNameText}>{this.state.landlord.first_name} {this.state.landlord.last_name}</Text>
-							</View>
-						</View>
-					</View>
-
-					<View
-						style={{
-							borderBottomColor: 'black',
-							borderBottomWidth: 1,
-							margin: 10
-						}}
-					>
-					</View>
-					
-					<View>
-						<Text>Description</Text>
-						<Text>{item.description}</Text>
-					</View>
-					
-					<View>
-						<Text>Current Tenants</Text>
 						<View>
-							{tenants}
+							<View style={styles.roomTitleView}>
+								<Text style={styles.roomTitleText}>{item.title}</Text>
+								<HouseFavButton house={item}/>
+							</View>
+						
+							<View style={styles.roomInfoView}>
+								<View style={styles.roomInfoLeftView}>
+									<View style={styles.roomInfoLeftSpecsView}>
+										<View style={styles.roomInfoLeftSpecDetailsView}>
+											<Icon name="users" type="font-awesome"/>
+											<Text>  {item.num_tenant} Tenants</Text>
+										</View>
+										<View style={styles.roomInfoLeftSpecDetailsView}>
+											<Icon name="bed" type="font-awesome"/>
+											<Text>  {item.num_bedroom} Bedrooms</Text>
+										</View>
+										<View style={styles.roomInfoLeftSpecDetailsView}>
+											<Icon name="bath" type="font-awesome"/>
+											<Text>  {item.num_bathroom} Bathrooms</Text>
+										</View>
+										<View style={styles.roomInfoLeftSpecDetailsView}>
+											<Icon name="car" type="font-awesome"/>
+											<Text>  {item.num_parking} Parkings</Text>
+										</View>
+									</View>
+									<BadgesView tags={item.additional_tags} />
+								</View>
+								<View style={styles.roomInfoRightView}>
+									{this.state.landlord.profileimage != "" ?
+										(<Image
+											source={{uri: this.state.landlord.profileimage, cache: 'force-cache'}}
+											style={styles.roomInfoRightImage}
+										/>) : 
+										(<View style={styles.roomInfoRightImage}></View>)
+									}
+									
+									<Text style={styles.roomInfoRightNameText}>{this.state.landlord.first_name} {this.state.landlord.last_name}</Text>
+								</View>
+							</View>
 						</View>
+
+						<View
+							style={{
+								borderBottomColor: 'black',
+								borderBottomWidth: 1,
+								margin: 10
+							}}
+						>
+						</View>
+						
+						<View>
+							<Text>Description</Text>
+							<Text>{item.description}</Text>
+						</View>
+						
+						<View>
+							<Text>Current Tenants</Text>
+							<View>
+								{tenants}
+							</View>
+						</View>
+						<Text style={{fontSize: RF(2.5), color: 'rgb(50, 150, 255)'}}>{"$ " + item.price}</Text>
 					</View>
-					<Text style={{fontSize: RF(2.5), color: 'rgb(50, 150, 255)'}}>{"$ " + item.price}</Text>
 				</View>
 			);
 		}
 
 		return (
-			<SafeAreaView style={{flex: 1}}>
+			<SafeAreaView style={{flex: 1}} forceInset={{top: 'never'}}>
 				<ScrollView style={{flex: 1}}>
 					{content}
 				</ScrollView>

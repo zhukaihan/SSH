@@ -51,10 +51,22 @@ const FavoriteStackNavigator = createStackNavigator(
 			}
 		},
 		ViewHousingPage: {
-			screen: ViewHousingPage
+			screen: ViewHousingPage,
+			navigationOptions: {
+				headerBackTitleStyle: {
+					color: 'white'
+				},
+				headerTransparent: true
+			}
 		},
 		ProfilePage: {
-			screen: ProfilePage
+			screen: ProfilePage,
+			navigationOptions: {
+				headerBackTitleStyle: {
+					color: 'white'
+				},
+				headerTransparent: true
+			}
 		},
 	},
 	{

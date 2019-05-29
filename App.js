@@ -1,5 +1,5 @@
 import React from 'react';
-import { StyleSheet, Text, View } from 'react-native';
+import { StyleSheet, Text, View, StatusBar } from 'react-native';
 import AppNavigator from './Controller/Navigation';
 import firebase from 'firebase';
 
@@ -32,7 +32,10 @@ firebase.initializeApp(firebaseConfig);
 export default class App extends React.Component {
   render() {
     return (
-			<AppNavigator/>
+			<View style={{flex: 1}}>
+				<StatusBar barStyle="light-content" />
+				<AppNavigator/>
+			</View>
     );
   }
 }

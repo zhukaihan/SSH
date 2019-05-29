@@ -35,9 +35,7 @@ export default class FavHousingPage extends React.Component{
 			user.house_favorite.forEach((house) => {
 				house.get().then((snapshot) => {
 					this.state.housingItems.push(new House(snapshot.data(), snapshot.id));
-					this.setState({
-						isFetchingHouseData: false
-					});
+					this.state.isFetchingHouseData = false;
 					this.forceUpdate();
 				})
 			})

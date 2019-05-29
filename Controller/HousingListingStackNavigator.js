@@ -12,7 +12,13 @@ const HousingListingStackNavigator = createStackNavigator(
 			}
 		},
 		EditHousingPage: {
-			screen: EditHousingPage
+			screen: EditHousingPage,
+			navigationOptions: {
+				headerBackTitleStyle: {
+					color: 'white'
+				},
+				headerTransparent: true
+			}
 		},
 		IndividualUserSearch: {
 			screen: IndividualUserSearch

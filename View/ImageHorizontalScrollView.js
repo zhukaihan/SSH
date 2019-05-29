@@ -17,7 +17,15 @@ function makeid(length) {
 
 export default class ImageHorizontalScrollView extends React.Component {
 	state = {
-		width: Dimensions.get('window').width
+		width: Dimensions.get('window').width,
+		height: 200
+	}
+	componentWillMount = () => {
+		if (this.props.height) {
+			this.setState({
+				height: this.props.height
+			})
+		}
 	}
 	render() {
 		let pictureUrls = this.props.pictureUrls;
@@ -31,7 +39,7 @@ export default class ImageHorizontalScrollView extends React.Component {
 					key="0"
 					source={{url: ""}}
 					style={{
-						height: 200,
+						height: this.state.height,
 						width: this.state.width
 					}}
 					defaultSource={defaultImg}
@@ -46,7 +54,7 @@ export default class ImageHorizontalScrollView extends React.Component {
 						key={index}
 						source={{url: picture, cache: 'force-cache'}}
 						style={{
-							height: 200,
+							height: this.state.height,
 							width: this.state.width
 						}}
 						defaultSource={defaultImg}
@@ -59,7 +67,7 @@ export default class ImageHorizontalScrollView extends React.Component {
 			
 			<ScrollView name={scrollViewName} horizontal={true} pagingEnabled={true} scrollEnabled={true}
 				style={{
-					height: 200,
+					height: this.state.height,
 					width: '100%'
 				}}
 				contentContainerStyle={{
