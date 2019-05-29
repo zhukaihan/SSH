@@ -45,9 +45,9 @@ const FavoriteTopTabNavigator = createMaterialTopTabNavigator(
 const FavoriteStackNavigator = createStackNavigator(
 	{
 		FavoriteTopTabNavigator: {
-			screen: FavoriteTopTabNavigator, 
+			screen: FavoriteTopTabNavigator,
 			navigationOptions: {
-				headerVisible: false
+				header: null
 			}
 		},
 		ViewHousingPage: {
@@ -59,7 +59,6 @@ const FavoriteStackNavigator = createStackNavigator(
 	},
 	{
 		initialRouteName: 'FavoriteTopTabNavigator',
-		headerMode: 'none',
 		navigationOptions: {
 		}
 	}

@@ -43,9 +43,9 @@ const SearchTopTabNavigator = createMaterialTopTabNavigator(
 const SearchStackNavigator = createStackNavigator(
 	{
 		SearchTopTabNavigator: {
-			screen: SearchTopTabNavigator, 
+			screen: SearchTopTabNavigator,
 			navigationOptions: {
-				headerVisible: false
+				header: null
 			}
 		},
 		ViewHousingPage: {
@@ -57,7 +57,6 @@ const SearchStackNavigator = createStackNavigator(
 	},
 	{
 		initialRouteName: 'SearchTopTabNavigator',
-		headerMode: 'none',
 		navigationOptions: {
 		}
 	}

@@ -1,4 +1,4 @@
-import { createStackNavigator, createAppContainer} from 'react-navigation';
+import { createStackNavigator, createAppContainer, createSwitchNavigator} from 'react-navigation';
 import LogInPage from './LogInPage';
 import TabNavigator from './TabNavigator';
 import CreateProfile1Page from './CreateProfile1Page';
@@ -10,40 +10,58 @@ import ViewHousingPage from './ViewHousingPage';
 import RoomateSearchPage from './RoomateSearchPage';
 import ProfilePage from './ProfilePage';
 
-const MainNavigator = createStackNavigator(
-	{
-		LogInPage: {
-			screen: LogInPage
-		},
-		TabNavigator: {
-			screen: TabNavigator, 
+const LogInStackNavigator = createStackNavigator(
+  {
+    LogInPage: {
+			screen: LogInPage, 
 			navigationOptions: {
 				gesturesEnabled: false
 			}
 		},
 		CreateProfile1Page:{
-			screen: CreateProfile1Page,
+			screen: CreateProfile1Page, 
+			navigationOptions: {
+				gesturesEnabled: false
+			}
 		},
 		CreateProfile2Page:{
-			screen: CreateProfile2Page,
+			screen: CreateProfile2Page, 
+			navigationOptions: {
+				gesturesEnabled: false
+			}
 		},
 		CreateProfile3Page:{
-			screen: CreateProfile3Page,
+			screen: CreateProfile3Page, 
+			navigationOptions: {
+				gesturesEnabled: false
+			}
 		},
 		AddProfilePage:{
-			screen: AddProfilePage,
+			screen: AddProfilePage, 
+			navigationOptions: {
+				gesturesEnabled: false
+			}
 		},
-	},
-	{
-		//initialize initial screen to createProfilepage2g
-		initialRouteName: 'LogInPage',
+  },
+  {
+    initialRouteName: 'LogInPage',
 		headerMode: 'none',
-		navigationOptions: {
-			headerVisible: false
-		}
-	}
+  }
+)
 
-);
+const MainNavigator = createSwitchNavigator(
+  {
+    LogInStackNavigator: {
+			screen: LogInStackNavigator
+		},
+    TabNavigator: {
+			screen: TabNavigator
+		}
+  },
+  {
+    initialRouteName: 'LogInStackNavigator',
+  }
+)
 
 const AppNavigator = createAppContainer(MainNavigator);
 

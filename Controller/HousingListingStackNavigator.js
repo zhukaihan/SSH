@@ -8,7 +8,7 @@ const HousingListingStackNavigator = createStackNavigator(
 		HousingListingPage: {
 			screen: HousingListingPage, 
 			navigationOptions: {
-				headerVisible: false
+				header: null
 			}
 		},
 		EditHousingPage: {
@@ -19,10 +19,7 @@ const HousingListingStackNavigator = createStackNavigator(
 		}
 	},
 	{
-		initialRouteName: 'HousingListingPage',
-		headerMode: 'none',
-		navigationOptions: {
-		}
+		initialRouteName: 'HousingListingPage'
 	}
 );
 export default HousingListingStackNavigator;

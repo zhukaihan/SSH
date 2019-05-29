@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { StyleSheet, View, Image, Dimensions, Text, StatusBar, Button, Alert,Platform } from 'react-native';
+import { StyleSheet, View, Image, Dimensions, Text, StatusBar, Button, Alert, Platform } from 'react-native';
 import GoogleSignInButton from '../View/GoogleSignInButton';
 import firebase from 'firebase';
 import { Google, Constants } from 'expo';
@@ -35,6 +35,17 @@ export default class LogInPage extends React.Component{
 			}
 		});
 		
+	}
+
+	static googleLogout = async () => {
+		if (isInExpoClient) {
+			// Expo client uses Google.logInAsync. There is no logout. 
+			return;
+		} else {
+			// Standalone client uses GoogleSignIn.signInAsync(). 
+			await GoogleSignIn.signOutAsync();
+			return;
+		}
 	}
 
   // Log in with Google. 
@@ -124,7 +135,7 @@ export default class LogInPage extends React.Component{
 			// Firebase handles this automagically. It changes the user authorization state soon after initialization. 
 			if (user) {
 				console.log("state changed with logged in user: " + firebase.auth().currentUser.email);
-				//this.navigateToHome();
+				this.navigateToHome();
 			} else {
 			}
 		});

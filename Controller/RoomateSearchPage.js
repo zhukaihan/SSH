@@ -79,7 +79,7 @@ export default class RoomateSearchPage extends React.Component{
 		});
 		this.unsubscribe = null;
     }
-    componentWillUnmount(){
+    componentWillUnmount = () => {
     //this function will close the subsciption when user stop using this page
         this.unsubscribe();
     }

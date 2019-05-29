@@ -98,9 +98,6 @@ export default class EditHousingPage extends React.Component{
 
 	addPicture = () => {
 		// Display a view to upload image and add the url of the image to house.pictures. 
-		this.setState({
-			isUploadingPicture: true
-		})
 		if (!this.state.house) {
 			return;
 		}
@@ -111,9 +108,6 @@ export default class EditHousingPage extends React.Component{
 		ImageUploader.chooseImageToUpload(`houses/${this.state.house.id}/images`, (url) => {
 			this.state.house.pictures[this.state.house.pictures.length - 1] = url;
 			this.saveHouse();
-			this.setState({
-				isUploadingPicture: false
-			});
 		})
 	}
 
@@ -169,6 +163,12 @@ export default class EditHousingPage extends React.Component{
 			firebase.firestore().collection("houses").add(Object.assign({}, houseToAdd))
 			.then((docRef) => {
 				this.state.house.id = docRef.id;
+				Alert.alert(
+					'House Created',
+					'',
+					[{text: 'Okay'}],
+					{cancelable: false},
+				)
 			})
 			.catch((error) => {
 				Alert.alert(
@@ -190,6 +190,13 @@ export default class EditHousingPage extends React.Component{
 					)
 				} else {
 				}
+			}).then(() => {
+				Alert.alert(
+					'House Saved',
+					'',
+					[{text: 'Okay'}],
+					{cancelable: false},
+				)
 			})
 		}
 	}
@@ -261,10 +268,10 @@ export default class EditHousingPage extends React.Component{
 					<View style={styles.priceContainer}>
 						<Text style={styles.priceTitle}>Price:</Text>
 						<TextInput
-						style={styles.priceTextInput}
-						onChangeText={(num) => {item.price = parseInt(num)}}
-						defaultValue={item.price.toString()}
-						keyboardType="numeric"
+							style={styles.priceTextInput}
+							onChangeText={(num) => {item.price = parseInt(num)}}
+							defaultValue={item.price.toString()}
+							keyboardType="numeric"
 						/>
 					</View>
 				
