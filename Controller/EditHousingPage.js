@@ -423,12 +423,15 @@ export default class EditHousingPage extends React.Component{
 
 				<View style={styles.buttonContainer}>
 					<View>
-						<Text>Posted For View: </Text>
+						<Text>Post this house for others to view: </Text>
 						<Switch
 							onValueChange={() => {this.state.house.availability = !this.state.house.availability; this.forceUpdate()}}
 							value={this.state.house.availability}
 						/>
 					</View>
+				</View>
+
+				<View style={styles.buttonContainer}>
 					<View style={styles.saveButton}>
 						<Button title="Save House" color='white' onPress={this.saveHousePressed}/>
 					</View>

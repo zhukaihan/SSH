@@ -3,7 +3,7 @@
 // To add a house listing, the user will be navigated to EditHousingPage with fields empty. 
 
 import React, { Component } from 'react';
-import { StyleSheet, View, Text, Dimensions, StatusBar, Button, Alert, FlatList, TouchableHighlight } from 'react-native';
+import { StyleSheet, View, Text, Dimensions, StatusBar, Button, Alert, FlatList, TouchableHighlight, TouchableOpacity } from 'react-native';
 import { Icon, Card, Badge, SearchBar } from 'react-native-elements';
 import { SafeAreaView } from 'react-navigation';
 import firebase from 'firebase';
@@ -74,15 +74,9 @@ export default class HousingListingPage extends React.Component{
 				<View style={styles.header}>
 					<View style={styles.titleContainer}>	
 						<Text style={styles.title}>Listings</Text>
-					</View>
-				</View>
-
-				<View style={styles.buttonContainer}>
-					<View style={{borderBottomWidth: 1,}}>
-						<Button title="Add House" onPress={this.addHouse}/>
-					</View>
-					<View style={{borderBottomWidth: 1,}}>
-						<Button title="Find Roommate" onPress={this.addHouse}/>
+						<TouchableOpacity onPress={this.addHouse}>
+								<Icon name="plus" type="font-awesome" color='white' />
+						</TouchableOpacity>
 					</View>
 				</View>
 

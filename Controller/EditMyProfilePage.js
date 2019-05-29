@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
 import RF from 'react-native-responsive-fontsize';
 import Icon from 'react-native-vector-icons/AntDesign';
-import { StyleSheet, View, Text, StatusBar, Dimensions, SafeAreaView, TextInput, Alert } from 'react-native';
+import { StyleSheet, View, Text, StatusBar, Dimensions, SafeAreaView, TextInput, Alert, Switch } from 'react-native';
 import { TouchableOpacity, TouchableHighlight } from 'react-native';
 import { Badge, Image, Button } from 'react-native-elements';
 import RNPickerSelect from 'react-native-picker-select';
@@ -59,7 +59,84 @@ export default class ProfilePage extends Component{
 				wake_early: this.state.user.wake_early,
 				description: this.state.user.description,
 				profileimage: this.state.user.profileimage,
+				availability: this.state.user.availability,
 		}
+
+		if (data.availability) {
+			if (data.first_name == "") {
+				Alert.alert(
+					'Add some first name... ',
+					'',
+					[{text: 'Okay'}],
+					{cancelable: false},
+				)
+				return;
+			}
+			if (data.last_name == "") {
+				Alert.alert(
+					'Add some last name... ',
+					'',
+					[{text: 'Okay'}],
+					{cancelable: false},
+				)
+				return;
+			}
+			if (data.gender == "") {
+				Alert.alert(
+					'Add some gender... ',
+					'',
+					[{text: 'Okay'}],
+					{cancelable: false},
+				)
+				return;
+			}
+			if (data.major == "") {
+				Alert.alert(
+					'Add some major... ',
+					'',
+					[{text: 'Okay'}],
+					{cancelable: false},
+				)
+				return;
+			}
+			if (data.graduation == "") {
+				Alert.alert(
+					'Add some graduation year... ',
+					'',
+					[{text: 'Okay'}],
+					{cancelable: false},
+				)
+				return;
+			}
+			if (data.clean == "") {
+				Alert.alert(
+					'Add some cleaniness... ',
+					'',
+					[{text: 'Okay'}],
+					{cancelable: false},
+				)
+				return;
+			}
+			if (data.wake_early == "") {
+				Alert.alert(
+					'Add some general wake up time... ',
+					'',
+					[{text: 'Okay'}],
+					{cancelable: false},
+				)
+				return;
+			}
+			if (data.description == "") {
+				Alert.alert(
+					'Add some description... ',
+					'',
+					[{text: 'Okay'}],
+					{cancelable: false},
+				)
+				return;
+			}
+		}
+
 		firebase.firestore().collection("users").doc(`${this.state.user.id}`).set(Object.assign({}, data), (error) => {
 			if (error) {
 				Alert.alert(
@@ -188,6 +265,16 @@ export default class ProfilePage extends Component{
 
 							<View style={styles.badgeContainer}>
 								<BadgesView tags={this.state.user.additional_tags}/>
+							</View>
+
+							<View style={styles.buttonContainer}>
+								<View>
+									<Text>I want to be found by others: </Text>
+									<Switch
+										onValueChange={() => {this.state.user.availability = !this.state.user.availability; this.forceUpdate()}}
+										value={this.state.user.availability}
+									/>
+								</View>
 							</View>
 
 							<View style={styles.descriptionContainer}>

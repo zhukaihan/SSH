@@ -24,6 +24,7 @@ export default class User {
 			this.house_favorite = entry.house_favorite ? entry.house_favorite : [];
 			this.roommate_favorite = entry.roommate_favorite ? entry.roommate_favorite : [];
 			this.email = entry.email ? entry.email : "";
+			this.availability = entry.availability ? entry.availability : false;
 	}
 	static getUserWithUID(uid, callback) {
 		firebase.firestore().collection("users").doc(uid).get().then((snapshot) => {

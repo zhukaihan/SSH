@@ -30,7 +30,7 @@ export default class HousePreviewView extends React.Component {
 		}
 		
 		return (
-			<TouchableHighlight
+			<TouchableOpacity
 				onPress={() => {onTouch(this.props.house)}}>
 				<View style={{
 						backgroundColor: 'white',
@@ -67,7 +67,7 @@ export default class HousePreviewView extends React.Component {
 
 					<BadgesView tags={item.additional_tags} />
 				</View>
-			</TouchableHighlight>
+			</TouchableOpacity>
 		)
 	}
 }
