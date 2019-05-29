@@ -1,4 +1,3 @@
-import Profile from "./Profile";
 import firebase from "firebase";
 
 export default class User {

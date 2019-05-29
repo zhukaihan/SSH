@@ -6,6 +6,7 @@ import SearchStackNavigator from './SearchStackNavigator';
 import FavoriteStackNavigator from './FavoriteStackNavigator';
 import HousingListingStackNavigator from './HousingListingStackNavigator';
 import EditMyProfilePage from './EditMyProfilePage';
+import MessageStackNavigator from './MessageStackNavigator';
 
 const TabNavigator = createBottomTabNavigator(
 	{
@@ -35,6 +36,13 @@ const TabNavigator = createBottomTabNavigator(
 			navigationOptions:{
 				tabBarLabel:"My Profile",
 				tabBarIcon: <Icon name="id-badge" type="font-awesome"/>
+			}
+		},
+		MessageStackNavigator:{
+			screen: MessageStackNavigator,
+			navigationOptions:{
+				tabBarLabel:"Messages",
+				tabBarIcon: <Icon name="comments" type="font-awesome"/>
 			}
 		}
 	
