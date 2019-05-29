@@ -17,7 +17,7 @@ export default class EditHousingPage extends React.Component{
 	state = {
 		cur_tenant: [],
 		txtInput: "",
-		first_save: true
+		auto_save: true
 	}
 
 	componentDidMount = async () => {
@@ -94,7 +94,7 @@ export default class EditHousingPage extends React.Component{
 			return !value.isEqual(pictureUrl);
 		});
 		this.state.house.pictures = filtered;
-		this.saveHouse();
+		this.saveHousePressed();
 	}
 
 	addPicture = () => {
@@ -108,7 +108,7 @@ export default class EditHousingPage extends React.Component{
 		this.state.house.pictures.push("");
 		ImageUploader.chooseImageToUpload(`houses/${this.state.house.id}/images`, (url) => {
 			this.state.house.pictures[this.state.house.pictures.length - 1] = url;
-			this.saveHouse();
+			this.saveHousePressed();
 		})
 	}
 
@@ -118,6 +118,11 @@ export default class EditHousingPage extends React.Component{
 		for(var i = 0; i < text.length - 1; i++){
 			bloomfilter.add(text[i]);
 		}
+	}
+
+	saveHousePressed = () => {
+		this.state.auto_save = false;
+		this.saveHouse();
 	}
 
 	saveHouse = () => {
@@ -146,7 +151,7 @@ export default class EditHousingPage extends React.Component{
 			cur_tenant: this.state.house.cur_tenant, // Array of Firebase References
 			pictures: this.state.house.pictures, // Array of Strings
 			availability: this.state.house.availability, // Boolean
-			post_date: this.state.first_save ? this.state.house.post_date : firebase.firestore.Timestamp.now(), // Timestamp
+			post_date: this.state.auto_save ? this.state.house.post_date : firebase.firestore.Timestamp.now(), // Timestamp
 			title: this.state.house.title.toString(), // String
 			description: this.state.house.description,
 			location: this.state.house.location, // String?
@@ -228,7 +233,6 @@ export default class EditHousingPage extends React.Component{
 					[{text: 'Okay'}],
 					{cancelable: false},
 				)
-				this.state.first_save = false;
 			})
 			.catch((error) => {
 				Alert.alert(
@@ -251,7 +255,7 @@ export default class EditHousingPage extends React.Component{
 				} else {
 				}
 			}).then(() => {
-				if (!this.state.first_save) {
+				if (!this.state.auto_save) {
 					Alert.alert(
 						'House Saved',
 						'',
@@ -259,7 +263,6 @@ export default class EditHousingPage extends React.Component{
 						{cancelable: false},
 					)
 				}
-				this.state.first_save = false;
 			})
 		}
 	}
@@ -427,7 +430,7 @@ export default class EditHousingPage extends React.Component{
 						/>
 					</View>
 					<View style={styles.saveButton}>
-						<Button title="Save House" color='white' onPress={this.saveHouse}/>
+						<Button title="Save House" color='white' onPress={this.saveHousePressed}/>
 					</View>
 					<View style={styles.deleteButton}>
 						<Button title="Delete" color='white' onPress={this.deleteHouse}/>
