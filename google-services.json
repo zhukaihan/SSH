@@ -1,0 +1,42 @@
+{
+  "project_info": {
+    "project_number": "356347240170",
+    "firebase_url": "https://gary-ssh-2.firebaseio.com",
+    "project_id": "gary-ssh-2",
+    "storage_bucket": "gary-ssh-2.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:356347240170:android:5b5f924d1fd54d19",
+        "android_client_info": {
+          "package_name": "com.sshousing.ssh"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDMJmY-bgH-sokgEByZ-l1hJxHndliMs-k"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "356347240170-nfqoan5vo8qr5a7e1n46h8b1n5j0bppk.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "356347240170-90djqnqr00qn7i23nefe52gqsalbeqni.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.sshousing.ssh"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

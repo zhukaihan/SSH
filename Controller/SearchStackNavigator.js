@@ -43,21 +43,32 @@ const SearchTopTabNavigator = createMaterialTopTabNavigator(
 const SearchStackNavigator = createStackNavigator(
 	{
 		SearchTopTabNavigator: {
-			screen: SearchTopTabNavigator, 
+			screen: SearchTopTabNavigator,
 			navigationOptions: {
-				headerVisible: false
+				header: null
 			}
 		},
 		ViewHousingPage: {
-			screen: ViewHousingPage
+			screen: ViewHousingPage,
+			navigationOptions: {
+				headerBackTitleStyle: {
+					color: 'white'
+				},
+				headerTransparent: true
+			}
 		},
 		ProfilePage: {
-			screen: ProfilePage
+			screen: ProfilePage,
+			navigationOptions: {
+				headerBackTitleStyle: {
+					color: 'white'
+				},
+				headerTransparent: true
+			}
 		},
 	},
 	{
 		initialRouteName: 'SearchTopTabNavigator',
-		headerMode: 'none',
 		navigationOptions: {
 		}
 	}

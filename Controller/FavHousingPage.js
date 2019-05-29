@@ -1,6 +1,6 @@
 
 import React, { Component } from 'react';
-import { StyleSheet, View, Image, Text, StatusBar, Button, Alert, FlatList, TouchableHighlight } from 'react-native';
+import { StyleSheet, View, Text, StatusBar, Button, Alert, FlatList, TouchableHighlight } from 'react-native';
 import { Icon, Card, Badge, SearchBar } from 'react-native-elements';
 import { SafeAreaView } from 'react-navigation';
 import firebase from 'firebase';
@@ -24,23 +24,21 @@ export default class FavHousingPage extends React.Component{
 	getHousingData = () => {
 
 		this.setState({
-			isFetchingHouseData: true,
-			housingItems: []
+			isFetchingHouseData: true
 		})
 
 		User.getUserWithUID(firebase.auth().currentUser.uid, (user) => {
 			this.setState({
 				curUser: user
 			})
+			this.state.housingItems = [];
 			user.house_favorite.forEach((house) => {
 				house.get().then((snapshot) => {
 					this.state.housingItems.push(new House(snapshot.data(), snapshot.id));
+					this.state.isFetchingHouseData = false;
 					this.forceUpdate();
 				})
 			})
-			this.setState({
-				isFetchingHouseData: false
-			});
 		});
 	}
 
@@ -50,7 +48,7 @@ export default class FavHousingPage extends React.Component{
 		});
 	}
 
-	componentDidMount() {
+	componentDidMount = async () => {
 		this.getHousingData();
 	}
 

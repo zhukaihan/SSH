@@ -6,7 +6,6 @@ import { SafeAreaView } from 'react-navigation';
 import firebase from 'firebase';
 import User from '../Model/User';
 import RF from "react-native-responsive-fontsize";
-import ImageLoad from 'react-native-image-placeholder';
 import RoommateFavButton from '../View/RoommateFavButton';
 
 export default class FavRoommatePage extends React.Component{
@@ -24,20 +23,18 @@ export default class FavRoommatePage extends React.Component{
 	getRoommateData = () => {
 
 		this.setState({
-			isFetchingRoommateData: true,
-			roommateItems: []
+			isFetchingRoommateData: true
 		})
 
 		User.getUserWithUID(firebase.auth().currentUser.uid, (user) => {
+            this.state.roommateItems = []
 			user.roommate_favorite.forEach((roommate) => {
 				roommate.get().then((snapshot) => {
                     this.state.roommateItems.push(new User(snapshot.data(), snapshot.id));
+                    this.state.isFetchingRoommateData = false;
                     this.forceUpdate();
 				})
 			})
-			this.setState({
-				isFetchingRoommateData: false
-			});
 		});
 	}
 
@@ -47,7 +44,7 @@ export default class FavRoommatePage extends React.Component{
 		});
 	}
 
-	componentDidMount = () => {
+	componentDidMount = async () => {
 		this.getRoommateData();
 	}
 
@@ -74,8 +71,8 @@ export default class FavRoommatePage extends React.Component{
                                     </TouchableOpacity>
 
                                     <View style = {{flexDirection: 'row' , justifyContent: "center"}}> 
-                                        <ImageLoad style={styles.profilePic}
-                                            source={{uri: item.profileimage}} />
+                                        <Image style={styles.profilePic}
+                                            source={{uri: item.profileimage, cache: 'force-cache'}} />
                                     </View>
                                     
                                 </View>

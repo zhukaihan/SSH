@@ -1,5 +1,6 @@
-import { AppRegistry, Platform, Picker, TextInput, Button, View, FlatList, ActivityIndicator, Text, StyleSheet, Image, Dimensions} from 'react-native';
-import { ListItem, List , Icon, SearchBar, Input} from 'react-native-elements';
+
+import { AppRegistry, Platform, Picker, TextInput, Button, View, FlatList, ActivityIndicator, Text, StyleSheet, Dimensions} from 'react-native';
+import { ListItem, List , Icon, SearchBar, Input, Image, Overlay} from 'react-native-elements';
 import React from 'react';
 import { TouchableOpacity, TouchableHighlight } from 'react-native';
 import RF from 'react-native-responsive-fontsize';
@@ -9,6 +10,7 @@ import User from '../Model/User';
 import { SafeAreaView } from 'react-navigation';
 import RoommateFavButton from '../View/RoommateFavButton';
 import ImageLoad from 'react-native-image-placeholder';
+import RNPickerSelect from 'react-native-picker-select';
 
 const Items_Per_Page = 21;
 
@@ -18,7 +20,54 @@ export default class RoomateSearchPage extends React.Component{
 		displayList: [],
 		isFetchingHouseData: true,
 		page: 0,
-		searchQuery: ""
+        searchQuery: "",
+        gender: "",
+        clean: "",
+        major: "",
+        wake_early:"",
+        smoke: "",
+        pets: "",
+        advSearchisVisible: false,
+        genderPicker:[
+            {
+                label: 'Male', value:'male',
+            },
+            {
+                label: 'Female', value:'female',
+            },
+            {
+                label: 'Other', value: 'Other'
+            }
+        ],
+        cleanPicker:[         
+        {
+            label: 'Clean', value:'clean',
+        },
+        {
+            label: 'Messy', value:'messy',
+        }],
+        wake_earlyPicker:[
+            {
+                label: 'Morning', value:'morning',
+            },
+            {
+                label: 'Night', value:'night',
+            }
+        ],
+        smokePicker:[               
+        {
+            label: 'Smoke', value:'true',
+        },
+        {
+            label: 'No Smoke', value:'false',
+        }],
+        petPicker:[         
+        {
+            label: 'No Pet', value:'true',
+        },
+        {
+            label: 'Has Pet', value:'false',
+        }],
 	}
     constructor(props){
         super(props);
@@ -30,7 +79,7 @@ export default class RoomateSearchPage extends React.Component{
 		});
 		this.unsubscribe = null;
     }
-    componentWillUnmount(){
+    componentWillUnmount = () => {
     //this function will close the subsciption when user stop using this page
         this.unsubscribe();
     }
@@ -64,7 +113,7 @@ export default class RoomateSearchPage extends React.Component{
         });
     }
 
-    componentWillMount(){
+    componentWillMount = async () => {
         this.getRoommateData();
     }
 
@@ -182,6 +231,78 @@ export default class RoomateSearchPage extends React.Component{
             userId: userId
         });
     }
+
+    updateFilter = () =>{
+		this.setState({
+			displayList:[],
+			isFetchingHouseData: true
+		})
+		const zero = 0;
+		var filter = this.roommateRef;
+		if(this.state.gender != ""){
+            filter = filter.where("gender", "==", this.state.gender);
+		}
+		if(this.state.clean != ""){
+			filter = filter.where("clean", "==", this.state.clean);
+		}
+		if(this.state.major != ""){
+			filter = filter.where("major", "==", this.state.major);
+		}
+		if(this.state.wake_early != ""){
+			filter = filter.where("wake_early", "==", this.state.wake_early);
+		}
+		if(this.state.smoke != ""){
+			filter = filter.where("smoke", "==", this.state.smoke);
+		}
+		if(this.state.pets != ""){
+			filter = filter.where("pets", "==", this.state.pets);
+		}
+		filter.get().then(snapshot => {
+			let roommateItems = [];
+			snapshot.forEach(house => {
+				var aUser = new User(house.data(), house.id);
+				roommateItems.push(aUser);
+			});
+			this.setState({
+				roommateItems: roommateItems,
+				page: zero,
+			});
+			const { page, displayList } = this.state;
+			const start = page*Items_Per_Page;
+			const end = (page+1)*Items_Per_Page-1;
+			var newData = roommateItems.slice(start,end);
+			this.setState({
+				displayList:[...displayList,...newData],
+				page:page+1,
+			});
+		});
+		this.setState({
+            isFetchingHouseData: false
+		})
+	}
+	
+	clearFilter = () =>{  
+        this.setState({
+            gender: null,
+            clean: null,
+            major: null,
+            wake_early:null,
+            smoke: null,
+            pets: null,
+		})
+	}
+	applyFilter = () =>{
+		this.setState({
+			advSearchisVisible:false,
+		})
+		this.updateFilter();
+	}
+
+	cancelFilter = () =>{
+		this.setState({
+			advSearchisVisible:false,
+		})
+	}
     
     renderItem = (item) => {
         if(item.profileimage){
@@ -200,8 +321,8 @@ export default class RoomateSearchPage extends React.Component{
                     </TouchableOpacity>
 
                     <View style = {{flexDirection: 'row' , justifyContent: "center"}}> 
-                        <ImageLoad style={styles.profilePic}
-                            source={{uri: image}} />
+                        <Image style={styles.profilePic}
+                            source={{uri: image, cache: 'force-cache'}} />
                     </View>
                     
                 </View>
@@ -215,8 +336,8 @@ export default class RoomateSearchPage extends React.Component{
             </View>
         )
     }
+    
     render = () => {
-        
         return(
             <SafeAreaView style={{flex: 1, backgroundColor: '#2EA9DF'}}>
                 <View style={{flex: 1, backgroundColor: '#f7f7f7'}}>
@@ -237,8 +358,106 @@ export default class RoomateSearchPage extends React.Component{
 								</View>
 							</TouchableOpacity>
 						}
-
                     />
+                    <TouchableOpacity onPress={()=> this.setState({advSearchisVisible:true})}>
+						<Text>Advance Search</Text>
+					</TouchableOpacity>
+                    <Overlay
+						isVisible={this.state.advSearchisVisible}
+						width="auto"
+						height="auto"
+						onBackdropPress={() =>
+							this.setState({advSearchisVisible: false})
+						}
+					>
+					<View style={{flexDirection:"column"}}>
+					    <View style={styles.OverlayContainer}>
+						<Text>Gender:</Text>
+                            <RNPickerSelect
+                                style={{...pickerSelectStyles}}
+                                onValueChange={(itemValue, itemIndex)=> this.setState({gender: itemValue})}
+                                placeholder={{label: 'Select Here', value: ""}}
+                                items={this.state.genderPicker}
+                                onValueChange={(value) =>{
+                                this.setState({
+                                    gender:value,
+                                    });
+                                }}
+                                value={this.state.gender}/>
+						</View>
+						<View style={styles.OverlayContainer}>
+						<Text>Clean:</Text>
+                        <RNPickerSelect
+                                style={{...pickerSelectStyles}}
+                                onValueChange={(itemValue, itemIndex)=> this.setState({clean: itemValue})}
+                                placeholder={{label: 'Select Here', value: ""}}
+                                items={this.state.cleanPicker}
+                                onValueChange={(value) =>{
+                                this.setState({
+                                    clean:value,
+                                    });
+                                }}
+                                value={this.state.clean}/>
+						</View>
+						<View style={styles.OverlayContainer}>
+						<Text>Wake Early:</Text>
+                            <RNPickerSelect
+                                style={{...pickerSelectStyles}}
+                                onValueChange={(itemValue, itemIndex)=> this.setState({wake_early: itemValue})}
+                                placeholder={{label: 'Select Here', value: ""}}
+                                items={this.state.wake_earlyPicker}
+                                onValueChange={(value) =>{
+                                this.setState({
+                                    wake_early:value,
+                                    });
+                                }}
+                            value={this.state.wake_early}/>
+						</View>
+						<View style={styles.OverlayContainer}>
+						<Text>Smoke:</Text>
+                            <RNPickerSelect
+                                style={{...pickerSelectStyles}}
+                                onValueChange={(itemValue, itemIndex)=> this.setState({smoke: itemValue})}
+                                placeholder={{label: 'Select Here', value: ""}}
+                                items={this.state.smokePicker}
+                                onValueChange={(value) =>{
+                                this.setState({
+                                    smoke:value,
+                                    });
+                                }}
+                            value={this.state.smoke}/>
+						</View>
+						<View style={styles.OverlayContainer}>
+						<Text>Pets:</Text>
+                            <RNPickerSelect
+                                style={{...pickerSelectStyles}}
+                                onValueChange={(itemValue, itemIndex)=> this.setState({pets: itemValue})}
+                                placeholder={{label: 'Select Here', value: ""}}
+                                items={this.state.petPicker}
+                                onValueChange={(value) =>{
+                                this.setState({
+                                    pets:value,
+                                    });
+                                }}
+                            value={this.state.pets}/>
+						</View>
+						<TouchableOpacity onPress={
+							this.applyFilter
+						}>
+							<Text>Apply Filter</Text>
+						</TouchableOpacity>
+						<TouchableOpacity onPress={
+							this.cancelFilter
+						}>
+							<Text>Cancel</Text>
+						</TouchableOpacity>
+						<TouchableOpacity onPress={
+							this.clearFilter
+						}>
+							<Text>Clear</Text>
+						</TouchableOpacity>
+						</View>
+					</Overlay>
                     <FlatList 
                         keyExtractor={(item, index) => {return item.id}}
 						data={this.state.displayList}
@@ -297,9 +516,29 @@ const styles = StyleSheet.create({
     searchBar:{
         marginLeft:10,
         marginRight:10,
-    }
+    },
+    OverlayContainer:{
+        flexDirection:"row",
+        height:"18%"
+	},
+	textInput:{
+		borderWidth:1,
+		borderColor:"#fff",
+	}
 })
-
+const pickerSelectStyles = StyleSheet.create({
+    inputIOS: {
+        fontSize: RF(3),
+        height: "70%",
+        width: "100%",
+        borderWidth: 1,
+        borderColor: '#000',
+        borderRadius: 4,
+        backgroundColor: 'white',
+        color: 'black',
+        textAlign:"center",
+    },
+});
 
 
 

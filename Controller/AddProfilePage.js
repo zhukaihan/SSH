@@ -21,6 +21,7 @@ import RF from 'react-native-responsive-fontsize';
 import Icon from 'react-native-vector-icons/AntDesign';
 import * as firebase from 'firebase';
 import BloomFilter from './bloomfilter';
+import { ImageManipulator } from 'expo';
 
 
 export default class AddProfilePage extends React.Component{
@@ -196,7 +197,7 @@ export default class AddProfilePage extends React.Component{
                     style={
                         styles.imageContainer
                     }>
-                        <Image source={{ uri: image }} style={styles.imageStyle} />
+                        <Image source={{ uri: image, cache: 'force-cache' }} style={styles.imageStyle} />
                 </View>
         );
     };
@@ -247,7 +248,13 @@ export default class AddProfilePage extends React.Component{
         try {
             this.setState({ uploading: true });
             if (!pickerResult.cancelled) {
-                uploadUrl = await uploadImageAsync(pickerResult.uri);
+                // Resize the image to a width of 240, and height calculated automatically. 
+                const manipResult = await ImageManipulator.manipulateAsync(
+                    pickerResult.uri,
+                    [{ resize: { width: 240 }}],
+                    { format: 'jpg' }
+                );
+                uploadUrl = await uploadImageAsync(manipResult.uri);
                 this.setState({ image: uploadUrl, profileimage: uploadUrl });
             }
         } catch (e) {
@@ -279,7 +286,12 @@ async function uploadImageAsync(uri) {
         .storage()
         .ref()
         .child(`users/${userId}/images/${uuid.v4()}.jpg`);
-    const snapshot = await ref.put(blob);
+
+    const imageMetadata = {
+        contentType: 'image/jpeg',
+        cacheControl: 'max-age=604800'
+    }
+    const snapshot = await ref.put(blob, imageMetadata);
     
     // We're done with the blob, close and release it
     blob.close();

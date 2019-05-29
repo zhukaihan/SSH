@@ -4,7 +4,7 @@
 // The RoommatePreviewView will display the information about aroommate and will call this.onRoommateTouch when touched. 
 
 import React, { Component } from 'react';
-import { StyleSheet, View, Image, Text, Button, Alert, FlatList, TouchableOpacity } from 'react-native';
+import { StyleSheet, View, Text, Button, Alert, FlatList, TouchableOpacity } from 'react-native';
 import { Icon, Card, Badge, SearchBar } from 'react-native-elements';
 import User from '../Model/User';
 import firebase from 'firebase';
@@ -14,7 +14,7 @@ export default class RoommateFavButton extends React.Component {
 		isRoommateFav: false
 	}
 
-	componentDidMount = () => {
+	componentDidMount = async () => {
 		// var unsubscribe = firebase.firestore().collection("users").doc(firebase.auth().currentUser.uid)
 		// .onSnapshot((snapshot) => {
 		// 	snapshot.docChanges().forEach(function(change) {

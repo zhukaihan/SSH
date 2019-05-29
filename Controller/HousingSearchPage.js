@@ -1,7 +1,7 @@
 // HousingSearchPage will be used for the user to search for a house. It will display all houses available for renting and has the ability to filter (WIP). 
 
 import React, { Component } from 'react';
-import { StyleSheet, View, Image, Text, StatusBar, Button, Alert, FlatList, TouchableHighlight } from 'react-native';
+import { StyleSheet, View, Text, StatusBar, Button, Alert, FlatList, TouchableHighlight,TouchableOpacity,TextInput } from 'react-native';
 import { Icon, Card, Badge, SearchBar,Overlay } from 'react-native-elements';
 import { SafeAreaView } from 'react-navigation';
 import firebase from 'firebase';
@@ -9,8 +9,6 @@ import House from '../Model/House';
 import User from '../Model/User';
 import RF from "react-native-responsive-fontsize";
 import HousePreviewView from '../View/HousePreviewView';
-import { TouchableOpacity, TextInput } from 'react-native-gesture-handler';
-
 const Items_Per_Page = 6;
 
 export default class HousingSearchPage extends React.Component{
@@ -44,7 +42,6 @@ export default class HousingSearchPage extends React.Component{
 	// Get housing data and set state with the new data. 
 	// Can be used on first launch and on refresh request. 
 	getHousingData = () => {
-		console.log("getting all Data");
 		this.setState({
 			displayList:[],
 			isFetchingHouseData: true
@@ -126,7 +123,7 @@ export default class HousingSearchPage extends React.Component{
 	}
 	}
 
-	componentDidMount() {
+	componentDidMount = async () => {
 		this.getHousingData();
 	}
 
@@ -212,22 +209,22 @@ export default class HousingSearchPage extends React.Component{
 		const zero = 0;
 		var filter = this.housesRef;
 		if(this.state.minPrice != null){
-            filter = this.housesRef.where("price", ">", parseInt(this.state.minPrice));
+            filter = filter.where("price", ">", parseInt(this.state.minPrice));
 		}
 		if(this.state.maxPrice != null){
-			filter = this.housesRef.where("price", "<", parseInt(this.state.maxPrice));
+			filter = filter.where("price", "<", parseInt(this.state.maxPrice));
 		}
 		if(this.state.bed != null){
-			filter = this.housesRef.where("num_bedroom", ">=", parseInt(this.state.bed));
+			filter = filter.where("num_bedroom", ">=", parseInt(this.state.bed));
 		}
 		if(this.state.bath != null){
-			filter = this.housesRef.where("num_bathroom", ">=", parseInt(this.state.bath));
+			filter = filter.where("num_bathroom", ">=", parseInt(this.state.bath));
 		}
 		if(this.state.parking != null){
-			filter = this.housesRef.where("num_parking", ">=", parseInt(this.state.parking));
+			filter = filter.where("num_parking", ">=", parseInt(this.state.parking));
 		}
 		if(this.state.tenant != null){
-			filter = this.housesRef.where("num_tenant", ">=", parseInt(this.state.tenant));
+			filter = filter.where("num_tenant", ">=", parseInt(this.state.tenant));
 		}
 		filter.get().then(snapshot => {
 			let housingItems = [];
@@ -285,7 +282,7 @@ export default class HousingSearchPage extends React.Component{
 						placeholder="Search Keywords"
 						lightTheme={true}
 						round={true}
-						containerStyle={{backgroundColor: '#f7f7f7', borderTopWidth: 0}}
+						containerStyle={{backgroundColor: '#2EA9DF', borderTopWidth: 0}}
 						inputContainerStyle={{backgroundColor: 'white', marginStart:30, marginEnd:30, width: '85%', flexDirection: 'row-reverse'}}
 						onChangeText={this.updateSearchQuery}
 						value={this.state.searchQuery}
@@ -408,19 +405,19 @@ export default class HousingSearchPage extends React.Component{
 							keyboardType={"number-pad"}
 							></TextInput>
 						</View>
-						<TouchableOpacity onPress={()=>{
-							this.applyFilter();
-						}}>
+						<TouchableOpacity onPress={
+							this.applyFilter
+						}>
 							<Text>Apply Filter</Text>
 						</TouchableOpacity>
-						<TouchableOpacity onPress={()=>{
-							this.cancelFilter();
-						}}>
+						<TouchableOpacity onPress={
+							this.cancelFilter
+						}>
 							<Text>Cancel</Text>
 						</TouchableOpacity>
-						<TouchableOpacity onPress={()=>{
-							this.clearFilter();
-						}}>
+						<TouchableOpacity onPress={
+							this.clearFilter
+						}>
 							<Text>Clear</Text>
 						</TouchableOpacity>
 						</View>

@@ -3,7 +3,7 @@
 // To add a house listing, the user will be navigated to EditHousingPage with fields empty. 
 
 import React, { Component } from 'react';
-import { StyleSheet, View, Image, Text, Dimensions, StatusBar, Button, Alert, FlatList, TouchableHighlight } from 'react-native';
+import { StyleSheet, View, Text, Dimensions, StatusBar, Button, Alert, FlatList, TouchableHighlight, TouchableOpacity } from 'react-native';
 import { Icon, Card, Badge, SearchBar } from 'react-native-elements';
 import { SafeAreaView } from 'react-navigation';
 import firebase from 'firebase';
@@ -58,7 +58,7 @@ export default class HousingListingPage extends React.Component{
 		})
 	}
 
-	componentDidMount = () => {
+	componentDidMount = async () => {
 		if (this.flatList) {
 			this.flatList.recordInteraction();
 			this.flatList.scrollToOffset({offset: -60})
@@ -80,9 +80,6 @@ export default class HousingListingPage extends React.Component{
 				<View style={styles.buttonContainer}>
 					<View style={{borderBottomWidth: 1,}}>
 						<Button title="Add House" onPress={this.addHouse}/>
-					</View>
-					<View style={{borderBottomWidth: 1,}}>
-						<Button title="Find Roommate" onPress={this.addHouse}/>
 					</View>
 				</View>
 

@@ -23,8 +23,19 @@
       "**/*"
     ],
     "ios": {
-      "supportsTablet": true
+      "buildNumber": "6",
+      "bundleIdentifier": "com.sshousing.ssh",
+      "supportsTablet": false,
+      "config": {
+        "googleSignIn": {
+          "reservedClientId": "com.googleusercontent.apps.356347240170-htj75l7uv8146j7itvtqarb4d6ko79ki"
+        }
+      }
     },
-    "description": ""
+    "android": {
+      "package": "com.sshousing.ssh",
+      "googleServicesFile": "./google-services.json"
+    },
+    "description": "Let UCSD students find housing with ease. "
   }
 }

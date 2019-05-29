@@ -6,6 +6,7 @@ import User from '../Model/User';
 import firebase from 'firebase';
 import { Constants, ImagePicker, Permissions } from 'expo';
 import uuid from 'uuid';
+import { ImageManipulator } from 'expo';
 
 uploadImageAsync = async (uri, toStorageUri) => {
 	const blob = await new Promise((resolve, reject) => {
@@ -26,7 +27,12 @@ uploadImageAsync = async (uri, toStorageUri) => {
 		.storage()
 		.ref()
 		.child(`${toStorageUri}/${uuid.v4()}.jpg`);
-	const snapshot = await ref.put(blob);
+
+	const imageMetadata = {
+		contentType: 'image/jpeg',
+		cacheControl: 'max-age=604800'
+	}
+	const snapshot = await ref.put(blob, imageMetadata);
 	
 	// We're done with the blob, close and release it
 	blob.close();
@@ -40,7 +46,14 @@ export default class ImageUploader {
 		_handleImagePicked = async pickerResult => {
 			try {
 				if (!pickerResult.cancelled) {
-					uploadUrl = await uploadImageAsync(pickerResult.uri, uploadToUri);
+					// Resize the image to a width of 320, and height calculated automatically. 
+					const manipResult = await ImageManipulator.manipulateAsync(
+						pickerResult.uri,
+						[{ resize: { width: 320 }}],
+						{ format: 'jpg' }
+					);
+					// Upload the resized image. 
+					uploadUrl = await uploadImageAsync(manipResult.uri, uploadToUri);
 					if (callback) {
 						callback(uploadUrl)
 					}

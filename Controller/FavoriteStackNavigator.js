@@ -45,21 +45,32 @@ const FavoriteTopTabNavigator = createMaterialTopTabNavigator(
 const FavoriteStackNavigator = createStackNavigator(
 	{
 		FavoriteTopTabNavigator: {
-			screen: FavoriteTopTabNavigator, 
+			screen: FavoriteTopTabNavigator,
 			navigationOptions: {
-				headerVisible: false
+				header: null
 			}
 		},
 		ViewHousingPage: {
-			screen: ViewHousingPage
+			screen: ViewHousingPage,
+			navigationOptions: {
+				headerBackTitleStyle: {
+					color: 'white'
+				},
+				headerTransparent: true
+			}
 		},
 		ProfilePage: {
-			screen: ProfilePage
+			screen: ProfilePage,
+			navigationOptions: {
+				headerBackTitleStyle: {
+					color: 'white'
+				},
+				headerTransparent: true
+			}
 		},
 	},
 	{
 		initialRouteName: 'FavoriteTopTabNavigator',
-		headerMode: 'none',
 		navigationOptions: {
 		}
 	}

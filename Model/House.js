@@ -12,6 +12,7 @@ export default class House {
 		this.cur_tenant = entry.cur_tenant ? entry.cur_tenant : [];
 		this.pictures = entry.pictures ? entry.pictures : [];
 		this.availability = entry.availability ? entry.availability : false;
+		this.post_date = entry.post_date ? entry.post_date : firebase.firestore.Timestamp.now();
 		this.description = entry.description ? entry.description : "";
 		//  current only string location for the house
 		this.title = entry.title ? entry.title : "";
