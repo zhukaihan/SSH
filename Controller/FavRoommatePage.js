@@ -46,7 +46,7 @@ export default class FavRoommatePage extends React.Component{
 		});
 	}
 
-	componentDidMount = () => {
+	componentDidMount = async () => {
 		this.getRoommateData();
 	}
 

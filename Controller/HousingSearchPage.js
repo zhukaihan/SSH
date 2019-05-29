@@ -124,7 +124,7 @@ export default class HousingSearchPage extends React.Component{
 	}
 	}
 
-	componentDidMount() {
+	componentDidMount = async () => {
 		this.getHousingData();
 	}
 

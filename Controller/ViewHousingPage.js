@@ -23,7 +23,7 @@ export default class ViewHousingPage extends React.Component{
 		
 	}
 
-	componentDidMount() {
+	componentDidMount = async () => {
 		let houseId = this.props.navigation.getParam("houseId", "");
 		if (houseId != "") {
 			this.housesRef = firebase.firestore().collection("houses").doc(houseId);

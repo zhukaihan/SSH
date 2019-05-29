@@ -14,7 +14,7 @@ export default class HouseFavButton extends React.Component {
 		isHouseFav: false
 	}
 
-	componentDidMount = () => {
+	componentDidMount = async () => {
 		// var unsubscribe = firebase.firestore().collection("users").doc(firebase.auth().currentUser.uid)
 		// .onSnapshot((snapshot) => {
 		// 	snapshot.docChanges().forEach(function(change) {

@@ -14,7 +14,7 @@ export default class RoommateFavButton extends React.Component {
 		isRoommateFav: false
 	}
 
-	componentDidMount = () => {
+	componentDidMount = async () => {
 		// var unsubscribe = firebase.firestore().collection("users").doc(firebase.auth().currentUser.uid)
 		// .onSnapshot((snapshot) => {
 		// 	snapshot.docChanges().forEach(function(change) {

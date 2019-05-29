@@ -2,10 +2,28 @@ import React, { Component } from 'react';
 import { StyleSheet, View, Image, Dimensions, Text, StatusBar, Button, Alert,Platform } from 'react-native';
 import GoogleSignInButton from '../View/GoogleSignInButton';
 import firebase from 'firebase';
-import { Google } from 'expo';
+import { Google, Constants } from 'expo';
+import { GoogleSignIn } from 'expo-google-sign-in';
+import { AppAuth } from 'expo-app-auth';
 
 const webClientId = Platform.select({
   android: "294694508822-uotjg9q0e8545747tpketffgobisa6nj.apps.googleusercontent.com"
+});
+
+const { OAuthRedirect, URLSchemes } = AppAuth;
+
+const isInExpoClient = Constants.appOwnership === 'expo';
+
+/*
+ * Redefine this one with your client ID
+ *
+ * The iOS value is the one that really matters,
+ * on Android this does nothing because the client ID
+ * is read from the google-services.json.
+ */
+const standaloneClientId = Platform.select({
+  android: 'does not matter',
+  ios: '356347240170-90djqnqr00qn7i23nefe52gqsalbeqni.apps.googleusercontent.com',
 });
 
 export default class LogInPage extends React.Component{
@@ -48,14 +66,32 @@ export default class LogInPage extends React.Component{
 				{cancelable: false},
 			)
 
-      const result = await Google.logInAsync({
-				// Client IDs, needed to be created on Google Developers Console.
-				behavior: 'web',
-				clientId: "294694508822-hfqkhpg9mch5dp4k87um6ri6ka8vj5kg.apps.googleusercontent.com",
-				webClientId,
-			})
+
+			var result;
+			if (isInExpoClient) {
+				result = await Google.logInAsync({
+					// Client IDs, needed to be created on Google Developers Console.
+					behavior: 'web',
+					clientId: "294694508822-hfqkhpg9mch5dp4k87um6ri6ka8vj5kg.apps.googleusercontent.com",
+					webClientId,
+				})
+			} else {
+				try {
+					await GoogleSignIn.askForPlayServicesAsync();
+					result = await GoogleSignIn.signInAsync();
+				} catch (e) {
+					Alert.alert(
+						'GoogleSignIn Exception',
+						'',
+						[{text: 'Okay'}],
+						{cancelable: false},
+					)
+				}
+				
+			}
+			
 			Alert.alert(
-				'Returned from Google.logInAsync',
+				'Returned from Google Login',
 				'',
 				[{text: 'Okay'}],
 				{cancelable: false},
@@ -75,7 +111,7 @@ export default class LogInPage extends React.Component{
 					.then(() => this.navigateToHome())
 					.catch(() => {
 						Alert.alert(
-							'Firebase auth Failed',
+							'Database Authentication Failed',
 							'Please try again later. ',
 							[{text: 'Okay'}],
 							{cancelable: false},
@@ -97,14 +133,30 @@ export default class LogInPage extends React.Component{
 			// log in error
 			Alert.alert(
 				'Unexpected Error',
-				'Please try again later. ',
+				'Please try again later. Error message: ' + e.message,
 				[{text: 'Okay'}],
 				{cancelable: false},
 			)
 		}
   }
 
-  componentDidMount = () => {
+  componentDidMount = async () => {
+		try {
+      await GoogleSignIn.initAsync({
+        isOfflineEnabled: true,
+        isPromptEnabled: true,
+        clientId: standaloneClientId,
+			});
+			Alert.alert(
+				'GoogleSignIn configured',
+				URLSchemes,
+				[{text: 'Okay'}],
+				{cancelable: false},
+			)
+    } catch ({ message }) {
+      alert('GoogleSignIn.initAsync(): ' + message);
+		}
+		
     // Set up notification for logging into firebase. 
     this.authSubscription = firebase.auth().onAuthStateChanged((user) => {
 			// This is perhaps useful to retain a log in across different app sessions. 
@@ -114,11 +166,10 @@ export default class LogInPage extends React.Component{
 			// Firebase handles this automagically. It changes the user authorization state soon after initialization. 
 			if (user) {
 				console.log("state changed with logged in user: " + firebase.auth().currentUser.email);
-				this.navigateToHome();
+				//this.navigateToHome();
 			} else {
 			}
-      
-    });
+		});
   }
 
   componentWillUnmount() {
