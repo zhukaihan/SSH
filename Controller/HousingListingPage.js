@@ -74,9 +74,12 @@ export default class HousingListingPage extends React.Component{
 				<View style={styles.header}>
 					<View style={styles.titleContainer}>	
 						<Text style={styles.title}>Listings</Text>
-						<TouchableOpacity onPress={this.addHouse}>
-								<Icon name="plus" type="font-awesome" color='white' />
-						</TouchableOpacity>
+					</View>
+				</View>
+
+				<View style={styles.buttonContainer}>
+					<View style={{borderBottomWidth: 1,}}>
+						<Button title="Add House" onPress={this.addHouse}/>
 					</View>
 				</View>
 

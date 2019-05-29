@@ -386,7 +386,7 @@ export default class EditHousingPage extends React.Component{
 					</View>
 
 					<View style={styles.roomInfoSpecDetailsView}>
-						<Icon name="pin" type="font-awesome"/>
+						<Icon name="map-pin" type="font-awesome"/>
 						<Text style={styles.roomInfoTitle}>Location: </Text>
 						<TextInput
 							style={styles.roomInfoSpecDetailsTextInput}

@@ -52,17 +52,24 @@ export default class MessageCenter extends React.Component{
 	render = () => {
 
 		var content = []
-		this.state.roomsItems.forEach((item, index) => {
-			if (!item.recipient) {
-				content.push((<Text key={index}>Loading...</Text>))
-			} else {
-				content.push((
-					<TouchableOpacity key={index} onPress={() => {this.openRoom(item)}}>
-						<Text>{item.recipient.first_name} {item.recipient.last_name}</Text>
-					</TouchableOpacity>
-				))
-			}
-		})
+		if (!this.state.roomsItems || this.state.roomsItems.length == 0) {
+			content = (
+				<Text>You have no messages. Choose a user to start. </Text>
+			)
+		} else {
+			this.state.roomsItems.forEach((item, index) => {
+				if (!item.recipient) {
+					content.push((<Text key={index}>Loading...</Text>))
+				} else {
+					content.push((
+						<TouchableOpacity key={index} onPress={() => {this.openRoom(item)}}>
+							<Text>{item.recipient.first_name} {item.recipient.last_name}</Text>
+						</TouchableOpacity>
+					))
+				}
+			})
+		}
+		
 
 		return (
 			<SafeAreaView style={{flex: 1, backgroundColor: '#2EA9DF'}}>
