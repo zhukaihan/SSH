@@ -6,36 +6,26 @@ import { Google, Constants } from 'expo';
 import { GoogleSignIn } from 'expo-google-sign-in';
 import { AppAuth } from 'expo-app-auth';
 
-const webClientId = Platform.select({
-  android: "294694508822-uotjg9q0e8545747tpketffgobisa6nj.apps.googleusercontent.com"
-});
-
 const { OAuthRedirect, URLSchemes } = AppAuth;
 
 const isInExpoClient = Constants.appOwnership === 'expo';
 
-/*
- * Redefine this one with your client ID
- *
- * The iOS value is the one that really matters,
- * on Android this does nothing because the client ID
- * is read from the google-services.json.
- */
-const standaloneClientId = Platform.select({
-  android: 'does not matter',
-  ios: '356347240170-90djqnqr00qn7i23nefe52gqsalbeqni.apps.googleusercontent.com',
+const androidExpoClientId = Platform.select({
+  android: "356347240170-i5dkkfk03tp43dkrccf2m4ino14mn6lr.apps.googleusercontent.com"
+});
+const iosExpoClientId = Platform.select({
+	ios: "356347240170-nhtv21h7orkdcbne8kg94halnm211k67.apps.googleusercontent.com"
+})
+
+// Android's client ID is read from the google-services.json.
+const iosStandaloneClientId = Platform.select({
+  ios: '356347240170-htj75l7uv8146j7itvtqarb4d6ko79ki.apps.googleusercontent.com',
 });
 
 export default class LogInPage extends React.Component{
 	
 	//this function will navigator to CreateProfile1Page
 	navigateToHome = () => {
-		Alert.alert(
-			'Logged In',
-			'',
-			[{text: 'Okay'}],
-			{cancelable: false},
-		)
 		let userRef = firebase.firestore().collection("users").doc(firebase.auth().currentUser.uid);
 		var getDoc = userRef.get().then(doc => {
 			if (!doc.exists) {
@@ -58,8 +48,8 @@ export default class LogInPage extends React.Component{
 				result = await Google.logInAsync({
 					// Client IDs, needed to be created on Google Developers Console.
 					behavior: 'web',
-					clientId: "294694508822-hfqkhpg9mch5dp4k87um6ri6ka8vj5kg.apps.googleusercontent.com",
-					webClientId,
+					clientId: iosExpoClientId,
+					webClientId: androidExpoClientId,
 				})
 				user = result.user;
 				userAuth = result;
@@ -73,12 +63,6 @@ export default class LogInPage extends React.Component{
       if (result.type === "success") {
 				// If user is a UCSD user, also log into firebase to access data. 
         if (user.email.endsWith("@ucsd.edu")) {
-					Alert.alert(
-						'Logging In with UCSD',
-						'',
-						[{text: 'Okay'}],
-						{cancelable: false},
-					)
 					const credential = firebase.auth.GoogleAuthProvider.credential(userAuth.idToken, userAuth.accessToken);
 					firebase.auth().signInAndRetrieveDataWithCredential(credential)
 					.then(() => this.navigateToHome())
@@ -123,7 +107,7 @@ export default class LogInPage extends React.Component{
       await GoogleSignIn.initAsync({
         isOfflineEnabled: true,
         isPromptEnabled: true,
-        clientId: standaloneClientId,
+				clientId: iosStandaloneClientId
 			});
     } catch ({ message }) {
       alert('GoogleSignIn.initAsync(): ' + message);
