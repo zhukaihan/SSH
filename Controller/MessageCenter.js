@@ -1,13 +1,12 @@
 
 import React, { Component } from 'react';
-import { StyleSheet, View, Text, StatusBar, Button, Alert, FlatList, TouchableHighlight,TouchableOpacity,TextInput } from 'react-native';
-import { Icon, Card, Badge, SearchBar,Overlay } from 'react-native-elements';
+import { StyleSheet, View, Text, StatusBar, Button, Alert, FlatList, TouchableHighlight, TouchableOpacity, TextInput, ScrollView } from 'react-native';
+import { Icon, Card, Badge, SearchBar,Overlay, Image } from 'react-native-elements';
 import { SafeAreaView } from 'react-navigation';
 import firebase from 'firebase';
 import { MessageRoom } from '../Model/Messaging';
 import User from '../Model/User';
 import RF from "react-native-responsive-fontsize";
-import { ScrollView } from 'react-native-gesture-handler';
 
 
 export default class MessageCenter extends React.Component{
@@ -62,8 +61,51 @@ export default class MessageCenter extends React.Component{
 					content.push((<Text key={index}>Loading...</Text>))
 				} else {
 					content.push((
-						<TouchableOpacity key={index} onPress={() => {this.openRoom(item)}}>
-							<Text>{item.recipient.first_name} {item.recipient.last_name}</Text>
+						<TouchableOpacity key ={index} onPress={() => {this.openRoom(item)}} style={{
+							padding: '2.5%',
+							width: '95%',
+							elevation: 2,
+							borderBottomColor: '#dddddd',
+							borderBottomWidth: 1,
+							flexDirection: 'row',
+							justifyContent: 'space-between'
+						}}>
+							<View style={{
+								flexDirection: 'row'
+							}}>
+								<Image source={{uri: item.recipient.profileimage, cache: 'force-cache'}} style={{
+									height: 75,
+									margin: 5,
+									aspectRatio: 1
+								}}/>
+								<View style={{
+									flexDirection: 'column',
+									height: 75,
+									margin: 5,
+									justifyContent: 'center'
+								}}>
+									<Text style={{
+										color: 'black',
+										fontSize: RF(2.5)
+									}}>{item.recipient.first_name} {item.recipient.last_name}</Text>
+									<Text style={{
+										color: 'grey',
+										fontSize: RF(2)
+									}}>{item.recipient.graduation}</Text>
+									<Text style={{
+										color: 'grey',
+										fontSize: RF(2)
+									}}>{item.recipient.major}</Text>
+								</View>
+							</View>
+							<View style={{
+								flexDirection: 'row',
+								height: 75,
+								margin: 5,
+								alignItems: 'center'
+							}}>
+								<Icon name="chevron-right" type="font-awesome"/>
+							</View>
 						</TouchableOpacity>
 					))
 				}
@@ -73,8 +115,19 @@ export default class MessageCenter extends React.Component{
 
 		return (
 			<SafeAreaView style={{flex: 1, backgroundColor: '#2EA9DF'}}>
+				<View style={styles.header}>
+					<View style={styles.titleContainer}>	
+						<Text style={styles.title}>Messages</Text>
+					</View>
+				</View>
+				
 				<View style={{flex: 1, backgroundColor: '#f7f7f7'}}>
-					<ScrollView>
+					<ScrollView style={{
+
+					}}
+					contentContainerStyle={{
+
+					}}>
 						{content}
 					</ScrollView>
 				</View>
@@ -83,3 +136,27 @@ export default class MessageCenter extends React.Component{
 	}
 
 }
+
+const styles = StyleSheet.create({
+
+	header:{
+		flexDirection: 'row',
+		justifyContent: 'center',
+		alignItems: 'center',
+		backgroundColor: '#2ea9df',
+		paddingTop: RF(1),
+		paddingBottom: RF(1),
+	},
+
+	titleContainer:{
+		flexDirection: 'row',
+		justifyContent: 'flex-start',
+		alignItems: 'center',
+	},
+
+	title:{
+		color: "white",
+		fontSize: RF(4),
+	},
+
+})
