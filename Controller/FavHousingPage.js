@@ -31,14 +31,18 @@ export default class FavHousingPage extends React.Component{
 			this.setState({
 				curUser: user
 			})
-			this.state.housingItems = [];
-			user.house_favorite.forEach((house) => {
-				house.get().then((snapshot) => {
-					this.state.housingItems.push(new House(snapshot.data(), snapshot.id));
-					this.state.isFetchingHouseData = false;
-					this.forceUpdate();
+			if (user.house_favorite.length == 0) {
+				this.setState({isFetchingHouseData: false})
+			} else {
+				this.state.housingItems = [];
+				user.house_favorite.forEach((house) => {
+					house.get().then((snapshot) => {
+						this.state.housingItems.push(new House(snapshot.data(), snapshot.id));
+						this.state.isFetchingHouseData = false;
+						this.forceUpdate();
+					})
 				})
-			})
+			}
 		});
 	}
 

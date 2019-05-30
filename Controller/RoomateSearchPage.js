@@ -71,7 +71,7 @@ export default class RoomateSearchPage extends React.Component{
 	}
     constructor(props){
         super(props);
-        this.roommateRef = firebase.firestore().collection("users");
+        this.roommateRef = firebase.firestore().collection("users").where("availability", "==", true);
 		User.getUserWithUID(firebase.auth().currentUser.uid, (user) => {
 			this.setState({
 				curUser: user

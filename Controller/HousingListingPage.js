@@ -69,7 +69,7 @@ export default class HousingListingPage extends React.Component{
 	render = () => {
 
 		return (
-			<SafeAreaView style={{flex: 1}} forceInset={{'top': 'never'}}>
+			<SafeAreaView style={{flex: 1}} backgroundColor='#2ea9df'>
 
 				<View style={styles.header}>
 					<View style={styles.titleContainer}>	
@@ -84,6 +84,7 @@ export default class HousingListingPage extends React.Component{
 				</View>
 
 				<FlatList
+					backgroundColor='#f7f7f7'
 					keyExtractor={(item, index) => index.toString()}
 					data={this.state.housingItems}
 					onRefresh={this.getHousingData}
@@ -109,7 +110,7 @@ const styles = StyleSheet.create({
 		justifyContent: 'center',
 		alignItems: 'center',
 		backgroundColor: '#2ea9df',
-		paddingTop: RF(2),
+		paddingTop: RF(1),
 		paddingBottom: RF(1),
 	},
 
@@ -117,7 +118,6 @@ const styles = StyleSheet.create({
 		flexDirection: 'row',
 		justifyContent: 'flex-start',
 		alignItems: 'center',
-		paddingTop: RF(4),
 	},
 
 	title:{
@@ -126,6 +126,7 @@ const styles = StyleSheet.create({
 	},
 
 	buttonContainer: {
+		backgroundColor: '#f7f7f7',
 		flexDirection: 'row',
 		justifyContent: 'space-around',
 	},
