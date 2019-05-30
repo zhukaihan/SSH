@@ -141,7 +141,7 @@ export default class CreateProfile1Page extends Component{
 
         this.setState({
 
-            paddingBottom : 100
+            paddingBottom : 40
 
         })
 
@@ -177,36 +177,42 @@ export default class CreateProfile1Page extends Component{
                         <Text style={styles.oneOverthree}> 1/3 </Text>
                     </View>
             </View>
-                    <View style={[styles.inputView, {paddingBottom: this.state.paddingBottom}]}>
-                    <View style={{flexDirection:"row", alignItems: "center", marginBottom: RF(3)}}>
-                       <Text style={{fontSize:RF(2.4), color: 'red'}}> Required Field </Text>
-                   </View>
+                    <View
+                        style={{flexDirection:"row", justifyContent: "center", alignItems: "center", marginBottom: RF(1), textAlign:'center'}}>
+                        <Text style={{fontSize:RF(2.4), textAlign:"center"}}>First Name</Text>
+                    </View>
                    <View style={styles.inputContainer}>
                    <TextInput
                         style={styles.tinput}
-                        placeholder={"First Name"}
-                        placeholderTextColor={'red'}
+                        placeholder={"Required"}
                         onChangeText={(first_name)=>{this.setState({first_name})}}
                         onFocus={(event: Event) => {
                             // `bind` the function if you're using ES6 classes
                             this._scrollToInput(ReactNative.findNodeHandle(event.target))
                         }}></TextInput>
                   </View>
+                    <View
+                        style={{flexDirection:"row", justifyContent: "center", alignItems: "center", marginBottom: RF(1), textAlign:'center'}}>
+                        <Text style={{fontSize:RF(2.4), textAlign:"center"}}>Last Name</Text>
+                    </View>
                   <View style={styles.inputContainer}>
                   <TextInput
                         style={styles.tinput}
-                        placeholder={"Last Name"}
-                        placeholderTextColor={'red'}
+                        placeholder={"Required"}
                         onChangeText={(last_name)=>{this.setState({last_name})}}
                         onFocus={(event: Event) => {
                             // `bind` the function if you're using ES6 classes
                             this._scrollToInput(ReactNative.findNodeHandle(event.target))
                         }}></TextInput>
                   </View>
-                  <View style={styles.inputContainer}>
+                    <View
+                        style={{flexDirection:"row", justifyContent: "center", alignItems: "center", marginBottom: RF(1), textAlign:'center'}}>
+                        <Text style={{fontSize:RF(2.4), textAlign:"center"}}>Preferred Name</Text>
+                    </View>
+                  <View style={[styles.inputContainer, {paddingBottom: this.state.paddingBottom}]}>
                   <TextInput
                     style={styles.textBox}
-                    placeholder={"Preferred Name"}
+                    placeholder={"Optional"}
                     onChangeText={(name_preferred)=>{this.setState({name_preferred})}}
 
                     //Adds padding when user clicks on preferred gender field so the keyboard does not
@@ -221,12 +227,15 @@ export default class CreateProfile1Page extends Component{
                 }}
                   ></TextInput>
                   </View>
+                    <View
+                        style={{flexDirection:"row", justifyContent: "center", alignItems: "center", marginBottom: RF(1), textAlign:'center'}}>
+                        <Text style={{fontSize:RF(2.4), textAlign:"center"}}>Gender</Text>
+                    </View>
                 <View style={styles.tpickerBox}>
                 <RNPickerSelect
                         style={{...pickerSelectStyles}}
                         onValueChange={(itemValue, itemIndex)=> this.setState({gender: itemValue})}
-                        placeholder={{label: 'Gender', value: null}}
-                        placeholderTextColor={'red'}
+                        placeholder={{label: 'Required', value: null}}
                         items={this.state.items}
                         onValueChange={(value) =>{
                             this.setState({
@@ -250,8 +259,7 @@ export default class CreateProfile1Page extends Component{
                         </TouchableOpacity>
                     </View>
                 </View>
-            </View>
-            </KeyboardAwareScrollView>   
+            </KeyboardAwareScrollView>
             </SafeAreaView>    
         );
     }
@@ -265,7 +273,7 @@ const styles = StyleSheet.create({
         flexDirection:"column",
         borderWidth: 20,
         borderColor:"#2ea9df",
-        paddingTop: RF(3),
+        paddingTop: RF(1.5),
     },
     personalInfo:{
         width: "90%",
@@ -287,7 +295,7 @@ const styles = StyleSheet.create({
         flex: .45,
         justifyContent: 'space-evenly',
         alignItems: "center",
-        paddingTop: RF(5),
+        paddingTop: RF(1)
     },
     inputView:{
         paddingLeft: RF(2),
@@ -307,6 +315,7 @@ const styles = StyleSheet.create({
         fontSize: RF(2.5),
         elevation:2,
         paddingTop: RF(3),
+        paddingBottom: RF(3),
         textAlign: 'center',
     },
     textBox:{
@@ -335,8 +344,8 @@ const styles = StyleSheet.create({
         flex:.5,
     },
     nextButtonStyle:{
-        height: "90%",
-        width: "100%",
+        height: "45%",
+        width: "80%",
         borderRadius:10,
         backgroundColor:"#2ea9df",
         borderColor:"#2ea9df",
@@ -370,14 +379,16 @@ const styles = StyleSheet.create({
         paddingRight: RF(1),
     },
     inputContainer: {
-        width:"100%",
-        height: "9%",
+        width:"90%",
+        height: "6%",
         borderRadius: 10,
         borderWidth: 1,
         borderBottomWidth: 1,
         borderColor: '#000',
         paddingBottom: 10,
-        marginBottom: RF(5),
+        marginLeft: RF(3),
+        marginRight: RF(3),
+        marginBottom: RF(4),
         textAlign:"center",
         fontSize: RF(3),
 
@@ -400,14 +411,16 @@ const styles = StyleSheet.create({
     },
     tpickerBox: {
         alignItems: "center",
-        width:"100%",
-        height: "9%",
+        width:"90%",
+        height: "7%",
         borderRadius: 15,
         borderWidth: 1,
         borderBottomWidth: 1,
         borderColor: '#000',
         paddingBottom: 10,
         marginBottom: RF(3),
+        marginRight: RF(3),
+        marginLeft: RF( 3),
         textAlign:"center",
         fontSize: RF(5),
     },

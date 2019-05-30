@@ -1,8 +1,9 @@
 import React, {Component} from 'react';
-import { StyleSheet, View, Text, Button, Alert, TextInput,TouchableOpacity, Picker,SafeAreaView } from 'react-native';
+import ReactNative, { StyleSheet, View, Text, Button, Alert, TextInput,TouchableOpacity, Picker,SafeAreaView } from 'react-native';
 import RF from 'react-native-responsive-fontsize';
 import RNPickerSelect from 'react-native-picker-select';
 import Icon from 'react-native-vector-icons/FontAwesome';
+import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 
 
 export default class CreateProfile3Page extends Component{
@@ -28,6 +29,8 @@ export default class CreateProfile3Page extends Component{
             additional_tags:this.additional_tags,
             clean:this.clean,
             wake_early:this.wake_early,
+            smoke:this.smoke,
+            pets:this.pets,
             description:this.description,
             cleanPicker:[                {
                 label: 'Clean', value:'clean',
@@ -41,6 +44,22 @@ export default class CreateProfile3Page extends Component{
                 },
                 {
                     label: 'Night', value:'night',
+                }
+            ],
+            smokePicker:[
+                {
+                    label: 'Yes', value:'yes',
+                },
+                {
+                    label: 'No', value:'no',
+                }
+            ],
+            petsPicker:[
+                {
+                    label: 'Yes', value:'yes',
+                },
+                {
+                    label: 'No', value:'no',
                 }
             ],
             paddingBottom: 10
@@ -136,13 +155,18 @@ export default class CreateProfile3Page extends Component{
         }
     }
 
+    _scrollToInput (reactNode: any) {
+        // Add a 'scroll' ref to y our ScrollView
+        this.scroll.props.scrollToFocusedInput(reactNode)
+    }
+
     //Method for adding padding for keyboard inputs
     //on bottom fields
     Add_Padding=()=>{
 
         this.setState({
 
-            paddingBottom : 100
+            paddingBottom : 130
 
         })
 
@@ -154,7 +178,7 @@ export default class CreateProfile3Page extends Component{
 
         this.setState({
 
-            paddingBottom : 10
+            paddingBottom : 30
         })
     }
 
@@ -162,6 +186,10 @@ export default class CreateProfile3Page extends Component{
     render(){
         return(
             <SafeAreaView style={styles.pageContainer}>
+                <KeyboardAwareScrollView
+                    innerRef={ref => {
+                        this.scroll = ref
+                    }}>
             <View style={styles.objectContainer}>
                 <View style={styles.additionalInfo}>
                     <Text numberOfLines= {1}
@@ -175,13 +203,12 @@ export default class CreateProfile3Page extends Component{
                 </View>
             </View>
             <View style={styles.inputView}>
-                <View style={{flex:.25 }}>
+                <View style={{flex:.25}}>
                 <Text style={{textAlign:"center", fontSize:RF(2.3)}}> Are you generally a clean or messy person </Text>
                 <RNPickerSelect
-                        style={{...pickerSelectStyles}}
+                        style={[styles.tpickerBox, {...pickerSelectStyles}]}
                         onValueChange={(itemValue, itemIndex)=> this.setState({clean: itemValue})}
-                        placeholder={{label: 'Select Here', value: null}}
-                        placeholderTextColor={'red'}
+                        placeholder={{label: 'Required', value: null}}
                         items={this.state.cleanPicker}
                         onValueChange={(value) =>{
                             this.setState({
@@ -193,10 +220,9 @@ export default class CreateProfile3Page extends Component{
                 <View style={{flex:.25}}>
                 <Text style={{textAlign:"center", fontSize:RF(2.3)}}> Are you a morning or night person </Text>
                 <RNPickerSelect
-                        style={{...pickerSelectStyles}}
+                        style={[styles.tpickerBox, {...pickerSelectStyles}]}
                         onValueChange={(itemValue, itemIndex)=> this.setState({wake_early: itemValue})}
-                        placeholder={{label: 'Select Here', value: null}}
-                        placeholderTextColor={'red'}
+                        placeholder={{label: 'Required', value: null}}
                         items={this.state.wake_earlyPicker}
                         onValueChange={(value) =>{
                             this.setState({
@@ -206,24 +232,56 @@ export default class CreateProfile3Page extends Component{
                         value={this.state.wake_early}
                         />
                 </View>
-                <View style={[{flex:.5,paddingBottom: this.state.paddingBottom}]}>
+                <View style={{flex:.25}}>
+                    <Text style={{textAlign:"center", fontSize:RF(2.3)}}> Do you smoke? </Text>
+                    <RNPickerSelect
+                        style={[styles.tpickerBox,{...pickerSelectStyles}]}
+                        onValueChange={(itemValue, itemIndex)=> this.setState({smoke: itemValue})}
+                        placeholder={{label: 'Required', value: null}}
+                        items={this.state.smokePicker}
+                        onValueChange={(value) =>{
+                            this.setState({
+                                smoke:value,
+                            });
+                        }}
+                        value={this.state.smoke}
+                    />
+                </View>
+                <View style={{flex:.25}}>
+                    <Text style={{textAlign:"center", fontSize:RF(2.3)}}> Do you own pets? </Text>
+                    <RNPickerSelect
+                        style={[styles.tpickerBox, {...pickerSelectStyles}]}
+                        onValueChange={(itemValue, itemIndex)=> this.setState({pets: itemValue})}
+                        placeholder={{label: 'Required', value: null}}
+                        items={this.state.petsPicker}
+                        onValueChange={(value) =>{
+                            this.setState({
+                                pets:value,
+                            });
+                        }}
+                        value={this.state.pets}
+                    />
+                </View>
+                <View style={{flex:.5}}>
                 <Text style={{textAlign:"center", fontSize:RF(2.3)}}> Tell Us About Yourself </Text>
                 <View>
-                    <TextInput style={{borderColor:"#243456", borderWidth:1,height:"90%", textAlignVertical:"top"}}
+                    <TextInput style={{borderColor:"#243456", borderWidth:1,height:"90%", textAlignVertical:"top",
+                        paddingBottom: this.state.paddingBottom}}
                                 onChangeText={(description)=> this.setState({description})}
                                 value = {this.state.description}
-                                placeholder = {"Type here"}
-                                placeholderTextColor={'red'}
-                                //Adds padding when user clicks on preferred gender field so the keyboard does not
+                                placeholder = {"Required"}
+                                //Adds padding when user clicks on the description field so the keyboard does not
                                 //cover the input field
                                onFocus={(event: Event) => {
+                                   this._scrollToInput(ReactNative.findNodeHandle(event.target))
                                    this.Add_Padding()
                                }}
-                                //Deletes the extra padding when the user is not on the preferred gender field
+                                //Deletes the extra padding when the user is not on the description field
                                onBlur={(event: Event) => {
                                    this.Delete_Padding()
                                }}
                     />
+                    
                 </View>
                 </View>
                 <View style={{flexDirection:'row', height:"20%"}}>
@@ -243,6 +301,7 @@ export default class CreateProfile3Page extends Component{
                             </View>
                         </View>
                     </View>
+                </KeyboardAwareScrollView>
             </SafeAreaView>
         );
     }
@@ -352,7 +411,20 @@ const styles = StyleSheet.create({
         color: "#fff",
         paddingLeft: RF(1),
         paddingRight: RF(1),
-    }
+    },
+    tpickerBox: {
+        alignItems: "center",
+        width:"100%",
+        height: "9%",
+        borderRadius: 15,
+        borderWidth: 1,
+        borderBottomWidth: 1,
+        borderColor: '#000',
+        paddingBottom: 10,
+        marginBottom: RF(3),
+        textAlign:"center",
+        fontSize: RF(5),
+    },
 })
 const pickerSelectStyles = StyleSheet.create({
     inputIOS: {

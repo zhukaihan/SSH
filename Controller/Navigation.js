@@ -43,8 +43,9 @@ const LogInStackNavigator = createStackNavigator(
 			}
 		},
   },
-  {
-    initialRouteName: 'LogInPage',
+	{
+		//initialize initial screen to createProfilepage2g
+		initialRouteName: 'LogInPage',
 		headerMode: 'none',
   }
 )
