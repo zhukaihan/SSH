@@ -19,19 +19,19 @@ export default class HousingSearchPage extends React.Component{
 		page: 0,
 		searchQuery: "",
 		advSearchisVisible: false,
-		minPrice: null,
-		maxPrice: null,
-		bed: null,
-		bath: null,
-		parking: null,
-		tenant: null,
+		minPrice: "",
+		maxPrice: "",
+		bed: "",
+		bath: "",
+		parking: "",
+		tenant: "",
 		additional_tags: [],
 	}
 	
 	constructor() {
 		super();
 		
-		this.housesRef = firebase.firestore().collection("houses").where("availability", "==", true);
+		this.housesRef = firebase.firestore().collection("houses");
 		User.getUserWithUID(firebase.auth().currentUser.uid, (user) => {
 			this.setState({
 				curUser: user
@@ -51,7 +51,9 @@ export default class HousingSearchPage extends React.Component{
 			let housingItems = [];
 			snapshot.forEach(house => {
 				var aHouse = new House(house.data(), house.id);
+				if(aHouse.availability == false){
 				housingItems.push(aHouse);
+				}
 			});
 			this.setState({
 				housingItems: housingItems,
@@ -102,9 +104,6 @@ export default class HousingSearchPage extends React.Component{
 		{
 			this.getHousingData();
 		}
-		this.setState({
-			isFetchingHouseData: true
-		})
 		const { page, displayList } = this.state;
 		const start = page*Items_Per_Page;
 		const end = (page+1)*Items_Per_Page-1;
@@ -116,9 +115,6 @@ export default class HousingSearchPage extends React.Component{
 				displayList:[...displayList,...newData],
 				page:page+1,
 				
-			});
-			this.setState({
-				isFetchingHouseData: false
 			});
 		}
 	}
@@ -154,7 +150,7 @@ export default class HousingSearchPage extends React.Component{
 		let numParkStrs = this.state.searchQuery.match(/[0-9]+( )*(parking|Parking|P)[s]*/g);
 		let numPark = numParkStrs && numParkStrs.length > 0 ? numParkStrs[0].match(/[0-9]*/g)[0] : 0;
 		// Find query about pricing
-		let pricingStrs = this.state.searchQuery.match(/[$]*[0-9]\d\d|[0-9]\d\d\d/g);
+		let pricingStrs = this.state.searchQuery.match(/[$]+([0-9]\d\d|[0-9]\d\d\d)/g);
 		let maxPrice = pricingStrs && pricingStrs.length > 2 ? pricingStrs.match(/[0-9]\d\d|[0-9]\d\d\d/g) : 0;
 		
 		var searchString = this.state.searchQuery.toString().split(" ");
@@ -204,26 +200,25 @@ export default class HousingSearchPage extends React.Component{
 	updateFilter = () =>{
 		this.setState({
 			displayList:[],
-			isFetchingHouseData: true
 		})
 		const zero = 0;
 		var filter = this.housesRef;
-		if(this.state.minPrice != null){
+		if(this.state.minPrice != ""){
 			filter = filter.where("price", ">", parseInt(this.state.minPrice));
 		}
-		if(this.state.maxPrice != null){
+		if(this.state.maxPrice != ""){
 			filter = filter.where("price", "<", parseInt(this.state.maxPrice));
 		}
-		if(this.state.bed != null){
+		if(this.state.bed != ""){
 			filter = filter.where("num_bedroom", ">=", parseInt(this.state.bed));
 		}
-		if(this.state.bath != null){
+		if(this.state.bath != ""){
 			filter = filter.where("num_bathroom", ">=", parseInt(this.state.bath));
 		}
-		if(this.state.parking != null){
+		if(this.state.parking != ""){
 			filter = filter.where("num_parking", ">=", parseInt(this.state.parking));
 		}
-		if(this.state.tenant != null){
+		if(this.state.tenant != ""){
 			filter = filter.where("num_tenant", ">=", parseInt(this.state.tenant));
 		}
 		filter.get().then(snapshot => {
@@ -245,9 +240,6 @@ export default class HousingSearchPage extends React.Component{
 				page:page+1,
 			});
 		});
-		this.setState({
-			isFetchingHouseData: false
-		})
 	}
 	
 	clearFilter = () =>{  
@@ -314,11 +306,7 @@ export default class HousingSearchPage extends React.Component{
 								<TextInput
 									placeholder="0" style={styles.textInput} 
 									onChangeText={minPrice => {
-										if (minPrice != "") {
 											this.setState({minPrice})
-										} else {
-											this.setState({minPrice:null})
-										}
 										console.log(this.state.minPrice);
 									}}
 									keyboardType={"number-pad"}
@@ -327,11 +315,7 @@ export default class HousingSearchPage extends React.Component{
 								<Text> To </Text>
 								<TextInput placeholder="0" id="maxPrice" style={styles.textInput} 
 									onChangeText={maxPrice =>{
-										if(maxPrice !=""){
 											this.setState({maxPrice})
-										} else {
-											this.setState({maxPrice:null})
-										}
 										console.log(this.state.maxPrice);
 									}}
 									keyboardType={"number-pad"}
@@ -342,11 +326,7 @@ export default class HousingSearchPage extends React.Component{
 								<Text>Bath:</Text>
 								<TextInput placeholder="0" id="bath" style={styles.textInput} 
 									onChangeText={bath =>{
-										if(bath != ""){
 											this.setState({bath})
-										} else {
-											this.setState({bath:null})
-										}
 										console.log(this.state.bath);
 									}}
 									keyboardType={"number-pad"}
@@ -357,11 +337,7 @@ export default class HousingSearchPage extends React.Component{
 								<Text>Bed:</Text>
 								<TextInput placeholder="0"id="bed" style={styles.textInput} 
 									onChangeText={bed =>{
-										if(!bed){
 											this.setState({bed})
-										} else {
-											this.setState({bed:null})
-										}
 										console.log(this.state.bed);
 									}}
 									keyboardType={"number-pad"}
@@ -372,11 +348,7 @@ export default class HousingSearchPage extends React.Component{
 								<Text>Parking:</Text>
 								<TextInput placeholder="0" id="parking" style={styles.textInput} 
 									onChangeText={parking =>{
-										if(!parking){
 											this.setState({parking})
-										} else {
-											this.setState({parking:null})
-										}
 										console.log(this.state.parking);
 									}}
 									keyboardType={"number-pad"}
@@ -387,11 +359,7 @@ export default class HousingSearchPage extends React.Component{
 								<Text>Tenant:</Text>
 								<TextInput placeholder="0" id="tenant" style={styles.textInput} 
 									onChangeText={tenant =>{
-										if(!tenant){
 											this.setState({tenant})
-										} else {
-											this.setState({tenant:null})
-										}
 										console.log(this.state.tenant);
 									}}
 									keyboardType={"number-pad"}
