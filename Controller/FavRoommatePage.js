@@ -27,14 +27,18 @@ export default class FavRoommatePage extends React.Component{
 		})
 
 		User.getUserWithUID(firebase.auth().currentUser.uid, (user) => {
-            this.state.roommateItems = []
-			user.roommate_favorite.forEach((roommate) => {
-				roommate.get().then((snapshot) => {
-                    this.state.roommateItems.push(new User(snapshot.data(), snapshot.id));
-                    this.state.isFetchingRoommateData = false;
-                    this.forceUpdate();
-				})
-			})
+            if (user.roommate_favorite.length == 0) {
+                this.setState({isFetchingRoommateData: false});
+            } else {
+                this.state.roommateItems = []
+			    user.roommate_favorite.forEach((roommate) => {
+                    roommate.get().then((snapshot) => {
+                        this.state.roommateItems.push(new User(snapshot.data(), snapshot.id));
+                        this.state.isFetchingRoommateData = false;
+                        this.forceUpdate();
+                    })
+                })
+            }
 		});
 	}
 
