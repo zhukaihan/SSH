@@ -132,15 +132,9 @@ export default class EditHousingPage extends React.Component{
         this.f = new bloom(32*256,16);
 		this.splitText(this.f, this.state.house.landlord);
 		this.splitText(this.f, this.state.house.cur_tenant);
-		this.splitText(this.f, this.state.house.availability);
 		this.splitText(this.f, this.state.house.title.toString());
 		this.splitText(this.f, this.state.house.description);
 		this.splitText(this.f, this.state.house.location);
-		this.splitText(this.f, this.state.house.price);
-		this.splitText(this.f, this.state.house.num_bedroom);
-		this.splitText(this.f, this.state.house.num_bathroom);
-		this.splitText(this.f, this.state.house.num_parking);
-		this.splitText(this.f, this.state.house.num_tenant);
 		this.temp = [].slice.call(this.f.buckets);
 		this.bloomfilter = JSON.stringify(this.temp);
 
@@ -228,6 +222,7 @@ export default class EditHousingPage extends React.Component{
 			firebase.firestore().collection("houses").add(Object.assign({}, houseToAdd))
 			.then((docRef) => {
 				this.state.house.id = docRef.id;
+				this.props.navigation.goBack();
 				Alert.alert(
 					'House Created',
 					'',
@@ -257,6 +252,7 @@ export default class EditHousingPage extends React.Component{
 				}
 			}).then(() => {
 				if (!this.state.auto_save) {
+					this.props.navigation.goBack();
 					Alert.alert(
 						'House Saved',
 						'',

@@ -71,7 +71,7 @@ export default class RoomateSearchPage extends React.Component{
 	}
     constructor(props){
         super(props);
-        this.roommateRef = firebase.firestore().collection("users").where("availability", "==", true);
+        this.roommateRef = firebase.firestore().collection("users");
 		User.getUserWithUID(firebase.auth().currentUser.uid, (user) => {
 			this.setState({
 				curUser: user
@@ -126,8 +126,10 @@ export default class RoomateSearchPage extends React.Component{
 		this.roommateRef.get().then(snapshot => {
 			let roommateItems = [];
 			snapshot.forEach(roommate => {
-				var aUser = new User(roommate.data(), roommate.id);
-				roommateItems.push(aUser);
+                var aUser = new User(roommate.data(), roommate.id);
+                if(aUser.availability == false && aUser.id != this.state.curUser.id){
+                roommateItems.push(aUser);
+                }
 			});
 			this.setState({
 				roommateItems: roommateItems,
@@ -214,7 +216,7 @@ export default class RoomateSearchPage extends React.Component{
 
     }
 
-	updateSearchQuery = searchQuery => {
+	searchAndUpdateWithQuery = searchQuery => {
         this.setState({ searchQuery });
         const newData = this.state.roommateItems.filter(item =>{
             const ItemData = `${item.first_name.toUpperCase()}
@@ -347,7 +349,7 @@ export default class RoomateSearchPage extends React.Component{
 						round={true}
 						containerStyle={{backgroundColor: '#2EA9DF', height: 70, borderTopWidth: 0}}
 						inputContainerStyle={{backgroundColor: 'white', marginStart:30, marginEnd:30, width: '85%', flexDirection: 'row-reverse'}}
-						onChangeText={this.updateSearchQuery}
+						onChangeText={this.searchAndUpdateWithQuery}
 						value={this.state.searchQuery}
                         onClear={this.onRefresh}
                         onSubmitEditing={this.onSearch}

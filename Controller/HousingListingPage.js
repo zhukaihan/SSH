@@ -66,6 +66,10 @@ export default class HousingListingPage extends React.Component{
 		this.getHousingData();
 	}
 
+	componentWillMount = async () => {
+		this.getHousingData();
+	}
+
 	render = () => {
 
 		return (
