@@ -13,37 +13,45 @@ import UserPreviewView from '../View/UserPreviewView';
 
 export default class RoomateSearchPage extends React.Component{
 	state = {
+		allUser:[],
 		foundUsers: [],
 		userInput: ""
 	}
 	constructor(props){
 		super(props);
-		this.usersRef = firebase.firestore().collection("users");
+		this.userRef = firebase.firestore().collection("users");
+		User.getUserWithUID(firebase.auth().currentUser.uid, (user) => {
+			this.setState({
+				curUser: user
+			})
+		});
 	}
 
-	searchUserWithName = (name) => {
-		this.setState({
-			userInput: name
-		})
-
-		let names = name.split(" ");
-		var userRef = this.usersRef.where("first_name", "==", names[0])
-		if (names.length > 1) {
-			userRef = userRef.where("last_name", "==", names[1]);
-		}
-
-		userRef.get().then((snapshot) => { // Getting a collection. 
-			var foundUsers = [];
-			snapshot.forEach((user) => {
-				foundUsers.push(new User(user.data(), user.id));
+	componentDidMount(){
+		let roommates = [];
+		this.userRef.get().then((snapshot)=>{
+			snapshot.forEach((user)=>{
+				if(user.id != this.state.curUser.id){
+				roommates.push(new User(user.data(),user.id));
+				}
 			})
-			if (foundUsers.length > 0) {
-				this.setState({
-					foundUsers: foundUsers
-				})
-			}
-			
 		})
+		this.setState({allUser:roommates})
+	}
+
+	searchUserWithName = userInput => {
+		this.setState({
+			userInput
+		})
+        const newData = this.state.allUser.filter(item =>{
+            const ItemData = `${item.first_name.toUpperCase()}
+            ${item.last_name.toUpperCase()}
+            ${item.name_preferred.toUpperCase()}`;
+            const textData = userInput.toUpperCase();
+            return ItemData.indexOf(textData) > -1;
+        })
+        this.setState({foundUsers: newData})
+
 	}
 	
 	selectUser = (user) => {
