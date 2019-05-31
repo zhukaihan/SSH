@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import ReactNative, { StyleSheet, View, Text, Button, Alert, TextInput,TouchableOpacity, Picker,SafeAreaView } from 'react-native';
+import ReactNative, { Platform,StyleSheet, View, Text, Button, Alert, TextInput,TouchableOpacity, Picker,SafeAreaView } from 'react-native';
 import RF from 'react-native-responsive-fontsize';
 import RNPickerSelect from 'react-native-picker-select';
 import Icon from 'react-native-vector-icons/FontAwesome';
@@ -203,12 +203,14 @@ export default class CreateProfile3Page extends Component{
                 </View>
             </View>
             <View style={styles.inputView}>
-                <View style={{flex:.25}}>
-                <Text style={{textAlign:"center", fontSize:RF(2.3)}}> Are you generally a clean or messy person </Text>
+                <View style={{flex:.4,  marginBottom: RF(1)}}>
+                <Text style={{textAlign:"center", fontSize:RF(2.3), height:"auto"}}> Are you generally a clean or messy person </Text>
+                <View style={styles.tpickerBox}>
                 <RNPickerSelect
-                        style={[styles.tpickerBox, {...pickerSelectStyles}]}
+                        style={pickerSelectStyles}
                         onValueChange={(itemValue, itemIndex)=> this.setState({clean: itemValue})}
                         placeholder={{label: 'Required', value: null}}
+                        useNativeAndroidPickerStyle={false}
                         items={this.state.cleanPicker}
                         onValueChange={(value) =>{
                             this.setState({
@@ -216,13 +218,16 @@ export default class CreateProfile3Page extends Component{
                             });
                         }}
                         value={this.state.clean}/>
+                        </View>
                 </View>
-                <View style={{flex:.25}}>
+                <View style={{flex:.4, marginBottom: RF(1)}}>
                 <Text style={{textAlign:"center", fontSize:RF(2.3)}}> Are you a morning or night person </Text>
+                <View style={styles.tpickerBox}>
                 <RNPickerSelect
-                        style={[styles.tpickerBox, {...pickerSelectStyles}]}
+                        style={pickerSelectStyles}
                         onValueChange={(itemValue, itemIndex)=> this.setState({wake_early: itemValue})}
                         placeholder={{label: 'Required', value: null}}
+                        useNativeAndroidPickerStyle={false}
                         items={this.state.wake_earlyPicker}
                         onValueChange={(value) =>{
                             this.setState({
@@ -231,13 +236,16 @@ export default class CreateProfile3Page extends Component{
                         }}
                         value={this.state.wake_early}
                         />
+                        </View>
                 </View>
-                <View style={{flex:.25}}>
+                <View style={{flex:.4,  marginBottom: RF(1)}}>
                     <Text style={{textAlign:"center", fontSize:RF(2.3)}}> Do you smoke? </Text>
+                    <View style={styles.tpickerBox}>
                     <RNPickerSelect
-                        style={[styles.tpickerBox,{...pickerSelectStyles}]}
+                        style={pickerSelectStyles}
                         onValueChange={(itemValue, itemIndex)=> this.setState({smoke: itemValue})}
                         placeholder={{label: 'Required', value: null}}
+                        useNativeAndroidPickerStyle={false}
                         items={this.state.smokePicker}
                         onValueChange={(value) =>{
                             this.setState({
@@ -246,13 +254,16 @@ export default class CreateProfile3Page extends Component{
                         }}
                         value={this.state.smoke}
                     />
+                    </View>
                 </View>
-                <View style={{flex:.25}}>
+                <View style={{flex:.4,  marginBottom: RF(1)}}>
                     <Text style={{textAlign:"center", fontSize:RF(2.3)}}> Do you own pets? </Text>
+                    <View style={styles.tpickerBox}>
                     <RNPickerSelect
-                        style={[styles.tpickerBox, {...pickerSelectStyles}]}
+                        style={pickerSelectStyles}
                         onValueChange={(itemValue, itemIndex)=> this.setState({pets: itemValue})}
                         placeholder={{label: 'Required', value: null}}
+                        useNativeAndroidPickerStyle={false}
                         items={this.state.petsPicker}
                         onValueChange={(value) =>{
                             this.setState({
@@ -261,12 +272,13 @@ export default class CreateProfile3Page extends Component{
                         }}
                         value={this.state.pets}
                     />
+                    </View>
                 </View>
-                <View style={{flex:.5}}>
+                <View style={{flex:.4,  marginBottom: RF(1)}}>
                 <Text style={{textAlign:"center", fontSize:RF(2.3)}}> Tell Us About Yourself </Text>
                 <View>
                     <TextInput style={{borderColor:"#243456", borderWidth:1,height:"90%", textAlignVertical:"top",
-                        paddingBottom: this.state.paddingBottom}}
+                        paddingVertical: 10, paddingHorizontal: 10}}
                                 onChangeText={(description)=> this.setState({description})}
                                 value = {this.state.description}
                                 placeholder = {"Required"}
@@ -415,27 +427,36 @@ const styles = StyleSheet.create({
     tpickerBox: {
         alignItems: "center",
         width:"100%",
-        height: "9%",
+        height: "60%",
         borderRadius: 15,
         borderWidth: 1,
         borderBottomWidth: 1,
         borderColor: '#000',
         paddingBottom: 10,
+        marginTop: RF(1),
         marginBottom: RF(3),
         textAlign:"center",
         fontSize: RF(5),
     },
 })
 const pickerSelectStyles = StyleSheet.create({
+
     inputIOS: {
+        paddingTop: RF(1.5),
+        alignSelf: "center",
         fontSize: RF(3),
-        height: "70%",
-        width: "100%",
-        borderWidth: 1,
-        borderColor: '#000',
-        borderRadius: 4,
-        backgroundColor: 'white',
+        height: "100%",
+        width:"100%",
         color: 'black',
-        textAlign:"center",
+        textAlign:"center"
     },
+    inputAndroid:{
+        paddingTop: RF(1.5),
+        alignSelf: "center",
+        fontSize: RF(3),
+        height: "100%",
+        width:"100%",
+        color: 'black',
+        textAlign:"center"
+    }
 });
