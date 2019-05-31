@@ -1,7 +1,7 @@
 // This page will be displayed to allow user to add a house listing or edit a current one. 
 
 import React, { Component } from 'react';
-import { StyleSheet, View, Text, Button, Alert, FlatList, TouchableHighlight, ScrollView, TextInput, Dimensions, Overlay, ActivityIndicator, Switch } from 'react-native';
+import { StyleSheet, View, Text, Button, Alert, FlatList, TouchableOpacity, ScrollView, TextInput, Dimensions, Overlay, ActivityIndicator, Switch } from 'react-native';
 import { Icon, Image } from 'react-native-elements';
 import { SafeAreaView } from 'react-navigation';
 import firebase from 'firebase';
@@ -12,6 +12,7 @@ import ImageHorizontalScrollView from '../View/ImageHorizontalScrollView';
 import BadgesView from '../View/BadgesView';
 import ImageUploader from '../View/ImageUploader';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
+import UserPreviewView from '../View/UserPreviewView';
 
 export default class EditHousingPage extends React.Component{
 	state = {
@@ -290,18 +291,32 @@ export default class EditHousingPage extends React.Component{
 		let item = this.state.house;
 
 		var tenants = [];
-		this.state.cur_tenant.forEach((tenant) => {
+		this.state.cur_tenant.forEach((tenant, index) => {
 			tenants.push((
-				<View key={tenant.id}>
-					<Image
-						key={tenant.profileimage}
-						source={{url: tenant.profileimage, cache: 'force-cache'}}
-						style={{
-							height: 200
-						}}
-					/>
-					<Text>{tenant.first_name} {tenant.last_name}</Text>
-					<Button title="Remove this tenant" onPress={() => {this.removeTenant(tenant)}}/>
+				<View key={index} style={{
+					padding: '2.5%',
+					width: '95%',
+					borderBottomColor: '#dddddd',
+					borderBottomWidth: 1,
+					flexDirection: 'row',
+					justifyContent: 'space-between'
+				}}>
+					<View style={{
+							width: '90%',
+						}}>
+						<UserPreviewView user={tenant}/>
+					</View>
+					<View style={{
+						flexDirection: 'row',
+						width: '10%',
+						height: 75,
+						margin: 5,
+						alignItems: 'center'
+					}}>
+						<TouchableOpacity onPress={() => {this.removeTenant(tenant)}}>
+							<Icon name="minus-circle" type="font-awesome"/>
+						</TouchableOpacity>
+					</View>
 				</View>
 				
 			));

@@ -20,7 +20,7 @@ export default class ImageHorizontalScrollView extends React.Component {
 		width: Dimensions.get('window').width,
 		height: 200
 	}
-	componentWillMount = () => {
+	componentWillMount = async () => {
 		if (this.props.height) {
 			this.setState({
 				height: this.props.height

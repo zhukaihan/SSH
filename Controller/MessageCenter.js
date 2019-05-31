@@ -7,6 +7,7 @@ import firebase from 'firebase';
 import { MessageRoom } from '../Model/Messaging';
 import User from '../Model/User';
 import RF from "react-native-responsive-fontsize";
+import UserPreviewView from '../View/UserPreviewView';
 
 
 export default class MessageCenter extends React.Component{
@@ -64,72 +65,29 @@ export default class MessageCenter extends React.Component{
 			this.state.roomsItems.forEach((item, index) => {
 				itemRecipient = this.recipientUsersItems[item.id]
 				content.push((
-					<TouchableOpacity key ={index} onPress={() => {this.openRoom(item)}} style={{
+					<View key={index} style={{
 						padding: '2.5%',
 						width: '95%',
-						elevation: 2,
 						borderBottomColor: '#dddddd',
 						borderBottomWidth: 1,
 						flexDirection: 'row',
 						justifyContent: 'space-between'
 					}}>
 						<View style={{
-							flexDirection: 'row'
-						}}>
-							<View style={{
-								height: 75,
-								margin: 5,
-								aspectRatio: 1
+								width: '90%',
 							}}>
-								<Avatar
-									rounded
-									source={{
-										uri: itemRecipient ? itemRecipient.profileimage : "uri shouldn't be an empty string so I put sth here",
-										cache: 'force-cache'
-									}}
-									size="large"
-								/>
-								{item.last_contact_date > item.last_read_time ? 
-									(
-										<Badge
-											status="error"
-											containerStyle={{ position: 'absolute', top: 0, right: 0 }}
-										/>
-									) : (
-										<View />
-									)
-								}
-								
-							</View>
-							<View style={{
-								flexDirection: 'column',
-								height: 75,
-								margin: 5,
-								justifyContent: 'center'
-							}}>
-								<Text style={{
-									color: 'black',
-									fontSize: RF(2.5)
-								}}>{itemRecipient ? itemRecipient.first_name + " " + itemRecipient.last_name : "Loading..."}</Text>
-								<Text style={{
-									color: 'grey',
-									fontSize: RF(2)
-								}}>{itemRecipient ? itemRecipient.graduation : "Loading..."}</Text>
-								<Text style={{
-									color: 'grey',
-									fontSize: RF(2)
-								}}>{itemRecipient ? itemRecipient.major : "Loading..."}</Text>
-							</View>
+							<UserPreviewView user={itemRecipient} onPress={this.openRoom} hasAlertDot={item.last_contact_date > item.last_read_time}/>
 						</View>
 						<View style={{
 							flexDirection: 'row',
+							width: '10%',
 							height: 75,
 							margin: 5,
 							alignItems: 'center'
 						}}>
 							<Icon name="chevron-right" type="font-awesome"/>
 						</View>
-					</TouchableOpacity>
+					</View>
 				))
 			})
 		}
