@@ -25,7 +25,7 @@ export default class HousingListingPage extends React.Component{
 
 	// Get housing data and set state with the new data. 
 	// Can be used on first launch and on refresh request. 
-	getHousingData = () => {
+	getHousingData = async () => {
 		this.setState({
 			isFetchingHouseData: true
 		}, () => {

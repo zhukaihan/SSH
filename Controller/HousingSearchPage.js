@@ -41,7 +41,7 @@ export default class HousingSearchPage extends React.Component{
 	
 	// Get housing data and set state with the new data. 
 	// Can be used on first launch and on refresh request. 
-	getHousingData = () => {
+	getHousingData = async () => {
 		this.setState({
 			displayList:[],
 			isFetchingHouseData: true
@@ -71,7 +71,7 @@ export default class HousingSearchPage extends React.Component{
 		});
 	}
 	
-	onRefresh = () => {
+	onRefresh = async () => {
 		if(this.state.searchQuery == ""){
 			this.getHousingData();
 		}
@@ -92,13 +92,13 @@ export default class HousingSearchPage extends React.Component{
 		}
 	}
 	
-	openHouse = (house) => {
+	openHouse = async (house) => {
 		this.props.navigation.push("ViewHousingPage", {
 			houseId: house.id,
 		});
 	}
 	
-	loadMore = () => {
+	loadMore = async () => {
 		console.log("load data");
 		if(this.state.housingItems == null)
 		{
@@ -123,15 +123,15 @@ export default class HousingSearchPage extends React.Component{
 		this.getHousingData();
 	}
 	
-	updateSearchQuery = searchQuery => {
+	updateSearchQuery = async searchQuery => {
 		this.setState({ searchQuery });
 	};
 	
-	advanceSearchFilter = () =>{
+	advanceSearchFilter = async () =>{
 		
 	}
 	
-	searchAndUpdateWithQuery = () => {
+	searchAndUpdateWithQuery = async () => {
 		this.setState({
 			displayList:[],
 			isFetchingHouseData: true
@@ -197,7 +197,7 @@ export default class HousingSearchPage extends React.Component{
 		
 	}
 	
-	updateFilter = () =>{
+	updateFilter = async () =>{
 		this.setState({
 			displayList:[],
 		})
@@ -242,7 +242,7 @@ export default class HousingSearchPage extends React.Component{
 		});
 	}
 	
-	clearFilter = () =>{  
+	clearFilter = async () =>{  
 		this.setState({
 			minPrice: null,
 			maxPrice: null,
@@ -252,14 +252,14 @@ export default class HousingSearchPage extends React.Component{
 			tenant: null,
 		})
 	}
-	applyFilter = () =>{
+	applyFilter = async () =>{
 		this.setState({
 			advSearchisVisible:false,
 		})
 		this.updateFilter();
 	}
 	
-	cancelFilter = () =>{
+	cancelFilter = async () =>{
 		this.setState({
 			advSearchisVisible:false,
 		})

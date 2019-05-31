@@ -1,7 +1,7 @@
 
 import React, { Component } from 'react';
 import { StyleSheet, View, Text, StatusBar, Button, Alert, FlatList, TouchableHighlight, TouchableOpacity, TextInput, ScrollView } from 'react-native';
-import { Icon, Card, Badge, SearchBar,Overlay, Image } from 'react-native-elements';
+import { Icon, Card, Badge, SearchBar,Overlay, Image, Avatar } from 'react-native-elements';
 import { SafeAreaView } from 'react-navigation';
 import firebase from 'firebase';
 import { MessageRoom } from '../Model/Messaging';
@@ -14,6 +14,7 @@ export default class MessageCenter extends React.Component{
 	state = {
 		roomsItems: [],
 	}
+	recipientUsersItems = {};
 
 	constructor() {
 		super();
@@ -31,10 +32,14 @@ export default class MessageCenter extends React.Component{
 		this.observer = this.roomsRef.onSnapshot(roomsSnapshot => {
 			let roomsItems = [];
 			roomsSnapshot.forEach(room => {
-				var aRooms = new MessageRoom(room.data(), room.id, () => {
-					this.forceUpdate();
-				});
-				roomsItems.push(aRooms);
+				var aRoom = new MessageRoom(room.data(), room.id);
+				if (!this.recipientUsersItems[room.id]) {
+					User.getUserWithUID(room.id, (user) => {
+						this.recipientUsersItems[user.id] = user
+						this.forceUpdate();
+					})
+				}
+				roomsItems.push(aRoom);
 			});
 			this.setState({
 				roomsItems: roomsItems
@@ -57,58 +62,75 @@ export default class MessageCenter extends React.Component{
 			)
 		} else {
 			this.state.roomsItems.forEach((item, index) => {
-				if (!item.recipient) {
-					content.push((<Text key={index}>Loading...</Text>))
-				} else {
-					content.push((
-						<TouchableOpacity key ={index} onPress={() => {this.openRoom(item)}} style={{
-							padding: '2.5%',
-							width: '95%',
-							elevation: 2,
-							borderBottomColor: '#dddddd',
-							borderBottomWidth: 1,
-							flexDirection: 'row',
-							justifyContent: 'space-between'
+				itemRecipient = this.recipientUsersItems[item.id]
+				content.push((
+					<TouchableOpacity key ={index} onPress={() => {this.openRoom(item)}} style={{
+						padding: '2.5%',
+						width: '95%',
+						elevation: 2,
+						borderBottomColor: '#dddddd',
+						borderBottomWidth: 1,
+						flexDirection: 'row',
+						justifyContent: 'space-between'
+					}}>
+						<View style={{
+							flexDirection: 'row'
 						}}>
 							<View style={{
-								flexDirection: 'row'
-							}}>
-								<Image source={{uri: item.recipient.profileimage, cache: 'force-cache'}} style={{
-									height: 75,
-									margin: 5,
-									aspectRatio: 1
-								}}/>
-								<View style={{
-									flexDirection: 'column',
-									height: 75,
-									margin: 5,
-									justifyContent: 'center'
-								}}>
-									<Text style={{
-										color: 'black',
-										fontSize: RF(2.5)
-									}}>{item.recipient.first_name} {item.recipient.last_name}</Text>
-									<Text style={{
-										color: 'grey',
-										fontSize: RF(2)
-									}}>{item.recipient.graduation}</Text>
-									<Text style={{
-										color: 'grey',
-										fontSize: RF(2)
-									}}>{item.recipient.major}</Text>
-								</View>
-							</View>
-							<View style={{
-								flexDirection: 'row',
 								height: 75,
 								margin: 5,
-								alignItems: 'center'
+								aspectRatio: 1
 							}}>
-								<Icon name="chevron-right" type="font-awesome"/>
+								<Avatar
+									rounded
+									source={{
+										uri: itemRecipient ? itemRecipient.profileimage : "uri shouldn't be an empty string so I put sth here",
+										cache: 'force-cache'
+									}}
+									size="large"
+								/>
+								{item.last_contact_date > item.last_read_time ? 
+									(
+										<Badge
+											status="error"
+											containerStyle={{ position: 'absolute', top: 0, right: 0 }}
+										/>
+									) : (
+										<View />
+									)
+								}
+								
 							</View>
-						</TouchableOpacity>
-					))
-				}
+							<View style={{
+								flexDirection: 'column',
+								height: 75,
+								margin: 5,
+								justifyContent: 'center'
+							}}>
+								<Text style={{
+									color: 'black',
+									fontSize: RF(2.5)
+								}}>{itemRecipient ? itemRecipient.first_name + " " + itemRecipient.last_name : "Loading..."}</Text>
+								<Text style={{
+									color: 'grey',
+									fontSize: RF(2)
+								}}>{itemRecipient ? itemRecipient.graduation : "Loading..."}</Text>
+								<Text style={{
+									color: 'grey',
+									fontSize: RF(2)
+								}}>{itemRecipient ? itemRecipient.major : "Loading..."}</Text>
+							</View>
+						</View>
+						<View style={{
+							flexDirection: 'row',
+							height: 75,
+							margin: 5,
+							alignItems: 'center'
+						}}>
+							<Icon name="chevron-right" type="font-awesome"/>
+						</View>
+					</TouchableOpacity>
+				))
 			})
 		}
 		

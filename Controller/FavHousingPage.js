@@ -21,7 +21,7 @@ export default class FavHousingPage extends React.Component{
 
 	// Get housing data and set state with the new data. 
 	// Can be used on first launch and on refresh request. 
-	getHousingData = () => {
+	getHousingData = async () => {
 
 		this.setState({
 			isFetchingHouseData: true
@@ -46,7 +46,7 @@ export default class FavHousingPage extends React.Component{
 		});
 	}
 
-	openHouse = (house) => {
+	openHouse = async (house) => {
 		this.props.navigation.push("ViewHousingPage", {
 			houseId: house.id,
 		});
