@@ -1,6 +1,7 @@
 import React, {Component} from 'react';
 import ReactNative from 'react-native';
-import {StyleSheet, 
+import {StyleSheet,
+        Platform,
         View, 
         Text, 
         Button, 
@@ -45,6 +46,7 @@ export default class CreateProfile1Page extends Component{
         }
         this.width= Dimensions.get('window').width;
         this.inputRefs={};
+        console.log(Platform.OS)
     }
     
     _checkFirstname = () =>{
@@ -236,10 +238,11 @@ export default class CreateProfile1Page extends Component{
                     </View>
                 <View style={styles.tpickerBox}>
                 <RNPickerSelect
-                        style={{...pickerSelectStyles}}
+                        style={pickerSelectStyles}
                         onValueChange={(itemValue, itemIndex)=> this.setState({gender: itemValue})}
                         placeholder={{label: 'Required', value: null}}
                         items={this.state.items}
+                        useNativeAndroidPickerStyle={false}
                         onValueChange={(value) =>{
                             this.setState({
                                 gender:value,
@@ -410,11 +413,12 @@ const styles = StyleSheet.create({
     tpickerBox: {
         alignItems: "center",
         width:"90%",
-        height: "7%",
+        height: "6%",
         borderRadius: 15,
         borderWidth: 1,
         borderBottomWidth: 1,
         borderColor: '#000',
+        paddingTop:10,
         paddingBottom: 10,
         marginBottom: RF(3),
         marginRight: RF(3),
@@ -426,15 +430,23 @@ const styles = StyleSheet.create({
 })
 const pickerSelectStyles = StyleSheet.create({
     inputIOS: {
-        paddingTop: RF(1.5),
+        fontSize: RF(3),
+        height: "100%",
+        width:"100%",
+        borderColor: '#000',
+        borderRadius: 4,
+        color: 'black',
+        textAlign:"center",
+        alignSelf: "center"
+    },
+    inputAndroid:{
         alignSelf: "center",
         fontSize: RF(3),
         height: "100%",
         width:"100%",
         borderColor: '#000',
         borderRadius: 4,
-        backgroundColor: 'white',
         color: 'black',
-        textAlign:"center",
-    },
+        textAlign:"center"
+    }
 });
