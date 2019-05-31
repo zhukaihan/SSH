@@ -186,7 +186,7 @@ export default class CreateProfile3Page extends Component{
     render(){
         return(
             <SafeAreaView style={styles.pageContainer}>
-                <KeyboardAwareScrollView
+                <KeyboardAwareScrollView style={{flex: 1}}
                     innerRef={ref => {
                         this.scroll = ref
                     }}>
@@ -270,6 +270,7 @@ export default class CreateProfile3Page extends Component{
                                 onChangeText={(description)=> this.setState({description})}
                                 value = {this.state.description}
                                 placeholder = {"Required"}
+                                multiline={true}
                                 //Adds padding when user clicks on the description field so the keyboard does not
                                 //cover the input field
                                onFocus={(event: Event) => {
@@ -284,24 +285,21 @@ export default class CreateProfile3Page extends Component{
                     
                 </View>
                 </View>
-                <View style={{flexDirection:'row', height:"20%"}}>
+                
+                </View>
+                </KeyboardAwareScrollView>
+                <View style={{width: '100%',flexDirection:'row', height:75}}>
                     <View style={styles.backButton}>
                         <TouchableOpacity onPress={this.backslide} style={styles.backButtonStyle}>
-                            <View>
-                                <Text style={styles.buttontextstyle}>Back</Text>
-                            </View>
+                            <Text style={styles.buttontextstyle}>Back</Text>
                         </TouchableOpacity>
-                        </View>
-                            <View style={styles.nextButton}>
-                                <TouchableOpacity onPress={this.nextslide} style={styles.nextButtonStyle}>
-                                <View>
-                                    <Text style={styles.buttontextstyle}>Next</Text>
-                                </View>
-                                </TouchableOpacity>
-                            </View>
-                        </View>
                     </View>
-                </KeyboardAwareScrollView>
+                    <View style={styles.nextButton}>
+                        <TouchableOpacity onPress={this.nextslide} style={styles.nextButtonStyle}>
+                            <Text style={styles.buttontextstyle}>Next</Text>
+                        </TouchableOpacity>
+                    </View>
+                </View>
             </SafeAreaView>
         );
     }
@@ -372,17 +370,15 @@ const styles = StyleSheet.create({
         flexDirection:"row",
         justifyContent: "center",
         alignItems:"center",
-        borderWidth: 20,
-        borderColor:"#fff",
         flex:.5,
     },
     nextButtonStyle:{
-        height: "90%",
-        width: "100%",
+        height: "60%",
+        width: "80%",
         borderRadius:10,
         backgroundColor:"#2ea9df",
         borderColor:"#2ea9df",
-        borderWidth:4, 
+        borderWidth:4,
         alignItems: "center",
         justifyContent: "center",
     },
@@ -391,23 +387,21 @@ const styles = StyleSheet.create({
         flexDirection:"row",
         justifyContent: "center",
         alignItems:"center",
-        borderWidth: 20,
-        borderColor:"#fff",
         flex:.5,
     },
     backButtonStyle:{
-        height: "90%",
-        width: "100%",
+        height: "60%",
+        width: "80%",
         borderRadius:10,
         backgroundColor:"#2ea9df",
         borderColor:"#2ea9df",
-        borderWidth:4, 
+        borderWidth:4,
         alignItems: "center",
         justifyContent: "center",
     },
     buttontextstyle:{
         textAlign:'center',
-        fontSize:RF(4),
+        fontSize:RF(3),
         color: "#fff",
         paddingLeft: RF(1),
         paddingRight: RF(1),

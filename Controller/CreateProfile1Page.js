@@ -162,6 +162,9 @@ export default class CreateProfile1Page extends Component{
         return(
             <SafeAreaView style={styles.pageContainer}>
                 <KeyboardAwareScrollView
+                style={{
+                    flex: 1
+                }}
                     innerRef={ref => {
                         this.scroll = ref
                     }}>
@@ -247,19 +250,17 @@ export default class CreateProfile1Page extends Component{
                         this.inputRefs.picker = el;
                         }}/>
                 </View>
-                <View style={{flexDirection:'row', height:"20%"}}>
+            </KeyboardAwareScrollView>
+                <View style={{width: '100%', left: 0, flexDirection:'row', height:75}}>
                     <View style={styles.backButton}>
-                            <Text style={styles.buttontextstyle}>Back</Text>
+                        <Text style={styles.buttontextstyle}>Back</Text>
                     </View>
                     <View style={styles.nextButton}>
                         <TouchableOpacity onPress={this.nextslide} style={styles.nextButtonStyle}>
-                        <View>
                             <Text style={styles.buttontextstyle}>Next</Text>
-                        </View>
                         </TouchableOpacity>
                     </View>
                 </View>
-            </KeyboardAwareScrollView>
             </SafeAreaView>    
         );
     }
@@ -339,12 +340,10 @@ const styles = StyleSheet.create({
         flexDirection:"row",
         justifyContent: "center",
         alignItems:"center",
-        borderWidth: 20,
-        borderColor:"#fff",
         flex:.5,
     },
     nextButtonStyle:{
-        height: "45%",
+        height: "60%",
         width: "80%",
         borderRadius:10,
         backgroundColor:"#2ea9df",
@@ -358,12 +357,11 @@ const styles = StyleSheet.create({
         flexDirection:"row",
         justifyContent: "center",
         alignItems:"center",
-        borderWidth: 20,
-        borderColor:"#fff",
         flex:.5,
     },
     backButtonStyle:{
-        height: "0%",
+        height: 0,
+        width: "80%",
         borderRadius:10,
         backgroundColor:"#2ea9df",
         borderColor:"#2ea9df",
@@ -373,7 +371,7 @@ const styles = StyleSheet.create({
     },
     buttontextstyle:{
         textAlign:'center',
-        fontSize:RF(4),
+        fontSize:RF(3),
         color: "#fff",
         paddingLeft: RF(1),
         paddingRight: RF(1),
