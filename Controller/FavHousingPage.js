@@ -27,19 +27,24 @@ export default class FavHousingPage extends React.Component{
 			isFetchingHouseData: true
 		})
 
-		User.getUserWithUID(firebase.auth().currentUser.uid, (user) => {
+		this.unsubscribe = firebase.firestore().collection("users").doc(firebase.auth().currentUser.uid).onSnapshot(snapshot => {
+			user = new User(snapshot.data(), snapshot.id);
 			this.setState({
 				curUser: user
 			})
 			if (user.house_favorite.length == 0) {
-				this.setState({isFetchingHouseData: false})
+				this.setState({isFetchingHouseData: false, housingItems: []})
 			} else {
 				this.state.housingItems = [];
+				var loadedCount = 0;
 				user.house_favorite.forEach((house) => {
 					house.get().then((snapshot) => {
 						this.state.housingItems.push(new House(snapshot.data(), snapshot.id));
 						this.state.isFetchingHouseData = false;
-						this.forceUpdate();
+						loadedCount++;
+						if (loadedCount == user.house_favorite.length) {
+								this.forceUpdate();
+						}
 					})
 				})
 			}
@@ -52,17 +57,30 @@ export default class FavHousingPage extends React.Component{
 		});
 	}
 
-	componentDidMount = async () => {
+	componentWillMount = async () => {
 		this.getHousingData();
 	}
 
+	componentWillUnmount = async () => {
+		this.unsubscribe();
+	}
+
 	render = () => {
+		var noFavView;
+		if (!this.state.housingItems || this.state.housingItems.length == 0) {
+			noFavView = (
+				<Text style={{
+					color: '#dddddd',
+					fontSize: RF(6)
+				}}>You have no favorited housing. </Text>
+			)
+		}
 		return (
 			<SafeAreaView style={{flex: 1, backgorundColor: '#2EA9DF'}}>
+				{noFavView}
 				<FlatList
 					keyExtractor={(item, index) => index.toString()}
 					data={this.state.housingItems}
-					onRefresh={this.getHousingData}
 					refreshing={this.state.isFetchingHouseData}
 					renderItem={({item}) => (
 							<HousePreviewView
