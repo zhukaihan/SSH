@@ -45,6 +45,8 @@ export default class MessageRoomView extends React.Component{
 
 	componentWillUnmount = async () => {
 		this.observer();
+
+		this.updateLastReadTime();
 	}
 
 	sendMessage = (txt) => {
@@ -52,28 +54,32 @@ export default class MessageRoomView extends React.Component{
 			messages: firebase.firestore.FieldValue.arrayUnion({
 				timestamp: firebase.firestore.Timestamp.now(),
 				message: txt,
-				isRead: true,
 				isSentByUser: true
 			}),
-			last_contact_date: firebase.firestore.Timestamp.now()
+			last_contact_date: firebase.firestore.Timestamp.now(),
+			last_read_time: firebase.firestore.Timestamp.now()
 		}, {merge: true})
 		this.oppositeSideRoomRef.set({
 			messages: firebase.firestore.FieldValue.arrayUnion({
 				timestamp: firebase.firestore.Timestamp.now(),
 				message: txt,
-				isRead: false,
 				isSentByUser: false
 			}),
-			last_contact_date: firebase.firestore.Timestamp.now()
+			last_contact_date: firebase.firestore.Timestamp.now(),
 		}, {merge: true})
 		this.newMsgTextInput.clear();
+	}
+
+	updateLastReadTime = async () => {
+		this.roomRef.set({
+			last_read_time: firebase.firestore.Timestamp.now()
+		}, {merge: true})
 	}
 
 	render = () => {
 		if (!this.state.room || !this.state.room.messages) {
 			return (<View></View>)
 		}
-		// this.updateReadMessage();
 
 		return (
 			<SafeAreaView style={{flex: 1}} forceInset={{top: 'never'}}>
@@ -82,7 +88,7 @@ export default class MessageRoomView extends React.Component{
 						keyExtractor={(item, index) => index.toString()}
 						data={this.state.room.messages}
 						renderItem={({item}) => {
-							return (<Text>{item.timestamp.toString()} {item.isSentByUser ? "me: " : "they: "} {item.message}</Text>);
+							return (<Text>{item.timestamp > this.state.room.last_read_time ? "unread" : ""} {item.isSentByUser ? "me: " : "they: "} {item.message}</Text>);
 						}}
 					/>
 					<TextInput

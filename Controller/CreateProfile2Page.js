@@ -1,8 +1,8 @@
 import React, {Component} from 'react';
 import ReactNative, { StyleSheet, View, Text, Button, Alert, TextInput, Picker,TouchableOpacity, SafeAreaView, Dimensions, PixelRatio } from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome';
-import RNPickerSelect from 'react-native-picker-select';
 import RF from 'react-native-responsive-fontsize';
+import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 
 
 
@@ -119,6 +119,10 @@ export default class CreateProfile2Page extends Component{
         }
     }
 
+    _scrollToInput (reactNode: any) {
+        // Add a 'scroll' ref to y our ScrollView
+        this.scroll.props.scrollToFocusedInput(reactNode)
+    }
 
     //Method for adding padding for keyboard inputs
     //on bottom fields
@@ -126,7 +130,7 @@ export default class CreateProfile2Page extends Component{
 
         this.setState({
 
-            paddingBottom : 130
+            paddingBottom: 40
 
         })
 
@@ -138,7 +142,7 @@ export default class CreateProfile2Page extends Component{
 
         this.setState({
 
-            paddingBottom : 10
+            paddingBottom: 10
         })
     }
 
@@ -146,6 +150,13 @@ export default class CreateProfile2Page extends Component{
     render(){
         return(
             <SafeAreaView style={styles.pageContainer}>
+                <KeyboardAwareScrollView style={{
+                    flex: 1
+                }}
+                    innerRef={ref => {
+                        this.scroll = ref
+                    }}
+                    scrollEnabled>
             <View style={styles.objectContainer}>
                 <View style={styles.additionalInfo}>
                     <Text numberOfLines= {1}
@@ -158,39 +169,46 @@ export default class CreateProfile2Page extends Component{
                     <Text style={styles.oneOverthree}> 2/3 </Text>
                 </View>
             </View>
-            <View style={[styles.inputView, {paddingBottom: this.state.paddingBottom}]}>
                 <View
                     style={{flexDirection:"row", justifyContent: "center", alignItems: "center", marginBottom: RF(1), textAlign:'center'}}>
                     <Text style={{fontSize:RF(2.4), textAlign:"center"}}>Major</Text>
                 </View>
+                <View style={styles.inputContainer}>
                 <TextInput 
-                        style={styles.textBox}
-                        placeholder={"Major"}
-                        placeholderTextColor={'red'}
+                        style={styles.tinput}
+                        placeholder={"Required"}
                         onChangeText={(major)=>{this.setState({major})}}
+                        onFocus={(event: Event) => {
+                            // `bind` the function if you're using ES6 classes
+                            this._scrollToInput(ReactNative.findNodeHandle(event.target))}}
                 ></TextInput>
+                </View>
                 <View
                     style={{flexDirection:"row", justifyContent: "center", alignItems: "center", marginBottom: RF(1), textAlign:'center'}}>
                     <Text style={{fontSize:RF(2.4)}}> Expected Graduating Year </Text>
                 </View>
+                <View style={styles.inputContainer}>
                 <TextInput 
-                        style={styles.textBox}
-                        placeholder={"Graduation Year"}
-                        placeholderTextColor={'red'}
+                        style={styles.tinput}
+                        placeholder={"Required"}
                         onChangeText={(graduation)=>{this.setState({graduation})}}
+                        onFocus={(event: Event) => {
+                        this._scrollToInput(ReactNative.findNodeHandle(event.target))}}
                 ></TextInput>
+                </View>
                 <View
                     style={{flexDirection:"row", justifyContent: "center", alignItems: "center", marginBottom: RF(1)}}>
                     <Text style={{fontSize:RF(2.4), textAlign:"center"}}> Interests and Hobbies </Text>
                 </View>
-                <TextInput 
-                        style={styles.textBox}
-                        placeholder={"Interest and Hobbies"}
-                        placeholderTextColor={'red'}
+                <View style={[styles.inputContainer, {paddingBottom: this.state.paddingBottom}]}>
+                <TextInput
+                        style={styles.tinput}
+                        placeholder={"Required"}
                         onChangeText={(additional_tags)=>{this.setState({additional_tags})}}
                         //Adds padding when user clicks on the interest field so the keyboard does not
                         //cover the input field
                         onFocus={(event: Event) => {
+                            this._scrollToInput(ReactNative.findNodeHandle(event.target))
                             this.Add_Padding()
                         }}
                         //Deletes the extra padding when the user is not on the interest field
@@ -198,23 +216,21 @@ export default class CreateProfile2Page extends Component{
                             this.Delete_Padding()
                         }}
                 ></TextInput>
-                <View style={{flexDirection:'row', height:"20%"}}>
+                </View>
+                
+                </KeyboardAwareScrollView>
+                <View style={{width: '100%',flexDirection:'row', height:75}}>
                     <View style={styles.backButton}>
                         <TouchableOpacity onPress={this.backslide} style={styles.backButtonStyle}>
-                        <View>
                             <Text style={styles.buttontextstyle}>Back</Text>
-                        </View>
                         </TouchableOpacity>
                     </View>
                     <View style={styles.nextButton}>
                         <TouchableOpacity onPress={this.nextslide} style={styles.nextButtonStyle}>
-                        <View>
                             <Text style={styles.buttontextstyle}>Next</Text>
-                        </View>
                         </TouchableOpacity>
                     </View>
                 </View>
-            </View>
             </SafeAreaView>
         );
     }
@@ -256,21 +272,42 @@ const styles = StyleSheet.create({
     textFont:{
         fontSize: RF(3.5),
         elevation: 2,
+        paddingTop: RF(3),
+        textAlign: 'center',
+        margin: 10,
     },
     oneOverthree:{
         fontSize: RF(2.5),
         elevation:2,
+        paddingTop: RF(3),
+        paddingBottom: RF(3),
+        textAlign: 'center',
     },
-    textBox:{
-        width:"100%",
-        height: "9%",
-        borderRadius: 10,
-        borderWidth: 1,
+
+    tinput:{
+        flex: 1,
+        paddingTop: RF(1.5),
         borderColor: "#235964",
-        marginBottom: RF(3),
         textAlign:"center",
         fontSize: RF(3),
     },
+
+    inputContainer: {
+        width:"90%",
+        height: "9%",
+        borderRadius: 10,
+        borderWidth: 1,
+        borderBottomWidth: 1,
+        borderColor: '#000',
+        paddingBottom: 10,
+        marginLeft: RF(3),
+        marginRight: RF(3),
+        marginBottom: RF(4),
+        textAlign:"center",
+        fontSize: RF(3),
+
+    },
+
     pickerBox:{
         width:"100%",
         height: "9%",
@@ -284,13 +321,11 @@ const styles = StyleSheet.create({
         flexDirection:"row",
         justifyContent: "center",
         alignItems:"center",
-        borderWidth: 20,
-        borderColor:"#fff",
         flex:.5,
     },
     nextButtonStyle:{
-        height: "90%",
-        width: "100%",
+        height: "60%",
+        width: "80%",
         borderRadius:10,
         backgroundColor:"#2ea9df",
         borderColor:"#2ea9df",
@@ -303,13 +338,11 @@ const styles = StyleSheet.create({
         flexDirection:"row",
         justifyContent: "center",
         alignItems:"center",
-        borderWidth: 20,
-        borderColor:"#fff",
         flex:.5,
     },
     backButtonStyle:{
-        height: "90%",
-        width: "100%",
+        height: "60%",
+        width: "80%",
         borderRadius:10,
         backgroundColor:"#2ea9df",
         borderColor:"#2ea9df",
@@ -319,7 +352,7 @@ const styles = StyleSheet.create({
     },
     buttontextstyle:{
         textAlign:'center',
-        fontSize:RF(4),
+        fontSize:RF(3),
         color: "#fff",
         paddingLeft: RF(1),
         paddingRight: RF(1),

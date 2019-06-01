@@ -9,6 +9,7 @@ import RF from "react-native-responsive-fontsize";
 import ImageHorizontalScrollView from '../View/ImageHorizontalScrollView';
 import BadgesView from '../View/BadgesView';
 import HouseFavButton from '../View/HouseFavButton';
+import UserPreviewView from '../View/UserPreviewView';
 
 
 export default class ViewHousingPage extends React.Component{
@@ -71,19 +72,21 @@ export default class ViewHousingPage extends React.Component{
 			let item = this.state.house;
 
 			var tenants = [];
-			this.state.cur_tenant.forEach((tenant) => {
+			this.state.cur_tenant.forEach((tenant, index) => {
 				tenants.push((
-					<View
-						key={tenant.id}
-					>
-						<Image
-							key={tenant.profileimage}
-							source={{url: tenant.profileimage, cache: 'force-cache'}}
-							style={{
-								height: 200
-							}}
-						/>
-						<Text>{tenant.first_name} {tenant.last_name}</Text>
+					<View key={index} style={{
+						padding: '2.5%',
+						width: '95%',
+						borderBottomColor: '#dddddd',
+						borderBottomWidth: 1,
+						flexDirection: 'row',
+						justifyContent: 'space-between'
+					}}>
+						<View style={{
+								width: '90%',
+							}}>
+							<UserPreviewView user={tenant}/>
+						</View>
 					</View>
 					
 				));
@@ -200,6 +203,7 @@ const styles = StyleSheet.create({
 	},
 	roomInfoRightImage: {
 		flex: 9,
+		aspectRatio: 1,
 		margin: 5
 	},
 	roomInfoRightNameText: {
@@ -207,8 +211,7 @@ const styles = StyleSheet.create({
 		margin: 5
 	},
 	roomInfoLeftSpecsView: {
-		flexDirection: 'row',
-		flexWrap: 'wrap',
+		flexDirection: 'column',
 		marginTop: 5,
 		marginBottom: 5
 	},

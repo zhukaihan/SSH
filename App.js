@@ -4,17 +4,17 @@ import AppNavigator from './Controller/Navigation';
 import firebase from 'firebase';
 
 // Main Database. 
-// var firebaseConfig = {
-// 	apiKey: "AIzaSyAJMmoUDolfe4zKdXkQblpGI75g6YaQt8g",
-// 	authDomain: "gary-ssh.firebaseapp.com",
-// 	databaseURL: "https://gary-ssh.firebaseio.com",
-// 	projectId: "gary-ssh",
+//  var firebaseConfig = {
+//  	apiKey: "AIzaSyAJMmoUDolfe4zKdXkQblpGI75g6YaQt8g",
+//  	authDomain: "gary-ssh.firebaseapp.com",
+//  	databaseURL: "https://gary-ssh.firebaseio.com",
+//  	projectId: "gary-ssh",
 // 	storageBucket: "gary-ssh.appspot.com",
-// 	messagingSenderId: "1005506003002",
+//  	messagingSenderId: "1005506003002",
 // 	appId: "1:1005506003002:web:6a5023cf4eb0ec32"
-// };
-// // Initialize Firebase
-// firebase.initializeApp(firebaseConfig);
+//  };
+// // // Initialize Firebase
+//  firebase.initializeApp(firebaseConfig);
 
 // Backup Database. 
 var firebaseConfig = {

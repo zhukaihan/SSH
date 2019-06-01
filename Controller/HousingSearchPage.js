@@ -19,19 +19,19 @@ export default class HousingSearchPage extends React.Component{
 		page: 0,
 		searchQuery: "",
 		advSearchisVisible: false,
-		minPrice: null,
-		maxPrice: null,
-		bed: null,
-		bath: null,
-		parking: null,
-		tenant: null,
+		minPrice: "",
+		maxPrice: "",
+		bed: "",
+		bath: "",
+		parking: "",
+		tenant: "",
 		additional_tags: [],
 	}
 	
 	constructor() {
 		super();
 		
-		this.housesRef = firebase.firestore().collection("houses").where("availability", "==", true);
+		this.housesRef = firebase.firestore().collection("houses");
 		User.getUserWithUID(firebase.auth().currentUser.uid, (user) => {
 			this.setState({
 				curUser: user
@@ -41,7 +41,7 @@ export default class HousingSearchPage extends React.Component{
 	
 	// Get housing data and set state with the new data. 
 	// Can be used on first launch and on refresh request. 
-	getHousingData = () => {
+	getHousingData = async () => {
 		this.setState({
 			displayList:[],
 			isFetchingHouseData: true
@@ -51,7 +51,9 @@ export default class HousingSearchPage extends React.Component{
 			let housingItems = [];
 			snapshot.forEach(house => {
 				var aHouse = new House(house.data(), house.id);
+				if(aHouse.availability == false){
 				housingItems.push(aHouse);
+				}
 			});
 			this.setState({
 				housingItems: housingItems,
@@ -69,7 +71,7 @@ export default class HousingSearchPage extends React.Component{
 		});
 	}
 	
-	onRefresh = () => {
+	onRefresh = async () => {
 		if(this.state.searchQuery == ""){
 			this.getHousingData();
 		}
@@ -90,21 +92,18 @@ export default class HousingSearchPage extends React.Component{
 		}
 	}
 	
-	openHouse = (house) => {
+	openHouse = async (house) => {
 		this.props.navigation.push("ViewHousingPage", {
 			houseId: house.id,
 		});
 	}
 	
-	loadMore = () => {
+	loadMore = async () => {
 		console.log("load data");
 		if(this.state.housingItems == null)
 		{
 			this.getHousingData();
 		}
-		this.setState({
-			isFetchingHouseData: true
-		})
 		const { page, displayList } = this.state;
 		const start = page*Items_Per_Page;
 		const end = (page+1)*Items_Per_Page-1;
@@ -117,9 +116,6 @@ export default class HousingSearchPage extends React.Component{
 				page:page+1,
 				
 			});
-			this.setState({
-				isFetchingHouseData: false
-			});
 		}
 	}
 	
@@ -127,17 +123,16 @@ export default class HousingSearchPage extends React.Component{
 		this.getHousingData();
 	}
 	
-	updateSearchQuery = searchQuery => {
+	updateSearchQuery = async searchQuery => {
 		this.setState({ searchQuery });
 	};
 	
-	advanceSearchFilter = () =>{
+	advanceSearchFilter = async () =>{
 		
 	}
 	
-	searchAndUpdateWithQuery = () => {
+	searchAndUpdateWithQuery = async () => {
 		this.setState({
-			displayList:[],
 			isFetchingHouseData: true
 		})
 		if(this.state.searchQuery == ""){
@@ -145,41 +140,46 @@ export default class HousingSearchPage extends React.Component{
 		}
 		
 		// Find query about bathrooms. 
-		let numBathStrs = this.state.searchQuery.match(/[0-9]+( )*(Bathroom|BA|bathroom|bath|ba)[es|s]*/g);
+		let numBathStrs = this.state.searchQuery.match(/[0-9]+( )*(Bathroom|BA|bathroom|bath|ba)+[es|s]*/g);
 		let numBath = numBathStrs && numBathStrs.length > 0 ? numBathStrs[0].match(/[0-9]*/g)[0] : 0;
 		// Find query about bedrooms
-		let numBedStrs = this.state.searchQuery.match(/[0-9]+( )*(Bedroom|BED|bedroom|bed|be)[s]*/g);
+		let numBedStrs = this.state.searchQuery.match(/[0-9]+( )*(Bedroom|BED|bedroom|bed|be)+[s]*/g);
 		let numBed = numBedStrs && numBedStrs.length > 0 ? numBedStrs[0].match(/[0-9]*/g)[0] : 0;
 		// Find query about parkings
-		let numParkStrs = this.state.searchQuery.match(/[0-9]+( )*(parking|Parking|P)[s]*/g);
+		let numParkStrs = this.state.searchQuery.match(/[0-9]+( )*(parking|Parking|P)+[s]*/g);
 		let numPark = numParkStrs && numParkStrs.length > 0 ? numParkStrs[0].match(/[0-9]*/g)[0] : 0;
 		// Find query about pricing
-		let pricingStrs = this.state.searchQuery.match(/[$]*[0-9]\d\d|[0-9]\d\d\d/g);
-		let maxPrice = pricingStrs && pricingStrs.length > 2 ? pricingStrs.match(/[0-9]\d\d|[0-9]\d\d\d/g) : 0;
-		
+		let pricingStrs = this.state.searchQuery.match(/\$?([0-9]{1,3},([0-9]{3},)*[0-9]{3}|[0-9]+)/g);
+		console.log(this.state.searchQuery);
+		console.log("pricingStr" + pricingStrs + " " + pricingStrs.length);
+		let maxPrice = pricingStrs ? pricingStrs[0].match(/[0-9]{1,3},([0-9]{3},)*[0-9]{3}|[0-9]+/g) : 0;
+		console.log("maxPrice" + maxPrice);
+
 		var searchString = this.state.searchQuery.toString().split(" ");
 		console.log(searchString);
 		var bf = require("./bloomfilter"),
 		bloom=bf.BloomFilter;
 		let newHousingItems = [];
 		this.state.housingItems.forEach(function(housingItem){
-			
-			if (numBath > 0 && housingItem.num_bathroom >= numBath) {
+			if(numBath != "" || numBed != "" || numPark != "" || maxPrice != ""){
+			if (numBath > 0 && housingItem.num_bathroom == numBath) {
 				// This house matches the required number of bathrooms. 
 				newHousingItems.push(housingItem);
 			}
-			if (numBed > 0 && housingItem.num_bedroom >= numBath) {
+			if (numBed > 0 && housingItem.num_bedroom == numBed) {
 				// This house matches the required number of bedroom. 
 				newHousingItems.push(housingItem);
 			}
-			if (numPark > 0 && housingItem.num_parking >= numBath) {
+			if (numPark > 0 && housingItem.num_parking == numPark) {
 				// This house matches the required number of parking. 
 				newHousingItems.push(housingItem);
 			}	
-			if (maxPrice > 0 && housingItem.price+50 <= maxPrice) {
+			if (maxPrice > 0 && housingItem.price <= parseInt(maxPrice) + 50) {
+				
 				newHousingItems.push(housingItem);
+			}
 			}	// This house is within $50 dollar radius of the price people entered.
-			
+			else{
 			let bloomfilterArr = JSON.parse(housingItem.bloomfilter);
 			var Bloom = new bloom(bloomfilterArr,16);
 			for(var i = 0; i < searchString.length; i++){
@@ -189,41 +189,43 @@ export default class HousingSearchPage extends React.Component{
 					break;
 				}
 			}
+		}
 			
 		});
+		console.log(newHousingItems.length)
+
 		this.setState({
-			displayList: newHousingItems,
+			displayList: [...newHousingItems],
 			isFetchingHouseData: false
 		});
-		
+		console.log(this.state.displayList.length)
 		
 		// Search here with this.houseRef or with Algolia and update housing lists async. 
 		
 	}
 	
-	updateFilter = () =>{
+	updateFilter = async () =>{
 		this.setState({
 			displayList:[],
-			isFetchingHouseData: true
 		})
 		const zero = 0;
 		var filter = this.housesRef;
-		if(this.state.minPrice != null){
+		if(this.state.minPrice != ""){
 			filter = filter.where("price", ">", parseInt(this.state.minPrice));
 		}
-		if(this.state.maxPrice != null){
+		if(this.state.maxPrice != ""){
 			filter = filter.where("price", "<", parseInt(this.state.maxPrice));
 		}
-		if(this.state.bed != null){
+		if(this.state.bed != ""){
 			filter = filter.where("num_bedroom", ">=", parseInt(this.state.bed));
 		}
-		if(this.state.bath != null){
+		if(this.state.bath != ""){
 			filter = filter.where("num_bathroom", ">=", parseInt(this.state.bath));
 		}
-		if(this.state.parking != null){
+		if(this.state.parking != ""){
 			filter = filter.where("num_parking", ">=", parseInt(this.state.parking));
 		}
-		if(this.state.tenant != null){
+		if(this.state.tenant != ""){
 			filter = filter.where("num_tenant", ">=", parseInt(this.state.tenant));
 		}
 		filter.get().then(snapshot => {
@@ -245,12 +247,9 @@ export default class HousingSearchPage extends React.Component{
 				page:page+1,
 			});
 		});
-		this.setState({
-			isFetchingHouseData: false
-		})
 	}
 	
-	clearFilter = () =>{  
+	clearFilter = async () =>{  
 		this.setState({
 			minPrice: null,
 			maxPrice: null,
@@ -260,14 +259,14 @@ export default class HousingSearchPage extends React.Component{
 			tenant: null,
 		})
 	}
-	applyFilter = () =>{
+	applyFilter = async () =>{
 		this.setState({
 			advSearchisVisible:false,
 		})
 		this.updateFilter();
 	}
 	
-	cancelFilter = () =>{
+	cancelFilter = async () =>{
 		this.setState({
 			advSearchisVisible:false,
 		})
@@ -314,11 +313,7 @@ export default class HousingSearchPage extends React.Component{
 								<TextInput
 									placeholder="0" style={styles.textInput} 
 									onChangeText={minPrice => {
-										if (minPrice != "") {
 											this.setState({minPrice})
-										} else {
-											this.setState({minPrice:null})
-										}
 										console.log(this.state.minPrice);
 									}}
 									keyboardType={"number-pad"}
@@ -327,11 +322,7 @@ export default class HousingSearchPage extends React.Component{
 								<Text> To </Text>
 								<TextInput placeholder="0" id="maxPrice" style={styles.textInput} 
 									onChangeText={maxPrice =>{
-										if(maxPrice !=""){
 											this.setState({maxPrice})
-										} else {
-											this.setState({maxPrice:null})
-										}
 										console.log(this.state.maxPrice);
 									}}
 									keyboardType={"number-pad"}
@@ -342,11 +333,7 @@ export default class HousingSearchPage extends React.Component{
 								<Text>Bath:</Text>
 								<TextInput placeholder="0" id="bath" style={styles.textInput} 
 									onChangeText={bath =>{
-										if(bath != ""){
 											this.setState({bath})
-										} else {
-											this.setState({bath:null})
-										}
 										console.log(this.state.bath);
 									}}
 									keyboardType={"number-pad"}
@@ -357,11 +344,7 @@ export default class HousingSearchPage extends React.Component{
 								<Text>Bed:</Text>
 								<TextInput placeholder="0"id="bed" style={styles.textInput} 
 									onChangeText={bed =>{
-										if(!bed){
 											this.setState({bed})
-										} else {
-											this.setState({bed:null})
-										}
 										console.log(this.state.bed);
 									}}
 									keyboardType={"number-pad"}
@@ -372,11 +355,7 @@ export default class HousingSearchPage extends React.Component{
 								<Text>Parking:</Text>
 								<TextInput placeholder="0" id="parking" style={styles.textInput} 
 									onChangeText={parking =>{
-										if(!parking){
 											this.setState({parking})
-										} else {
-											this.setState({parking:null})
-										}
 										console.log(this.state.parking);
 									}}
 									keyboardType={"number-pad"}
@@ -387,11 +366,7 @@ export default class HousingSearchPage extends React.Component{
 								<Text>Tenant:</Text>
 								<TextInput placeholder="0" id="tenant" style={styles.textInput} 
 									onChangeText={tenant =>{
-										if(!tenant){
 											this.setState({tenant})
-										} else {
-											this.setState({tenant:null})
-										}
 										console.log(this.state.tenant);
 									}}
 									keyboardType={"number-pad"}

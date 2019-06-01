@@ -20,7 +20,7 @@ export default class FavRoommatePage extends React.Component{
 
 	// Get roommate data and set state with the new data. 
 	// Can be used on first launch and on refresh request. 
-	getRoommateData = () => {
+	getRoommateData = async () => {
 
 		this.setState({
 			isFetchingRoommateData: true
@@ -42,7 +42,7 @@ export default class FavRoommatePage extends React.Component{
 		});
 	}
 
-	openRoommate = (roommate) => {
+	openRoommate = async (roommate) => {
 		this.props.navigation.push("ProfilePage", {
 			userId: roommate.id,
 		});

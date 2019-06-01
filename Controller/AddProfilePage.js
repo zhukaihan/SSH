@@ -113,24 +113,20 @@ export default class AddProfilePage extends React.Component{
                             size ={RF(8)}></Icon>
                         </TouchableOpacity>
                 </View>
-                <View style={{flexDirection:'row', flex:.15}}>
-                    <View style={styles.backButton}>
-                        <TouchableOpacity onPress={this.backslide} style={styles.backButtonStyle}>
-                            <View>
-                                <Text style={styles.buttontextstyle}>Back</Text>
-                            </View>
-                        </TouchableOpacity>
-                        </View>
-                            <View style={styles.nextButton}>
-                                <TouchableOpacity onPress={this.uploadToFirebase} style={styles.nextButtonStyle}>
-                                <View>
-                                    <Text style={styles.buttontextstyle}>Finish</Text>
-                                </View>
-                                </TouchableOpacity>
-                            </View>
-                        </View>
-                    <StatusBar barStyle="default" />
+            </View>
+            <View style={{width: '100%',flexDirection:'row', height:75}}>
+                <View style={styles.backButton}>
+                    <TouchableOpacity onPress={this.backslide} style={styles.backButtonStyle}>
+                        <Text style={styles.buttontextstyle}>Back</Text>
+                    </TouchableOpacity>
                 </View>
+                <View style={styles.nextButton}>
+                    <TouchableOpacity onPress={this.uploadToFirebase} style={styles.nextButtonStyle}>
+                        <Text style={styles.buttontextstyle}>Finish</Text>
+                    </TouchableOpacity>
+                </View>
+            </View>
+                <StatusBar barStyle="default" />
             </SafeAreaView>
         );
     }
@@ -338,16 +334,15 @@ const styles = StyleSheet.create({
         flexDirection:"row",
         justifyContent: "center",
         alignItems:"center",
-        borderWidth: 20,
-        borderColor:"#fff",
         flex:.5,
     },
     nextButtonStyle:{
-        height: "80%",
+        height: "60%",
+        width: "80%",
         borderRadius:10,
         backgroundColor:"#2ea9df",
         borderColor:"#2ea9df",
-        borderWidth:4, 
+        borderWidth:4,
         alignItems: "center",
         justifyContent: "center",
     },
@@ -356,16 +351,15 @@ const styles = StyleSheet.create({
         flexDirection:"row",
         justifyContent: "center",
         alignItems:"center",
-        borderWidth: 20,
-        borderColor:"#fff",
         flex:.5,
     },
     backButtonStyle:{
-        height: "80%",
+        height: "60%",
+        width: "80%",
         borderRadius:10,
         backgroundColor:"#2ea9df",
         borderColor:"#2ea9df",
-        borderWidth:4, 
+        borderWidth:4,
         alignItems: "center",
         justifyContent: "center",
     },

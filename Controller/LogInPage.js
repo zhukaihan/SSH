@@ -10,11 +10,9 @@ const { OAuthRedirect, URLSchemes } = AppAuth;
 
 const isInExpoClient = Constants.appOwnership === 'expo';
 
-const androidExpoClientId = Platform.select({
-  android: "356347240170-i5dkkfk03tp43dkrccf2m4ino14mn6lr.apps.googleusercontent.com"
-});
-const iosExpoClientId = Platform.select({
-	ios: "356347240170-nhtv21h7orkdcbne8kg94halnm211k67.apps.googleusercontent.com"
+const ExpoClientId = Platform.select({
+	ios: "356347240170-nhtv21h7orkdcbne8kg94halnm211k67.apps.googleusercontent.com",
+	android: "356347240170-i5dkkfk03tp43dkrccf2m4ino14mn6lr.apps.googleusercontent.com"
 })
 
 // Android's client ID is read from the google-services.json.
@@ -58,9 +56,7 @@ export default class LogInPage extends React.Component{
 			if (isInExpoClient) {
 				result = await Google.logInAsync({
 					// Client IDs, needed to be created on Google Developers Console.
-					behavior: 'web',
-					clientId: iosExpoClientId,
-					webClientId: androidExpoClientId,
+					clientId: ExpoClientId,
 				})
 				user = result.user;
 				userAuth = result;
