@@ -18,7 +18,6 @@ export default class EditHousingPage extends React.Component{
 	state = {
 		cur_tenant: [],
 		txtInput: "",
-		auto_save: true
 	}
 
 	componentDidMount = async () => {
@@ -45,6 +44,8 @@ export default class EditHousingPage extends React.Component{
 			// Create an empty house but have the landlord populated as the current user. 
 			let house = new House();
 			house.landlord = firebase.firestore().collection("users").doc(firebase.auth().currentUser.uid);
+			house.dbRef = firebase.firestore().collection("houses").doc();
+			house.id = house.dbRef.id;
 			this.setState({
 				house: house
 			});
@@ -95,7 +96,7 @@ export default class EditHousingPage extends React.Component{
 			return !value.isEqual(pictureUrl);
 		});
 		this.state.house.pictures = filtered;
-		this.saveHousePressed();
+		this.saveHouse();
 	}
 
 	addPicture = () => {
@@ -109,7 +110,7 @@ export default class EditHousingPage extends React.Component{
 		this.state.house.pictures.push("");
 		ImageUploader.chooseImageToUpload(`houses/${this.state.house.id}/images`, (url) => {
 			this.state.house.pictures[this.state.house.pictures.length - 1] = url;
-			this.saveHousePressed();
+			this.saveHouse();
 		})
 	}
 
@@ -119,11 +120,6 @@ export default class EditHousingPage extends React.Component{
 		for(var i = 0; i < text.length - 1; i++){
 			bloomfilter.add(text[i]);
 		}
-	}
-
-	saveHousePressed = () => {
-		this.state.auto_save = false;
-		this.saveHouse();
 	}
 
 	saveHouse = () => {
@@ -146,7 +142,7 @@ export default class EditHousingPage extends React.Component{
 			cur_tenant: this.state.house.cur_tenant, // Array of Firebase References
 			pictures: this.state.house.pictures, // Array of Strings
 			availability: this.state.house.availability, // Boolean
-			post_date: this.state.auto_save ? this.state.house.post_date : firebase.firestore.Timestamp.now(), // Timestamp
+			post_date: firebase.firestore.Timestamp.now(), // Timestamp
 			title: this.state.house.title.toString(), // String
 			description: this.state.house.description,
 			location: this.state.house.location, // String?
@@ -217,51 +213,26 @@ export default class EditHousingPage extends React.Component{
 			}
 		}
 
-		if (this.state.house.id == "") {
-			// Add a house, house does not exist in firebase, use add. 
-			firebase.firestore().collection("houses").add(Object.assign({}, houseToAdd))
-			.then((docRef) => {
-				this.state.house.id = docRef.id;
-				this.props.navigation.goBack();
+		// Edit a house, house exists in firebase, use set. 
+		firebase.firestore().collection("houses").doc(this.state.house.id).set(Object.assign({}, houseToAdd), (error) => {
+			if (error) {
 				Alert.alert(
-					'House Created',
-					'',
-					[{text: 'Okay'}],
-					{cancelable: false},
-				)
-			})
-			.catch((error) => {
-				Alert.alert(
-					'House Creation Failed',
+					'Saving Failed',
 					'Please try again later',
 					[{text: 'Okay'}],
 					{cancelable: false},
 				)
-			});
-		} else {
-			// Edit a house, house exists in firebase, use set. 
-			firebase.firestore().collection("houses").doc(this.state.house.id).set(Object.assign({}, houseToAdd), (error) => {
-				if (error) {
-					Alert.alert(
-						'Saving Failed',
-						'Please try again later',
-						[{text: 'Okay'}],
-						{cancelable: false},
-					)
-				} else {
-				}
-			}).then(() => {
-				if (!this.state.auto_save) {
-					this.props.navigation.goBack();
-					Alert.alert(
-						'House Saved',
-						'',
-						[{text: 'Okay'}],
-						{cancelable: false},
-					)
-				}
-			})
-		}
+			} else {
+			}
+		}).then(() => {
+			this.props.navigation.goBack();
+			Alert.alert(
+				'House Saved',
+				'',
+				[{text: 'Okay'}],
+				{cancelable: false},
+			)
+		})
 	}
 
 	deleteHouse = () => {
@@ -282,7 +253,7 @@ export default class EditHousingPage extends React.Component{
 		if (!this.state.house) {
 			return (<View></View>);
 		}
-		this.saveHouse();
+		//this.saveHouse();
 
 		let item = this.state.house;
 
@@ -444,7 +415,7 @@ export default class EditHousingPage extends React.Component{
 
 				<View style={styles.buttonContainer}>
 					<View style={styles.saveButton}>
-						<Button title="Save House" color='white' onPress={this.saveHousePressed}/>
+						<Button title="Save House" color='white' onPress={this.saveHouse}/>
 					</View>
 					<View style={styles.deleteButton}>
 						<Button title="Delete" color='white' onPress={this.deleteHouse}/>
