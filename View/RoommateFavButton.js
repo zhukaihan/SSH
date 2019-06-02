@@ -15,29 +15,19 @@ export default class RoommateFavButton extends React.Component {
 	}
 
 	componentDidMount = async () => {
-		// var unsubscribe = firebase.firestore().collection("users").doc(firebase.auth().currentUser.uid)
-		// .onSnapshot((snapshot) => {
-		// 	snapshot.docChanges().forEach(function(change) {
-		// 			if (change.type === "modified") {
-		// 					console.log("Modified city: ", change.doc.data());
-		// 			}
-		// 			if (change.type === "removed") {
-		// 					console.log("Removed city: ", change.doc.data());
-		// 			}
-		// 		});
-		// });
-		User.getUserWithUID(firebase.auth().currentUser.uid, (user) => {
+		this.unsubscribe = firebase.firestore().collection("users").doc(firebase.auth().currentUser.uid).onSnapshot(snapshot => {
+			user = new User(snapshot.data(), snapshot.id);
 			this.setState({
 				curUser: user
 			})
+			this.state.isRoommateFav = false;
 			user.roommate_favorite.forEach((favRoommate) => {
 				if (favRoommate.isEqual(this.props.roommate.dbRef)) {
-					this.setState({
-						isRoommateFav: true
-					})
+					this.state.isRoommateFav = true;
 				}
 			})
-		})
+			this.forceUpdate();
+		});
 	}
 
 	favRoommate = (roommate) => {

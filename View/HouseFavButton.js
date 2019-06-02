@@ -14,30 +14,24 @@ export default class HouseFavButton extends React.Component {
 		isHouseFav: false
 	}
 
-	componentDidMount = async () => {
-		// var unsubscribe = firebase.firestore().collection("users").doc(firebase.auth().currentUser.uid)
-		// .onSnapshot((snapshot) => {
-		// 	snapshot.docChanges().forEach(function(change) {
-		// 			if (change.type === "modified") {
-		// 					console.log("Modified city: ", change.doc.data());
-		// 			}
-		// 			if (change.type === "removed") {
-		// 					console.log("Removed city: ", change.doc.data());
-		// 			}
-		// 		});
-		// });
-		User.getUserWithUID(firebase.auth().currentUser.uid, (user) => {
+	componentWillMount = async () => {
+		this.unsubscribe = firebase.firestore().collection("users").doc(firebase.auth().currentUser.uid).onSnapshot(snapshot => {
+			user = new User(snapshot.data(), snapshot.id);
 			this.setState({
 				curUser: user
 			})
+			this.state.isHouseFav = false;
 			user.house_favorite.forEach((favHouse) => {
 				if (favHouse.isEqual(this.props.house.dbRef)) {
-					this.setState({
-						isHouseFav: true
-					})
+					this.state.isHouseFav = true;
 				}
 			})
-		})
+			this.forceUpdate();
+		});
+	}
+
+	componentWillUnmount = async () => {
+		this.unsubscribe();
 	}
 
 	favHouse = (house) => {

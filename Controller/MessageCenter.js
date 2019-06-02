@@ -23,9 +23,10 @@ export default class MessageCenter extends React.Component{
 		this.roomsRef = firebase.firestore().collection("messages").doc(firebase.auth().currentUser.uid).collection("rooms").orderBy("last_contact_date", "desc");
 	}
 
-	openRoom = (room) => {
-		this.props.navigation.push("MessageRoomView", {
-			roomId: room.id,
+	openRoom = (recipient) => {
+		this.props.navigation.navigate("MessageRoomView", {
+			roomId: recipient.id,
+			recipient: recipient
 		});
 	}
 
@@ -59,7 +60,10 @@ export default class MessageCenter extends React.Component{
 		var content = []
 		if (!this.state.roomsItems || this.state.roomsItems.length == 0) {
 			content = (
-				<Text>You have no messages. Choose a user to start. </Text>
+				<Text style={{
+					color: '#dddddd',
+					fontSize: RF(6)
+				}}>You have no messages. Choose a user to start. </Text>
 			)
 		} else {
 			this.state.roomsItems.forEach((item, index) => {

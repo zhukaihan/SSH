@@ -23,19 +23,28 @@ export default class FavRoommatePage extends React.Component{
 	getRoommateData = async () => {
 
 		this.setState({
-			isFetchingRoommateData: true
-		})
+            isFetchingRoommateData: true
+        })
 
-		User.getUserWithUID(firebase.auth().currentUser.uid, (user) => {
-            if (user.roommate_favorite.length == 0) {
-                this.setState({isFetchingRoommateData: false});
+
+		this.unsubscribe = firebase.firestore().collection("users").doc(firebase.auth().currentUser.uid).onSnapshot(snapshot => {
+			user = new User(snapshot.data(), snapshot.id);
+			this.setState({
+				curUser: user
+			})
+			if (user.roommate_favorite.length == 0) {
+                this.setState({isFetchingRoommateData: false, roommateItems: []});
             } else {
                 this.state.roommateItems = []
+                var loadedCount = 0;
 			    user.roommate_favorite.forEach((roommate) => {
                     roommate.get().then((snapshot) => {
                         this.state.roommateItems.push(new User(snapshot.data(), snapshot.id));
                         this.state.isFetchingRoommateData = false;
-                        this.forceUpdate();
+                        loadedCount++;
+                        if (loadedCount == user.roommate_favorite.length) {
+                            this.forceUpdate();
+                        }
                     })
                 })
             }
@@ -48,19 +57,31 @@ export default class FavRoommatePage extends React.Component{
 		});
 	}
 
-	componentDidMount = async () => {
+	componentWillMount = async () => {
 		this.getRoommateData();
 	}
 
+	componentWillUnmount = async () => {
+		this.unsubscribe();
+	}
+
 	render = () => {
+		var noFavView;
+		if (!this.state.roommateItems || this.state.roommateItems.length == 0) {
+			noFavView = (
+				<Text style={{
+					color: '#dddddd',
+					fontSize: RF(6)
+				}}>You have no favorited roommates. </Text>
+			)
+		}
         
 		return (
 			<SafeAreaView style={{flex: 1, backgorundColor: '#2EA9DF'}}>
-
+                {noFavView}
 				<FlatList 
 					keyExtractor={(item, index) => index.toString()}
                     data={this.state.roommateItems}
-					onRefresh={this.getRoommateData}
                     refreshing={this.state.isFetchingRoommateData}
                     renderItem={({item}) => (
                         <View style={styles.container}>
