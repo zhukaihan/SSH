@@ -23,9 +23,10 @@ export default class MessageCenter extends React.Component{
 		this.roomsRef = firebase.firestore().collection("messages").doc(firebase.auth().currentUser.uid).collection("rooms").orderBy("last_contact_date", "desc");
 	}
 
-	openRoom = (room) => {
+	openRoom = (recipient) => {
 		this.props.navigation.navigate("MessageRoomView", {
-			roomId: room.id,
+			roomId: recipient.id,
+			recipient: recipient
 		});
 	}
 

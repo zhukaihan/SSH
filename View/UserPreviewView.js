@@ -54,7 +54,7 @@ export default class UserPreviewView extends React.Component {
 						<Text style={{
 							color: 'black',
 							fontSize: RF(2.5)
-						}}>{user ? user.first_name + " " + user.last_name : "Loading..."}</Text>
+						}}>{user ? (user.name_preferred ? user.name_preferred : user.first_name) + " " + user.last_name : "Loading..."}</Text>
 						<Text style={{
 							color: 'grey',
 							fontSize: RF(2)

@@ -97,6 +97,7 @@ export default class MessageBubble extends React.Component {
 					this.props.showDate ? 
 					(
 						<Text style={{
+							marginTop: 10,
 							textAlign: 'center',
 							fontSize: RF(1.5),
 							color: 'grey',
@@ -113,7 +114,7 @@ export default class MessageBubble extends React.Component {
 
 const styles = StyleSheet.create({
 	item: {
-		marginVertical: moderateScale(7, 2),
+		marginVertical: moderateScale(5, 2),
 		flexDirection: 'row'
 	},
 	itemIn: {

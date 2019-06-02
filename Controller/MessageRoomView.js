@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { StyleSheet, View, Text, Button, FlatList, TouchableHighlight, ScrollView, Dimensions, Keyboard } from 'react-native';
-import { Icon, Image } from 'react-native-elements';
+import { Icon, Image, Avatar } from 'react-native-elements';
 import { SafeAreaView } from 'react-navigation';
 import firebase from 'firebase';
 import House from '../Model/House';
@@ -19,6 +19,20 @@ import MessageBubble from '../View/MessageBubble';
 const DEFAULT_TAB_BAR_HEIGHT = isIphoneX() ? 83 : 49
 
 export default class MessageRoomView extends React.Component{
+	static navigationOptions = ({ navigation }) => ({
+    headerTitle: 
+			<View style={{ flex: 1, flexDirection: 'row', alignSelf: 'center', alignItems: 'center', justifyContent: 'center', }}>
+				<Avatar
+					rounded
+					source={{uri: navigation.state.params.recipient.profileimage, cache: 'force-cache'}}
+					size="small"
+				/>
+				<Text style={{
+					marginLeft: 10, color: 'grey', fontSize: RF(2)
+				}}>{navigation.state.params.recipient.name_preferred ? navigation.state.params.recipient.name_preferred : navigation.state.params.recipient.first_name}</Text>
+			</View>,
+	});
+	
 	state = {
 		room: null,
 		keyboardHeight: 0
@@ -49,6 +63,16 @@ export default class MessageRoomView extends React.Component{
 			console.log(`Encountered error: ${err}`);
 		});
 
+		User.getUserWithUID(roomId, (user) => {
+			this.state.recipient = user
+			this.props.navigation.setParams({ headerTitle: 
+				<View style={{ flex: 1, alignSelf: 'center', alignItems: 'center', justifyContent: 'center', }}>
+					<Image resizeMode="cover" style={{height: 30, width: 30}} source={{uri: user.profileimage, cache: 'force-cache'}}/>
+					<Text>{user.name_preferred ? user.name_preferred : user.first_name} {user.last_name}</Text>
+				</View>
+			})
+		})
+		
 	}
 
 	componentWillUnmount = async () => {
@@ -145,7 +169,6 @@ export default class MessageRoomView extends React.Component{
 						}}
 						ref={ref => this.flatList = ref}
 						onContentSizeChange={() => this.flatList.scrollToEnd({animated: true})}
-						onLayout={() => this.flatList.scrollToEnd({animated: true})}
 					/>
 					<View style={{
 						height: RF(7),
@@ -174,6 +197,7 @@ export default class MessageRoomView extends React.Component{
 							}}
 							blurOnSubmit={false}
 							ref={input => { this.newMsgTextInput = input }}
+							placeholder="Enter Message Here..."
 						/>
 					</View>
 				</View>
