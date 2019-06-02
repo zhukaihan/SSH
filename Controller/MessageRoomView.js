@@ -73,6 +73,10 @@ export default class MessageRoomView extends React.Component{
 	}
 
 	sendMessage = async (txt) => {
+		if (txt == "") {
+			return;
+		}
+		this.newMsgTextInput.clear();
 		this.roomRef.set({
 			messages: firebase.firestore.FieldValue.arrayUnion({
 				timestamp: firebase.firestore.Timestamp.now(),
@@ -90,9 +94,6 @@ export default class MessageRoomView extends React.Component{
 			}),
 			last_contact_date: firebase.firestore.Timestamp.now(),
 		}, {merge: true})
-		this.setState({
-			newMsgText: ""
-		})
 	}
 
 	updateLastReadTime = async () => {
@@ -126,10 +127,20 @@ export default class MessageRoomView extends React.Component{
 						}}
 						keyExtractor={(item, index) => index.toString()}
 						data={this.state.room.messages}
-						renderItem={({item}) => {
+						renderItem={({item, index}) => {
 							return (
-								<MessageBubble isLeft={!item.isSentByUser} text={item.message} />
-								// {item.timestamp > this.state.room.last_read_time ? "unread" : ""}
+								<MessageBubble
+									isLeft={!item.isSentByUser}
+									text={item.message}
+									timestamp={item.timestamp.toDate()}
+									isUnread={item.timestamp > this.state.room.last_read_time}
+									showDate={
+										index === 0 || 
+										item.timestamp.toDate().getFullYear() !== this.state.room.messages[index - 1].timestamp.toDate().getFullYear() ||
+										item.timestamp.toDate().getMonth() !== this.state.room.messages[index - 1].timestamp.toDate().getMonth() ||
+										item.timestamp.toDate().getDate() !== this.state.room.messages[index - 1].timestamp.toDate().getDate()
+									}
+								/>
 							)
 						}}
 						ref={ref => this.flatList = ref}
@@ -145,7 +156,7 @@ export default class MessageRoomView extends React.Component{
 						<TextInput
 							style={{
 								height: RF(5),
-								fontSize: RF(2),
+								fontSize: RF(2.5),
 								lineHeight: RF(5),
 								marginLeft: '5%',
 								marginRight: '5%',
@@ -157,8 +168,6 @@ export default class MessageRoomView extends React.Component{
 								borderWidth: 1,
 								backgroundColor: 'white'
 							}}
-							value={this.state.newMsgText}
-							onChangeText={(text) => this.setState({newMsgText: text})}
 							onSubmitEditing={(event) => {
 								this.newMsgTextInput.focus()
 								this.sendMessage(event.nativeEvent.text)

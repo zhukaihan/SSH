@@ -24,7 +24,7 @@ export default class MessageCenter extends React.Component{
 	}
 
 	openRoom = (room) => {
-		this.props.navigation.push("MessageRoomView", {
+		this.props.navigation.navigate("MessageRoomView", {
 			roomId: room.id,
 		});
 	}
