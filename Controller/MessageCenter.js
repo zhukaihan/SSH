@@ -60,7 +60,10 @@ export default class MessageCenter extends React.Component{
 		var content = []
 		if (!this.state.roomsItems || this.state.roomsItems.length == 0) {
 			content = (
-				<Text>You have no messages. Choose a user to start. </Text>
+				<Text style={{
+					color: '#dddddd',
+					fontSize: RF(6)
+				}}>You have no messages. Choose a user to start. </Text>
 			)
 		} else {
 			this.state.roomsItems.forEach((item, index) => {
