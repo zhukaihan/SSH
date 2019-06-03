@@ -464,6 +464,7 @@ const styles = StyleSheet.create({
 		justifyContent: 'flex-start',
 		paddingLeft: 10,
 		paddingRight: 10,
+		margin: 10
 	},
 
 	description:{
