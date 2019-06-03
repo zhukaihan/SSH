@@ -32,9 +32,10 @@ export default class ProfilePage extends Component{
 		})
 	}
 
-	createRoomWith = (userId) => {
+	createRoomWith = (user) => {
 		this.props.navigation.navigate("MessageRoomView", {
-			roomId: userId
+			roomId: user.id,
+			recipient: user
 		});
 	}
 
@@ -69,7 +70,7 @@ export default class ProfilePage extends Component{
 						</View>
 						<Button
 							title="Message"
-							onPress={() => {this.createRoomWith(this.state.user.id)}}
+							onPress={() => {this.createRoomWith(this.state.user)}}
 						/>
 
 						<View style={styles.badgeContainer}>
