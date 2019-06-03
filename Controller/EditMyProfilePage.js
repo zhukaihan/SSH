@@ -3,7 +3,7 @@ import RF from 'react-native-responsive-fontsize';
 import Icon from 'react-native-vector-icons/AntDesign';
 import { StyleSheet, View, Text, StatusBar, Dimensions, SafeAreaView, TextInput, Alert, Switch } from 'react-native';
 import { TouchableOpacity, TouchableHighlight } from 'react-native';
-import { Badge, Image, Button } from 'react-native-elements';
+import { Badge, Image, Button, withTheme, Avatar } from 'react-native-elements';
 import RNPickerSelect from 'react-native-picker-select';
 import firebase from 'firebase';
 import User from '../Model/User';
@@ -12,6 +12,7 @@ import LogInPage from './LogInPage';
 import ImageUploader from '../View/ImageUploader';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 
+const {width, height, scale} = Dimensions.get('window');
 
 export default class ProfilePage extends Component{
 
@@ -177,23 +178,28 @@ export default class ProfilePage extends Component{
 			<SafeAreaView style={styles.safeAreaView}>
 				<KeyboardAwareScrollView>
 					<View style={styles.pageContainer}>
+
 						<View style={styles.header}>
 
-							<View style={styles.titleContainer}>
-								<Text style={styles.title}>My Profile</Text>
-								<Button onPress={this.saveUser} title="Save"/>
-								<Button onPress={this.logout} title="Logout"/>
-							</View>
+							<TouchableOpacity onPress={this.logout} style={styles.logButtonnull}>
+								<Text style={{color: '#2ea9df', fontSize: RF(2.5)}}>Logout</Text>
+							</TouchableOpacity>
+
+							<Text style={styles.title}>My Profile</Text>
+
+							<TouchableOpacity onPress={this.logout} style={styles.logButton}>
+								<Text style={{color: 'white', fontSize: RF(2.5)}}>Logout</Text>
+							</TouchableOpacity>
 
 						</View>
+
 						<View style={styles.mainpage}>
-							<View style={styles.star}>
-							</View>
 							
 							<View style={styles.pictureContainer}>
-								<Image style={styles.profilePic}
-												source={{uri: this.state.user.profileimage, cache: 'force-cache'}} />
-								<Button onPress={this.changeProfilePic} title="Change Image"/>
+								<Avatar size={0.5*width} rounded={true} showEditButton={true} 
+										source={{uri: this.state.user.profileimage, cache: 'force-cache'}} 
+										onEditPress={this.changeProfilePic}/>
+						
 							</View>
 
 							<View style={styles.nameContainer}>
@@ -211,65 +217,78 @@ export default class ProfilePage extends Component{
 								/>
 								<TextInput
 									style={styles.name}
-									defaultValue={this.state.user.name_preferred}
+									defaultValue={"(" + this.state.user.name_preferred + ")"}
 									onChangeText={(txt) => {this.state.user.name_preferred = txt}}
 									placeholder="Preferred Name"
 								/>
+							</View>
+
+							<View style={styles.infoContainer}>
+					
 								<TextInput
 									style={styles.major}
 									defaultValue={this.state.user.major}
 									onChangeText={(txt) => {this.state.user.major = txt}}
 									placeholder="Major"
 								/>
+								<Text> | </Text>
 								<TextInput
 									style={styles.major}
-									defaultValue={this.state.user.graduation}
+									defaultValue={"Graduate at " + this.state.user.graduation}
 									onChangeText={(txt) => {this.state.user.graduation = txt}}
 									placeholder="Graduation Year"
 								/>
 							</View>
 
-							<RNPickerSelect
-								onValueChange={(itemValue) => {this.state.user.gender = itemValue; this.forceUpdate()}}
-								placeholder={{label: 'Gender', value: null}}
-								placeholderTextColor={'red'}
-								items={[
-									{ label: 'Male', value:'male' },
-									{ label: 'Female', value:'female' },
-									{ label: 'Other', value: 'Other' }
-								]}
-								value={this.state.user.gender}
-							/>
+							<View style={styles.infotwoContainer}>
+								<RNPickerSelect
+									onValueChange={(itemValue) => {this.state.user.gender = itemValue; this.forceUpdate()}}
+									placeholder={{label: 'Gender', value: null}}
+									placeholderTextColor={'red'}
+									items={[
+										{ label: 'Male', value:'male' },
+										{ label: 'Female', value:'female' },
+										{ label: 'Other', value: 'Other' }
+									]}
+									value={this.state.user.gender}
+								/>
 
-							<RNPickerSelect
-								onValueChange={(itemValue) => {this.state.user.clean = itemValue; this.forceUpdate()}}
-								placeholder={{label: 'Clean', value: null}}
-								placeholderTextColor={'red'}
-								items={[
-									{ label: 'Clean', value:'clean' },
-									{ label: 'Messy', value:'messy' }
-								]}
-								value={this.state.user.clean}
-							/>
-							
-							<RNPickerSelect
-								onValueChange={(itemValue) => {this.state.user.wake_early = itemValue; this.forceUpdate()}}
-								placeholder={{label: 'Wake Early?', value: null}}
-								placeholderTextColor={'red'}
-								items={[
-									{ label: 'Morning', value:'morning' },
-									{ label: 'Night', value:'night' }
-								]}
-								value={this.state.user.wake_early}
-							/>
+								<Text> | </Text>
 
-							<View style={styles.badgeContainer}>
-								<BadgesView tags={this.state.user.additional_tags}/>
+								<RNPickerSelect
+									onValueChange={(itemValue) => {this.state.user.clean = itemValue; this.forceUpdate()}}
+									placeholder={{label: 'Clean', value: null}}
+									placeholderTextColor={'red'}
+									items={[
+										{ label: 'Clean', value:'clean' },
+										{ label: 'Messy', value:'messy' }
+									]}
+									value={this.state.user.clean}
+								/>
+
+								<Text> | </Text>
+								
+								<RNPickerSelect
+									onValueChange={(itemValue) => {this.state.user.wake_early = itemValue; this.forceUpdate()}}
+									placeholder={{label: 'Wake Early?', value: null}}
+									placeholderTextColor={'red'}
+									items={[
+										{ label: 'Morning', value:'morning' },
+										{ label: 'Night', value:'night' }
+									]}
+									value={this.state.user.wake_early}
+								/>
+
 							</View>
 
+							
+
 							<View style={styles.buttonContainer}>
-								<View>
-									<Text>I want to be found by others: </Text>
+
+								<View style={styles.line}/>
+
+								<View style={styles.findButton}>
+									<Text style={styles.findText}>I want to be found by others: </Text>
 									<Switch
 										onValueChange={() => {this.state.user.availability = !this.state.user.availability; this.forceUpdate()}}
 										value={this.state.user.availability}
@@ -298,16 +317,20 @@ export default class ProfilePage extends Component{
 								</View>
 							</View> */}
 
-							
 						</View>
+
+						<View style={{flexDirection: 'row', justifyContent: 'flex-end', height: 300, backgroundColor: '#f7f7f7'}}>
+							<View style={{paddingRight: 15,}}>
+								<Button style={styles.saveButton} onPress={this.saveUser} title="Save"/>
+							</View>
+						</View>
+
 					</View>
 				</KeyboardAwareScrollView>
 			</SafeAreaView>
 		)
 	}
 }
-
-const {width, height, scale} = Dimensions.get('window');
 
 const styles = StyleSheet.create({
 	safeAreaView: {
@@ -323,17 +346,11 @@ const styles = StyleSheet.create({
 
 	header:{
 		flexDirection: 'row',
-		justifyContent: 'center',
+		justifyContent: 'space-between',
 		alignItems: 'center',
 		backgroundColor: '#2ea9df',
 		paddingTop: RF(1),
 		paddingBottom: RF(1),
-	},
-
-	titleContainer:{
-		flexDirection: 'row',
-		justifyContent: 'flex-start',
-		alignSelf: 'center',
 	},
 
 	title:{
@@ -341,47 +358,74 @@ const styles = StyleSheet.create({
 		fontSize: RF(4),
 	},
 
+	logButton:{
+		backgroundColor: '#cb1b45',
+		padding: 8,
+		borderRadius: 5,
+		color: 'white',
+		marginRight: 10,
+	},
+
+	logButtonnull:{
+		backgroundColor: '#2ea9df',
+		color: '#2ea9df',
+		padding: 5,
+		borderRadius: 5,
+		marginLeft: 10,
+	},
+
+	saveButton:{
+
+	},
+
 	mainpage:{
 		alignItems: 'stretch',
 		backgroundColor: '#f7f7f7',
 	},
 
-	star: {
-		flexDirection: 'row',
-		justifyContent: 'flex-end',
-		paddingTop: RF(1),
-		paddingRight: RF(0.5),
-	},
-
 	pictureContainer: {
-		flexDirection: 'row',
+		flexDirection: 'column',
 		justifyContent: 'center',
 		alignItems: 'center',
-		paddingTop: 2,
-	},
-
-	profilePic:{
-		width: 0.5 * width,
-        height: 0.5 * width,
-        alignItems: "center",
-		borderRadius: 0.25 * width,
-		borderWidth: 1,
-		
+		paddingTop: 10,
 	},
 
 	nameContainer:{
-		flexDirection: 'column',
-		justifyContent: 'flex-start',
+		flexDirection: 'row',
+		justifyContent: 'center',
 		alignItems:'center',
+		paddingTop: 5,
+	},
+
+	infoContainer:{
+		flexDirection: 'row',
+		justifyContent: 'center',
+		alignItems:'center',
+	},
+
+	infotwoContainer:{
+		flexDirection: 'row',
+		justifyContent: 'center',
+		alignItems:'center',
+		paddingTop: 3,
+		paddingBottom: 5,
 	},
 
 	name:{
 		fontSize: RF(4),
 		fontWeight: '400',
+		paddingLeft: 5,
 	},
 
 	major:{
 		fontSize: RF(2),
+	},
+
+	line: {
+		paddingBottom: 10,
+		borderBottomColor: 'black', 
+		borderBottomWidth: 1,
+		width: 0.7 * width,
 	},
 
 	badgeContainer: {
@@ -400,6 +444,22 @@ const styles = StyleSheet.create({
 		color: 'white',
 		paddingLeft: 10, 
 		paddingRight: 10,
+	},
+
+	buttonContainer: {
+		flexDirection: 'column',
+		justifyContent: 'center',
+		alignItems: 'center',
+	},
+
+	findButton: {
+		flexDirection: 'row',
+		paddingTop: 8,
+	},
+
+	findText:{
+		paddingTop: 2,
+		fontSize: RF(2.5),
 	},
 
 	descriptionContainer:{

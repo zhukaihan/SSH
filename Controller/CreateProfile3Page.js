@@ -147,17 +147,28 @@ export default class CreateProfile3Page extends Component{
                 ],
                 {cancelable: false}
             )
-        } else if (!this._checkDescription()) {
+        } else if (!this._checkSmokeOrNotSmoke()){
             Alert.alert(
-                'Invalid response',
-                'Please make sure the description is over 10 words',
+                'Invalid selection',
+                'Please select a preference for smoking',
                 [
                     {text: 'OK', onPress: () => console.log('OK Pressed')},
                     {text: 'Cancel', onPress: () => console.log('Cancel Pressed'), style: 'cancel'},
                 ],
                 {cancelable: false}
             )
-        } else {
+        } else if (!this._checkPetsOrNoPets()){
+            Alert.alert(
+                'Invalid selection',
+                'Please select a preference for pets',
+                [
+                    {text: 'OK', onPress: () => console.log('OK Pressed')},
+                    {text: 'Cancel', onPress: () => console.log('Cancel Pressed'), style: 'cancel'},
+                ],
+                {cancelable: false}
+            )
+        }
+        else {
             console.log(`${this.state.first_name}`);
             this.props.navigation.navigate("AddProfilePage", {
                 first_name: this.state.first_name,
@@ -302,7 +313,7 @@ export default class CreateProfile3Page extends Component{
                         paddingVertical: 10, paddingHorizontal: 10}}
                                 onChangeText={(description)=> this.setState({description})}
                                 value = {this.state.description}
-                                placeholder = {"Required"}
+                                placeholder = {"Optional"}
                                 multiline={true}
                                 //Adds padding when user clicks on the description field so the keyboard does not
                                 //cover the input field

@@ -27,7 +27,7 @@ const SearchTopTabNavigator = createMaterialTopTabNavigator(
 			navigationOptions:{
 				tabBarLabel:"Roommates",
 			}
-		},
+		}
 	},
 	{
 		tabBarComponent: SafeAreaMaterialTopTabBar,
