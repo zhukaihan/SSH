@@ -122,11 +122,8 @@ export default class EditHousingPage extends React.Component{
 		}
 	}
 	_checkBedroom = () => {
-		if(houseToAdd.num_bedroom == "" || Number(houseToAdd.num_bedroom) == NaN)
-			return false
-		var number_bedroom = Number(houseToAdd.num_bedroom);
-		for(var i = 1; i <= 10; i++){
-			if(number_bedroom == i){
+		for(var i = 0; i <= 10; i++){
+			if(houseToAdd.num_bedroom == i){
 				return true;
 			}
 		}
@@ -134,11 +131,20 @@ export default class EditHousingPage extends React.Component{
 	}
 	
 	_checkBathroom = () => {
-		if(houseToAdd.num_bathroom == "" || Number(houseToAdd.num_bathroom) == NaN)
-			return false
-		var number_bathroom = Number(houseToAdd.num_bathroom);
-		for(var i = 1; i <= 10; i++){
-			if(number_bathroom == i){
+		for(var i = 0; i <= 10; i++){
+			if(houseToAdd.num_bathroom == i){
+				return true;
+			}
+		}
+		return false;
+	}
+
+	_checkPrice = () => {
+		return (house_price >= 0 && house_price <= 10000);
+	}
+	_checkParking = () => {
+		for(var i = 0; i <= 10; i++){
+			if(houseToAdd.num_parking == i){
 				return true;
 			}
 		}
@@ -181,7 +187,7 @@ export default class EditHousingPage extends React.Component{
 			// If the house is for listing, check required fields. 
 			if (houseToAdd.pictures.length < 1) {
 				Alert.alert(
-					'Add some pictures... ',
+					'Please add some pictures',
 					'',
 					[{text: 'Okay'}],
 					{cancelable: false},
@@ -190,25 +196,16 @@ export default class EditHousingPage extends React.Component{
 			}
 			if (houseToAdd.title == "") {
 				Alert.alert(
-					'Add some title... ',
+					'Please specify the housing title',
 					'',
 					[{text: 'Okay'}],
 					{cancelable: false},
 				)
 				return;
 			}
-			if (houseToAdd.description == "") {
+			if (!_checkPrice()){
 				Alert.alert(
-					'Add some description... ',
-					'',
-					[{text: 'Okay'}],
-					{cancelable: false},
-				)
-				return;
-			}
-			if (houseToAdd.location == "") {
-				Alert.alert(
-					'Add some location... ',
+					'Please enter a valid price',
 					'',
 					[{text: 'Okay'}],
 					{cancelable: false},
@@ -227,6 +224,33 @@ export default class EditHousingPage extends React.Component{
 			if (!_checkBathroom()) {
 				Alert.alert(
 					'Please enter a valid number of bathrooms',
+					'',
+					[{text: 'Okay'}],
+					{cancelable: false},
+				)
+				return;
+			}
+			if (!_checkParking()) {
+				Alert.alert(
+					'Please enter a valid number of parkings',
+					'',
+					[{text: 'Okay'}],
+					{cancelable: false},
+				)
+				return;
+			}
+			if (houseToAdd.location == "") {
+				Alert.alert(
+					'Please add an address for the house',
+					'',
+					[{text: 'Okay'}],
+					{cancelable: false},
+				)
+				return;
+			}
+			if (houseToAdd.description == "") {
+				Alert.alert(
+					'Add some description... ',
 					'',
 					[{text: 'Okay'}],
 					{cancelable: false},
@@ -268,8 +292,6 @@ export default class EditHousingPage extends React.Component{
 		});
 	}
 
-	//check fields
-	_check 
 	render = () => {
 		var content;
 		if (!this.state.house) {
