@@ -56,8 +56,6 @@ export default class ProfilePage extends Component{
 						</View>
 					</View>
 					<View style={styles.mainpage}>
-						<View style={styles.star}>
-						</View>
 						
 						<View style={styles.pictureContainer}>
 							<Image style={styles.profilePic}
@@ -66,15 +64,22 @@ export default class ProfilePage extends Component{
 
 						<View style={styles.nameContainer}>
 							<Text style={styles.name}>{this.state.user.first_name} {this.state.user.last_name}</Text>
-							<Text style={styles.major}>{this.state.user.major}</Text>
+							<View style={{flexDirection: 'row', justifyContent: 'center'}}>
+								<Text style={styles.major}>{this.state.user.major}</Text>
+								<Text> | </Text>
+								<Text style={styles.major}>{this.state.user.graduation}</Text>
+							</View>
+							<View style={{flexDirection: 'row', justifyContent: 'center'}}>
+								<Text style={styles.major}>{this.state.user.gender}</Text>
+								<Text> | </Text>
+								<Text style={styles.major}>{this.state.user.clean}</Text>
+								<Text> | </Text>
+								<Text style={styles.major}>{this.state.user.wake_early}</Text>
+							</View>
 						</View>
-						<Button
-							title="Message"
-							onPress={() => {this.createRoomWith(this.state.user)}}
-						/>
 
-						<View style={styles.badgeContainer}>
-							{/* <View style={styles.badges}>
+						{/*<View style={styles.badgeContainer}>
+							 <View style={styles.badges}>
 								<Badge value={<Text style={styles.badgeText}>Friendly</Text>}>
 								</Badge>
 							</View>
@@ -85,11 +90,16 @@ export default class ProfilePage extends Component{
 							<View style={styles.badges}>
 								<Badge value={<Text style={styles.badgeText}>Friendly</Text>}>
 								</Badge>
-							</View> */}
+							</View> 
 							<BadgesView tags={this.state.user.additional_tags}/>
+						</View>*/}
+
+						<View style={{flexDirection: 'row', justifyContent: 'center'}}>
+							<View style={styles.line}/>
 						</View>
 
 						<View style={styles.descriptionContainer}>
+
 							<Text style={styles.description}>Description</Text>
 							<View style={styles.dscriptcontent}>
 								<Text>
@@ -107,8 +117,16 @@ export default class ProfilePage extends Component{
 							</View>
 						</View> */}
 
-						
 					</View>
+
+					<View style={{flexDirection: 'row', justifyContent: 'flex-end', height: 300, backgroundColor: '#f7f7f7'}}>
+						<View style={{paddingRight: 15,}}>
+							<Button
+							title="Message"
+							onPress={() => {this.createRoomWith(this.state.user)}}/>
+						</View>
+					</View>
+
 				</View>
 			</SafeAreaView>
 		)
@@ -165,7 +183,7 @@ const styles = StyleSheet.create({
 		flexDirection: 'row',
 		justifyContent: 'center',
 		alignItems: 'center',
-		paddingTop: 2,
+		paddingTop: 10,
 	},
 
 	profilePic:{
@@ -173,8 +191,6 @@ const styles = StyleSheet.create({
         height: 0.5 * width,
         alignItems: "center",
 		borderRadius: 0.25 * width,
-		borderWidth: 1,
-		
 	},
 
 	nameContainer:{
@@ -213,14 +229,23 @@ const styles = StyleSheet.create({
 	descriptionContainer:{
 		flexDirection: 'column',
 		justifyContent: 'flex-start',
+		paddingTop: 5,
 		paddingLeft: 10,
 		paddingRight: 10,
+		margin: 10,
 	},
 
 	description:{
 		fontWeight: '400',
 		fontSize: RF(3),
 		paddingTop: 1,
+	},
+
+	line: {
+		paddingBottom: 10,
+		borderBottomColor: 'black', 
+		borderBottomWidth: 1,
+		width: 0.7 * width,
 	},
 
 	descriptcontent:{

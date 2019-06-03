@@ -11,6 +11,7 @@ import BadgesView from '../View/BadgesView';
 import HouseFavButton from '../View/HouseFavButton';
 import UserPreviewView from '../View/UserPreviewView';
 import { TouchableOpacity } from 'react-native-gesture-handler';
+import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 
 
 export default class ViewHousingPage extends React.Component{
@@ -141,7 +142,8 @@ export default class ViewHousingPage extends React.Component{
 								<TouchableOpacity style={styles.roomInfoRightView} onPress={() => this.openTenant(this.state.landlord)}>
 									{this.state.landlord.profileimage != "" ?
 										(<Avatar
-											rounded
+											rounded={true}
+											size='medium'
 											source={{uri: this.state.landlord.profileimage, cache: 'force-cache'}}
 											style={styles.roomInfoRightImage}
 										/>) : 
@@ -182,7 +184,7 @@ export default class ViewHousingPage extends React.Component{
 								{tenants}
 							</View>
 						</View>
-						<Text style={{fontSize: RF(2.5), color: 'rgb(50, 150, 255)', margin: 15}}>{"$ " + item.price}</Text>
+						<Text style={{fontSize: RF(2.5), color: '#2ea9df', margin: 15, textAlign:'right'}}>{"$ " + item.price}</Text>
 					</View>
 				</View>
 			);
@@ -190,10 +192,10 @@ export default class ViewHousingPage extends React.Component{
 
 		return (
 			<SafeAreaView style={{flex: 1}} forceInset={{top: 'never'}}>
-				<ScrollView style={{flex: 1}}>
+				<KeyboardAwareScrollView style={{flex: 1}}>
 					{content}
-				</ScrollView>
-      </SafeAreaView>
+				</KeyboardAwareScrollView>
+      		</SafeAreaView>
 		);
 	}
 
@@ -225,7 +227,8 @@ const styles = StyleSheet.create({
 	},
 	roomInfoRightNameText: {
 		flex: 1,
-		margin: 5
+		margin: 5,
+		textAlign: 'center',
 	},
 	roomInfoLeftSpecsView: {
 		flexDirection: 'column',

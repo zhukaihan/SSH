@@ -4,7 +4,7 @@
 
 import React, { Component } from 'react';
 import { StyleSheet, View, Text, Dimensions, StatusBar, Button, Alert, FlatList, TouchableHighlight, TouchableOpacity } from 'react-native';
-import { Icon, Card, Badge, SearchBar } from 'react-native-elements';
+import { Icon, Card, Badge, SearchBar, withTheme } from 'react-native-elements';
 import { SafeAreaView } from 'react-navigation';
 import firebase from 'firebase';
 import House from '../Model/House';
@@ -21,7 +21,14 @@ export default class HousingListingPage extends React.Component{
 			</Text>,
 		headerStyle: {
       backgroundColor: '#2EA9DF',
-    },
+		},
+		headerRight:
+			<TouchableOpacity onPress={() => {navigation.navigate("EditHousingPage", {houseId: ""})}}>
+				<View style={styles.addButton}>
+					<Icon name="plus-circle" type="font-awesome" color='white' size={30}/>
+				</View>
+			</TouchableOpacity>
+		
 	});
 
 	state = {
@@ -86,11 +93,6 @@ export default class HousingListingPage extends React.Component{
 
 		return (
 			<View>
-				<View style={styles.buttonContainer}>
-					<View style={{borderBottomWidth: 1,}}>
-						<Button title="Add House" onPress={this.addHouse}/>
-					</View>
-				</View>
 
 				<FlatList
 					backgroundColor='#f7f7f7'
@@ -113,6 +115,10 @@ export default class HousingListingPage extends React.Component{
 const {width, height, scale} = Dimensions.get('window');
 
 const styles = StyleSheet.create({
+
+	addButton: {
+		paddingRight: 15,
+	},
 
 	buttonContainer: {
 		backgroundColor: '#f7f7f7',
