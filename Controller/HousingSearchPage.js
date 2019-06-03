@@ -41,7 +41,7 @@ export default class HousingSearchPage extends React.Component{
 			isFetchingHouseData: true
 		})
 
-		this.housesRef.orderBy("post_date").get().then((snapshot) => {
+		this.housesRef.where("availability", "==", true).orderBy("post_date", 'desc').get().then((snapshot) => {
 			this.state.housingItems = [];
 			snapshot.forEach((aHouse) => {
 				house = new House(aHouse.data(), aHouse.id);
@@ -49,6 +49,10 @@ export default class HousingSearchPage extends React.Component{
 			})
 			if (callback) {
 				callback();
+			} else {
+				this.setState({
+					isFetchingHouseData: false
+				})
 			}
 		})
 
@@ -56,6 +60,9 @@ export default class HousingSearchPage extends React.Component{
 	}
 
 	filterHouse = () => {
+		this.setState({
+			isFetchingHouseData: true,
+		});
 		var filter = {
 		}
 		if(this.state.minPrice != ""){

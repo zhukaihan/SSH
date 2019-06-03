@@ -42,29 +42,6 @@ export default class HousingListingPage extends React.Component{
 		this.housesRef = firebase.firestore().collection("houses").where("landlord", "==", landlordRef);
 	}
 
-	// Get housing data and set state with the new data. 
-	// Can be used on first launch and on refresh request. 
-	getHousingData = async () => {
-		this.setState({
-			isFetchingHouseData: true
-		}, () => {
-			this.flatList && this.flatList.scrollToOffset({offset: -65});
-		})
-		this.housesRef.get().then(snapshot => {
-			let housingItems = [];
-			snapshot.forEach(house => {
-				var aHouse = new House(house.data(), house.id);
-				housingItems.push(aHouse);
-			});
-			
-			this.setState({
-				housingItems: housingItems,
-				isFetchingHouseData: false
-			});
-		});
-		
-	}
-
 	editHouse = (house) => {
 		this.props.navigation.push("EditHousingPage", {
 			houseId: house.id
@@ -77,36 +54,42 @@ export default class HousingListingPage extends React.Component{
 		})
 	}
 
-	componentDidMount = async () => {
-		if (this.flatList) {
-			this.flatList.recordInteraction();
-			this.flatList.scrollToOffset({offset: -60})
-		}
-		this.getHousingData();
+	componentWillMount = async () => {
+		this.setState({
+			isFetchingHouseData: true
+		})
+		this.unsubscribe = this.housesRef.onSnapshot(snapshot => {
+			let housingItems = [];
+			snapshot.forEach(house => {
+				var aHouse = new House(house.data(), house.id);
+				housingItems.push(aHouse);
+			});
+			
+			this.setState({
+				housingItems: housingItems,
+				isFetchingHouseData: false
+			});
+		})
 	}
 
-	componentWillMount = async () => {
-		this.getHousingData();
+	componentWillUnmount = async () => {
+		this.unsubscribe();
 	}
 
 	render = () => {
 
 		return (
-			<View>
-
-				<FlatList
-					backgroundColor='#f7f7f7'
-					keyExtractor={(item, index) => index.toString()}
-					data={this.state.housingItems}
-					onRefresh={this.getHousingData}
-					refreshing={this.state.isFetchingHouseData}
-					contentOffset={{ y: -60, x: 0 }}
-					renderItem={({item}) => (
-						<HousePreviewView house={item} onTouch={this.editHouse} favDisabled={true}/>
-					)}
-					ref={(flatList) => this.flatList = flatList}
-				/>
-			</View>
+			<FlatList
+				backgroundColor='#f7f7f7'
+				keyExtractor={(item, index) => index.toString()}
+				data={this.state.housingItems}
+				refreshing={this.state.isFetchingHouseData}
+				contentOffset={{ y: -60, x: 0 }}
+				renderItem={({item}) => (
+					<HousePreviewView house={item} onTouch={this.editHouse} favDisabled={true}/>
+				)}
+				ref={(flatList) => this.flatList = flatList}
+			/>
 		);
 	}
 
