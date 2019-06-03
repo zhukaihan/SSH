@@ -125,11 +125,8 @@ export default class EditHousingPage extends React.Component{
 		}
 	}
 	_checkBedroom = () => {
-		if(houseToAdd.num_bedroom == "" || Number(houseToAdd.num_bedroom) == NaN)
-			return false
-		var number_bedroom = Number(houseToAdd.num_bedroom);
-		for(var i = 1; i <= 10; i++){
-			if(number_bedroom == i){
+		for(var i = 0; i <= 10; i++){
+			if(houseToAdd.num_bedroom == i){
 				return true;
 			}
 		}
@@ -137,11 +134,20 @@ export default class EditHousingPage extends React.Component{
 	}
 	
 	_checkBathroom = () => {
-		if(houseToAdd.num_bathroom == "" || Number(houseToAdd.num_bathroom) == NaN)
-			return false
-		var number_bathroom = Number(houseToAdd.num_bathroom);
-		for(var i = 1; i <= 10; i++){
-			if(number_bathroom == i){
+		for(var i = 0; i <= 10; i++){
+			if(houseToAdd.num_bathroom == i){
+				return true;
+			}
+		}
+		return false;
+	}
+
+	_checkPrice = () => {
+		return (house_price >= 0 && house_price <= 10000);
+	}
+	_checkParking = () => {
+		for(var i = 0; i <= 10; i++){
+			if(houseToAdd.num_parking == i){
 				return true;
 			}
 		}
@@ -184,7 +190,7 @@ export default class EditHousingPage extends React.Component{
 			// If the house is for listing, check required fields. 
 			if (houseToAdd.pictures.length < 1) {
 				Alert.alert(
-					'Add some pictures... ',
+					'Please add some pictures',
 					'',
 					[{text: 'Okay'}],
 					{cancelable: false},
@@ -193,25 +199,16 @@ export default class EditHousingPage extends React.Component{
 			}
 			if (houseToAdd.title == "") {
 				Alert.alert(
-					'Add some title... ',
+					'Please specify the housing title',
 					'',
 					[{text: 'Okay'}],
 					{cancelable: false},
 				)
 				return;
 			}
-			if (houseToAdd.description == "") {
+			if (!_checkPrice()){
 				Alert.alert(
-					'Add some description... ',
-					'',
-					[{text: 'Okay'}],
-					{cancelable: false},
-				)
-				return;
-			}
-			if (houseToAdd.location == "") {
-				Alert.alert(
-					'Add some location... ',
+					'Please enter a valid price',
 					'',
 					[{text: 'Okay'}],
 					{cancelable: false},
@@ -230,6 +227,33 @@ export default class EditHousingPage extends React.Component{
 			if (!_checkBathroom()) {
 				Alert.alert(
 					'Please enter a valid number of bathrooms',
+					'',
+					[{text: 'Okay'}],
+					{cancelable: false},
+				)
+				return;
+			}
+			if (!_checkParking()) {
+				Alert.alert(
+					'Please enter a valid number of parkings',
+					'',
+					[{text: 'Okay'}],
+					{cancelable: false},
+				)
+				return;
+			}
+			if (houseToAdd.location == "") {
+				Alert.alert(
+					'Please add an address for the house',
+					'',
+					[{text: 'Okay'}],
+					{cancelable: false},
+				)
+				return;
+			}
+			if (houseToAdd.description == "") {
+				Alert.alert(
+					'Add some description... ',
 					'',
 					[{text: 'Okay'}],
 					{cancelable: false},
@@ -271,8 +295,6 @@ export default class EditHousingPage extends React.Component{
 		});
 	}
 
-	//check fields
-	_check 
 	render = () => {
 		var content;
 		if (!this.state.house) {
@@ -319,9 +341,12 @@ export default class EditHousingPage extends React.Component{
 				<View style={styles.imageContainer}>
 
 					<ImageHorizontalScrollView pictureUrls={item.pictures}/>
-					<Button title="Add Picture" onPress={this.addPicture}/>
 
 				</View>
+
+				<TouchableOpacity onPress={this.addPicture} style={styles.logButtonnull}>
+					<Text style={{color: 'white', fontSize: RF(2.2), textAlign: 'center'}}>Add Picture</Text>
+				</TouchableOpacity>
 
 				<View style={styles.infoContainer}>
 
@@ -427,12 +452,15 @@ export default class EditHousingPage extends React.Component{
 					<View>
 						{tenants}
 					</View>
-					<Button title="Add Tenants" onPress={this.addTenant}/>
+
+					<View style={{paddingTop: 2,}}>	
+						<Icon name="plus-circle" onPress={this.addTenant} type="font-awesome" color='#2ea9df' size={40}/>
+					</View>
 				</View>
 
-				<View style={styles.buttonContainer}>
-					<View>
-						<Text>Post this house for others to view: </Text>
+				<View style={styles.findButtonContainer}>
+					<View style={styles.findButton}>
+						<Text style={styles.findText}>Post this house for others to view: </Text>
 						<Switch
 							onValueChange={() => {this.state.house.availability = !this.state.house.availability; this.forceUpdate()}}
 							value={this.state.house.availability}
@@ -454,7 +482,7 @@ export default class EditHousingPage extends React.Component{
 		);
 
 		return (
-			<SafeAreaView style={{flex: 1, backgroundColor: '#f7f7f7',}}>
+			<SafeAreaView style={{flex: 1}} forceInset={{top: 'never'}}>
 				<KeyboardAwareScrollView style={{flex: 1}}>
 					{content}
 				</KeyboardAwareScrollView>
@@ -469,7 +497,6 @@ const {width, height, scale} = Dimensions.get('window');
 const styles = StyleSheet.create({
 
 	imageContainer: {
-		borderWidth: 1,
 	},
 
 	pageContainer: {
@@ -484,13 +511,17 @@ const styles = StyleSheet.create({
 		flexDirection: 'column',
 		backgroundColor: '#f7f7f7',
 		alignItems: "stretch",
-		borderWidth: 1,
+	},
+
+	logButtonnull:{
+		backgroundColor: '#2ea9df',
+		padding: 5,
 	},
 
 	infoContainer:{
 		paddingLeft: RF(1.5),
 		paddingRight: RF(1.5),
-		paddingTop: RF(1),
+		paddingTop: 1,
 	},
 
 	bigTitle:{
@@ -570,21 +601,18 @@ const styles = StyleSheet.create({
 	},
 
 	descriptionContainer: {
-		borderWidth: 1,
 		paddingLeft: RF(1.5),
 		paddingRight: RF(1.5),
 		paddingBottom: RF(1.5),
 	},
 
 	locationContainer: {
-		borderWidth: 1,
 		paddingLeft: RF(1.5),
 		paddingRight: RF(1.5),
 		paddingBottom: RF(1.5),
 	},
 
 	tenantsContainer: {
-		borderWidth: 1,
 		paddingLeft: RF(1.5),
 		paddingRight: RF(1.5),
 		paddingBottom: RF(1),
@@ -622,9 +650,25 @@ const styles = StyleSheet.create({
 		flexDirection: 'row',
 		justifyContent: 'flex-end',
 		paddingBottom: 10,
-		paddingTop: 5,
+		paddingTop: 8,
 		paddingRight: 10,
-		borderWidth: 1,
+	},
+
+	findButtonContainer: {
+		flexDirection: 'column',
+		justifyContent: 'center',
+		alignItems: 'flex-start',
+		paddingLeft: RF(1.5),
+	},
+
+	findButton: {
+		flexDirection: 'row',
+		paddingTop: 8,
+	},
+
+	findText:{
+		paddingTop: 2,
+		fontSize: RF(2.5),
 	},
 
 	saveButton: {

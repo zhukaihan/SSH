@@ -182,13 +182,13 @@ export default class ProfilePage extends Component{
 						<View style={styles.header}>
 
 							<TouchableOpacity onPress={this.logout} style={styles.logButtonnull}>
-								<Text style={{color: '#2ea9df', fontSize: RF(2.5)}}>Logout</Text>
+								<Text style={{color: '#2ea9df', fontSize: RF(2.2)}}>Logout</Text>
 							</TouchableOpacity>
 
 							<Text style={styles.title}>My Profile</Text>
 
 							<TouchableOpacity onPress={this.logout} style={styles.logButton}>
-								<Text style={{color: 'white', fontSize: RF(2.5)}}>Logout</Text>
+								<Text style={{color: 'white', fontSize: RF(2.2)}}>Logout</Text>
 							</TouchableOpacity>
 
 						</View>
@@ -217,9 +217,10 @@ export default class ProfilePage extends Component{
 								/>
 								<TextInput
 									style={styles.name}
-									defaultValue={"(" + this.state.user.name_preferred + ")"}
+		
+									defaultValue={this.state.user.name_preferred == ""? "":("(" + this.state.user.name_preferred + ")")}
 									onChangeText={(txt) => {this.state.user.name_preferred = txt}}
-									placeholder="Preferred Name"
+									placeholder="(Preferred Name)"
 								/>
 							</View>
 
@@ -352,7 +353,7 @@ const styles = StyleSheet.create({
 
 	title:{
 		color: "white",
-		fontSize: RF(4),
+		fontSize: RF(3.5),
 	},
 
 	logButton:{
@@ -464,6 +465,7 @@ const styles = StyleSheet.create({
 		justifyContent: 'flex-start',
 		paddingLeft: 10,
 		paddingRight: 10,
+		margin: 10
 	},
 
 	description:{
