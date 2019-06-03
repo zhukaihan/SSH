@@ -142,7 +142,8 @@ export default class ViewHousingPage extends React.Component{
 								<TouchableOpacity style={styles.roomInfoRightView} onPress={() => this.openTenant(this.state.landlord)}>
 									{this.state.landlord.profileimage != "" ?
 										(<Avatar
-											rounded
+											rounded={true}
+											size='medium'
 											source={{uri: this.state.landlord.profileimage, cache: 'force-cache'}}
 											style={styles.roomInfoRightImage}
 										/>) : 
