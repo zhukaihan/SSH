@@ -184,7 +184,7 @@ export default class ViewHousingPage extends React.Component{
 								{tenants}
 							</View>
 						</View>
-						<Text style={{fontSize: RF(2.5), color: 'rgb(50, 150, 255)', margin: 15}}>{"$ " + item.price}</Text>
+						<Text style={{fontSize: RF(2.5), color: 'rgb(50, 150, 255)', margin: 15, textAlign:'right'}}>{"$ " + item.price}</Text>
 					</View>
 				</View>
 			);
