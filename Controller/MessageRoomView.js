@@ -44,20 +44,20 @@ export default class MessageRoomView extends React.Component{
 
 	componentWillMount = async () => {
 		if (Platform.OS === 'ios') {
-			this.keyboardWillShowEvent = Keyboard.addListener(
+			this.keyboardShowListener = Keyboard.addListener(
 				'keyboardWillShow',
 				this.keyboardShow
 			)
-			this.keyboardWillHideEvent = Keyboard.addListener(
+			this.keyboardHideListener = Keyboard.addListener(
 				'keyboardWillHide',
 				this.keyboardHide
 			)
 		} else if (Platform.OS === 'android') {
-			this.keyboardWillShowEvent = Keyboard.addListener(
+			this.keyboardShowListener = Keyboard.addListener(
 				'keyboardDidShow',
 				this.keyboardShow
 			)
-			this.keyboardWillHideEvent = Keyboard.addListener(
+			this.keyboardHideListener = Keyboard.addListener(
 				'keyboardDidHide',
 				this.keyboardHide
 			)
