@@ -32,64 +32,150 @@ export default class HousingSearchPage extends React.Component{
 		super();
 		
 		this.housesRef = firebase.firestore().collection("houses");
-		User.getUserWithUID(firebase.auth().currentUser.uid, (user) => {
-			this.setState({
-				curUser: user
-			})
-		});
 	}
 	
 	// Get housing data and set state with the new data. 
 	// Can be used on first launch and on refresh request. 
-	getHousingData = async () => {
+	getHousingData = async (callback) => {
 		this.setState({
-			displayList:[],
 			isFetchingHouseData: true
 		})
-		const zero = 0;
-		this.housesRef.orderBy("post_date", "desc").get().then(snapshot => {
-			let housingItems = [];
-			snapshot.forEach(house => {
-				var aHouse = new House(house.data(), house.id);
-				if(aHouse.availability == false){
-				housingItems.push(aHouse);
+
+		this.housesRef.orderBy("post_date").get().then((snapshot) => {
+			this.state.housingItems = [];
+			snapshot.forEach((aHouse) => {
+				house = new House(aHouse.data(), aHouse.id);
+				this.state.housingItems.push(house);
+			})
+			if (callback) {
+				callback();
+			}
+		})
+
+		
+	}
+
+	filterHouse = () => {
+		var filter = {
+		}
+		if(this.state.minPrice != ""){
+			// filter = filter.where("price", ">", parseInt(this.state.minPrice));
+			filter.minPrice = parseInt(this.state.minPrice);
+		}
+		if(this.state.maxPrice != ""){
+			// filter = filter.where("price", "<", parseInt(this.state.maxPrice));
+			filter.maxPrice = parseInt(this.state.maxPrice);
+		}
+		if(this.state.bed != ""){
+			// filter = filter.where("num_bedroom", ">=", parseInt(this.state.bed));
+			filter.numBed = parseInt(this.state.bed);
+		}
+		if(this.state.bath != ""){
+			// filter = filter.where("num_bathroom", ">=", parseInt(this.state.bath));
+			filter.numBath = parseInt(this.state.bath);
+		}
+		if(this.state.parking != ""){
+			// filter = filter.where("num_parking", ">=", parseInt(this.state.parking));
+			filter.numParking = parseInt(this.state.parking);
+		}
+		if(this.state.tenant != ""){
+			// filter = filter.where("num_tenant", ">=", parseInt(this.state.tenant));
+			filter.numTenant = parseInt(this.state.tenant);
+		}
+
+		var searchString = []
+		var doingFreeTextSearch = false;
+		if (this.state.searchQuery != "") {
+			// Find query about bathrooms. 
+			let numBathStrs = this.state.searchQuery.match(/[0-9]+( )*(Bathroom|BA|bathroom|bath|ba)+[es|s]*/g);
+			let numBath = numBathStrs && numBathStrs.length > 0 ? numBathStrs[0].match(/[0-9]*/g)[0] : null;
+			// filter = filter.where("num_bathroom", "==", parseInt(numBath));
+			if (numBath) {
+				filter.numBath = parseInt(numBath);
+				doingFreeTextSearch = true;
+			}
+
+			// Find query about bedrooms
+			let numBedStrs = this.state.searchQuery.match(/[0-9]+( )*(Bedroom|BED|bedroom|bed|be)+[s]*/g);
+			let numBed = numBedStrs && numBedStrs.length > 0 ? numBedStrs[0].match(/[0-9]*/g)[0] : null;
+			// filter = filter.where("num_bedroom", "==", parseInt(numBed));
+			if (numBed) {
+				filter.numBed = parseInt(numBed);
+				doingFreeTextSearch = true;
+			}
+
+			// Find query about parkings
+			let numParkStrs = this.state.searchQuery.match(/[0-9]+( )*(parking|Parking|P)+[s]*/g);
+			let numPark = numParkStrs && numParkStrs.length > 0 ? numParkStrs[0].match(/[0-9]*/g)[0] : null;
+			// filter = filter.where("num_parking", "==", parseInt(numPark));
+			if (numPark) {
+				filter.numPark = parseInt(numPark);
+				doingFreeTextSearch = true;
+			}
+
+			// Find query about pricing
+			// let pricingStrs = this.state.searchQuery.match(/\$?([0-9]{1,3},([0-9]{3},)*[0-9]{3}|[0-9]+)/g);
+			// let maxPrice = pricingStrs ? pricingStrs[0].match(/[0-9]{1,3},([0-9]{3},)*[0-9]{3}|[0-9]+/g) : null;
+			// // filter = filter.where("price", "<", parseInt(maxPrice));
+			// if (maxPrice) {
+			// 	filter.maxPrice = parseInt(maxPrice);
+			//	 doingFreeTextSearch = true;
+			// }
+
+			searchString = this.state.searchQuery.toString().split(" ");
+		}
+		console.log(filter);
+
+		var displayList = [];
+		this.state.housingItems.forEach((house) => {
+			
+			if (searchString && searchString.length > 0 && !doingFreeTextSearch) {
+				var bf = require("./bloomfilter");
+
+				let bloomfilterArr = JSON.parse(house.bloomfilter);
+				var Bloom = new bf.BloomFilter(bloomfilterArr,16);
+				var allInFilter = true;
+				for (var i = 0; i < searchString.length; i++) {
+					if (!Bloom.test(searchString[i])) {
+						allInFilter = false;
+						break;
+					}
 				}
-			});
-			this.setState({
-				housingItems: housingItems,
-				page: zero,
-			});
-			const { page, displayList } = this.state;
-			const start = page*Items_Per_Page;
-			const end = (page+1)*Items_Per_Page-1;
-			var newData = housingItems.slice(start,end);
-			this.setState({
-				displayList:[...displayList,...newData],
-				page:page+1,
-				isFetchingHouseData: false
-			});
+				if (!allInFilter) {
+					return;
+				}
+			}
+
+			if (filter.minPrice && house.price < filter.minPrice) {
+				return;
+			}
+			if (filter.maxPrice && house.price > filter.maxPrice) {
+				return;
+			}
+			if (filter.numBed && (house.num_bedroom < filter.numBed)) {
+				return;
+			}
+			if (filter.numBath && house.num_bathroom < filter.numBath) {
+				return;
+			}
+			if (filter.numParking && house.num_parking < filter.numParking) {
+				return;
+			}
+			if (filter.numTenant && house.num_tenant < filter.numTenant) {
+				return;
+			}
+
+			displayList.push(house);
+		});
+		this.setState({
+			displayList: displayList,
+			isFetchingHouseData: false,
+			page: 0,
 		});
 	}
-	
-	onRefresh = async () => {
-		if(this.state.searchQuery == ""){
-			this.getHousingData();
-		}
-		else{
-			this.setState({
-				isFetchingHouseData: true,
-				page: 0,
-			})
-			const { page, displayList } = this.state;
-			const start = page*Items_Per_Page;
-			const end = (page+1)*Items_Per_Page-1;
-			var newData = this.state.displayList.slice(start,end);
-			this.setState({
-				displayList:[...displayList,...newData],
-				page:page+1,
-				isFetchingHouseData: false
-			});
-		}
+
+	onRefresh = () => {
+		this.getHousingData(this.filterHouse);
 	}
 	
 	openHouse = async (house) => {
@@ -99,171 +185,39 @@ export default class HousingSearchPage extends React.Component{
 	}
 	
 	loadMore = async () => {
-		console.log("load data");
-		if(this.state.housingItems == null)
-		{
-			this.getHousingData();
-		}
-		const { page, displayList } = this.state;
-		const start = page*Items_Per_Page;
-		const end = (page+1)*Items_Per_Page-1;
-		console.log("start:" + start);
-		console.log("end" + end);
-		if(this.state.housingItems.length > end){
-			var newData = this.state.housingItems.slice(start,end);
-			this.setState({
-				displayList:[...displayList,...newData],
-				page:page+1,
-				
-			});
-		}
+		this.setState({
+			page: this.state.page + 1
+		})
 	}
 	
 	componentDidMount = async () => {
-		this.getHousingData();
+		User.getUserWithUID(firebase.auth().currentUser.uid, (user) => {
+			this.setState({
+				curUser: user
+			})
+		});
+		this.getHousingData(this.filterHouse);
 	}
 	
 	updateSearchQuery = async searchQuery => {
 		this.setState({ searchQuery });
 	};
 	
-	advanceSearchFilter = async () =>{
-		
-	}
-	
-	searchAndUpdateWithQuery = async () => {
-		this.setState({
-			isFetchingHouseData: true
-		})
-		if(this.state.searchQuery == ""){
-			this.getHousingData();
-		}
-		
-		// Find query about bathrooms. 
-		let numBathStrs = this.state.searchQuery.match(/[0-9]+( )*(Bathroom|BA|bathroom|bath|ba)+[es|s]*/g);
-		let numBath = numBathStrs && numBathStrs.length > 0 ? numBathStrs[0].match(/[0-9]*/g)[0] : 0;
-		// Find query about bedrooms
-		let numBedStrs = this.state.searchQuery.match(/[0-9]+( )*(Bedroom|BED|bedroom|bed|be)+[s]*/g);
-		let numBed = numBedStrs && numBedStrs.length > 0 ? numBedStrs[0].match(/[0-9]*/g)[0] : 0;
-		// Find query about parkings
-		let numParkStrs = this.state.searchQuery.match(/[0-9]+( )*(parking|Parking|P)+[s]*/g);
-		let numPark = numParkStrs && numParkStrs.length > 0 ? numParkStrs[0].match(/[0-9]*/g)[0] : 0;
-		// Find query about pricing
-		let pricingStrs = this.state.searchQuery.match(/\$?([0-9]{1,3},([0-9]{3},)*[0-9]{3}|[0-9]+)/g);
-		console.log(this.state.searchQuery);
-		console.log("pricingStr" + pricingStrs + " " + pricingStrs.length);
-		let maxPrice = pricingStrs ? pricingStrs[0].match(/[0-9]{1,3},([0-9]{3},)*[0-9]{3}|[0-9]+/g) : 0;
-		console.log("maxPrice" + maxPrice);
-
-		var searchString = this.state.searchQuery.toString().split(" ");
-		console.log(searchString);
-		var bf = require("./bloomfilter"),
-		bloom=bf.BloomFilter;
-		let newHousingItems = [];
-		this.state.housingItems.forEach(function(housingItem){
-			if(numBath != "" || numBed != "" || numPark != "" || maxPrice != ""){
-			if (numBath > 0 && housingItem.num_bathroom == numBath) {
-				// This house matches the required number of bathrooms. 
-				newHousingItems.push(housingItem);
-			}
-			if (numBed > 0 && housingItem.num_bedroom == numBed) {
-				// This house matches the required number of bedroom. 
-				newHousingItems.push(housingItem);
-			}
-			if (numPark > 0 && housingItem.num_parking == numPark) {
-				// This house matches the required number of parking. 
-				newHousingItems.push(housingItem);
-			}	
-			if (maxPrice > 0 && housingItem.price <= parseInt(maxPrice) + 50) {
-				
-				newHousingItems.push(housingItem);
-			}
-			}	// This house is within $50 dollar radius of the price people entered.
-			else{
-			let bloomfilterArr = JSON.parse(housingItem.bloomfilter);
-			var Bloom = new bloom(bloomfilterArr,16);
-			for(var i = 0; i < searchString.length; i++){
-				if(Bloom.test(searchString[i])){
-					newHousingItems.push(housingItem);
-					console.log(housingItem.title);
-					break;
-				}
-			}
-		}
-			
-		});
-		console.log(newHousingItems.length)
-
-		this.setState({
-			displayList: [...newHousingItems],
-			isFetchingHouseData: false
-		});
-		console.log(this.state.displayList.length)
-		
-		// Search here with this.houseRef or with Algolia and update housing lists async. 
-		
-	}
-	
-	updateFilter = async () =>{
-		this.setState({
-			displayList:[],
-		})
-		const zero = 0;
-		var filter = this.housesRef;
-		if(this.state.minPrice != ""){
-			filter = filter.where("price", ">", parseInt(this.state.minPrice));
-		}
-		if(this.state.maxPrice != ""){
-			filter = filter.where("price", "<", parseInt(this.state.maxPrice));
-		}
-		if(this.state.bed != ""){
-			filter = filter.where("num_bedroom", ">=", parseInt(this.state.bed));
-		}
-		if(this.state.bath != ""){
-			filter = filter.where("num_bathroom", ">=", parseInt(this.state.bath));
-		}
-		if(this.state.parking != ""){
-			filter = filter.where("num_parking", ">=", parseInt(this.state.parking));
-		}
-		if(this.state.tenant != ""){
-			filter = filter.where("num_tenant", ">=", parseInt(this.state.tenant));
-		}
-		filter.get().then(snapshot => {
-			let housingItems = [];
-			snapshot.forEach(house => {
-				var aHouse = new House(house.data(), house.id);
-				housingItems.push(aHouse);
-			});
-			this.setState({
-				housingItems: housingItems,
-				page: zero,
-			});
-			const { page, displayList } = this.state;
-			const start = page*Items_Per_Page;
-			const end = (page+1)*Items_Per_Page-1;
-			var newData = housingItems.slice(start,end);
-			this.setState({
-				displayList:[...displayList,...newData],
-				page:page+1,
-			});
-		});
-	}
-	
 	clearFilter = async () =>{  
 		this.setState({
-			minPrice: null,
-			maxPrice: null,
-			bed: null,
-			bath: null,
-			parking: null,
-			tenant: null,
+			minPrice: "",
+			maxPrice: "",
+			bed: "",
+			bath: "",
+			parking: "",
+			tenant: "",
 		})
 	}
 	applyFilter = async () =>{
 		this.setState({
-			advSearchisVisible:false,
+			advSearchisVisible: false,
 		})
-		this.updateFilter();
+		this.filterHouse();
 	}
 	
 	cancelFilter = async () =>{
@@ -273,6 +227,8 @@ export default class HousingSearchPage extends React.Component{
 	}
 	
 	render = () => {
+		const end = (this.state.page + 1) * Items_Per_Page - 1;
+		var dataToDisplay = this.state.displayList.slice(0,end);
 		
 		return (
 			<SafeAreaView style={{flex: 1, backgroundColor: '#2EA9DF'}}>
@@ -285,11 +241,11 @@ export default class HousingSearchPage extends React.Component{
 						inputContainerStyle={{backgroundColor: 'white', marginStart:30, marginEnd:30, width: '85%', flexDirection: 'row-reverse'}}
 						onChangeText={this.updateSearchQuery}
 						value={this.state.searchQuery}
-						onClear={this.getHousingData}
-						onSubmitEditing={this.searchAndUpdateWithQuery}
+						onClear={this.filterHouse}
+						onSubmitEditing={this.filterHouse}
 						
 						searchIcon={
-							<TouchableOpacity onPress={this.searchAndUpdateWithQuery}>
+							<TouchableOpacity onPress={this.filterHouse}>
 								<View style={{paddingRight: 10,}}>
 									<Icon name="search" type="font-awesome" color='darkgrey' />
 								</View>
@@ -402,7 +358,7 @@ export default class HousingSearchPage extends React.Component{
 					</Overlay>
 					<FlatList
 						keyExtractor={(item, index) => index.toString()}
-						data={this.state.displayList}
+						data={dataToDisplay}
 						onRefresh={this.onRefresh}
 						refreshing={this.state.isFetchingHouseData}
 						onEndReached={this.loadMore}
