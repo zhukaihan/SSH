@@ -37,30 +37,10 @@ export default class AddProfilePage extends React.Component{
         this.additional_tags = props.navigation.state.params.additional_tags;
         this.clean = props.navigation.state.params.clean;
         this.wake_early = props.navigation.state.params.wake_early;
+        this.smoke = props.navigation.state.params.smoke;
+        this.pets = props.navigation.state.params.pets;
         this.description = props.navigation.state.params.description;
         //this.email = props.navigate.state.params.email;
-        var bf = require("./bloomfilter"),
-        bloom=bf.BloomFilter;
-        this.f = new bloom(32*256,16);
-        this.f.add(this.first_name);
-        this.f.add(this.last_name);
-        this.f.add(this.name_preferred);
-        this.f.add(this.gender);
-        this.f.add(this.major);
-        this.f.add(this.graduation);
-        //this.f.add(this.email);
-        var AT = this.additional_tags.split(" ");
-        for(var i = 0; i < AT.length - 1; i++){
-            this.f.add(AT[i]);
-        }
-        this.f.add(this.clean);
-        this.f.add(this.wake_early);
-        var DP = this.description.split(" ");
-        for(var i = 0; i < DP.length - 1; i++){
-            this.f.add(DP[i]);
-        }
-        this.temp = [].slice.call(this.f.buckets);
-        this.bloomfilter = JSON.stringify(this.temp);
         console.log(this.bloomfilter);
         this.state={
             first_name: this.first_name,
@@ -73,7 +53,8 @@ export default class AddProfilePage extends React.Component{
             clean:this.clean,
             wake_early:this.wake_early,
             description:this.description,
-            bloomfilter: this.bloomfilter,
+            smoke: this.smoke,
+            pets: this.pets,
             profileimage: defaultimage,
             image: defaultimage,
             uploading: false,
@@ -141,6 +122,8 @@ export default class AddProfilePage extends React.Component{
             additional_tags: this.state.additional_tags,
             clean: this.state.clean,
             wake_early: this.state.wake_early,
+            smoke: this.state.smoke,
+            pets: this.state.pets,
             description: this.state.description,
         });
     }
@@ -157,9 +140,10 @@ export default class AddProfilePage extends React.Component{
             additional_tags: this.state.additional_tags,
             clean: this.state.clean,
             wake_early: this.state.wake_early,
+            smoke: this.state.smoke,
+            pets: this.state.pets,
             description: this.state.description,
             profileimage: this.state.profileimage,
-            bloomfilter: this.state.bloomfilter,
         }
         firebase.firestore().collection("users").doc(`${userId}`).set(Object.assign({}, data)
         )
