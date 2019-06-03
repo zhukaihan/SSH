@@ -10,6 +10,7 @@ import ImageHorizontalScrollView from '../View/ImageHorizontalScrollView';
 import BadgesView from '../View/BadgesView';
 import HouseFavButton from '../View/HouseFavButton';
 import UserPreviewView from '../View/UserPreviewView';
+import { TouchableOpacity } from 'react-native-gesture-handler';
 
 
 export default class ViewHousingPage extends React.Component{
@@ -137,7 +138,7 @@ export default class ViewHousingPage extends React.Component{
 									</View>
 									<BadgesView tags={item.additional_tags} />
 								</View>
-								<View style={styles.roomInfoRightView}>
+								<TouchableOpacity style={styles.roomInfoRightView} onPress={() => this.openTenant(this.state.landlord)}>
 									{this.state.landlord.profileimage != "" ?
 										(<Avatar
 											rounded
@@ -148,7 +149,7 @@ export default class ViewHousingPage extends React.Component{
 									}
 									
 									<Text style={styles.roomInfoRightNameText}>{this.state.landlord.first_name} {this.state.landlord.last_name}</Text>
-								</View>
+								</TouchableOpacity>
 							</View>
 						</View>
 
