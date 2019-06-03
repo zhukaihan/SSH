@@ -51,8 +51,6 @@ Our development team is SSH, a project team for CSE 110 in Spring 2019. We are c
 
 **Absolutely Won't-have Stories**
 
-* Messaging system
-
 ### 2. Screen Archetypes
 * Login 
 * Register 
