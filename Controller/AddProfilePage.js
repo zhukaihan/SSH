@@ -78,7 +78,7 @@ export default class AddProfilePage extends React.Component{
                         <View>
                         <Button
                             onPress={this._pickImage}
-                            title="picking photo from photo roll"
+                            title="Picking photo from photo roll"
                         />
                         <Button onPress={this._takePhoto} title="Take a photo" />
                         </View>
