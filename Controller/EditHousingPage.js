@@ -233,9 +233,7 @@ export default class EditHousingPage extends React.Component{
 				)
 				return;
 			}
-			
 		}
-		
 		firebase.firestore().collection("houses").doc(this.state.house.id).set(Object.assign({}, houseToAdd), (error) => {
 			if (error) {
 				Alert.alert(
