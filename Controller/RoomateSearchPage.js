@@ -362,7 +362,9 @@ export default class RoomateSearchPage extends React.Component{
 						}
                     />
                     <TouchableOpacity onPress={()=> this.setState({advSearchisVisible:true})}>
-						<Text>Advance Search</Text>
+                        <View style={styles.advanceContainer}>
+							<Text>Advance Search</Text>
+						</View>
 					</TouchableOpacity>
                     <Overlay
 						isVisible={this.state.advSearchisVisible}
@@ -495,6 +497,17 @@ const styles = StyleSheet.create({
         elevation:2,
         alignItems: "center",
     },
+
+    advanceContainer: {
+		backgroundColor: '#E2DFDF',
+		borderColor:'#E2DFDF',
+		borderWidth: 10,
+		borderBottomRightRadius: 10,
+		borderBottomLeftRadius: 10,
+		justifyContent: "center",
+		alignItems: "center",
+    },
+    
     profilePic:{
         width: 120,
         height: 120,
