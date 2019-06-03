@@ -21,6 +21,9 @@ const iosStandaloneClientId = Platform.select({
 });
 
 export default class LogInPage extends React.Component{
+	state={
+		accessToken:"",
+	}
 	
 	//this function will navigator to CreateProfile1Page
 	navigateToHome = () => {
@@ -38,6 +41,7 @@ export default class LogInPage extends React.Component{
 	static googleLogout = async () => {
 		if (isInExpoClient) {
 			// Expo client uses Google.logInAsync. There is no logout. 
+			await Google.logOutAsync({ clientId: ExpoClientId, accessToken });
 			return;
 		} else {
 			// Standalone client uses GoogleSignIn.signInAsync(). 
@@ -60,6 +64,9 @@ export default class LogInPage extends React.Component{
 				})
 				user = result.user;
 				userAuth = result;
+				this.setState({
+					accessToken:result.accessToken
+				})
 			} else {
 				await GoogleSignIn.askForPlayServicesAsync();
 				result = await GoogleSignIn.signInAsync();
