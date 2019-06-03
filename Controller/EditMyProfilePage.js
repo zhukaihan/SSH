@@ -217,9 +217,10 @@ export default class ProfilePage extends Component{
 								/>
 								<TextInput
 									style={styles.name}
-									defaultValue={"(" + this.state.user.name_preferred + ")"}
+		
+									defaultValue={this.state.user.name_preferred == ""? "":("(" + this.state.user.name_preferred + ")")}
 									onChangeText={(txt) => {this.state.user.name_preferred = txt}}
-									placeholder="Preferred Name"
+									placeholder="(Preferred Name)"
 								/>
 							</View>
 
