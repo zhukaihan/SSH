@@ -243,8 +243,7 @@ export default class ProfilePage extends Component{
 							<View style={styles.infotwoContainer}>
 								<RNPickerSelect
 									onValueChange={(itemValue) => {this.state.user.gender = itemValue; this.forceUpdate()}}
-									placeholder={{label: 'Gender', value: null}}
-									placeholderTextColor={'red'}
+									placeholder={{}}
 									items={[
 										{ label: 'Male', value:'male' },
 										{ label: 'Female', value:'female' },
@@ -257,8 +256,7 @@ export default class ProfilePage extends Component{
 
 								<RNPickerSelect
 									onValueChange={(itemValue) => {this.state.user.clean = itemValue; this.forceUpdate()}}
-									placeholder={{label: 'Clean', value: null}}
-									placeholderTextColor={'red'}
+									placeholder={{}}
 									items={[
 										{ label: 'Clean', value:'clean' },
 										{ label: 'Messy', value:'messy' }
@@ -270,8 +268,7 @@ export default class ProfilePage extends Component{
 								
 								<RNPickerSelect
 									onValueChange={(itemValue) => {this.state.user.wake_early = itemValue; this.forceUpdate()}}
-									placeholder={{label: 'Wake Early?', value: null}}
-									placeholderTextColor={'red'}
+									placeholder={{}}
 									items={[
 										{ label: 'Morning', value:'morning' },
 										{ label: 'Night', value:'night' }
