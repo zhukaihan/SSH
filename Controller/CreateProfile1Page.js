@@ -30,6 +30,8 @@ export default class CreateProfile1Page extends Component{
             additional_tags: "",
             clean: "",
             wake_early: "",
+            smoke:"",
+            pets:"",
             description: "",
             items:[
                 {
@@ -127,7 +129,10 @@ export default class CreateProfile1Page extends Component{
                 additional_tags: this.state.additional_tags,
                 clean: this.state.clean,
                 wake_early: this.state.wake_early,
+                smoke:this.state.smoke,
+                pets:this.state.pets,
                 description: this.state.description,
+
             });
         }
     }

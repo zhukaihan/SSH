@@ -80,6 +80,7 @@ export default class LogInPage extends React.Component{
 							[{text: 'Okay'}],
 							{cancelable: false},
 						)
+						LogInPage.googleLogout();
 					});
         } else {
 					Alert.alert(
@@ -88,6 +89,7 @@ export default class LogInPage extends React.Component{
 						[{text: 'Okay'}],
 						{cancelable: false},
 					)
+					LogInPage.googleLogout();
 				}
       } else {
 				// log in cancelled
@@ -97,6 +99,7 @@ export default class LogInPage extends React.Component{
 					[{text: 'Okay'}],
 					{cancelable: false},
 				)
+				LogInPage.googleLogout();
       }
 		} catch (e) {
 			// log in error
@@ -106,6 +109,7 @@ export default class LogInPage extends React.Component{
 				[{text: 'Okay'}],
 				{cancelable: false},
 			)
+			LogInPage.googleLogout();
 		}
   }
 

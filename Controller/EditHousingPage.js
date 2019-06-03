@@ -367,21 +367,23 @@ export default class EditHousingPage extends React.Component{
 						/>
 					</View>
 
-					<View style={styles.roomInfoSpecDetailsView}>
-						<Icon name="map-pin" type="font-awesome"/>
-						<Text style={styles.roomInfoTitle}>Location: </Text>
-						<TextInput
-							style={styles.roomInfoSpecDetailsTextInput}
-							onChangeText={(loc) => {item.location = loc}}
-							defaultValue={item.location.toString()}
-							keyboardType="default"
-						/>
-					</View>
 
 					<BadgesView tags={item.additional_tags} />
 
 				</View>  
 				{/* End before Description */}
+
+				<View style={styles.locationContainer}>
+						<Text style={styles.locationTitle}>Location: </Text>
+						<TextInput
+							style={styles.locationInput}
+							multiline={true}
+							editable = {true}
+							maxLength = {400}
+							onChangeText={(loc) => {item.location = loc}}
+							defaultValue={item.location.toString()}	
+						/>
+				</View>
 				
 				<View style={styles.descriptionContainer}>
 					<Text style={styles.descriptionTitle}>Description:</Text>
@@ -395,8 +397,8 @@ export default class EditHousingPage extends React.Component{
 					/>
 				</View>
 				
-				<View style={{borderWidth: 1,}}>
-					<Text>Current Tenants</Text>
+				<View style={styles.tenantsContainer}>
+					<Text style={styles.tenantsTitle}>Current Tenants:</Text>
 					<View>
 						{tenants}
 					</View>
@@ -546,10 +548,34 @@ const styles = StyleSheet.create({
 		borderWidth: 1,
 		paddingLeft: RF(1.5),
 		paddingRight: RF(1.5),
+		paddingBottom: RF(1.5),
+	},
+
+	locationContainer: {
+		borderWidth: 1,
+		paddingLeft: RF(1.5),
+		paddingRight: RF(1.5),
+		paddingBottom: RF(1.5),
+	},
+
+	tenantsContainer: {
+		borderWidth: 1,
+		paddingLeft: RF(1.5),
+		paddingRight: RF(1.5),
 		paddingBottom: RF(1),
 	},
 
 	descriptionTitle: {
+		fontSize: RF(3),
+		fontWeight: '300',
+	},
+
+	locationTitle: {
+		fontSize: RF(3),
+		fontWeight: '300',
+	},
+
+	tenantsTitle: {
 		fontSize: RF(3),
 		fontWeight: '300',
 	},
@@ -559,6 +585,13 @@ const styles = StyleSheet.create({
 		borderRadius: 5,
 		height: 0.2 * height,
 	},
+
+	locationInput: {
+		borderWidth: 1,
+		borderRadius: 5,
+		height: 0.2 * height,
+	},
+
 
 	buttonContainer: {
 		flexDirection: 'row',

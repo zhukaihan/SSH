@@ -18,6 +18,8 @@ export default class CreateProfile2Page extends Component{
         this.additional_tags = props.navigation.state.params.additional_tags;
         this.clean = props.navigation.state.params.clean;
         this.wake_early = props.navigation.state.params.wake_early;
+        this.smoke = props.navigation.state.params.smoke;
+        this.pets = props.navigation.state.params.pets;
         this.description = props.navigation.state.params.description;
         this.state={
             first_name: this.first_name,
@@ -29,6 +31,8 @@ export default class CreateProfile2Page extends Component{
             additional_tags:this.additional_tags,
             clean:this.clean,
             wake_early:this.wake_early,
+            smoke: this.smoke,
+            pets: this.pets,
             description:this.description,
             paddingBottom: 10
         }
@@ -70,6 +74,8 @@ export default class CreateProfile2Page extends Component{
             clean: this.state.clean,
             wake_early: this.state.wake_early,
             description: this.state.description,
+            smoke: this.state.smoke,
+            pets:this.state.pets
         });
     }
     nextslide=()=> {
@@ -114,6 +120,8 @@ export default class CreateProfile2Page extends Component{
                 additional_tags: this.state.additional_tags,
                 clean: this.state.clean,
                 wake_early: this.state.wake_early,
+                smoke: this.state.smoke,
+                pets: this.state.pets,
                 description: this.state.description,
             });
         }

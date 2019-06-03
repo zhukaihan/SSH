@@ -9,7 +9,7 @@ import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view
 export default class CreateProfile3Page extends Component{
     constructor(props){
         super(props)
-        this.first_name = props.navigation.state.params.first_name
+        this.first_name = props.navigation.state.params.first_name;
         this.last_name = props.navigation.state.params.last_name;
         this.name_preferred = props.navigation.state.params.name_preferred;
         this.gender = props.navigation.state.params.gender;
@@ -18,6 +18,8 @@ export default class CreateProfile3Page extends Component{
         this.additional_tags = props.navigation.state.params.additional_tags;
         this.clean = props.navigation.state.params.clean;
         this.wake_early = props.navigation.state.params.wake_early;
+        this.smoke = props.navigation.state.params.smoke;
+        this.pets = props.navigation.state.params.pets;
         this.description = props.navigation.state.params.description;
         this.state={
             first_name: this.first_name,
@@ -78,6 +80,21 @@ export default class CreateProfile3Page extends Component{
         }
         return true;
     }
+
+    _checkSmokeOrNotSmoke = () =>{
+        if(this.state.smoke == ""){
+            return false;
+        }
+        return true;
+    }
+
+    _checkPetsOrNoPets = () =>{
+        if(this.state.pets == ""){
+            return false;
+        }
+        return true;
+    }
+
     _checkDescription = () =>{
         if(this.state.description == ""){
             return false;
@@ -105,6 +122,8 @@ export default class CreateProfile3Page extends Component{
             additional_tags: this.state.additional_tags,
             clean: this.state.clean,
             wake_early: this.state.wake_early,
+            smoke: this.state.smoke,
+            pets: this.state.pets,
             description: this.state.description});
     }
     nextslide = () => {
@@ -128,17 +147,28 @@ export default class CreateProfile3Page extends Component{
                 ],
                 {cancelable: false}
             )
-        } else if (!this._checkDescription()) {
+        } else if (!this._checkSmokeOrNotSmoke()){
             Alert.alert(
-                'Invalid response',
-                'Please make sure the description is over 10 words',
+                'Invalid selection',
+                'Please select a preference for smoking',
                 [
                     {text: 'OK', onPress: () => console.log('OK Pressed')},
                     {text: 'Cancel', onPress: () => console.log('Cancel Pressed'), style: 'cancel'},
                 ],
                 {cancelable: false}
             )
-        } else {
+        } else if (!this._checkPetsOrNoPets()){
+            Alert.alert(
+                'Invalid selection',
+                'Please select a preference for pets',
+                [
+                    {text: 'OK', onPress: () => console.log('OK Pressed')},
+                    {text: 'Cancel', onPress: () => console.log('Cancel Pressed'), style: 'cancel'},
+                ],
+                {cancelable: false}
+            )
+        }
+        else {
             console.log(`${this.state.first_name}`);
             this.props.navigation.navigate("AddProfilePage", {
                 first_name: this.state.first_name,
@@ -150,6 +180,8 @@ export default class CreateProfile3Page extends Component{
                 additional_tags: this.state.additional_tags,
                 clean: this.state.clean,
                 wake_early: this.state.wake_early,
+                smoke: this.state.smoke,
+                pets: this.state.pets,
                 description: this.state.description,
             });
         }
@@ -281,7 +313,7 @@ export default class CreateProfile3Page extends Component{
                         paddingVertical: 10, paddingHorizontal: 10}}
                                 onChangeText={(description)=> this.setState({description})}
                                 value = {this.state.description}
-                                placeholder = {"Required"}
+                                placeholder = {"Optional"}
                                 multiline={true}
                                 //Adds padding when user clicks on the description field so the keyboard does not
                                 //cover the input field

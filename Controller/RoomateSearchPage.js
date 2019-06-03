@@ -56,17 +56,17 @@ export default class RoomateSearchPage extends React.Component{
         ],
         smokePicker:[               
         {
-            label: 'Smoke', value:'true',
+            label: 'Smoke', value:'yes',
         },
         {
-            label: 'No Smoke', value:'false',
+            label: 'No Smoke', value:'no',
         }],
         petPicker:[         
         {
-            label: 'No Pet', value:'true',
+            label: 'No Pet', value:'yes',
         },
         {
-            label: 'Has Pet', value:'false',
+            label: 'Has Pet', value:'no',
         }],
 	}
     constructor(props){
