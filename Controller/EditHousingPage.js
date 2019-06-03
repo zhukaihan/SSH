@@ -110,10 +110,17 @@ export default class EditHousingPage extends React.Component{
 		this.state.house.pictures.push("");
 		ImageUploader.chooseImageToUpload(`houses/${this.state.house.id}/images`, (url) => {
 			this.state.house.pictures[this.state.house.pictures.length - 1] = url;
-			let originalAvailability = this.state.house.availability;
-			this.state.house.availability = false;
-			this.saveHouse();
-			this.state.house.availability = originalAvailability;
+			firebase.firestore().collection("houses").doc(this.state.house.id).set({
+				pictures: firebase.firestore.FieldValue.arrayUnion(url), 
+			}, {merge: true}).then(() => {
+				Alert.alert(
+					'Picture Saved',
+					'It might take some time to show up. ',
+					[{text: 'Okay'}],
+					{cancelable: false},
+				)
+			})
+			this.forceUpdate();
 		})
 	}
 
@@ -124,30 +131,30 @@ export default class EditHousingPage extends React.Component{
 			bloomfilter.add(text[i]);
 		}
 	}
-	_checkBedroom = () => {
+	_checkBedroom = (house) => {
 		for(var i = 0; i <= 10; i++){
-			if(houseToAdd.num_bedroom == i){
+			if(house.num_bedroom == i){
 				return true;
 			}
 		}
 		return false;
 	}
 	
-	_checkBathroom = () => {
+	_checkBathroom = (house) => {
 		for(var i = 0; i <= 10; i++){
-			if(houseToAdd.num_bathroom == i){
+			if(house.num_bathroom == i){
 				return true;
 			}
 		}
 		return false;
 	}
 
-	_checkPrice = () => {
-		return (house_price >= 0 && house_price <= 10000);
+	_checkPrice = (house) => {
+		return (house.price >= 0 && house.price <= 10000);
 	}
-	_checkParking = () => {
+	_checkParking = (house) => {
 		for(var i = 0; i <= 10; i++){
-			if(houseToAdd.num_parking == i){
+			if(house.num_parking == i){
 				return true;
 			}
 		}
@@ -206,7 +213,7 @@ export default class EditHousingPage extends React.Component{
 				)
 				return;
 			}
-			if (!_checkPrice()){
+			if (!this._checkPrice(houseToAdd)){
 				Alert.alert(
 					'Please enter a valid price',
 					'',
@@ -215,7 +222,7 @@ export default class EditHousingPage extends React.Component{
 				)
 				return;
 			}
-			if (!_checkBedroom()) {
+			if (!this._checkBedroom(houseToAdd)) {
 				Alert.alert(
 					'Please enter a valid number of bedrooms',
 					'',
@@ -224,7 +231,7 @@ export default class EditHousingPage extends React.Component{
 				)
 				return;
 			}
-			if (!_checkBathroom()) {
+			if (!this._checkBathroom(houseToAdd)) {
 				Alert.alert(
 					'Please enter a valid number of bathrooms',
 					'',
@@ -233,7 +240,7 @@ export default class EditHousingPage extends React.Component{
 				)
 				return;
 			}
-			if (!_checkParking()) {
+			if (!this._checkParking(houseToAdd)) {
 				Alert.alert(
 					'Please enter a valid number of parkings',
 					'',

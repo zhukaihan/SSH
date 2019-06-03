@@ -219,6 +219,7 @@ export default class HousingSearchPage extends React.Component{
 			parking: "",
 			tenant: "",
 		})
+		this.filterHouse();
 	}
 	applyFilter = async () =>{
 		this.setState({
