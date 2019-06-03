@@ -61,6 +61,7 @@ export default class MessageRoomView extends React.Component{
 				'keyboardDidHide',
 				this.keyboardHide
 			)
+		}
 		
 		let roomId = this.props.navigation.getParam("roomId", "");
 		if (roomId == "") {
