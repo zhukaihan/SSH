@@ -250,6 +250,12 @@ export default class ProfilePage extends Component{
 										{ label: 'Female', value:'female' },
 										{ label: 'Other', value: 'Other' }
 									]}
+									style={{
+										inputIOS:{
+											borderWidth: 1,
+									    	borderColor: 'gray',
+											borderRadius: 4
+										}}}
 									value={this.state.user.gender}
 								/>
 
@@ -262,6 +268,12 @@ export default class ProfilePage extends Component{
 										{ label: 'Clean', value:'clean' },
 										{ label: 'Messy', value:'messy' }
 									]}
+									style={{
+										inputIOS:{
+											borderWidth: 1,
+									    	borderColor: 'gray',
+											borderRadius: 4
+										}}}
 									value={this.state.user.clean}
 								/>
 
@@ -274,6 +286,12 @@ export default class ProfilePage extends Component{
 										{ label: 'Morning', value:'morning' },
 										{ label: 'Night', value:'night' }
 									]}
+									style={{
+										inputIOS:{
+											borderWidth: 1,
+									    	borderColor: 'gray',
+											borderRadius: 4
+										}}}
 									value={this.state.user.wake_early}
 								/>
 
@@ -486,6 +504,12 @@ const styles = StyleSheet.create({
 		paddingLeft: 10,
 		paddingRight: 10,
 	},
+
+	picker:{
+		borderColor: 'gray',
+		borderWidth: 1,
+		borderRadius: 4,
+	}
 
 
 })
