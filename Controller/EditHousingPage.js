@@ -449,9 +449,9 @@ export default class EditHousingPage extends React.Component{
 					<Button title="Add Tenants" onPress={this.addTenant}/>
 				</View>
 
-				<View style={styles.buttonContainer}>
-					<View>
-						<Text>Post this house for others to view: </Text>
+				<View style={styles.findButtonContainer}>
+					<View style={styles.findButton}>
+						<Text style={styles.findText}>Post this house for others to view: </Text>
 						<Switch
 							onValueChange={() => {this.state.house.availability = !this.state.house.availability; this.forceUpdate()}}
 							value={this.state.house.availability}
@@ -644,6 +644,22 @@ const styles = StyleSheet.create({
 		paddingTop: 5,
 		paddingRight: 10,
 		borderWidth: 1,
+	},
+
+	findButtonContainer: {
+		flexDirection: 'column',
+		justifyContent: 'center',
+		alignItems: 'center',
+	},
+
+	findButton: {
+		flexDirection: 'row',
+		paddingTop: 8,
+	},
+
+	findText:{
+		paddingTop: 2,
+		fontSize: RF(2.5),
 	},
 
 	saveButton: {
