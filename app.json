@@ -23,7 +23,7 @@
       "**/*"
     ],
     "ios": {
-      "buildNumber": "6",
+      "buildNumber": "7",
       "bundleIdentifier": "com.sshousing.ssh",
       "supportsTablet": false,
       "config": {
@@ -36,6 +36,6 @@
       "package": "com.sshousing.ssh",
       "googleServicesFile": "./google-services.json"
     },
-    "description": "Let UCSD students find housing with ease. "
+    "description": "Let UCSD students find houses and roommates with ease. "
   }
 }

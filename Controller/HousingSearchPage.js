@@ -1,7 +1,7 @@
 // HousingSearchPage will be used for the user to search for a house. It will display all houses available for renting and has the ability to filter (WIP). 
 
 import React, { Component } from 'react';
-import { StyleSheet, View, Text, StatusBar, Button, Alert, FlatList, TouchableHighlight,TouchableOpacity,TextInput } from 'react-native';
+import { StyleSheet, View, Text, StatusBar, Button, Alert, FlatList, TouchableHighlight,TouchableOpacity, TextInput, RefreshControl } from 'react-native';
 import { Icon, Card, Badge, SearchBar,Overlay } from 'react-native-elements';
 import { SafeAreaView } from 'react-navigation';
 import firebase from 'firebase';
@@ -15,7 +15,7 @@ export default class HousingSearchPage extends React.Component{
 	state = {
 		housingItems: [],
 		displayList: [],
-		isFetchingHouseData: true,
+		isFetchingHouseData: false,
 		page: 0,
 		searchQuery: "",
 		advSearchisVisible: false,
@@ -37,10 +37,9 @@ export default class HousingSearchPage extends React.Component{
 	// Get housing data and set state with the new data. 
 	// Can be used on first launch and on refresh request. 
 	getHousingData = async (callback) => {
-		this.setState({
-			isFetchingHouseData: true
-		})
-
+		this.setState(() => {return {
+			isFetchingHouseData: false
+		}})
 		this.housesRef.where("availability", "==", true).orderBy("post_date", 'desc').get().then((snapshot) => {
 			this.state.housingItems = [];
 			snapshot.forEach((aHouse) => {
@@ -49,20 +48,22 @@ export default class HousingSearchPage extends React.Component{
 			})
 			if (callback) {
 				callback();
-			} else {
-				this.setState({
+				this.setState(() => {return {
 					isFetchingHouseData: false
-				})
+				}})
+			} else {
+				this.setState(() => {return {
+					isFetchingHouseData: false
+				}})
 			}
+		}).catch((e) => {
+			this.setState(() => {return {
+				isFetchingHouseData: false
+			}})
 		})
-
-		
 	}
 
 	filterHouse = () => {
-		this.setState({
-			isFetchingHouseData: true,
-		});
 		var filter = {
 		}
 		if(this.state.minPrice != ""){
@@ -174,11 +175,11 @@ export default class HousingSearchPage extends React.Component{
 
 			displayList.push(house);
 		});
-		this.setState({
+		this.setState(() => {return {
 			displayList: displayList,
 			isFetchingHouseData: false,
 			page: 0,
-		});
+		}})
 	}
 
 	onRefresh = () => {
