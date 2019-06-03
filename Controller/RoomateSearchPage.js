@@ -261,9 +261,11 @@ export default class RoomateSearchPage extends React.Component{
 		}
 		filter.get().then(snapshot => {
 			let roommateItems = [];
-			snapshot.forEach(house => {
-				var aUser = new User(house.data(), house.id);
-				roommateItems.push(aUser);
+			snapshot.forEach(roommate => {
+                if(aUser.id != this.state.curUser.id){
+				var aUser = new User(roommate.data(), roommate.id);
+                roommateItems.push(aUser);
+                }
 			});
 			this.setState({
 				roommateItems: roommateItems,
