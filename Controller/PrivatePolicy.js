@@ -198,7 +198,7 @@ export default class PrivatePolicy extends Component{
                         </Text><Text style={styles.greyWords}>If you have questions or comments about this policy, you may email us at ytw001@ucsd.edu or by post to:
 
                         </Text><Text style={styles.greyWords}>Student to Student Housing
-                        </Text><Text style={styles.greyWords}>4500 Gilman.dr
+                        </Text><Text style={styles.greyWords}>9500 Gilman.dr
                         </Text><Text style={styles.greyWords}>La Jolla, CA 92093
                         </Text><Text style={styles.greyWords}>United States</Text>
                     </ScrollView>
