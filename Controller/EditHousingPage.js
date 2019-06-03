@@ -338,9 +338,12 @@ export default class EditHousingPage extends React.Component{
 				<View style={styles.imageContainer}>
 
 					<ImageHorizontalScrollView pictureUrls={item.pictures}/>
-					<Button title="Add Picture" onPress={this.addPicture}/>
 
 				</View>
+
+				<TouchableOpacity onPress={this.addPicture} style={styles.logButtonnull}>
+					<Text style={{color: 'white', fontSize: RF(2.2), textAlign: 'center'}}>Add Picture</Text>
+				</TouchableOpacity>
 
 				<View style={styles.infoContainer}>
 
@@ -446,7 +449,10 @@ export default class EditHousingPage extends React.Component{
 					<View>
 						{tenants}
 					</View>
-					<Button title="Add Tenants" onPress={this.addTenant}/>
+
+					<View style={{paddingTop: 2,}}>	
+						<Icon name="plus-circle" onPress={this.addTenant} type="font-awesome" color='#2ea9df' size={40}/>
+					</View>
 				</View>
 
 				<View style={styles.findButtonContainer}>
@@ -504,10 +510,15 @@ const styles = StyleSheet.create({
 		alignItems: "stretch",
 	},
 
+	logButtonnull:{
+		backgroundColor: '#2ea9df',
+		padding: 5,
+	},
+
 	infoContainer:{
 		paddingLeft: RF(1.5),
 		paddingRight: RF(1.5),
-		paddingTop: RF(1),
+		paddingTop: 1,
 	},
 
 	bigTitle:{
@@ -636,14 +647,15 @@ const styles = StyleSheet.create({
 		flexDirection: 'row',
 		justifyContent: 'flex-end',
 		paddingBottom: 10,
-		paddingTop: 5,
+		paddingTop: 8,
 		paddingRight: 10,
 	},
 
 	findButtonContainer: {
 		flexDirection: 'column',
 		justifyContent: 'center',
-		alignItems: 'center',
+		alignItems: 'flex-start',
+		paddingLeft: RF(1.5),
 	},
 
 	findButton: {
