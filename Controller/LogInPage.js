@@ -27,7 +27,7 @@ export default class LogInPage extends React.Component{
 		let userRef = firebase.firestore().collection("users").doc(firebase.auth().currentUser.uid);
 		var getDoc = userRef.get().then(doc => {
 			if (!doc.exists) {
-				this.props.navigation.navigate('CreateProfile1Page');
+				this.props.navigation.navigate('PrivatePolicy');
 			} else {
 				this.props.navigation.navigate('TabNavigator');
 			}

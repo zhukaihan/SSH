@@ -79,6 +79,11 @@ export default class CreateProfile1Page extends Component{
         }
         return true;
     }
+    backslide = ()=>{
+        this.props.navigation.navigate("PrivatePolicy",{
+
+        });
+    }
     _checkGender = () =>{
         if(this.state.gender == ""){
             return false
@@ -259,9 +264,11 @@ export default class CreateProfile1Page extends Component{
                         }}/>
                 </View>
             </KeyboardAwareScrollView>
-                <View style={{width: '100%', left: 0, flexDirection:'row', height:75}}>
+            <View style={{width: '100%',flexDirection:'row', height:75}}>
                     <View style={styles.backButton}>
-                        <Text style={styles.buttontextstyle}>Back</Text>
+                        <TouchableOpacity onPress={this.backslide} style={styles.backButtonStyle}>
+                            <Text style={styles.buttontextstyle}>Back</Text>
+                        </TouchableOpacity>
                     </View>
                     <View style={styles.nextButton}>
                         <TouchableOpacity onPress={this.nextslide} style={styles.nextButtonStyle}>
@@ -356,24 +363,24 @@ const styles = StyleSheet.create({
         borderRadius:10,
         backgroundColor:"#2ea9df",
         borderColor:"#2ea9df",
-        borderWidth:4, 
+        borderWidth:4,
         alignItems: "center",
         justifyContent: "center",
     },
     backButton:{
-        opacity:0,
+        height: "100%",
         flexDirection:"row",
         justifyContent: "center",
         alignItems:"center",
         flex:.5,
     },
     backButtonStyle:{
-        height: 0,
+        height: "60%",
         width: "80%",
         borderRadius:10,
         backgroundColor:"#2ea9df",
         borderColor:"#2ea9df",
-        borderWidth:4, 
+        borderWidth:4,
         alignItems: "center",
         justifyContent: "center",
     },

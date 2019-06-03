@@ -9,6 +9,7 @@ import HousingSearchPage from './HousingSearchPage';
 import ViewHousingPage from './ViewHousingPage';
 import RoomateSearchPage from './RoomateSearchPage';
 import ProfilePage from './ProfilePage';
+import PrivatePolicy from './PrivatePolicy';
 
 const LogInStackNavigator = createStackNavigator(
   {
@@ -16,6 +17,12 @@ const LogInStackNavigator = createStackNavigator(
 			screen: LogInPage, 
 			navigationOptions: {
 				gesturesEnabled: false
+			}
+		},
+		PrivatePolicy:{
+			screen: PrivatePolicy,
+			navigationOptions:{
+				gesturesEnabled: false,
 			}
 		},
 		CreateProfile1Page:{
