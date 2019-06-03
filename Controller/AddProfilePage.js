@@ -40,7 +40,6 @@ export default class AddProfilePage extends React.Component{
         this.smoke = props.navigation.state.params.smoke;
         this.pets = props.navigation.state.params.pets;
         this.description = props.navigation.state.params.description;
-        //this.email = props.navigate.state.params.email;
         console.log(this.bloomfilter);
         this.state={
             first_name: this.first_name,

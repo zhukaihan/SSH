@@ -121,7 +121,29 @@ export default class EditHousingPage extends React.Component{
 			bloomfilter.add(text[i]);
 		}
 	}
-
+	_checkBedroom = () => {
+		if(houseToAdd.num_bedroom == "" || Number(houseToAdd.num_bedroom) == NaN)
+			return false
+		var number_bedroom = Number(houseToAdd.num_bedroom);
+		for(var i = 1; i <= 10; i++){
+			if(number_bedroom == i){
+				return true;
+			}
+		}
+		return false;
+	}
+	
+	_checkBathroom = () => {
+		if(houseToAdd.num_bathroom == "" || Number(houseToAdd.num_bathroom) == NaN)
+			return false
+		var number_bathroom = Number(houseToAdd.num_bathroom);
+		for(var i = 1; i <= 10; i++){
+			if(number_bathroom == i){
+				return true;
+			}
+		}
+		return false;
+	}
 	saveHouse = () => {
 		var bf = require("./bloomfilter"),
         bloom=bf.BloomFilter;
@@ -193,27 +215,27 @@ export default class EditHousingPage extends React.Component{
 				)
 				return;
 			}
-			if (houseToAdd.num_bedroom == "") {
+			if (!_checkBedroom()) {
 				Alert.alert(
-					'Add some bedrooms... ',
+					'Please enter a valid number of bedrooms',
 					'',
 					[{text: 'Okay'}],
 					{cancelable: false},
 				)
 				return;
 			}
-			if (houseToAdd.num_bathroom == "") {
+			if (!_checkBathroom()) {
 				Alert.alert(
-					'Add some bathrooms... ',
+					'Please enter a valid number of bathrooms',
 					'',
 					[{text: 'Okay'}],
 					{cancelable: false},
 				)
 				return;
 			}
+			
 		}
-
-		// Edit a house, house exists in firebase, use set. 
+		
 		firebase.firestore().collection("houses").doc(this.state.house.id).set(Object.assign({}, houseToAdd), (error) => {
 			if (error) {
 				Alert.alert(
@@ -248,6 +270,8 @@ export default class EditHousingPage extends React.Component{
 		});
 	}
 
+	//check fields
+	_check 
 	render = () => {
 		var content;
 		if (!this.state.house) {
