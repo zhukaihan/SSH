@@ -169,6 +169,7 @@ export default class MessageRoomView extends React.Component{
 						}}
 						ref={ref => this.flatList = ref}
 						onContentSizeChange={() => this.flatList.scrollToEnd({animated: true})}
+						onLayout={() => this.flatList.scrollToEnd({animated: true})}
 					/>
 					<View style={{
 						height: RF(7),
