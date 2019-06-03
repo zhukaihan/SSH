@@ -232,6 +232,7 @@ const styles = StyleSheet.create({
 		paddingTop: 5,
 		paddingLeft: 10,
 		paddingRight: 10,
+		margin: 10,
 	},
 
 	description:{
