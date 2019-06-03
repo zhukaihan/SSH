@@ -570,14 +570,14 @@ const styles = StyleSheet.create({
 		borderWidth: 1,
 		paddingLeft: RF(1.5),
 		paddingRight: RF(1.5),
-		paddingBottom: RF(1),
+		paddingBottom: RF(1.5),
 	},
 
 	locationContainer: {
 		borderWidth: 1,
 		paddingLeft: RF(1.5),
 		paddingRight: RF(1.5),
-		paddingBottom: RF(1),
+		paddingBottom: RF(1.5),
 	},
 
 	tenantsContainer: {

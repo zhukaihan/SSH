@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { StyleSheet, View, Text, Button, FlatList, TouchableHighlight, ScrollView } from 'react-native';
-import { Icon, Image } from 'react-native-elements';
+import { Icon, Image, Avatar } from 'react-native-elements';
 import { SafeAreaView } from 'react-navigation';
 import firebase from 'firebase';
 import House from '../Model/House';
@@ -10,6 +10,7 @@ import ImageHorizontalScrollView from '../View/ImageHorizontalScrollView';
 import BadgesView from '../View/BadgesView';
 import HouseFavButton from '../View/HouseFavButton';
 import UserPreviewView from '../View/UserPreviewView';
+import { TouchableOpacity } from 'react-native-gesture-handler';
 
 
 export default class ViewHousingPage extends React.Component{
@@ -65,6 +66,12 @@ export default class ViewHousingPage extends React.Component{
 		})
 	}
 
+	openTenant = (user) => {
+		this.props.navigation.navigate("ProfilePage", {
+			userId: user.id
+		})
+	}
+
 	render = () => {
 		var content;
 		
@@ -85,7 +92,7 @@ export default class ViewHousingPage extends React.Component{
 						<View style={{
 								width: '90%',
 							}}>
-							<UserPreviewView user={tenant}/>
+							<UserPreviewView user={tenant} onPress={this.openTenant}/>
 						</View>
 					</View>
 					
@@ -131,9 +138,10 @@ export default class ViewHousingPage extends React.Component{
 									</View>
 									<BadgesView tags={item.additional_tags} />
 								</View>
-								<View style={styles.roomInfoRightView}>
+								<TouchableOpacity style={styles.roomInfoRightView} onPress={() => this.openTenant(this.state.landlord)}>
 									{this.state.landlord.profileimage != "" ?
-										(<Image
+										(<Avatar
+											rounded
 											source={{uri: this.state.landlord.profileimage, cache: 'force-cache'}}
 											style={styles.roomInfoRightImage}
 										/>) : 
@@ -141,7 +149,7 @@ export default class ViewHousingPage extends React.Component{
 									}
 									
 									<Text style={styles.roomInfoRightNameText}>{this.state.landlord.first_name} {this.state.landlord.last_name}</Text>
-								</View>
+								</TouchableOpacity>
 							</View>
 						</View>
 
@@ -154,18 +162,27 @@ export default class ViewHousingPage extends React.Component{
 						>
 						</View>
 						
-						<View>
-							<Text>Description</Text>
-							<Text>{item.description}</Text>
+						<View style = {styles.descriptionView}>
+							<Text style={{fontSize: RF(3)}}>Description</Text>
+							<Text style={{fontSize: RF(2.25)}}>{item.description}</Text>
+						</View>
+
+						<View
+							style={{
+								borderBottomColor: 'black',
+								borderBottomWidth: 1,
+								margin: 10
+							}}
+						>
 						</View>
 						
 						<View>
-							<Text>Current Tenants</Text>
+							<Text style={{fontSize: RF(3), margin: 15}}>Current Tenants</Text>
 							<View>
 								{tenants}
 							</View>
 						</View>
-						<Text style={{fontSize: RF(2.5), color: 'rgb(50, 150, 255)'}}>{"$ " + item.price}</Text>
+						<Text style={{fontSize: RF(2.5), color: 'rgb(50, 150, 255)', margin: 15}}>{"$ " + item.price}</Text>
 					</View>
 				</View>
 			);
@@ -224,5 +241,10 @@ const styles = StyleSheet.create({
 		flexDirection: 'row',
 		justifyContent: 'flex-start',
 		alignItems: 'center'
+	},
+
+	descriptionView: {
+		textAlign: 'left',
+		margin: 15
 	}
 })
