@@ -297,30 +297,37 @@ export default class HousingSearchPage extends React.Component{
 						}
 					/>
 					<TouchableOpacity onPress={()=> this.setState({advSearchisVisible:true})}>
-						<Text>Advance Search</Text>
+						<View style={styles.advanceContainer}>
+							<Text>Advance Search</Text>
+						</View>
 					</TouchableOpacity>
 					<Overlay
+						style={styles.overlay}
 						isVisible={this.state.advSearchisVisible}
-						width="auto"
-						height="auto"
+						width='80%'
+						height='80%'
 						onBackdropPress={() =>
 							this.setState({advSearchisVisible: false})
 						}
 					>
 						<View style={{flexDirection:"column"}}>
 							<View style={styles.OverlayContainer}>
-								<Text>Price:</Text>
+								<Text style={{paddingTop: 10}}>Price:</Text>
 								<TextInput
-									placeholder="0" style={styles.textInput} 
+									placeholder="Min Price" style={styles.textInput}
+									placeholderTextColor={'#fff'}
 									onChangeText={minPrice => {
-											this.setState({minPrice})
+										this.setState({minPrice})
 										console.log(this.state.minPrice);
 									}}
 									keyboardType={"number-pad"}
 									value={this.state.minPrice}
 								/>
-								<Text> To </Text>
-								<TextInput placeholder="0" id="maxPrice" style={styles.textInput} 
+								<Text style={{paddingTop: 10}}>To:</Text>
+								<TextInput
+									placeholder="Max Price" id="maxPrice"
+									placeholderTextColor={"#fff"}
+									style={styles.textInput}
 									onChangeText={maxPrice =>{
 											this.setState({maxPrice})
 										console.log(this.state.maxPrice);
@@ -330,8 +337,11 @@ export default class HousingSearchPage extends React.Component{
 								/>
 							</View>
 							<View style={styles.OverlayContainer}>
-								<Text>Bath:</Text>
-								<TextInput placeholder="0" id="bath" style={styles.textInput} 
+								<Text style={{paddingTop: 10}}>Bath:</Text>
+								<TextInput
+									placeholder="0" id="bath"
+									placeholderTextColor={'#fff'}
+									style={styles.textInputBath}
 									onChangeText={bath =>{
 											this.setState({bath})
 										console.log(this.state.bath);
@@ -341,8 +351,11 @@ export default class HousingSearchPage extends React.Component{
 								/>
 							</View>
 							<View style={styles.OverlayContainer}>
-								<Text>Bed:</Text>
-								<TextInput placeholder="0"id="bed" style={styles.textInput} 
+								<Text style={{paddingTop: 10}}>Bed:</Text>
+								<TextInput
+									placeholder="0"id="bed"
+									placeholderTextColor={"#fff"}
+									style={styles.textInputBed}
 									onChangeText={bed =>{
 											this.setState({bed})
 										console.log(this.state.bed);
@@ -352,8 +365,11 @@ export default class HousingSearchPage extends React.Component{
 								/>
 							</View>
 							<View style={styles.OverlayContainer}>
-								<Text>Parking:</Text>
-								<TextInput placeholder="0" id="parking" style={styles.textInput} 
+								<Text style={{paddingTop: 10}}>Parking:</Text>
+								<TextInput
+									placeholder="0" id="parking"
+									placeholderTextColor={'#fff'}
+									style={styles.textInputParking}
 									onChangeText={parking =>{
 											this.setState({parking})
 										console.log(this.state.parking);
@@ -363,8 +379,11 @@ export default class HousingSearchPage extends React.Component{
 								/>
 							</View>
 							<View style={styles.OverlayContainer}>
-								<Text>Tenant:</Text>
-								<TextInput placeholder="0" id="tenant" style={styles.textInput} 
+								<Text style={{paddingTop: 10}}>Tenant:</Text>
+								<TextInput
+									placeholder="0" id="tenant"
+									placeholderTextColor={"#fff"}
+									style={styles.textInputTenant}
 									onChangeText={tenant =>{
 											this.setState({tenant})
 										console.log(this.state.tenant);
@@ -373,31 +392,23 @@ export default class HousingSearchPage extends React.Component{
 									value={this.state.tenant}
 								/>
 							</View>
-							<View style={styles.OverlayContainer}>
-								<Text>Additional Tags:</Text>
-								<TextInput placeholder="0" id="additional_tags" style={styles.textInput} 
-									onChangeText={additional_tags =>{
-										this.setState({additional_tags})
-										console.log(this.state.additional_tags);
-									}}
-									keyboardType={"number-pad"}
-								/>
-							</View>
+
 							<TouchableOpacity onPress={
 								this.applyFilter
 							}>
-								<Text>Apply Filter</Text>
+								<Text style={styles.advanceButton}>Apply Filter</Text>
 							</TouchableOpacity>
 							<TouchableOpacity onPress={
 								this.cancelFilter
 							}>
-								<Text>Cancel</Text>
+								<Text style={styles.advanceButton}>Cancel</Text>
 							</TouchableOpacity>
 							<TouchableOpacity onPress={
 								this.clearFilter
 							}>
-								<Text>Clear</Text>
+								<Text style={styles.advanceButton}>Clear</Text>
 							</TouchableOpacity>
+
 						</View>
 					</Overlay>
 					<FlatList
@@ -425,10 +436,136 @@ export default class HousingSearchPage extends React.Component{
 const styles = StyleSheet.create({
 	OverlayContainer:{
 		flexDirection:"row",
+		height: 'auto',
+		width: 'auto',
+
 	},
-	textInput:{
-		borderWidth:1,
-		borderColor:"#fff",
-	}
+
+
+	advanceContainer: {
+		backgroundColor: '#E2DFDF',
+		borderColor:'#E2DFDF',
+		borderWidth: 10,
+		borderBottomRightRadius: 10,
+		borderBottomLeftRadius: 10,
+		justifyContent: "center",
+		alignItems: "center",
+	},
+
+	overlay: {
+		borderWidth: 20,
+		borderRadius: 20,
+		borderColor: "#2ea9df"
+	},
+
+	textInput: {
+		borderWidth: 1,
+		borderRadius: 10,
+		paddingLeft: RF(1),
+		paddingRight: RF(1),
+		margin: 8,
+		textAlign:'center',
+		fontSize:RF(3),
+		color: "#fff",
+		height: "60%",
+		width: "35%",
+		backgroundColor:"#2ea9df",
+		borderColor:"#2ea9df",
+	},
+
+	textInputBath: {
+		borderWidth: 1,
+		borderRadius: 10,
+		paddingLeft: RF(1),
+		paddingRight: RF(1),
+		margin: 8,
+		textAlign:'center',
+		fontSize:RF(3),
+		color: "#fff",
+		height: "60%",
+		width: "80%",
+		backgroundColor:"#2ea9df",
+		borderColor:"#2ea9df",
+	},
+
+	textInputBed: {
+		borderWidth: 1,
+		borderRadius: 10,
+		paddingLeft: RF(1),
+		paddingRight: RF(1),
+		margin: 8,
+		textAlign:'center',
+		fontSize:RF(3),
+		color: "#fff",
+		height: "60%",
+		width: "82%",
+		backgroundColor:"#2ea9df",
+		borderColor:"#2ea9df",
+	},
+
+	textInputParking: {
+		borderWidth: 1,
+		borderRadius: 10,
+		paddingLeft: RF(1),
+		paddingRight: RF(1),
+		margin: 8,
+		textAlign:'center',
+		fontSize:RF(3),
+		color: "#fff",
+		height: "60%",
+		width: "70%",
+		backgroundColor:"#2ea9df",
+		borderColor:"#2ea9df",
+	},
+
+	textInputTenant: {
+		borderWidth: 1,
+		borderRadius: 10,
+		paddingLeft: RF(1),
+		paddingRight: RF(1),
+		margin: 8,
+		textAlign:'center',
+		fontSize:RF(3),
+		color: "#fff",
+		height: "60%",
+		width: "70%",
+		backgroundColor:"#2ea9df",
+		borderColor:"#2ea9df",
+	},
+
+	textInputTag: {
+		borderWidth: 1,
+		borderRadius: 10,
+		paddingLeft: RF(1),
+		paddingRight: RF(1),
+		marginLeft: 8,
+		marginRight: 8,
+		marginTop: 8,
+		marginBottom: 16,
+		textAlign:'center',
+		fontSize:RF(3),
+		color: "#fff",
+		height: "60%",
+		width: "60%",
+		backgroundColor:"#2ea9df",
+		borderColor:"#2ea9df",
+
+	},
+
+
+	advanceButton: {
+		margin: 10,
+		borderWidth: 1,
+		borderRadius: 10,
+		textAlign: 'center',
+		width: "80%",
+		backgroundColor:"#2ea9df",
+		borderColor:"#2ea9df",
+		alignItems: "center",
+		justifyContent: "center",
+		paddingLeft: RF(1),
+		color: "#fff",
+	},
+
 })
 					
