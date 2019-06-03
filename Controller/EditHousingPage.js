@@ -110,7 +110,10 @@ export default class EditHousingPage extends React.Component{
 		this.state.house.pictures.push("");
 		ImageUploader.chooseImageToUpload(`houses/${this.state.house.id}/images`, (url) => {
 			this.state.house.pictures[this.state.house.pictures.length - 1] = url;
+			let originalAvailability = this.state.house.availability;
+			this.state.house.availability = false;
 			this.saveHouse();
+			this.state.house.availability = originalAvailability;
 		})
 	}
 
