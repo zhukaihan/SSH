@@ -227,7 +227,8 @@ const styles = StyleSheet.create({
 	},
 	roomInfoRightNameText: {
 		flex: 1,
-		margin: 5
+		margin: 5,
+		textAlign: 'center',
 	},
 	roomInfoLeftSpecsView: {
 		flexDirection: 'column',
