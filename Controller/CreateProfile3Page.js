@@ -50,18 +50,18 @@ export default class CreateProfile3Page extends Component{
             ],
             smokePicker:[
                 {
-                    label: 'Yes', value:'yes',
+                    label: 'No', value:'no',
                 },
                 {
-                    label: 'No', value:'no',
+                    label: 'Yes', value:'yes',
                 }
             ],
             petsPicker:[
                 {
-                    label: 'Yes', value:'yes',
+                    label: 'No', value:'no',
                 },
                 {
-                    label: 'No', value:'no',
+                    label: 'Yes', value:'yes',
                 }
             ],
             paddingBottom: 10
