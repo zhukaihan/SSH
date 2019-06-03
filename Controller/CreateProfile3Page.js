@@ -9,7 +9,7 @@ import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view
 export default class CreateProfile3Page extends Component{
     constructor(props){
         super(props)
-        this.first_name = props.navigation.state.params.first_name
+        this.first_name = props.navigation.state.params.first_name;
         this.last_name = props.navigation.state.params.last_name;
         this.name_preferred = props.navigation.state.params.name_preferred;
         this.gender = props.navigation.state.params.gender;
@@ -78,6 +78,21 @@ export default class CreateProfile3Page extends Component{
         }
         return true;
     }
+
+    _checkSmokeOrNotSmoke = () =>{
+        if(this.state.smoke == ""){
+            return false;
+        }
+        return true;
+    }
+
+    _checkPetsOrNoPets = () =>{
+        if(this.state.pets == ""){
+            return false;
+        }
+        return true;
+    }
+
     _checkDescription = () =>{
         if(this.state.description == ""){
             return false;
