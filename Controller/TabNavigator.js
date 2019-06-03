@@ -27,7 +27,7 @@ const TabNavigator = createBottomTabNavigator(
 		HousingListingStackNavigator: {
 			screen: HousingListingStackNavigator, 
 			navigationOptions: {
-				tabBarLabel:"Listings",
+				tabBarLabel:"My Listings",
 				tabBarIcon: <Icon name="list" type="font-awesome"/>
 			}
 		},
