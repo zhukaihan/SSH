@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { StyleSheet, View, Text, Button, FlatList, TouchableHighlight, ScrollView, Dimensions, Keyboard } from 'react-native';
+import { StyleSheet, View, Text, Button, FlatList, TouchableHighlight, ScrollView, Dimensions, Keyboard, Platform } from 'react-native';
 import { Icon, Image, Avatar } from 'react-native-elements';
 import { SafeAreaView } from 'react-navigation';
 import firebase from 'firebase';
@@ -43,8 +43,24 @@ export default class MessageRoomView extends React.Component{
 	}
 
 	componentWillMount = async () => {
-		this.keyboardShowListener = Keyboard.addListener('keyboardWillShow', this.keyboardShow)
-		this.keyboardHideListener = Keyboard.addListener('keyboardWillHide', this.keyboardHide)
+		if (Platform.OS === 'ios') {
+			this.keyboardWillShowEvent = Keyboard.addListener(
+				'keyboardWillShow',
+				this.keyboardShow
+			)
+			this.keyboardWillHideEvent = Keyboard.addListener(
+				'keyboardWillHide',
+				this.keyboardHide
+			)
+		} else if (Platform.OS === 'android') {
+			this.keyboardWillShowEvent = Keyboard.addListener(
+				'keyboardDidShow',
+				this.keyboardShow
+			)
+			this.keyboardWillHideEvent = Keyboard.addListener(
+				'keyboardDidHide',
+				this.keyboardHide
+			)
 		
 		let roomId = this.props.navigation.getParam("roomId", "");
 		if (roomId == "") {
