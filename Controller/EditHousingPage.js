@@ -451,7 +451,7 @@ export default class EditHousingPage extends React.Component{
 		);
 
 		return (
-			<SafeAreaView style={{flex: 1, backgroundColor: '#f7f7f7',}}>
+			<SafeAreaView style={{flex: 1}} forceInset={{top: 'never'}}>
 				<KeyboardAwareScrollView style={{flex: 1}}>
 					{content}
 				</KeyboardAwareScrollView>
