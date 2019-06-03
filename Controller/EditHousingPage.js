@@ -488,7 +488,6 @@ const {width, height, scale} = Dimensions.get('window');
 const styles = StyleSheet.create({
 
 	imageContainer: {
-		borderWidth: 1,
 	},
 
 	pageContainer: {
@@ -503,7 +502,6 @@ const styles = StyleSheet.create({
 		flexDirection: 'column',
 		backgroundColor: '#f7f7f7',
 		alignItems: "stretch",
-		borderWidth: 1,
 	},
 
 	infoContainer:{
@@ -589,21 +587,18 @@ const styles = StyleSheet.create({
 	},
 
 	descriptionContainer: {
-		borderWidth: 1,
 		paddingLeft: RF(1.5),
 		paddingRight: RF(1.5),
 		paddingBottom: RF(1.5),
 	},
 
 	locationContainer: {
-		borderWidth: 1,
 		paddingLeft: RF(1.5),
 		paddingRight: RF(1.5),
 		paddingBottom: RF(1.5),
 	},
 
 	tenantsContainer: {
-		borderWidth: 1,
 		paddingLeft: RF(1.5),
 		paddingRight: RF(1.5),
 		paddingBottom: RF(1),
@@ -643,7 +638,6 @@ const styles = StyleSheet.create({
 		paddingBottom: 10,
 		paddingTop: 5,
 		paddingRight: 10,
-		borderWidth: 1,
 	},
 
 	findButtonContainer: {
