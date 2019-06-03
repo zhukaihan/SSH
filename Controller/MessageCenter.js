@@ -11,6 +11,17 @@ import UserPreviewView from '../View/UserPreviewView';
 
 
 export default class MessageCenter extends React.Component{
+	static navigationOptions = ({ navigation }) => ({
+    headerTitle: 
+			<Text style={{
+				color: 'white', fontSize: RF(3)
+			}}>
+				Messages
+			</Text>,
+		headerStyle: {
+      backgroundColor: '#2EA9DF',
+    },
+	});
 
 	state = {
 		roomsItems: [],
@@ -98,49 +109,18 @@ export default class MessageCenter extends React.Component{
 		
 
 		return (
-			<SafeAreaView style={{flex: 1, backgroundColor: '#2EA9DF'}}>
-				<View style={styles.header}>
-					<View style={styles.titleContainer}>	
-						<Text style={styles.title}>Messages</Text>
-					</View>
-				</View>
-				
+			<View style={{flex: 1}}>
 				<View style={{flex: 1, backgroundColor: '#f7f7f7'}}>
-					<ScrollView style={{
-
-					}}
-					contentContainerStyle={{
-
-					}}>
+					<ScrollView style={{flex: 1}}>
 						{content}
 					</ScrollView>
 				</View>
-			</SafeAreaView>
+			</View>
 		);
 	}
 
 }
 
 const styles = StyleSheet.create({
-
-	header:{
-		flexDirection: 'row',
-		justifyContent: 'center',
-		alignItems: 'center',
-		backgroundColor: '#2ea9df',
-		paddingTop: RF(1),
-		paddingBottom: RF(1),
-	},
-
-	titleContainer:{
-		flexDirection: 'row',
-		justifyContent: 'flex-start',
-		alignItems: 'center',
-	},
-
-	title:{
-		color: "white",
-		fontSize: RF(4),
-	},
 
 })

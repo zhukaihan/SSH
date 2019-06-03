@@ -12,6 +12,18 @@ import RF from "react-native-responsive-fontsize";
 import HousePreviewView from '../View/HousePreviewView';
 
 export default class HousingListingPage extends React.Component{
+	static navigationOptions = ({ navigation }) => ({
+    headerTitle: 
+			<Text style={{
+				color: 'white', fontSize: RF(3)
+			}}>
+				Listings
+			</Text>,
+		headerStyle: {
+      backgroundColor: '#2EA9DF',
+    },
+	});
+
 	state = {
 		housingItems: [],
 		isFetchingHouseData: true
@@ -73,14 +85,7 @@ export default class HousingListingPage extends React.Component{
 	render = () => {
 
 		return (
-			<SafeAreaView style={{flex: 1}} backgroundColor='#2ea9df'>
-
-				<View style={styles.header}>
-					<View style={styles.titleContainer}>	
-						<Text style={styles.title}>Listings</Text>
-					</View>
-				</View>
-
+			<View>
 				<View style={styles.buttonContainer}>
 					<View style={{borderBottomWidth: 1,}}>
 						<Button title="Add House" onPress={this.addHouse}/>
@@ -99,7 +104,7 @@ export default class HousingListingPage extends React.Component{
 					)}
 					ref={(flatList) => this.flatList = flatList}
 				/>
-      </SafeAreaView>
+			</View>
 		);
 	}
 
@@ -108,26 +113,6 @@ export default class HousingListingPage extends React.Component{
 const {width, height, scale} = Dimensions.get('window');
 
 const styles = StyleSheet.create({
-
-	header:{
-		flexDirection: 'row',
-		justifyContent: 'center',
-		alignItems: 'center',
-		backgroundColor: '#2ea9df',
-		paddingTop: RF(1),
-		paddingBottom: RF(1),
-	},
-
-	titleContainer:{
-		flexDirection: 'row',
-		justifyContent: 'flex-start',
-		alignItems: 'center',
-	},
-
-	title:{
-		color: "white",
-		fontSize: RF(4),
-	},
 
 	buttonContainer: {
 		backgroundColor: '#f7f7f7',

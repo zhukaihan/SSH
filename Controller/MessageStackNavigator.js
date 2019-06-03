@@ -7,10 +7,7 @@ import MessageRoomView from './MessageRoomView';
 const MessageStackNavigator = createStackNavigator(
 	{
 		MessageCenter: {
-			screen: MessageCenter,
-			navigationOptions: {
-				header: null
-			}
+			screen: MessageCenter
 		},
 		MessageRoomView: {
 			screen: MessageRoomView,

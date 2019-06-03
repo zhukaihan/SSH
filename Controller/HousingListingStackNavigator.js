@@ -6,10 +6,7 @@ import IndividualUserSearch from '../View/IndividualUserSearch';
 const HousingListingStackNavigator = createStackNavigator(
 	{
 		HousingListingPage: {
-			screen: HousingListingPage, 
-			navigationOptions: {
-				header: null
-			}
+			screen: HousingListingPage
 		},
 		EditHousingPage: {
 			screen: EditHousingPage,
