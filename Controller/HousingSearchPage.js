@@ -280,19 +280,19 @@ export default class HousingSearchPage extends React.Component{
 						</View>
 					</TouchableOpacity>
 					<Overlay
-						style={styles.overlay}
+						overlayStyle={styles.overlay}
 						isVisible={this.state.advSearchisVisible}
-						width='80%'
-						height='80%'
+						width="auto"
+						height="auto"
 						onBackdropPress={() =>
 							this.setState({advSearchisVisible: false})
 						}
 					>
 						<View style={{flexDirection:"column"}}>
 							<View style={styles.OverlayContainer}>
-								<Text style={{paddingTop: 10}}>Price:</Text>
+								<Text style={{fontSize:RF(2.5)}}>Price:</Text>
 								<TextInput
-									placeholder="Min Price" style={styles.textInput}
+									placeholder="Min" style={styles.textInput}
 									placeholderTextColor={'#fff'}
 									onChangeText={minPrice => {
 										this.setState({minPrice})
@@ -301,9 +301,9 @@ export default class HousingSearchPage extends React.Component{
 									keyboardType={"number-pad"}
 									value={this.state.minPrice}
 								/>
-								<Text style={{paddingTop: 10}}>To:</Text>
+								<Text style={{fontSize:RF(2.5)}}>To:</Text>
 								<TextInput
-									placeholder="Max Price" id="maxPrice"
+									placeholder="Max" id="maxPrice"
 									placeholderTextColor={"#fff"}
 									style={styles.textInput}
 									onChangeText={maxPrice =>{
@@ -315,7 +315,7 @@ export default class HousingSearchPage extends React.Component{
 								/>
 							</View>
 							<View style={styles.OverlayContainer}>
-								<Text style={{paddingTop: 10}}>Bath:</Text>
+								<Text style={{fontSize:RF(2.5)}}>Bath:</Text>
 								<TextInput
 									placeholder="0" id="bath"
 									placeholderTextColor={'#fff'}
@@ -329,7 +329,7 @@ export default class HousingSearchPage extends React.Component{
 								/>
 							</View>
 							<View style={styles.OverlayContainer}>
-								<Text style={{paddingTop: 10}}>Bed:</Text>
+								<Text style={{fontSize:RF(2.5)}}>Bed:</Text>
 								<TextInput
 									placeholder="0"id="bed"
 									placeholderTextColor={"#fff"}
@@ -343,7 +343,7 @@ export default class HousingSearchPage extends React.Component{
 								/>
 							</View>
 							<View style={styles.OverlayContainer}>
-								<Text style={{paddingTop: 10}}>Parking:</Text>
+								<Text style={{fontSize:RF(2.5)}}>Parking:</Text>
 								<TextInput
 									placeholder="0" id="parking"
 									placeholderTextColor={'#fff'}
@@ -357,7 +357,7 @@ export default class HousingSearchPage extends React.Component{
 								/>
 							</View>
 							<View style={styles.OverlayContainer}>
-								<Text style={{paddingTop: 10}}>Tenant:</Text>
+								<Text style={{fontSize:RF(2.5)}}>Tenant:</Text>
 								<TextInput
 									placeholder="0" id="tenant"
 									placeholderTextColor={"#fff"}
@@ -370,22 +370,23 @@ export default class HousingSearchPage extends React.Component{
 									value={this.state.tenant}
 								/>
 							</View>
-
-							<TouchableOpacity onPress={
-								this.applyFilter
-							}>
-								<Text style={styles.advanceButton}>Apply Filter</Text>
-							</TouchableOpacity>
-							<TouchableOpacity onPress={
-								this.cancelFilter
-							}>
-								<Text style={styles.advanceButton}>Cancel</Text>
-							</TouchableOpacity>
-							<TouchableOpacity onPress={
-								this.clearFilter
-							}>
-								<Text style={styles.advanceButton}>Clear</Text>
-							</TouchableOpacity>
+							<View style={{flexDirection:"column", justifyContent:"center",alignItems:"center"}}>
+								<TouchableOpacity onPress={
+									this.applyFilter
+								}>
+									<Text style={styles.advanceButton}>Apply Filter</Text>
+								</TouchableOpacity>
+								<TouchableOpacity onPress={
+									this.cancelFilter
+								}>
+									<Text style={styles.advanceButton}>Cancel</Text>
+								</TouchableOpacity>
+								<TouchableOpacity onPress={
+									this.clearFilter
+								}>
+									<Text style={styles.advanceButton}>Clear</Text>
+								</TouchableOpacity>
+							</View>
 
 						</View>
 					</Overlay>
@@ -418,10 +419,11 @@ export default class HousingSearchPage extends React.Component{
 
 const styles = StyleSheet.create({
 	OverlayContainer:{
+		justifyContent:"center",
+		alignItems:"center",
 		flexDirection:"row",
 		height: 'auto',
 		width: 'auto',
-
 	},
 
 
@@ -436,9 +438,9 @@ const styles = StyleSheet.create({
 	},
 
 	overlay: {
-		borderWidth: 20,
-		borderRadius: 20,
-		borderColor: "#2ea9df"
+		borderWidth: 5,
+		borderRadius: 10,
+		borderColor: "#fff",
 	},
 
 	textInput: {
@@ -448,10 +450,10 @@ const styles = StyleSheet.create({
 		paddingRight: RF(1),
 		margin: 8,
 		textAlign:'center',
-		fontSize:RF(3),
+		fontSize:RF(2.5),
 		color: "#fff",
 		height: "60%",
-		width: "35%",
+		width: "25%",
 		backgroundColor:"#2ea9df",
 		borderColor:"#2ea9df",
 	},
@@ -463,10 +465,10 @@ const styles = StyleSheet.create({
 		paddingRight: RF(1),
 		margin: 8,
 		textAlign:'center',
-		fontSize:RF(3),
+		fontSize:RF(2.5),
 		color: "#fff",
 		height: "60%",
-		width: "80%",
+		width: "25%",
 		backgroundColor:"#2ea9df",
 		borderColor:"#2ea9df",
 	},
@@ -478,10 +480,10 @@ const styles = StyleSheet.create({
 		paddingRight: RF(1),
 		margin: 8,
 		textAlign:'center',
-		fontSize:RF(3),
+		fontSize:RF(2.5),
 		color: "#fff",
 		height: "60%",
-		width: "82%",
+		width: "25%",
 		backgroundColor:"#2ea9df",
 		borderColor:"#2ea9df",
 	},
@@ -493,10 +495,10 @@ const styles = StyleSheet.create({
 		paddingRight: RF(1),
 		margin: 8,
 		textAlign:'center',
-		fontSize:RF(3),
+		fontSize:RF(2.5),
 		color: "#fff",
 		height: "60%",
-		width: "70%",
+		width: "25%",
 		backgroundColor:"#2ea9df",
 		borderColor:"#2ea9df",
 	},
@@ -508,10 +510,10 @@ const styles = StyleSheet.create({
 		paddingRight: RF(1),
 		margin: 8,
 		textAlign:'center',
-		fontSize:RF(3),
+		fontSize:RF(2.5),
 		color: "#fff",
 		height: "60%",
-		width: "70%",
+		width: "25%",
 		backgroundColor:"#2ea9df",
 		borderColor:"#2ea9df",
 	},
@@ -526,10 +528,10 @@ const styles = StyleSheet.create({
 		marginTop: 8,
 		marginBottom: 16,
 		textAlign:'center',
-		fontSize:RF(3),
+		fontSize:RF(2.5),
 		color: "#fff",
 		height: "60%",
-		width: "60%",
+		width: "25%",
 		backgroundColor:"#2ea9df",
 		borderColor:"#2ea9df",
 
@@ -538,16 +540,14 @@ const styles = StyleSheet.create({
 
 	advanceButton: {
 		margin: 10,
-		borderWidth: 1,
+		borderWidth: 3,
 		borderRadius: 10,
 		textAlign: 'center',
-		width: "80%",
-		backgroundColor:"#2ea9df",
-		borderColor:"#2ea9df",
+		width: "100%",
+		fontSize:RF(2.5),
+		backgroundColor:"#fff",
 		alignItems: "center",
 		justifyContent: "center",
-		paddingLeft: RF(1),
-		color: "#fff",
 	},
 
 })
