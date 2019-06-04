@@ -176,19 +176,22 @@ export default class HousingSearchPage extends React.Component{
 
 			displayList.push(house);
 		});
-		if(displayList.length == 0 || displayList.length == undefined){
-			this.setState({
-				noResult:true
-			})
-		}else{
-			this.setState({noResult:false})
-		}
+
 
 		this.setState(() => {return {
 			displayList: displayList,
 			isFetchingHouseData: false,
 			page: 0,
 		}})
+
+		if(displayList.length == 0 || displayList.length == undefined){
+			this.setState({
+				noResult:true
+			})
+		}else{
+			this.setState({
+				noResult:false})
+		}
 		
 	}
 
@@ -260,7 +263,7 @@ export default class HousingSearchPage extends React.Component{
 						inputContainerStyle={{backgroundColor: 'white', marginStart:30, marginEnd:30, width: '85%', flexDirection: 'row-reverse'}}
 						onChangeText={this.updateSearchQuery}
 						value={this.state.searchQuery}
-						onClear={this.filterHouse}
+						onClear={this.onRefresh}
 						onSubmitEditing={this.filterHouse}
 						
 						searchIcon={
