@@ -180,6 +180,8 @@ export default class HousingSearchPage extends React.Component{
 			this.setState({
 				noResult:true
 			})
+		}else{
+			this.setState({noResult:false})
 		}
 
 		this.setState(() => {return {

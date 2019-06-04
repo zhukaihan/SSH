@@ -230,7 +230,12 @@ export default class RoomateSearchPage extends React.Component{
 			this.setState({
 				noResult:true
 			})
-		}
+        }
+        else{
+            this.setState({
+                noResult:false
+            })
+        }
         this.setState({displayList: newData})
 	};
 
@@ -268,8 +273,8 @@ export default class RoomateSearchPage extends React.Component{
 		filter.get().then(snapshot => {
 			let roommateItems = [];
 			snapshot.forEach(roommate => {
-                if(aUser.id != this.state.curUser.id){
-				var aUser = new User(roommate.data(), roommate.id);
+                var aUser = new User(roommate.data(), roommate.id);
+                if(aUser.availability == false && aUser.id != this.state.curUser.id){
                 roommateItems.push(aUser);
                 }
 			});
@@ -290,7 +295,11 @@ export default class RoomateSearchPage extends React.Component{
 			this.setState({
 				noResult:true
 			})
-		}
+        }else{
+            this.setState({
+                noResult:false
+            })
+        }
 		this.setState({
             isFetchingHouseData: false
 		})
