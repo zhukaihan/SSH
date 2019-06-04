@@ -28,6 +28,7 @@ export default class RoomateSearchPage extends React.Component{
         smoke: "",
         pets: "",
         advSearchisVisible: false,
+        noResult: false,
         genderPicker:[
             {
                 label: 'Male', value:'male',
@@ -225,6 +226,11 @@ export default class RoomateSearchPage extends React.Component{
             const textData = searchQuery.toUpperCase();
             return ItemData.indexOf(textData) > -1;
         })
+        if(this.state.displayList.length === 0 || this.state.displayList.length === undefined){
+			this.setState({
+				noResult:true
+			})
+		}
         this.setState({displayList: newData})
 	};
 
@@ -279,7 +285,12 @@ export default class RoomateSearchPage extends React.Component{
 				displayList:[...displayList,...newData],
 				page:page+1,
 			});
-		});
+        });
+        if(this.state.displayList.length === 0 || this.state.displayList.length == undefined){
+			this.setState({
+				noResult:true
+			})
+		}
 		this.setState({
             isFetchingHouseData: false
 		})
@@ -464,6 +475,11 @@ export default class RoomateSearchPage extends React.Component{
 						</TouchableOpacity>
 						</View>
 					</Overlay>
+                    <View>
+						{
+							this.state.noResult ? <Text style={{fontSize: RF(2.5)}}> There is no result that matches your filter</Text> : null
+						}
+					</View>
                     <FlatList 
                         keyExtractor={(item, index) => {return item.id}}
 						data={this.state.displayList}

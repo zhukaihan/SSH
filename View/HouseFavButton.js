@@ -38,7 +38,7 @@ export default class HouseFavButton extends React.Component {
 		let failedFavHouseAlert = () => {
 			Alert.alert(
 				'Favorite Failed',
-				'Please try agian later',
+				'Please try again later',
 				[{text: 'Okay'}],
 				{cancelable: false},
 			)
@@ -64,7 +64,7 @@ export default class HouseFavButton extends React.Component {
 		let failedFavHouseAlert = () => {
 			Alert.alert(
 				'Unfavorite Failed',
-				'Please try agian later',
+				'Please try again later',
 				[{text: 'Okay'}],
 				{cancelable: false},
 			)

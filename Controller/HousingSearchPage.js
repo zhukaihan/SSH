@@ -19,6 +19,7 @@ export default class HousingSearchPage extends React.Component{
 		page: 0,
 		searchQuery: "",
 		advSearchisVisible: false,
+		noResult: false,
 		minPrice: "",
 		maxPrice: "",
 		bed: "",
@@ -175,11 +176,18 @@ export default class HousingSearchPage extends React.Component{
 
 			displayList.push(house);
 		});
+		if(displayList.length == 0 || displayList.length == undefined){
+			this.setState({
+				noResult:true
+			})
+		}
+
 		this.setState(() => {return {
 			displayList: displayList,
 			isFetchingHouseData: false,
 			page: 0,
 		}})
+		
 	}
 
 	onRefresh = () => {
@@ -376,6 +384,11 @@ export default class HousingSearchPage extends React.Component{
 
 						</View>
 					</Overlay>
+					<View>
+						{
+							this.state.noResult ? <Text style={{fontSize: RF(2.5)}}> There is no result that matches your filter</Text> : null
+						}
+					</View>
 					<FlatList
 						keyExtractor={(item, index) => index.toString()}
 						data={dataToDisplay}

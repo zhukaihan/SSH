@@ -34,7 +34,7 @@ export default class RoommateFavButton extends React.Component {
 		let failedFavRoommateAlert = () => {
 			Alert.alert(
 				'Favorite Failed',
-				'Please try agian later',
+				'Please try again later',
 				[{text: 'Okay'}],
 				{cancelable: false},
 			)
@@ -60,7 +60,7 @@ export default class RoommateFavButton extends React.Component {
 		let failedFavRoommateAlert = () => {
 			Alert.alert(
 				'Unfavorite Failed',
-				'Please try agian later',
+				'Please try again later',
 				[{text: 'Okay'}],
 				{cancelable: false},
 			)
