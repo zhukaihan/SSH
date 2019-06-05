@@ -13,6 +13,9 @@ import BadgesView from '../View/BadgesView';
 import ImageUploader from '../View/ImageUploader';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 import UserPreviewView from '../View/UserPreviewView';
+import FontAwesomeIcon from 'react-native-vector-icons/FontAwesome';
+import MaterialsIcon from 'react-native-vector-icons/MaterialIcons';
+import { Fumi } from 'react-native-textinput-effects';
 
 export default class EditHousingPage extends React.Component{
 	state = {
@@ -374,73 +377,85 @@ export default class EditHousingPage extends React.Component{
 				</View>
 
 				<View style={styles.infoContainer}>
+					<Text style={styles.locationTitle}>Basic Information: </Text>
 
-					<View style={styles.bigTitle}>
-						<Text style={{fontSize: RF(3.5), fontWeight: '500',}}>Create Your House Profile</Text>
-					</View>
-
-					<View style={styles.titleContainer}>
-						<Text style={styles.title}>Title:</Text>
-						<TextInput
-							style={styles.roomTitleText}
-							onChangeText={(title) => {item.title = title}}
-							defaultValue={item.title}
-						/>
-					</View>
-
-					<View style={styles.priceContainer}>
-						<Text style={styles.priceTitle}>Price:</Text>
-						<TextInput
-							style={styles.priceTextInput}
-							onChangeText={(num) => {item.price = parseInt(num)}}
-							defaultValue={item.price.toString()}
-							keyboardType="numeric"
-						/>
-					</View>
-				
-					<View style={styles.roomInfoSpecDetailsView}>
-						<Icon name="users" type="font-awesome"/>
-						<Text style={styles.roomInfoTitle}>How many tenants?</Text>
-						<TextInput
-							style={styles.roomInfoSpecDetailsTextInput}
-							onChangeText={(num) => {item.num_tenant = parseInt(num)}}
-							defaultValue={item.num_tenant.toString()}
-							keyboardType="numeric"
-						/>
-					</View>
-
-					<View style={styles.roomInfoSpecDetailsView}>
-						<Icon name="bed" type="font-awesome"/>
-						<Text style={styles.roomInfoTitle}>How many bedroom?</Text>
-						<TextInput
-							style={styles.roomInfoSpecDetailsTextInput}
-							onChangeText={(num) => {item.num_bedroom = parseInt(num)}}
-							defaultValue={item.num_bedroom.toString()}
-							keyboardType="numeric"
-						/>
-					</View>
-
-					<View style={styles.roomInfoSpecDetailsView}>
-						<Icon name="bath" type="font-awesome"/>
-						<Text style={styles.roomInfoTitle}>How many bathroom?</Text>
-						<TextInput
-							style={styles.roomInfoSpecDetailsTextInput}
-							onChangeText={(num) => {item.num_bathroom = parseInt(num)}}
-							defaultValue={item.num_bathroom.toString()}
-							keyboardType="numeric"
-						/>
-					</View>
-
-					<View style={styles.roomInfoSpecDetailsView}>
-						<Icon name="car" type="font-awesome"/>
-						<Text style={styles.roomInfoTitle}>How many parking?</Text>
-						<TextInput
-							style={styles.roomInfoSpecDetailsTextInput}
-							onChangeText={(num) => {item.num_parking = parseInt(num)}}
-							defaultValue={item.num_parking.toString()}
-							keyboardType="numeric"
-						/>
-					</View>
+					<Fumi
+						label={'Title'}
+						iconClass={MaterialsIcon}
+						iconName={'title'}
+						iconColor={'#1e99cf'}
+						iconSize={20}
+						iconWidth={40}
+						inputPadding={16}
+						inputStyle={{ color: 'black' }}
+						onChangeText={(title) => {item.title = title}}
+						defaultValue={item.title}
+					/>
+					<Fumi
+						label={'Price'}
+						iconClass={MaterialsIcon}
+						iconName={'attach-money'}
+						iconColor={'#1e99cf'}
+						iconSize={20}
+						iconWidth={40}
+						inputPadding={16}
+						inputStyle={{ color: 'black' }}
+						onChangeText={(num) => {item.price = parseInt(num)}}
+						defaultValue={item.price == 0 ? "" : item.price.toString()}
+						keyboardType="numeric"
+					/>
+					<Fumi
+						label={'How many tenants?'}
+						iconClass={FontAwesomeIcon}
+						iconName={'users'}
+						iconColor={'#1e99cf'}
+						iconSize={20}
+						iconWidth={40}
+						inputPadding={16}
+						inputStyle={{ color: 'black' }}
+						onChangeText={(num) => {item.num_tenant = parseInt(num)}}
+						defaultValue={item.num_tenant == 0 ? "" : item.num_tenant.toString()}
+						keyboardType="numeric"
+					/>
+					<Fumi
+						label={'How many bedroom?'}
+						iconClass={FontAwesomeIcon}
+						iconName={'bed'}
+						iconColor={'#1e99cf'}
+						iconSize={20}
+						iconWidth={40}
+						inputPadding={16}
+						inputStyle={{ color: 'black' }}
+						onChangeText={(num) => {item.num_bedroom = parseInt(num)}}
+						defaultValue={item.num_bedroom == 0 ? "" : item.num_bedroom.toString()}
+						keyboardType="numeric"
+					/>
+					<Fumi
+						label={'How many bathroom?'}
+						iconClass={FontAwesomeIcon}
+						iconName={'bath'}
+						iconColor={'#1e99cf'}
+						iconSize={20}
+						iconWidth={40}
+						inputPadding={16}
+						inputStyle={{ color: 'black' }}
+						onChangeText={(num) => {item.num_bathroom = parseInt(num)}}
+						defaultValue={item.num_bathroom == 0 ? "" : item.num_bathroom.toString()}
+						keyboardType="numeric"
+					/>
+					<Fumi
+						label={'How many parking?'}
+						iconClass={FontAwesomeIcon}
+						iconName={'car'}
+						iconColor={'#1e99cf'}
+						iconSize={20}
+						iconWidth={40}
+						inputPadding={16}
+						inputStyle={{ color: 'black' }}
+						onChangeText={(num) => {item.num_parking = parseInt(num)}}
+						defaultValue={item.num_parking == 0 ? "" : item.num_parking.toString()}
+						keyboardType="numeric"
+					/>
 
 
 					{/* <BadgesView tags={item.additional_tags} /> */}
@@ -449,7 +464,7 @@ export default class EditHousingPage extends React.Component{
 				{/* End before Description */}
 
 				<View style={styles.locationContainer}>
-						<Text style={styles.locationTitle}>Location: </Text>
+						<Text style={styles.locationTitle}>Describe the Location: </Text>
 						<TextInput
 							style={styles.locationInput}
 							multiline={true}
@@ -461,7 +476,7 @@ export default class EditHousingPage extends React.Component{
 				</View>
 				
 				<View style={styles.descriptionContainer}>
-					<Text style={styles.descriptionTitle}>Description:</Text>
+					<Text style={styles.descriptionTitle}>Describe your House:</Text>
 					<TextInput
 						style={styles.descriptionInput}
 						multiline={true}
@@ -485,7 +500,7 @@ export default class EditHousingPage extends React.Component{
 
 				<View style={styles.findButtonContainer}>
 					<View style={styles.findButton}>
-						<Text style={styles.findText}>Post this house for others to view: </Text>
+						<Text style={styles.findText}>Post this house: </Text>
 						<Switch
 							onValueChange={() => {this.state.house.availability = !this.state.house.availability; this.forceUpdate()}}
 							value={this.state.house.availability}
@@ -527,7 +542,7 @@ const styles = StyleSheet.create({
 	pageContainer: {
 		flex: 1,
 		flexDirection: 'column',
-		backgroundColor: '#f7f7f7',
+		backgroundColor: 'white',
 		alignItems: "stretch",
 	},
 
@@ -559,25 +574,15 @@ const styles = StyleSheet.create({
 	infoContainer:{
 		paddingLeft: RF(1.5),
 		paddingRight: RF(1.5),
-		paddingTop: 1,
+		paddingBottom: RF(1),
 	},
 
-	bigTitle:{
-		flexDirection: 'row',
-		justifyContent: 'flex-start',
-		paddingBottom: 5,
-	},
-
-	titleContainer: {
-		flexDirection: 'row',
-		justifyContent: 'flex-start',
-		paddingBottom: 8,
-	},
-
-	title: {
-		fontSize: RF(3),
-		paddingRight: 5,
-		fontWeight: '300',
+	infotitle: {
+		fontSize: RF(2.75),
+		fontWeight: 'bold',
+		color: 'grey',
+		paddingTop: 10,
+		paddingBottom: 10
 	},
 
 	roomTitleText: {
@@ -657,30 +662,43 @@ const styles = StyleSheet.create({
 	},
 
 	descriptionTitle: {
-		fontSize: RF(3),
-		fontWeight: '300',
+		fontSize: RF(2.75),
+		fontWeight: 'bold',
+		color: 'grey',
+		paddingTop: 10,
+		paddingBottom: 10
 	},
 
 	locationTitle: {
-		fontSize: RF(3),
-		fontWeight: '300',
+		fontSize: RF(2.75),
+		fontWeight: 'bold',
+		color: 'grey',
+		paddingTop: 10,
+		paddingBottom: 10
 	},
 
 	tenantsTitle: {
-		fontSize: RF(3),
-		fontWeight: '300',
+		fontSize: RF(2.75),
+		fontWeight: 'bold',
+		color: 'grey',
+		paddingTop: 10,
+		paddingBottom: 10
 	},
 
 	descriptionInput: {
 		borderWidth: 1,
-		borderRadius: 5,
-		height: 0.2 * height,
+		borderColor: 'grey',
+		borderRadius: 2,
+		height: 0.3 * height,
+		padding: 10
 	},
 
 	locationInput: {
 		borderWidth: 1,
-		borderRadius: 5,
+		borderColor: 'grey',
+		borderRadius: 2,
 		height: 0.2 * height,
+		padding: 10
 	},
 
 
@@ -705,8 +723,11 @@ const styles = StyleSheet.create({
 	},
 
 	findText:{
-		paddingTop: 2,
-		fontSize: RF(2.5),
+		fontSize: RF(2.75),
+		fontWeight: 'bold',
+		color: 'grey',
+		paddingTop: 10,
+		paddingBottom: 10
 	},
 
 	saveButton: {
