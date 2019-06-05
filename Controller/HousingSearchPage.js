@@ -131,7 +131,7 @@ export default class HousingSearchPage extends React.Component{
 			//	 doingFreeTextSearch = true;
 			// }
 
-			searchString = this.state.searchQuery.toString().split(" ");
+			searchString = this.state.searchQuery.toString().toUpperCase().split(" ");
 		}
 		console.log(filter);
 

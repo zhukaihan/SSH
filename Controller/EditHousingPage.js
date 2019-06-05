@@ -138,7 +138,7 @@ export default class EditHousingPage extends React.Component{
 	}
 
 	splitText = (bloomfilter, props) =>{
-		var item = props.toString();
+		var item = props.toString().toUpperCase();
 		var text = item.split(" ");
 		for(var i = 0; i < text.length - 1; i++){
 			bloomfilter.add(text[i]);
@@ -348,7 +348,7 @@ export default class EditHousingPage extends React.Component{
 						alignItems: 'center'
 					}}>
 						<TouchableOpacity onPress={() => {this.removeTenant(tenant)}}>
-							<Icon name="minus-circle" type="font-awesome"/>
+							<Icon name="minus-circle" type="font-awesome" color="#ff4444"/>
 						</TouchableOpacity>
 					</View>
 				</View>
