@@ -65,11 +65,19 @@ export default class AddProfilePage extends React.Component{
         let { image } = this.state;
         return (
             <SafeAreaView style={styles.pageContainer}>
-                <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center', flexDirection:"column" }}>
-                    <View style={styles.textBoxContainer}>
-                        <Text style={styles.textBoxfont}>-</Text>
-                        <Text style={styles.textBoxfont}>Would you like to add a picture for your profile?</Text>
+                <View style={styles.objectContainer}>
+                    <View style={styles.personalInfo}>
+                        <Text numberOfLines= {1}
+                        style={styles.personalInfoText}> Create Your Profile </Text>
                     </View>
+                    <View>
+                        <Text style={styles.textFont}> Would you like to add a picture for your profile? </Text>
+                    </View>
+                    <View>
+                        <Text style={styles.oneOverthree}>  </Text>
+                    </View>
+                </View>
+                <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center', flexDirection:"column" }}>
                     <Overlay
                         isVisible={this.state.isVisible}
                         width="auto"
@@ -94,19 +102,15 @@ export default class AddProfilePage extends React.Component{
                         </TouchableOpacity>
                 </View>
             </View>
-            <View style={{width: '100%',flexDirection:'row', height:75}}>
-                <View style={styles.backButton}>
-                    <TouchableOpacity onPress={this.backslide} style={styles.backButtonStyle}>
-                        <Text style={styles.buttontextstyle}>Back</Text>
-                    </TouchableOpacity>
-                </View>
-                <View style={styles.nextButton}>
-                    <TouchableOpacity onPress={this.uploadToFirebase} style={styles.nextButtonStyle}>
-                        <Text style={styles.buttontextstyle}>Finish</Text>
-                    </TouchableOpacity>
-                </View>
+            <View style={styles.bottomButtonViewStyle}>
+                <TouchableOpacity onPress={this.backslide} style={styles.backButtonStyle}>
+                    <Text style={styles.backButtonTextStyle}>Back</Text>
+                </TouchableOpacity>
+                <TouchableOpacity onPress={this.uploadToFirebase} style={styles.nextButtonStyle}>
+                    <Text style={styles.nextButtonTextStyle}>Finish</Text>
+                </TouchableOpacity>
             </View>
-                <StatusBar barStyle="default" />
+            <StatusBar barStyle="default" />
             </SafeAreaView>
         );
     }
@@ -278,27 +282,41 @@ async function uploadImageAsync(uri) {
     return await snapshot.ref.getDownloadURL();
 }
 
+const bgColor = "#F9F7F6"
+const inputBorderColor = "#1e89bf"
+
 const styles = StyleSheet.create({
     pageContainer:{
         flex:1,
         flexDirection:"column",
-        borderWidth: 20,
-        borderColor:"#2ea9df",
+        backgroundColor: bgColor
     },
-    textBoxContainer:{
-        flex: .2,
-        width: "95%",
-        height: "20%",
+    personalInfo:{
+        width: "90%",
+        height: RF(10),
+        justifyContent: 'center',
+        textAlign:'center',
+        backgroundColor: '#00C488',
+        borderColor:'#00C488',
+        borderRadius: RF(5),
     },
-    textBoxfont:{
-        textAlign: "center",
-        fontSize: RF(4.5)
+    personalInfoText:{
+        fontSize: RF(4.5),
+        fontWeight: 'bold',
+        color: "#fff",
+        textAlign: 'center',
+    },
+    objectContainer:{
+        justifyContent: 'space-evenly',
+        alignItems: "center",
+        height: RF(25),
+        backgroundColor: bgColor
     },
     imageSection:{
-    flex:.55,
-    borderColor: "#345435", 
-    width:"100%", 
-    alignItems:"center"
+        flex:.55,
+        borderColor: "#345435", 
+        width:"100%", 
+        alignItems:"center"
     },
     imageContainer:{
         flex: 1,
@@ -312,45 +330,39 @@ const styles = StyleSheet.create({
         alignItems: "center",
         borderRadius: Dimensions.get('window').width*0.68/2,
     },
-    nextButton:{
-        height: "100%",
-        flexDirection:"row",
-        justifyContent: "center",
-        alignItems:"center",
-        flex:.5,
-    },
-    nextButtonStyle:{
-        height: "60%",
-        width: "80%",
-        borderRadius:10,
-        backgroundColor:"#2ea9df",
-        borderColor:"#2ea9df",
-        borderWidth:4,
-        alignItems: "center",
-        justifyContent: "center",
-    },
-    backButton:{
-        height: "100%",
-        flexDirection:"row",
-        justifyContent: "center",
-        alignItems:"center",
-        flex:.5,
+    bottomButtonViewStyle: {
+        width: '100%',
+        flexDirection:'row',
+        height:75,
+        backgroundColor: bgColor,
+        justifyContent: 'space-around',
+        alignItems: 'center'
     },
     backButtonStyle:{
         height: "60%",
-        width: "80%",
-        borderRadius:10,
-        backgroundColor:"#2ea9df",
-        borderColor:"#2ea9df",
-        borderWidth:4,
+        width: "35%",
+        borderRadius: 5,
+        borderColor: "#1e89bf",
+        borderWidth: 1,
         alignItems: "center",
         justifyContent: "center",
     },
-    buttontextstyle:{
+    backButtonTextStyle:{
         textAlign:'center',
-        fontSize:RF(3),
+        fontSize: RF(2),
+        color: "#1e89bf",
+    },
+    nextButtonStyle:{
+        height: "60%",
+        width: "35%",
+        borderRadius: 5,
+        alignItems: "center",
+        justifyContent: "center",
+        backgroundColor: "#1e89bf"
+    },
+    nextButtonTextStyle:{
+        textAlign:'center',
+        fontSize: RF(2),
         color: "#fff",
-        paddingLeft: RF(1),
-        paddingRight: RF(1),
-    }
+    },
 })

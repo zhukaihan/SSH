@@ -231,7 +231,7 @@ export default class CreateProfile2Page extends Component{
                 
                 </KeyboardAwareScrollView>
 
-                <View style={{width: '100%', flexDirection:'row', height:75, backgroundColor: bgColor, justifyContent: 'space-around'}}>
+                <View style={styles.bottomButtonViewStyle}>
                     <TouchableOpacity onPress={this.backslide} style={styles.backButtonStyle}>
                         <Text style={styles.backButtonTextStyle}>Back</Text>
                     </TouchableOpacity>
@@ -288,6 +288,14 @@ const styles = StyleSheet.create({
         fontSize: RF(2.5),
         textAlign: 'center',
         color: 'grey'
+    },
+    bottomButtonViewStyle: {
+        width: '100%',
+        flexDirection:'row',
+        height:75,
+        backgroundColor: bgColor,
+        justifyContent: 'space-around',
+        alignItems: 'center'
     },
     backButtonStyle:{
         height: "60%",

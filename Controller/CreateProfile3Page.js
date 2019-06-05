@@ -4,6 +4,8 @@ import RF from 'react-native-responsive-fontsize';
 import RNPickerSelect from 'react-native-picker-select';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
+import { Hoshi } from 'react-native-textinput-effects';
+
 
 
 export default class CreateProfile3Page extends Component{
@@ -66,6 +68,7 @@ export default class CreateProfile3Page extends Component{
             ],
             paddingBottom: 10
         }
+        this.inputRefs = {};
     }
 
     _checkCleanOrMessy = () =>{
@@ -218,131 +221,230 @@ export default class CreateProfile3Page extends Component{
     render(){
         return(
             <SafeAreaView style={styles.pageContainer}>
-                <KeyboardAwareScrollView style={{flex: 1}}
+                <View style={styles.objectContainer}>
+                    <View style={styles.additionalInfo}>
+                        <Text numberOfLines= {1}
+                        style={styles.additionalInfoText}> Create Your Profile </Text>
+                    </View>
+                    <View>
+                        <Text style={styles.textFont}> Additional Information </Text>
+                    </View>
+                    <View>
+                        <Text style={styles.oneOverthree}> 3/3 </Text>
+                    </View>
+                </View>
+                <KeyboardAwareScrollView
+                    style={styles.scrollViewStyle}
                     innerRef={ref => {
                         this.scroll = ref
                     }}>
-            <View style={styles.objectContainer}>
-                <View style={styles.additionalInfo}>
-                    <Text numberOfLines= {1}
-                    style={styles.additionalInfoText}> Create Your Profile </Text>
-                </View>
-                <View>
-                    <Text style={styles.textFont}> Additional Information </Text>
-                </View>
-                <View>
-                    <Text style={styles.oneOverthree}> 3/3 </Text>
-                </View>
-            </View>
-            <View style={styles.inputView}>
-                <View style={{flex:.4,  marginBottom: RF(1)}}>
-                <Text style={{textAlign:"center", fontSize:RF(2.3), height:"auto"}}> Are you generally a clean or messy person </Text>
-                <View style={styles.tpickerBox}>
-                <RNPickerSelect
-                        style={pickerSelectStyles}
-                        onValueChange={(itemValue, itemIndex)=> this.setState({clean: itemValue})}
-                        placeholder={{label: 'Required', value: null}}
-                        useNativeAndroidPickerStyle={false}
-                        items={this.state.cleanPicker}
-                        onValueChange={(value) =>{
-                            this.setState({
-                                clean:value,
-                            });
-                        }}
-                        value={this.state.clean}/>
-                        </View>
-                </View>
-                <View style={{flex:.4, marginBottom: RF(1)}}>
-                <Text style={{textAlign:"center", fontSize:RF(2.3)}}> Are you a morning or night person </Text>
-                <View style={styles.tpickerBox}>
-                <RNPickerSelect
-                        style={pickerSelectStyles}
-                        onValueChange={(itemValue, itemIndex)=> this.setState({wake_early: itemValue})}
-                        placeholder={{label: 'Required', value: null}}
-                        useNativeAndroidPickerStyle={false}
-                        items={this.state.wake_earlyPicker}
-                        onValueChange={(value) =>{
-                            this.setState({
-                                wake_early:value,
-                            });
-                        }}
-                        value={this.state.wake_early}
+                    <TouchableOpacity onPress={(event: Event) => {
+                        this.inputRefs.cleanPicker.togglePicker(true);
+                    }}>
+                        <Hoshi
+                            style={styles.hoshiStyle}
+                            label={'Are you generally a clean or messy person? *'}
+                            // this is used as active border color
+                            borderColor={inputBorderColor}
+                            // active border height
+                            borderHeight={3}
+                            inputPadding={16}
+                            // this is used to set backgroundColor of label mask.
+                            // please pass the backgroundColor of your TextInput container.
+                            backgroundColor={bgColor}
+                            editable={false}
+                            pointerEvents='none'
+                            value={this.state.clean}
                         />
-                        </View>
-                </View>
-                <View style={{flex:.4,  marginBottom: RF(1)}}>
-                    <Text style={{textAlign:"center", fontSize:RF(2.3)}}> Do you smoke? </Text>
-                    <View style={styles.tpickerBox}>
-                    <RNPickerSelect
-                        style={pickerSelectStyles}
-                        onValueChange={(itemValue, itemIndex)=> this.setState({smoke: itemValue})}
-                        placeholder={{label: 'Required', value: null}}
-                        useNativeAndroidPickerStyle={false}
-                        items={this.state.smokePicker}
-                        onValueChange={(value) =>{
-                            this.setState({
-                                smoke:value,
-                            });
-                        }}
-                        value={this.state.smoke}
-                    />
+                    </TouchableOpacity>
+                    <View style={{
+                        height: 0,
+                        width: 0
+                    }}>
+                        <RNPickerSelect
+                            style={pickerSelectStyles}
+                            onValueChange={(itemValue, itemIndex)=> this.setState({clean: itemValue})}
+                            placeholder={{label: 'Required', value: null}}
+                            useNativeAndroidPickerStyle={false}
+                            items={this.state.cleanPicker}
+                            onValueChange={(value) =>{
+                                this.setState({
+                                    clean:value,
+                                });
+                            }}
+                            value={this.state.clean}
+                            ref={(el) =>{
+                                this.inputRefs.cleanPicker = el;
+                            }}
+                        />
                     </View>
-                </View>
-                <View style={{flex:.4,  marginBottom: RF(1)}}>
-                    <Text style={{textAlign:"center", fontSize:RF(2.3)}}> Do you own pets? </Text>
-                    <View style={styles.tpickerBox}>
-                    <RNPickerSelect
-                        style={pickerSelectStyles}
-                        onValueChange={(itemValue, itemIndex)=> this.setState({pets: itemValue})}
-                        placeholder={{label: 'Required', value: null}}
-                        useNativeAndroidPickerStyle={false}
-                        items={this.state.petsPicker}
-                        onValueChange={(value) =>{
-                            this.setState({
-                                pets:value,
-                            });
-                        }}
-                        value={this.state.pets}
-                    />
+
+                    <TouchableOpacity onPress={(event: Event) => {
+                        this.inputRefs.wakeEarlyPicker.togglePicker(true);
+                    }}>
+                        <Hoshi
+                            style={styles.hoshiStyle}
+                            label={'Are you a morning or night person? *'}
+                            // this is used as active border color
+                            borderColor={inputBorderColor}
+                            // active border height
+                            borderHeight={3}
+                            inputPadding={16}
+                            // this is used to set backgroundColor of label mask.
+                            // please pass the backgroundColor of your TextInput container.
+                            backgroundColor={bgColor}
+                            editable={false}
+                            pointerEvents='none'
+                            value={this.state.wake_early}
+                        />
+                    </TouchableOpacity>
+                    <View style={{
+                        height: 0,
+                        width: 0
+                    }}>
+                        <RNPickerSelect
+                            style={pickerSelectStyles}
+                            onValueChange={(itemValue, itemIndex)=> this.setState({wake_early: itemValue})}
+                            placeholder={{label: 'Required', value: null}}
+                            useNativeAndroidPickerStyle={false}
+                            items={this.state.wake_earlyPicker}
+                            onValueChange={(value) =>{
+                                this.setState({
+                                    wake_early:value,
+                                });
+                            }}
+                            value={this.state.wake_early}
+                            ref={(el) =>{
+                                this.inputRefs.wakeEarlyPicker = el;
+                            }}
+                        />
                     </View>
-                </View>
-                <View style={{flex:.4,  marginBottom: RF(1)}}>
-                <Text style={{textAlign:"center", fontSize:RF(2.3)}}> Tell Us About Yourself </Text>
-                <View>
-                    <TextInput style={{borderColor:"#243456", borderWidth:1,height:"90%", textAlignVertical:"top",
+
+                    <TouchableOpacity onPress={(event: Event) => {
+                        this.inputRefs.smokePicker.togglePicker(true);
+                    }}>
+                        <Hoshi
+                            style={styles.hoshiStyle}
+                            label={'Do you smoke? *'}
+                            // this is used as active border color
+                            borderColor={inputBorderColor}
+                            // active border height
+                            borderHeight={3}
+                            inputPadding={16}
+                            // this is used to set backgroundColor of label mask.
+                            // please pass the backgroundColor of your TextInput container.
+                            backgroundColor={bgColor}
+                            editable={false}
+                            pointerEvents='none'
+                            value={this.state.smoke}
+                        />
+                    </TouchableOpacity>
+                    <View style={{
+                        height: 0,
+                        width: 0
+                    }}>
+                        <RNPickerSelect
+                            style={pickerSelectStyles}
+                            onValueChange={(itemValue, itemIndex)=> this.setState({smoke: itemValue})}
+                            placeholder={{label: 'Required', value: null}}
+                            useNativeAndroidPickerStyle={false}
+                            items={this.state.smokePicker}
+                            onValueChange={(value) =>{
+                                this.setState({
+                                    smoke:value,
+                                });
+                            }}
+                            value={this.state.smoke}
+                            ref={(el) =>{
+                                this.inputRefs.smokePicker = el;
+                            }}
+                        />
+                    </View>
+
+                    <TouchableOpacity onPress={(event: Event) => {
+                        this.inputRefs.petsPicker.togglePicker(true);
+                    }}>
+                        <Hoshi
+                            style={styles.hoshiStyle}
+                            label={'Do you own pets? *'}
+                            // this is used as active border color
+                            borderColor={inputBorderColor}
+                            // active border height
+                            borderHeight={3}
+                            inputPadding={16}
+                            // this is used to set backgroundColor of label mask.
+                            // please pass the backgroundColor of your TextInput container.
+                            backgroundColor={bgColor}
+                            editable={false}
+                            pointerEvents='none'
+                            value={this.state.pets}
+                        />
+                    </TouchableOpacity>
+                    <View style={{
+                        height: 0,
+                        width: 0
+                    }}>
+                        <RNPickerSelect
+                            style={pickerSelectStyles}
+                            onValueChange={(itemValue, itemIndex)=> this.setState({pets: itemValue})}
+                            placeholder={{label: 'Required', value: null}}
+                            useNativeAndroidPickerStyle={false}
+                            items={this.state.petsPicker}
+                            onValueChange={(value) =>{
+                                this.setState({
+                                    pets:value,
+                                });
+                            }}
+                            value={this.state.pets}
+                            ref={(el) =>{
+                                this.inputRefs.petsPicker = el;
+                            }}
+                        />
+                    </View>
+                    <Hoshi
+                        style={{...styles.hoshiStyle, height: 200}}
+                        label={'Tell Us About Yourself: '}
+                        // this is used as active border color
+                        borderColor={inputBorderColor}
+                        // active border height
+                        borderHeight={3}
+                        inputPadding={16}
+                        // this is used to set backgroundColor of label mask.
+                        // please pass the backgroundColor of your TextInput container.
+                        backgroundColor={bgColor}
+                        onChangeText={(description)=>{this.setState({description})}}
+                        value={this.state.description}
+                        multiline={true}
+                        onFocus={(event: Event) => {
+                            // `bind` the function if you're using ES6 classes
+                            this._scrollToInput(ReactNative.findNodeHandle(event.target))
+                        }}
+                    />
+                    {/* <TextInput style={{borderColor:"#243456", borderWidth:1,height:"90%", textAlignVertical:"top",
                         paddingVertical: 10, paddingHorizontal: 10}}
-                                onChangeText={(description)=> this.setState({description})}
-                                value = {this.state.description}
-                                placeholder = {"Optional"}
-                                multiline={true}
-                                //Adds padding when user clicks on the description field so the keyboard does not
-                                //cover the input field
-                               onFocus={(event: Event) => {
-                                   this._scrollToInput(ReactNative.findNodeHandle(event.target))
-                                   this.Add_Padding()
-                               }}
-                                //Deletes the extra padding when the user is not on the description field
-                               onBlur={(event: Event) => {
-                                   this.Delete_Padding()
-                               }}
-                    />
-                    
-                </View>
-                </View>
-                
-                </View>
+                        onChangeText={(description)=> this.setState({description})}
+                        value = {this.state.description}
+                        placeholder = {"Optional"}
+                        multiline={true}
+                        //Adds padding when user clicks on the description field so the keyboard does not
+                        //cover the input field
+                        onFocus={(event: Event) => {
+                            this._scrollToInput(ReactNative.findNodeHandle(event.target))
+                            this.Add_Padding()
+                        }}
+                            //Deletes the extra padding when the user is not on the description field
+                        onBlur={(event: Event) => {
+                            this.Delete_Padding()
+                        }}
+                    /> */}
                 </KeyboardAwareScrollView>
-                <View style={{width: '100%',flexDirection:'row', height:75}}>
-                    <View style={styles.backButton}>
-                        <TouchableOpacity onPress={this.backslide} style={styles.backButtonStyle}>
-                            <Text style={styles.buttontextstyle}>Back</Text>
-                        </TouchableOpacity>
-                    </View>
-                    <View style={styles.nextButton}>
-                        <TouchableOpacity onPress={this.nextslide} style={styles.nextButtonStyle}>
-                            <Text style={styles.buttontextstyle}>Next</Text>
-                        </TouchableOpacity>
-                    </View>
+                <View style={styles.bottomButtonViewStyle}>
+                    <TouchableOpacity onPress={this.backslide} style={styles.backButtonStyle}>
+                        <Text style={styles.backButtonTextStyle}>Back</Text>
+                    </TouchableOpacity>
+                    <TouchableOpacity onPress={this.nextslide} style={styles.nextButtonStyle}>
+                        <Text style={styles.nextButtonTextStyle}>Next</Text>
+                    </TouchableOpacity>
                 </View>
             </SafeAreaView>
         );
@@ -350,22 +452,23 @@ export default class CreateProfile3Page extends Component{
 }
 
 
+const bgColor = "#F9F7F6"
+const inputBorderColor = "#1e89bf"
+
 const styles = StyleSheet.create({
     pageContainer:{
         flex:1,
         flexDirection:"column",
-        borderWidth: 20,
-        borderColor:"#2ea9df",
+        backgroundColor: bgColor
     },
     additionalInfo:{
         width: "90%",
-        height: "45%",
+        height: RF(10),
         justifyContent: 'center',
         textAlign:'center',
         backgroundColor: '#00C488',
         borderColor:'#00C488',
-        borderRadius: 10,
-        borderWidth: 10,
+        borderRadius: RF(5),
     },
     additionalInfoText:{
         fontSize: RF(4.5),
@@ -374,96 +477,69 @@ const styles = StyleSheet.create({
         textAlign: 'center',
     },
     objectContainer:{
-        flex: .35,
         justifyContent: 'space-evenly',
         alignItems: "center",
+        height: RF(25),
+        backgroundColor: bgColor
     },
-    inputView:{
-        paddingLeft: RF(2),
-        paddingRight: RF(2),
-        flex:1,
+    scrollViewStyle: {
+        flex: 1,
+        margin: 10,
+        backgroundColor: bgColor
     },
     textFont:{
         fontSize: RF(3.5),
-        elevation: 2,
+        textAlign: 'center',
+        color: 'black'
     },
     oneOverthree:{
         fontSize: RF(2.5),
-        elevation:2,
+        textAlign: 'center',
+        color: 'grey'
     },
-    textBox:{
-        width:"100%",
-        height: "9%",
-        borderRadius: 10,
-        borderWidth: 1,
-        borderColor: "#235964",
-        marginBottom: RF(3),
-        textAlign:"center",
-        fontSize: RF(3),
-    },
-    pickerBox:{
-        width:"100%",
-        height: "9%",
-        borderColor: "#235964",
-        borderRadius: 59,
-        textAlign:"center",
-        fontSize: RF(3),
-    },
-    nextButton:{
-        height: "100%",
-        flexDirection:"row",
-        justifyContent: "center",
-        alignItems:"center",
-        flex:.5,
-    },
-    nextButtonStyle:{
-        height: "60%",
-        width: "80%",
-        borderRadius:10,
-        backgroundColor:"#2ea9df",
-        borderColor:"#2ea9df",
-        borderWidth:4,
-        alignItems: "center",
-        justifyContent: "center",
-    },
-    backButton:{
-        height: "100%",
-        flexDirection:"row",
-        justifyContent: "center",
-        alignItems:"center",
-        flex:.5,
+    bottomButtonViewStyle: {
+        width: '100%',
+        flexDirection:'row',
+        height:75,
+        backgroundColor: bgColor,
+        justifyContent: 'space-around',
+        alignItems: 'center'
     },
     backButtonStyle:{
         height: "60%",
-        width: "80%",
-        borderRadius:10,
-        backgroundColor:"#2ea9df",
-        borderColor:"#2ea9df",
-        borderWidth:4,
+        width: "35%",
+        borderRadius: 5,
+        borderColor: "#1e89bf",
+        borderWidth: 1,
         alignItems: "center",
         justifyContent: "center",
     },
-    buttontextstyle:{
+    backButtonTextStyle:{
         textAlign:'center',
-        fontSize:RF(3),
-        color: "#fff",
-        paddingLeft: RF(1),
-        paddingRight: RF(1),
+        fontSize: RF(2),
+        color: "#1e89bf",
     },
-    tpickerBox: {
-        alignItems: "center",
-        width:"100%",
+    nextButtonStyle:{
         height: "60%",
-        borderRadius: 15,
-        borderWidth: 1,
-        borderBottomWidth: 1,
-        borderColor: '#000',
-        paddingBottom: 10,
-        marginTop: RF(1),
-        marginBottom: RF(3),
-        textAlign:"center",
-        fontSize: RF(5),
+        width: "35%",
+        borderRadius: 5,
+        alignItems: "center",
+        justifyContent: "center",
+        backgroundColor: "#1e89bf"
     },
+    nextButtonTextStyle:{
+        textAlign:'center',
+        fontSize: RF(2),
+        color: "#fff",
+    },
+    hoshiStyle: {
+        width: "90%",
+        height: 30,
+        marginLeft: "5%",
+        marginRight: "5%",
+        marginTop: 15,
+        marginBottom: 15
+    }
 })
 const pickerSelectStyles = StyleSheet.create({
 

@@ -286,7 +286,7 @@ export default class CreateProfile1Page extends Component{
                     </View>
                 </KeyboardAwareScrollView>
                 
-                <View style={{width: '100%', flexDirection:'row', height:75, backgroundColor: bgColor, justifyContent: 'space-around'}}>
+                <View style={styles.bottomButtonViewStyle}>
                     <TouchableOpacity onPress={this.backslide} style={styles.backButtonStyle}>
                         <Text style={styles.backButtonTextStyle}>Back</Text>
                     </TouchableOpacity>
@@ -346,6 +346,14 @@ const styles = StyleSheet.create({
         textAlign: 'center',
         color: 'grey'
     },
+    bottomButtonViewStyle: {
+        width: '100%',
+        flexDirection:'row',
+        height:75,
+        backgroundColor: bgColor,
+        justifyContent: 'space-around',
+        alignItems: 'center'
+    },
     backButtonStyle:{
         height: "60%",
         width: "35%",
@@ -388,22 +396,6 @@ const styles = StyleSheet.create({
         borderColor: "#235964",
         textAlign:"center",
         fontSize: RF(3),
-    },
-    tpickerBox: {
-        alignItems: "center",
-        width:"90%",
-        height: "6%",
-        borderRadius: 15,
-        borderWidth: 1,
-        borderBottomWidth: 1,
-        borderColor: '#000',
-        paddingTop:10,
-        paddingBottom: 10,
-        marginBottom: RF(3),
-        marginRight: RF(3),
-        marginLeft: RF( 3),
-        textAlign:"center",
-        fontSize: RF(5),
     },
     hoshiStyle: {
         width: "90%",
