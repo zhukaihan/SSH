@@ -43,14 +43,21 @@ export default class RoomateSearchPage extends React.Component{
 		this.setState({
 			userInput
 		})
-        const newData = this.state.allUser.filter(item =>{
-            const ItemData = `${item.first_name.toUpperCase()}
-            ${item.last_name.toUpperCase()}
-            ${item.name_preferred.toUpperCase()}`;
-            const textData = userInput.toUpperCase();
-            return ItemData.indexOf(textData) > -1;
+		const inputData = userInput.toUpperCase().split(" ");
+        const newRoommates = this.state.allUser.filter(roommate =>{
+            const roommateData = `${roommate.first_name.toUpperCase()}
+            ${roommate.last_name.toUpperCase()}
+			${roommate.name_preferred.toUpperCase()}`;
+			
+			var isFound = true;
+			inputData.forEach((word) => {
+				if (roommateData.indexOf(word) == -1) {
+					isFound = false;
+				}
+			})
+            return isFound;
         })
-        this.setState({foundUsers: newData})
+        this.setState({foundUsers: newRoommates})
 
 	}
 	
