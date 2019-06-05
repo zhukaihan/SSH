@@ -93,10 +93,20 @@ export default class EditHousingPage extends React.Component{
 
 	removePicture = (pictureUrl) => {
 		var filtered = this.state.house.pictures.filter((value) => {
-			return !value.isEqual(pictureUrl);
+			return !(value === pictureUrl);
 		});
 		this.state.house.pictures = filtered;
-		this.saveHouse();
+		firebase.firestore().collection("houses").doc(this.state.house.id).set({
+			pictures: firebase.firestore.FieldValue.arrayRemove(pictureUrl), 
+		}, {merge: true}).then(() => {
+			Alert.alert(
+				'Picture Removed',
+				'It might take some time for changes to reflect. ',
+				[{text: 'Okay'}],
+				{cancelable: false},
+			)
+		})
+		this.forceUpdate();
 	}
 
 	addPicture = () => {
@@ -347,13 +357,21 @@ export default class EditHousingPage extends React.Component{
 			<View style={styles.pageContainer}> 
 				<View style={styles.imageContainer}>
 
-					<ImageHorizontalScrollView pictureUrls={item.pictures}/>
+					<ImageHorizontalScrollView pictureUrls={item.pictures} height={275} ref={(ref) => {this.imageScrollViewRef = ref}}/>
 
 				</View>
 
-				<TouchableOpacity onPress={this.addPicture} style={styles.logButtonnull}>
-					<Text style={{color: 'white', fontSize: RF(2.2), textAlign: 'center'}}>Add Picture</Text>
-				</TouchableOpacity>
+				<View style={styles.pictureButtons}>
+					<TouchableOpacity onPress={this.addPicture} style={styles.addPictureButton}>
+						<Text style={{color: 'white', fontSize: RF(2.2), textAlign: 'center'}}>Add Picture</Text>
+					</TouchableOpacity>
+					<TouchableOpacity
+						onPress={() => {this.removePicture(item.pictures[this.imageScrollViewRef.getCurPagingIndex()])}}
+						style={{...styles.removePictureButton, backgroundColor: item.pictures.length == 0 ? 'grey' : '#ff4444'}}
+						disabled={item.pictures.length == 0}>
+						<Text style={{color: 'white', fontSize: RF(2.2), textAlign: 'center'}}>Remove This Picture</Text>
+					</TouchableOpacity>
+				</View>
 
 				<View style={styles.infoContainer}>
 
@@ -425,7 +443,7 @@ export default class EditHousingPage extends React.Component{
 					</View>
 
 
-					<BadgesView tags={item.additional_tags} />
+					{/* <BadgesView tags={item.additional_tags} /> */}
 
 				</View>  
 				{/* End before Description */}
@@ -520,9 +538,22 @@ const styles = StyleSheet.create({
 		alignItems: "stretch",
 	},
 
-	logButtonnull:{
+	pictureButtons: {
+		width: '100%',
+		flexDirection: 'row',
+
+	},
+
+	addPictureButton:{
 		backgroundColor: '#2ea9df',
 		padding: 5,
+		flex: .5
+	},
+
+	removePictureButton:{
+		// backgroundColor is set inline. 
+		padding: 5,
+		flex: .5
 	},
 
 	infoContainer:{
