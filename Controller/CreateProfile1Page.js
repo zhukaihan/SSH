@@ -16,6 +16,7 @@ import Icon from 'react-native-vector-icons/FontAwesome';
 import RNPickerSelect from 'react-native-picker-select';
 import RF from 'react-native-responsive-fontsize';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
+import { Hoshi } from 'react-native-textinput-effects';
 
 export default class CreateProfile1Page extends Component{
     constructor(props){
