@@ -11,9 +11,7 @@ import {StyleSheet,
         TouchableOpacity, 
         SafeAreaView, 
         Dimensions, 
-        PixelRatio,
-        Keyboard,
-        TouchableWithoutFeedback} from 'react-native';
+        PixelRatio,} from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import RNPickerSelect from 'react-native-picker-select';
 import RF from 'react-native-responsive-fontsize';
