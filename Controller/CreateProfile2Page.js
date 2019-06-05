@@ -177,108 +177,60 @@ export default class CreateProfile2Page extends Component{
                         this.scroll = ref
                     }}
                     scrollEnabled>
-            
-                {/* <View
-                    style={{flexDirection:"row", justifyContent: "center", alignItems: "center", marginBottom: RF(1), textAlign:'center'}}>
-                    <Text style={{fontSize:RF(2.4), textAlign:"center"}}>Major</Text>
-                </View>
-                <View style={styles.inputContainer}>
-                <TextInput 
-                        style={styles.tinput}
-                        placeholder={"Required"}
+                    <Hoshi
+                        style={styles.hoshiStyle}
+                        label={'Major *'}
+                        // this is used as active border color
+                        borderColor={inputBorderColor}
+                        // active border height
+                        borderHeight={3}
+                        inputPadding={16}
+                        // this is used to set backgroundColor of label mask.
+                        // please pass the backgroundColor of your TextInput container.
+                        backgroundColor={bgColor}
                         onChangeText={(major)=>{this.setState({major})}}
                         onFocus={(event: Event) => {
                             // `bind` the function if you're using ES6 classes
-                            this._scrollToInput(ReactNative.findNodeHandle(event.target))}}
-                ></TextInput>
-                </View> */}
-                <Hoshi
-                    style={styles.hoshiStyle}
-                    label={'Major *'}
-                    // this is used as active border color
-                    borderColor={inputBorderColor}
-                    // active border height
-                    borderHeight={3}
-                    inputPadding={16}
-                    // this is used to set backgroundColor of label mask.
-                    // please pass the backgroundColor of your TextInput container.
-                    backgroundColor={bgColor}
-                    onChangeText={(major)=>{this.setState({major})}}
-                    onFocus={(event: Event) => {
-                        // `bind` the function if you're using ES6 classes
-                        this._scrollToInput(ReactNative.findNodeHandle(event.target))
-                    }}
-                />
-                {/* <View
-                    style={{flexDirection:"row", justifyContent: "center", alignItems: "center", marginBottom: RF(1), textAlign:'center'}}>
-                    <Text style={{fontSize:RF(2.4)}}> Expected Graduating Year </Text>
-                </View>
-                <View style={styles.inputContainer}>
-                <TextInput 
-                        style={styles.tinput}
-                        placeholder={"Required"}
+                            this._scrollToInput(ReactNative.findNodeHandle(event.target))
+                        }}
+                    />
+                    <Hoshi
+                        style={styles.hoshiStyle}
+                        label={'Expected Graduating Year *'}
+                        // this is used as active border color
+                        borderColor={inputBorderColor}
+                        // active border height
+                        borderHeight={3}
+                        inputPadding={16}
+                        // this is used to set backgroundColor of label mask.
+                        // please pass the backgroundColor of your TextInput container.
+                        backgroundColor={bgColor}
                         onChangeText={(graduation)=>{this.setState({graduation})}}
                         onFocus={(event: Event) => {
-                        this._scrollToInput(ReactNative.findNodeHandle(event.target))}}
-                ></TextInput>
-                </View> */}
-                <Hoshi
-                    style={styles.hoshiStyle}
-                    label={'Expected Graduating Year *'}
-                    // this is used as active border color
-                    borderColor={inputBorderColor}
-                    // active border height
-                    borderHeight={3}
-                    inputPadding={16}
-                    // this is used to set backgroundColor of label mask.
-                    // please pass the backgroundColor of your TextInput container.
-                    backgroundColor={bgColor}
-                    onChangeText={(graduation)=>{this.setState({graduation})}}
-                    onFocus={(event: Event) => {
-                        // `bind` the function if you're using ES6 classes
-                        this._scrollToInput(ReactNative.findNodeHandle(event.target))
-                    }}
-                />
-                {/* <View
-                    style={{flexDirection:"row", justifyContent: "center", alignItems: "center", marginBottom: RF(1)}}>
-                    <Text style={{fontSize:RF(2.4), textAlign:"center"}}> Interests and Hobbies </Text>
-                </View>
-                <View style={[styles.inputContainer, {paddingBottom: this.state.paddingBottom}]}>
-                <TextInput
-                        style={styles.tinput}
-                        placeholder={"Required"}
-                        onChangeText={(additional_tags)=>{this.setState({additional_tags})}}
-                        //Adds padding when user clicks on the interest field so the keyboard does not
-                        //cover the input field
-                        onFocus={(event: Event) => {
+                            // `bind` the function if you're using ES6 classes
                             this._scrollToInput(ReactNative.findNodeHandle(event.target))
-                            this.Add_Padding()
                         }}
-                        //Deletes the extra padding when the user is not on the interest field
-                        onBlur={(event: Event) => {
-                            this.Delete_Padding()
+                    />
+                    <Hoshi
+                        style={styles.hoshiStyle}
+                        label={'Interests and Hobbies *'}
+                        // this is used as active border color
+                        borderColor={inputBorderColor}
+                        // active border height
+                        borderHeight={3}
+                        inputPadding={16}
+                        // this is used to set backgroundColor of label mask.
+                        // please pass the backgroundColor of your TextInput container.
+                        backgroundColor={bgColor}
+                        onChangeText={(additional_tags)=>{this.setState({additional_tags})}}
+                        onFocus={(event: Event) => {
+                            // `bind` the function if you're using ES6 classes
+                            this._scrollToInput(ReactNative.findNodeHandle(event.target))
                         }}
-                ></TextInput>
-                </View> */}
-                <Hoshi
-                    style={styles.hoshiStyle}
-                    label={'Interests and Hobbies *'}
-                    // this is used as active border color
-                    borderColor={inputBorderColor}
-                    // active border height
-                    borderHeight={3}
-                    inputPadding={16}
-                    // this is used to set backgroundColor of label mask.
-                    // please pass the backgroundColor of your TextInput container.
-                    backgroundColor={bgColor}
-                    onChangeText={(additional_tags)=>{this.setState({additional_tags})}}
-                    onFocus={(event: Event) => {
-                        // `bind` the function if you're using ES6 classes
-                        this._scrollToInput(ReactNative.findNodeHandle(event.target))
-                    }}
-                />
+                    />
                 
                 </KeyboardAwareScrollView>
+
                 <View style={{width: '100%', flexDirection:'row', height:75, backgroundColor: bgColor, justifyContent: 'space-around'}}>
                     <TouchableOpacity onPress={this.backslide} style={styles.backButtonStyle}>
                         <Text style={styles.backButtonTextStyle}>Back</Text>
@@ -327,55 +279,15 @@ const styles = StyleSheet.create({
         margin: 10,
         backgroundColor: bgColor
     },
-    inputView:{
-        paddingLeft: RF(2),
-        paddingRight: RF(2),
-        flex:1,
-    },
     textFont:{
         fontSize: RF(3.5),
-        elevation: 2,
-        paddingTop: RF(3),
         textAlign: 'center',
-        margin: 10,
+        color: 'black'
     },
     oneOverthree:{
         fontSize: RF(2.5),
         textAlign: 'center',
         color: 'grey'
-    },
-
-    tinput:{
-        flex: 1,
-        paddingTop: RF(1.5),
-        borderColor: "#235964",
-        textAlign:"center",
-        fontSize: RF(3),
-    },
-
-    inputContainer: {
-        width:"90%",
-        height: "9%",
-        borderRadius: 10,
-        borderWidth: 1,
-        borderBottomWidth: 1,
-        borderColor: '#000',
-        paddingBottom: 10,
-        marginLeft: RF(3),
-        marginRight: RF(3),
-        marginBottom: RF(4),
-        textAlign:"center",
-        fontSize: RF(3),
-
-    },
-
-    pickerBox:{
-        width:"100%",
-        height: "9%",
-        borderColor: "#235964",
-        borderRadius: 59,
-        textAlign:"center",
-        fontSize: RF(3),
     },
     backButtonStyle:{
         height: "60%",
@@ -413,16 +325,3 @@ const styles = StyleSheet.create({
         marginBottom: 15
     }
 })
-const pickerSelectStyles = StyleSheet.create({
-    inputIOS: {
-        fontSize: RF(3),
-        height: "100%",
-        width:"100%",
-        borderWidth: 1,
-        borderColor: '#000',
-        borderRadius: 4,
-        backgroundColor: 'white',
-        color: 'black',
-        textAlign:"center",
-    },
-});

@@ -176,7 +176,7 @@ export default class CreateProfile1Page extends Component{
             <SafeAreaView style={styles.pageContainer}>
                 <View style={styles.objectContainer}>
                     <View style={styles.personalInfo}>
-                        <Text numberOfLines= {3}
+                        <Text numberOfLines= {1}
                         style={styles.personalInfoText}> Create Your Profile </Text>
                     </View>
                     <View>
