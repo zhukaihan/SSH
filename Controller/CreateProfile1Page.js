@@ -288,7 +288,7 @@ export default class CreateProfile1Page extends Component{
                     </View>
                 </KeyboardAwareScrollView>
                 
-                <View style={{width: '100%', flexDirection:'row', height:75, backgroundColor: bgColor}}>
+                <View style={{width: '100%', flexDirection:'row', height:75, backgroundColor: bgColor, justifyContent: 'space-around'}}>
                     <TouchableOpacity onPress={this.backslide} style={styles.backButtonStyle}>
                         <Text style={styles.backButtonTextStyle}>Back</Text>
                     </TouchableOpacity>
@@ -341,16 +341,16 @@ const styles = StyleSheet.create({
     textFont:{
         fontSize: RF(3.5),
         textAlign: 'center',
+        color: 'black'
     },
     oneOverthree:{
         fontSize: RF(2.5),
         textAlign: 'center',
+        color: 'grey'
     },
     backButtonStyle:{
         height: "60%",
-        width: "30%",
-        marginLeft: "5%",
-        marginRight: "2.5%",
+        width: "35%",
         borderRadius: 5,
         borderColor: "#1e89bf",
         borderWidth: 1,
@@ -364,9 +364,7 @@ const styles = StyleSheet.create({
     },
     nextButtonStyle:{
         height: "60%",
-        width: "55%",
-        marginLeft: "2.5%",
-        marginRight: "5%",
+        width: "35%",
         borderRadius: 5,
         alignItems: "center",
         justifyContent: "center",
@@ -410,8 +408,10 @@ const styles = StyleSheet.create({
         fontSize: RF(5),
     },
     hoshiStyle: {
-        width: "100%",
+        width: "90%",
         height: 30,
+        marginLeft: "5%",
+        marginRight: "5%",
         marginTop: 15,
         marginBottom: 15
     }
