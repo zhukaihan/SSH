@@ -369,7 +369,7 @@ export default class RoomateSearchPage extends React.Component{
 						placeholder="Search for Name"
 						lightTheme={true}
 						round={true}
-						containerStyle={{backgroundColor: '#2EA9DF', height: 70, borderTopWidth: 0}}
+						containerStyle={{backgroundColor: '#2EA9DF', borderTopWidth: 0}}
 						inputContainerStyle={{backgroundColor: 'white', marginStart:30, marginEnd:30, width: '85%', flexDirection: 'row-reverse'}}
 						onChangeText={this.searchAndUpdateWithQuery}
 						value={this.state.searchQuery}
