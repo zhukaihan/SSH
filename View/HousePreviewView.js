@@ -46,20 +46,38 @@ export default class HousePreviewView extends React.Component {
 						// If you want to have the height = 50%, define TouchableHighlight's height as a non-percentage, static, predefined number.
 				}}>
 					<ImageHorizontalScrollView pictureUrls={item.pictures} />
-					<View>
+					<View style={{
+						padding: 5
+					}}>
 						<View style={{
 							flexDirection: 'row',
 							justifyContent: 'space-between',
+							alignItems: 'center',
+							paddingBottom: 5
 						}}>
-							<Text style={{fontSize: RF(2.5), fontWeight: 'bold'}}>{item.title}</Text>
-							<Text style={{fontSize: RF(2.5), color: 'rgb(50, 150, 255)'}}>{"$ " + item.price}</Text>
+							<Text style={{width: '75%', textAlign: 'left', fontSize: RF(2.75), color: '#444', fontWeight: 'bold'}}>{item.title}</Text>
+							<Text style={{width: '25%', textAlign: 'right', fontSize: RF(2.75), color: 'rgb(50, 150, 255)'}}>{"$ " + item.price}</Text>
 						</View>
 					
 						<View style={{
 							flexDirection: 'row',
-							justifyContent: 'space-between'
+							justifyContent: 'space-between',
+							alignItems: 'center'
 						}}>
-							<Text style={{fontSize: RF(2)}}>{item.num_bedroom + "B" + item.num_bathroom + "B | " + item.num_parking + " parking"}</Text>
+							<View style={{
+								marginRight: '20%',
+								flex: 1,
+								flexDirection: 'row',
+								justifyContent: 'space-between',
+								alignItems: 'center'
+							}}>
+								<Text style={{fontSize: RF(2), fontWeight: 'bold'}}>{item.num_bedroom}</Text>
+								<Text style={{fontSize: RF(2), color: '#888'}}>bedrooms</Text>
+								<Text style={{fontSize: RF(2), fontWeight: 'bold'}}>{item.num_bathroom}</Text>
+								<Text style={{fontSize: RF(2), color: '#888'}}>bath</Text>
+								<Text style={{fontSize: RF(2), fontWeight: 'bold'}}>{item.num_parking}</Text>
+								<Text style={{fontSize: RF(2), color: '#888'}}>parkings</Text>
+							</View>
 							{favButton}
 						</View>
 					
