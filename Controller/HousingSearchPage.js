@@ -293,7 +293,7 @@ export default class HousingSearchPage extends React.Component{
 								<Text style={{fontSize:RF(2.5)}}>Price:</Text>
 								<TextInput
 									placeholder="Min" style={styles.textInput}
-									placeholderTextColor={'#fff'}
+									//placeholderTextColor={'#fff'}
 									onChangeText={minPrice => {
 										this.setState({minPrice})
 										console.log(this.state.minPrice);
@@ -304,7 +304,7 @@ export default class HousingSearchPage extends React.Component{
 								<Text style={{fontSize:RF(2.5)}}>To:</Text>
 								<TextInput
 									placeholder="Max" id="maxPrice"
-									placeholderTextColor={"#fff"}
+									//placeholderTextColor={"#fff"}
 									style={styles.textInput}
 									onChangeText={maxPrice =>{
 											this.setState({maxPrice})
@@ -318,7 +318,7 @@ export default class HousingSearchPage extends React.Component{
 								<Text style={{fontSize:RF(2.5)}}>Bath:</Text>
 								<TextInput
 									placeholder="0" id="bath"
-									placeholderTextColor={'#fff'}
+									//placeholderTextColor={'#fff'}
 									style={styles.textInputBath}
 									onChangeText={bath =>{
 											this.setState({bath})
@@ -332,7 +332,7 @@ export default class HousingSearchPage extends React.Component{
 								<Text style={{fontSize:RF(2.5)}}>Bed:</Text>
 								<TextInput
 									placeholder="0"id="bed"
-									placeholderTextColor={"#fff"}
+									//placeholderTextColor={"#fff"}
 									style={styles.textInputBed}
 									onChangeText={bed =>{
 											this.setState({bed})
@@ -346,7 +346,7 @@ export default class HousingSearchPage extends React.Component{
 								<Text style={{fontSize:RF(2.5)}}>Parking:</Text>
 								<TextInput
 									placeholder="0" id="parking"
-									placeholderTextColor={'#fff'}
+									//placeholderTextColor={'#fff'}
 									style={styles.textInputParking}
 									onChangeText={parking =>{
 											this.setState({parking})
@@ -360,7 +360,7 @@ export default class HousingSearchPage extends React.Component{
 								<Text style={{fontSize:RF(2.5)}}>Tenant:</Text>
 								<TextInput
 									placeholder="0" id="tenant"
-									placeholderTextColor={"#fff"}
+									//placeholderTextColor={"#fff"}
 									style={styles.textInputTenant}
 									onChangeText={tenant =>{
 											this.setState({tenant})

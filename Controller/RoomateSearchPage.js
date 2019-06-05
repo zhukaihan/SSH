@@ -369,7 +369,7 @@ export default class RoomateSearchPage extends React.Component{
 						placeholder="Search for Name"
 						lightTheme={true}
 						round={true}
-						containerStyle={{backgroundColor: '#2EA9DF', height: 70, borderTopWidth: 0}}
+						containerStyle={{backgroundColor: '#2EA9DF', borderTopWidth: 0}}
 						inputContainerStyle={{backgroundColor: 'white', marginStart:30, marginEnd:30, width: '85%', flexDirection: 'row-reverse'}}
 						onChangeText={this.searchAndUpdateWithQuery}
 						value={this.state.searchQuery}
@@ -389,72 +389,77 @@ export default class RoomateSearchPage extends React.Component{
 						</View>
 					</TouchableOpacity>
                     <Overlay
-						isVisible={this.state.advSearchisVisible}
+                        isVisible={this.state.advSearchisVisible}
+                        overlayStyle={styles.overlay}
 						width="auto"
 						height="auto"
 						onBackdropPress={() =>
 							this.setState({advSearchisVisible: false})
 						}
 					>
-					<View style={{flexDirection:"column"}}>
-					    <View style={styles.OverlayContainer}>
-						<Text>Gender:</Text>
-                            <RNPickerSelect
-                                style={{...pickerSelectStyles}}
-                                onValueChange={(itemValue, itemIndex)=> this.setState({gender: itemValue})}
-                                placeholder={{label: 'Select Here', value: ""}}
-                                items={this.state.genderPicker}
-                                onValueChange={(value) =>{
-                                this.setState({
-                                    gender:value,
+					    <View style={{flexDirection:"column"}}>
+					        <View style={styles.OverlayContainer}>
+						        <Text style={{fontSize:RF(2.5)}}>Gender:</Text>
+                                <RNPickerSelect
+                                    style={{...pickerSelectStyles}}
+                                    onValueChange={(itemValue, itemIndex)=> this.setState({gender: itemValue})}
+                                    placeholder={{label: 'Select Here', value: ""}}
+                                    items={this.state.genderPicker}
+                                    onValueChange={(value) =>{
+                                        this.setState({
+                                        gender:value,
                                     });
-                                }}
-                                value={this.state.gender}/>
-						</View>
-						<View style={styles.OverlayContainer}>
-						<Text>Clean:</Text>
-                        <RNPickerSelect
-                                style={{...pickerSelectStyles}}
-                                onValueChange={(itemValue, itemIndex)=> this.setState({clean: itemValue})}
-                                placeholder={{label: 'Select Here', value: ""}}
-                                items={this.state.cleanPicker}
-                                onValueChange={(value) =>{
-                                this.setState({
-                                    clean:value,
+                                    }}
+                                    value={this.state.gender}/>
+						    </View>
+						
+                            <View style={styles.OverlayContainer}>
+						        <Text style={{fontSize:RF(2.5)}}>Clean:</Text>
+                                <RNPickerSelect
+                                    style={{...pickerSelectStyles}}
+                                    onValueChange={(itemValue, itemIndex)=> this.setState({clean: itemValue})}
+                                    placeholder={{label: 'Select Here', value: ""}}
+                                    items={this.state.cleanPicker}
+                                    onValueChange={(value) =>{
+                                        this.setState({
+                                        clean:value,
                                     });
-                                }}
-                                value={this.state.clean}/>
-						</View>
-						<View style={styles.OverlayContainer}>
-						<Text>Wake Early:</Text>
-                            <RNPickerSelect
-                                style={{...pickerSelectStyles}}
-                                onValueChange={(itemValue, itemIndex)=> this.setState({wake_early: itemValue})}
-                                placeholder={{label: 'Select Here', value: ""}}
-                                items={this.state.wake_earlyPicker}
-                                onValueChange={(value) =>{
-                                this.setState({
-                                    wake_early:value,
+                                    }}
+                                    value={this.state.clean}/>
+						    </View>
+
+						    <View style={styles.OverlayContainer}>
+						        <Text style={{fontSize:RF(2.5)}}>Wake Early:</Text>
+                                <RNPickerSelect
+                                    style={{...pickerSelectStyles}}
+                                    onValueChange={(itemValue, itemIndex)=> this.setState({wake_early: itemValue})}
+                                    placeholder={{label: 'Select Here', value: ""}}
+                                    items={this.state.wake_earlyPicker}
+                                    onValueChange={(value) =>{
+                                        this.setState({
+                                        wake_early:value,
                                     });
-                                }}
-                            value={this.state.wake_early}/>
-						</View>
-						<View style={styles.OverlayContainer}>
-						<Text>Smoke:</Text>
-                            <RNPickerSelect
-                                style={{...pickerSelectStyles}}
-                                onValueChange={(itemValue, itemIndex)=> this.setState({smoke: itemValue})}
-                                placeholder={{label: 'Select Here', value: ""}}
-                                items={this.state.smokePicker}
-                                onValueChange={(value) =>{
-                                this.setState({
-                                    smoke:value,
+                                    }}
+                                    value={this.state.wake_early}/>
+						    </View>
+
+					    	<View style={styles.OverlayContainer}>
+						        <Text style={{fontSize:RF(2.5)}}>Smoke:</Text>
+                                <RNPickerSelect
+                                    style={{...pickerSelectStyles}}
+                                    onValueChange={(itemValue, itemIndex)=> this.setState({smoke: itemValue})}
+                                    placeholder={{label: 'Select Here', value: ""}}
+                                    items={this.state.smokePicker}
+                                    onValueChange={(value) =>{
+                                        this.setState({
+                                        smoke:value,
                                     });
-                                }}
-                            value={this.state.smoke}/>
-						</View>
-						<View style={styles.OverlayContainer}>
-						<Text>Pets:</Text>
+                                    }}
+                                    value={this.state.smoke}/>
+						    </View>
+						    
+                            <View style={styles.OverlayContainer}>
+						    <Text style={{fontSize:RF(2.5)}}>Pets:</Text>
                             <RNPickerSelect
                                 style={{...pickerSelectStyles}}
                                 onValueChange={(itemValue, itemIndex)=> this.setState({pets: itemValue})}
@@ -463,26 +468,28 @@ export default class RoomateSearchPage extends React.Component{
                                 onValueChange={(value) =>{
                                 this.setState({
                                     pets:value,
-                                    });
-                                }}
-                            value={this.state.pets}/>
-						</View>
-						<TouchableOpacity onPress={
-							this.applyFilter
-						}>
-							<Text>Apply Filter</Text>
-						</TouchableOpacity>
-						<TouchableOpacity onPress={
-							this.cancelFilter
-						}>
-							<Text>Cancel</Text>
-						</TouchableOpacity>
-						<TouchableOpacity onPress={
-							this.clearFilter
-						}>
-							<Text>Clear</Text>
-						</TouchableOpacity>
-						</View>
+                                      });
+                                 }}
+                             value={this.state.pets}/>
+						    </View>
+						    <View style={{flexDirection:"column", justifyContent:"center",alignItems:"center"}}>
+								<TouchableOpacity onPress={
+									this.applyFilter
+								}>
+									<Text style={styles.advanceButton}>Apply Filter</Text>
+								</TouchableOpacity>
+								<TouchableOpacity onPress={
+									this.cancelFilter
+								}>
+									<Text style={styles.advanceButton}>Cancel</Text>
+								</TouchableOpacity>
+								<TouchableOpacity onPress={
+									this.clearFilter
+								}>
+									<Text style={styles.advanceButton}>Clear</Text>
+								</TouchableOpacity>
+						    </View>
+                        </View>
 					</Overlay>
                     <View>
 						{
@@ -525,6 +532,12 @@ const styles = StyleSheet.create({
         alignItems: "center",
     },
 
+    overlay: {
+		borderWidth: 5,
+		borderRadius: 10,
+		borderColor: "#fff",
+    },
+    
     advanceContainer: {
 		backgroundColor: '#E2DFDF',
 		borderColor:'#E2DFDF',
@@ -560,26 +573,65 @@ const styles = StyleSheet.create({
         marginRight:10,
     },
     OverlayContainer:{
-        flexDirection:"row",
-        height:"18%"
+		justifyContent:"center",
+		alignItems:"center",
+		flexDirection:"row",
+		height: "auto",
+		width: 'auto',
 	},
 	textInput:{
 		borderWidth:1,
 		borderColor:"#fff",
-	}
+    },
+    
+    advanceButton: {
+		margin: 10,
+		borderWidth: 3,
+		borderRadius: 10,
+		textAlign: 'center',
+		width: "100%",
+		fontSize:RF(2.5),
+		backgroundColor:"#fff",
+		alignItems: "center",
+		justifyContent: "center",
+    }
 })
 const pickerSelectStyles = StyleSheet.create({
     inputIOS: {
-        fontSize: RF(3),
-        height: "70%",
-        width: "100%",
+        
+        borderWidth: 1,
+        borderColor: 'gray',
+        borderRadius: 4,
+        backgroundColor:"#2ea9df",
+		borderColor:"#2ea9df",
+        margin: 8,
+        fontSize: RF(2.5),
+        color: '#fff',
+        /*fontSize: RF(3),
+        height: "20%",
+        width: "20%",
         borderWidth: 1,
         borderColor: '#000',
         borderRadius: 4,
-        backgroundColor: 'white',
+        backgroundColor: 'blue',
         color: 'black',
-        textAlign:"center",
+        textAlign:"center",*/
+        /*borderWidth: 1,
+		borderRadius: 10,
+		paddingLeft: RF(1),
+		paddingRight: RF(1),
+        margin: 8,
+        justifyContent:'center',
+        alignItems:'center',
+		textAlign:'center',
+		fontSize:RF(2.5),
+		color: "#fff",
+		height: "60%",
+		width: "25%",
+		backgroundColor:"#2ea9df",
+		borderColor:"#2ea9df",*/
     },
+    
 });
 
 
