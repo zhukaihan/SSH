@@ -84,7 +84,6 @@ export default class HousingListingPage extends React.Component{
 				keyExtractor={(item, index) => index.toString()}
 				data={this.state.housingItems}
 				refreshing={this.state.isFetchingHouseData}
-				contentOffset={{ y: -60, x: 0 }}
 				renderItem={({item}) => (
 					<HousePreviewView house={item} onTouch={this.editHouse} favDisabled={true}/>
 				)}
