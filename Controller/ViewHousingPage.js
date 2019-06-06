@@ -428,7 +428,7 @@ const styles = StyleSheet.create({
 		backgroundColor: 'white'
 	},
 	roomTitleText: {
-		height: RF(4), 
+		lineHeight: RF(4), 
 		fontSize: RF(3),
 		fontWeight: 'bold',
 		flex: 1
