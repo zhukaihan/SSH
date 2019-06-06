@@ -83,7 +83,7 @@ export default class HousePreviewView extends React.Component {
 					
 					</View>
 
-					<BadgesView tags={item.additional_tags} />
+					{/* <BadgesView tags={item.additional_tags} /> */}
 				</View>
 			</TouchableHighlight>
 		)

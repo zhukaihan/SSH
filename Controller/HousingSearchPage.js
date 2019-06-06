@@ -249,6 +249,60 @@ export default class HousingSearchPage extends React.Component{
 			advSearchisVisible:false,
 		})
 	}
+
+	renderFlatListItem = (item) => {
+		if (this.state.isFetchingHouseData) {
+			return (
+				<Placeholder animation="fade">
+					<View style={{
+							backgroundColor: 'white',
+							alignItems: "stretch",
+							marginBottom: 10,
+							padding: 5,
+					}}>
+						<Media style={{height: 200, width: "100%", backgroundColor: '#3EB9EF'}}/>
+						<View style={{
+							padding: 5
+						}}>
+							<View style={{
+								flexDirection: 'row',
+								justifyContent: 'space-between',
+								alignItems: 'center',
+								paddingBottom: 5
+							}}>
+								<Line style={{width: '70%', height: RF(2.75)}}/>
+								<Line style={{width: '20%', height: RF(2.75)}}/>
+							</View>
+						
+							<View style={{
+								flexDirection: 'row',
+								justifyContent: 'space-between',
+								alignItems: 'center'
+							}}>
+								<View style={{
+									marginRight: '20%',
+									flex: 1,
+									flexDirection: 'row',
+									justifyContent: 'space-between',
+									alignItems: 'center'
+								}}>
+									<Line style={{width: "75%", height: RF(2)}}/>
+								</View>
+							</View>
+						
+						</View>
+					</View>
+				</Placeholder>
+			)
+		}
+		return (
+			<HousePreviewView
+				house={item}
+				onTouch={this.openHouse}
+				curUser={this.state.curUser}
+			/>
+		)
+	}
 	
 	render = () => {
 		const end = (this.state.page + 1) * Items_Per_Page - 1;
@@ -393,57 +447,18 @@ export default class HousingSearchPage extends React.Component{
 				</Overlay>
 				<View>
 					{
-						this.state.noResult ? <Text style={{fontSize: RF(2.5)}}> There is no result that matches your filter</Text> : null
+						this.state.displayList.length == 0 && !this.state.isFetchingHouseData ? <Text style={{fontSize: RF(2.5)}}> There is no result that matches your filter</Text> : null
 					}
 				</View>
-				{this.state.isFetchingHouseData ? (
-					<ScrollView>
-						<ActivityIndicator size='large'/>
-						<Placeholder
-							isReady={false}
-							animation="fade"
-							style={{
-								marginBottom: 10,
-								padding: 5,
-							}}
-						>
-							<Media style={{width: "100%", height: 200, marginBottom: 10, backgroundColor: '#2EA9DF'}}/>
-							<Line width="60%" style={{height: RF(3), backgroundColor: 'grey'}}/>
-							<Line width="75%" style={{height: RF(3), backgroundColor: 'grey'}}/>
-						</Placeholder>
-						<Placeholder
-							isReady={false}
-							animation="fade"
-							style={{
-								marginBottom: 10,
-								padding: 5,
-							}}
-						>
-							<Media style={{width: "100%", height: 200, marginBottom: 10, backgroundColor: '#2EA9DF'}}/>
-							<Line style={{height: RF(3), backgroundColor: 'grey'}}/>
-							<Line style={{height: RF(3), backgroundColor: 'grey'}}/>
-						</Placeholder>
-					</ScrollView>
-				) : (
-					<FlatList
-						keyExtractor={(item, index) => index.toString()}
-						data={dataToDisplay}
-						onRefresh={this.onRefresh}
-						refreshing={this.state.isFetchingHouseData}
-						onEndReached={this.loadMore}
-						onEndReachedThreshold={0.7}
-						renderItem={({item}) => {
-							return (
-								<HousePreviewView
-									house={item}
-									onTouch={this.openHouse}
-									curUser={this.state.curUser}
-								/>
-							)
-							
-						}}
-					/>
-				)}
+				<FlatList
+					keyExtractor={(item, index) => index.toString()}
+					data={this.state.isFetchingHouseData ? ["", "", ""] : dataToDisplay}
+					onRefresh={this.onRefresh}
+					refreshing={this.state.isFetchingHouseData}
+					onEndReached={this.loadMore}
+					onEndReachedThreshold={0.7}
+					renderItem={({item}) => {return this.renderFlatListItem(item)}}
+				/>
 				
 			</View>
 		);

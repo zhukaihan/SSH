@@ -11,6 +11,7 @@ import { SafeAreaView } from 'react-navigation';
 import RoommateFavButton from '../View/RoommateFavButton';
 import ImageLoad from 'react-native-image-placeholder';
 import RNPickerSelect from 'react-native-picker-select';
+import Placeholder, { Line, Media } from "rn-placeholder";
 
 const Items_Per_Page = 21;
 
@@ -115,128 +116,100 @@ export default class RoomateSearchPage extends React.Component{
     }
 
     componentWillMount = async () => {
-        this.getRoommateData();
+        this.getRoommateData(this.onSearch);
     }
 
-    getRoommateData = () => {
+    getRoommateData = (callback) => {
         this.setState({
 			displayList:[],
 			isFetchingHouseData: true
 		})
-		const zero = 0;
 		this.roommateRef.get().then(snapshot => {
 			let roommateItems = [];
 			snapshot.forEach(roommate => {
                 var aUser = new User(roommate.data(), roommate.id);
                 if(aUser.availability == false && aUser.id != this.state.curUser.id){
-                roommateItems.push(aUser);
+                    roommateItems.push(aUser);
                 }
 			});
 			this.setState({
 				roommateItems: roommateItems,
-				page: zero,
-			});
-			const { page, displayList } = this.state;
-			const start = page*Items_Per_Page;
-			const end = (page+1)*Items_Per_Page-1;
-			var newData = roommateItems.slice(start,end);
-			this.setState({
-				displayList:[...displayList,...newData],
-				page:page+1,
-				isFetchingHouseData: false
-			});
+                page: 0,
+            }, () => {
+                if (callback) {
+                    callback();
+                } else {
+                    this.setState({
+                        isFetchingHouseData: false
+                    });
+                }
+            });
+			
 		});
     }
 
     onRefresh = () => {
-        if( this.state.searchQuery == ""){
-            this.getRoommateData();
-        }
-        else{
-        const zero = 0;
-        this.setState({
-            displayList:[],
-			isFetchingHouseData: true,
-			page: zero,
-		})
-		const { page } = this.state;
-		const start = page*Items_Per_Page;
-		const end = (page+1)*Items_Per_Page-1;
-		var newData = this.state.displayList.slice(start,end);
-		this.setState({
-			displayList:[...newData],
-			page:page+1,
-			isFetchingHouseData: false
-        });
-    }
+        this.getRoommateData(this.onSearch);
     }
 
     LoadMore = () => {
-        console.log("load data");
 		if(this.state.roommateItems == null)
 		{
 			this.getRoommateData();
 		}
 		this.setState({
-			isFetchingHouseData: true
-		})
-		const { page, displayList } = this.state;
-		const start = page*Items_Per_Page;
-		const end = (page+1)*Items_Per_Page-1;
-		console.log("start:" + start);
-		console.log("end" + end);
-		if(this.state.roommateItems.length > end){
-		var newData = this.state.roommateItems.slice(start,end);
-		this.setState({
-			displayList:[...displayList,...newData],
-			page:page+1,
-			
-		});
-		this.setState({
-			isFetchingHouseData: false
+			page: page + 1,
 		});
 	}
-    }
 
     onSearch = () => {
-        this.setState({
-			displayList:[],
+        this.setState(() => {return {
 			isFetchingHouseData: true
-		})
-		if(this.state.searchQuery == ""){
-			this.onRefresh;
-        }
-        const newData = this.state.roommateItems.filter(item =>{
-            const ItemData = `${item.first_name.toUpperCase()}
-            ${item.last_name.toUpperCase()}`;
-            const textData = this.state.searchQuery.toUpperCase();
-            return ItemData.indexOf(textData) > -1;
-        })
-        this.setState({displayList: newData,
-            isFetchingHouseData: false});
+        }})
+        this.state.displayList = []
 
-    }
+        var newData = this.state.roommateItems.filter(item =>{
 
-	searchAndUpdateWithQuery = searchQuery => {
-        this.setState({ searchQuery });
-        const newData = this.state.roommateItems.filter(item =>{
+            if(this.state.gender != "" && item.gender != this.state.gender) {
+                return false;
+            }
+            if(this.state.clean != "" && item.clean != this.state.clean) {
+                return false;
+            }
+            if(this.state.major != "" && item.major != this.state.major) {
+                return false;
+            }
+            if(this.state.wake_early != "" && item.wake_early != this.state.wake_early) {
+                return false;
+            }
+            if(this.state.smoke != "" && item.smoke != this.state.smoke) {
+                return false;
+            }
+            if(this.state.pets != "" && item.pets != this.state.pets) {
+                return false;
+            }
+            
+            if (this.state.searchQuery == "") {
+                return true;
+            }
+
             const ItemData = `${item.first_name.toUpperCase()}
             ${item.last_name.toUpperCase()}
             ${item.name_preferred.toUpperCase()}`;
-            const textData = searchQuery.toUpperCase();
+            const textData = this.state.searchQuery.toUpperCase();
+
             return ItemData.indexOf(textData) > -1;
         })
-        if(this.state.displayList.length === 0 || this.state.displayList.length === undefined){
-			this.setState({
-				noResult:true
-			})
-        }
-        else{
-            this.setState({
-                noResult:false
-            })
-        }
-        this.setState({displayList: newData})
+
+        this.setState(() => {return {
+            page: 0,
+            displayList: newData,
+            isFetchingHouseData: false
+        }});
+    }
+
+	searchAndUpdateWithQuery = async searchQuery => {
+        this.setState({ searchQuery }, () => {this.onSearch();});
 	};
 
     GoTo = (userId) => {
@@ -244,66 +217,6 @@ export default class RoomateSearchPage extends React.Component{
             userId: userId
         });
     }
-
-    updateFilter = () =>{
-		this.setState({
-			displayList:[],
-			isFetchingHouseData: true
-		})
-		const zero = 0;
-		var filter = this.roommateRef;
-		if(this.state.gender != ""){
-            filter = filter.where("gender", "==", this.state.gender);
-		}
-		if(this.state.clean != ""){
-			filter = filter.where("clean", "==", this.state.clean);
-		}
-		if(this.state.major != ""){
-			filter = filter.where("major", "==", this.state.major);
-		}
-		if(this.state.wake_early != ""){
-			filter = filter.where("wake_early", "==", this.state.wake_early);
-		}
-		if(this.state.smoke != ""){
-			filter = filter.where("smoke", "==", this.state.smoke);
-		}
-		if(this.state.pets != ""){
-			filter = filter.where("pets", "==", this.state.pets);
-		}
-		filter.get().then(snapshot => {
-			let roommateItems = [];
-			snapshot.forEach(roommate => {
-                var aUser = new User(roommate.data(), roommate.id);
-                if(aUser.availability == false && aUser.id != this.state.curUser.id){
-                roommateItems.push(aUser);
-                }
-			});
-			this.setState({
-				roommateItems: roommateItems,
-				page: zero,
-			});
-			const { page, displayList } = this.state;
-			const start = page*Items_Per_Page;
-			const end = (page+1)*Items_Per_Page-1;
-			var newData = roommateItems.slice(start,end);
-			this.setState({
-				displayList:[...displayList,...newData],
-				page:page+1,
-			});
-        });
-        if(this.state.displayList.length === 0 || this.state.displayList.length == undefined){
-			this.setState({
-				noResult:true
-			})
-        }else{
-            this.setState({
-                noResult:false
-            })
-        }
-		this.setState({
-            isFetchingHouseData: false
-		})
-	}
 	
 	clearFilter = () =>{  
         this.setState({
@@ -315,11 +228,11 @@ export default class RoomateSearchPage extends React.Component{
             pets: null,
 		})
 	}
-	applyFilter = () =>{
+	applyFilter = async () =>{
 		this.setState({
 			advSearchisVisible:false,
 		})
-		this.updateFilter();
+		this.onSearch();
 	}
 
 	cancelFilter = () =>{
@@ -331,6 +244,34 @@ export default class RoomateSearchPage extends React.Component{
     renderItem = (item) => {
         if(item.profileimage){
             var image = item.profileimage
+        }
+        if (this.state.isFetchingHouseData) {
+            return (
+                <Placeholder style={styles.container} animation='fade'>
+                    <View style={styles.roommateContainer} onPress={() => this.GoTo(item.id)}>
+                        
+                        <View style={styles.roommateIcon}>
+
+                            <View>
+                                <View style={{ flexDirection:"row", justifyContent:"flex-end"}}>
+                                    <Media style={{width: 26, height: 26}}/>
+                                </View>
+                            </View>
+
+                            <View style = {{flexDirection: 'row' , justifyContent: "center"}}> 
+                                <Media style={{...styles.profilePic, backgroundColor: '#3EB9EF'}}/>
+                            </View>
+                            
+                        </View>
+
+                        <View style={{flex:.4 ,alignItems: "center"}}>
+                            <Line/>
+                            <Line/>
+                        </View>
+
+                    </View>
+                </Placeholder>
+            )
         }
         return( 
             <View style={styles.container}>
@@ -362,6 +303,12 @@ export default class RoomateSearchPage extends React.Component{
     }
     
     render = () => {
+		const { page } = this.state;
+		const end = (page+1)*Items_Per_Page-1;
+		if(this.state.displayList.length > end){
+            end = this.state.displayList.length
+        }
+		var displayData = this.state.displayList.slice(0,end);
         return(
             <SafeAreaView style={{flex: 1, backgroundColor: '#2EA9DF'}}>
                 <View style={{flex: 1, backgroundColor: '#f7f7f7'}}>
@@ -493,12 +440,12 @@ export default class RoomateSearchPage extends React.Component{
 					</Overlay>
                     <View>
 						{
-							this.state.noResult ? <Text style={{fontSize: RF(2.5)}}> There is no result that matches your filter</Text> : null
+							this.state.displayList.length == 0 && !this.state.isFetchingHouseData ? <Text style={{fontSize: RF(2.5)}}> There is no result that matches your filter</Text> : null
 						}
 					</View>
                     <FlatList 
-                        keyExtractor={(item, index) => {return item.id}}
-						data={this.state.displayList}
+                        keyExtractor={(item, index) => {return index}}
+						data={this.state.isFetchingHouseData ? ["", "", "", "", "", ""] : displayData}
 						onRefresh={this.onRefresh}
 						refreshing={this.state.isFetchingHouseData}
 						onEndReached={this.loadMore}
