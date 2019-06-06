@@ -246,15 +246,14 @@ const styles = StyleSheet.create({
         height: "60%",
         width: "35%",
         borderRadius: 5,
-        borderColor: "white",
-        borderWidth: 1,
         alignItems: "center",
         justifyContent: "center",
+        backgroundColor: "white"
     },
     backButtonTextStyle:{
         textAlign:'center',
         fontSize: RF(2),
-        color: "white",
+        color: "#1e89bf",
     },
     nextButtonStyle:{
         height: "60%",
