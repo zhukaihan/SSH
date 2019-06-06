@@ -11,6 +11,12 @@ export default class PrivatePolicy extends Component{
            checked: false,
         };
      };
+    
+    backslide = ()=>{
+        this.props.navigation.navigate("LogInPage",{
+
+        });
+    }
 
     nextslide = () => {
         if(this.state.checked == true){
@@ -210,50 +216,58 @@ export default class PrivatePolicy extends Component{
                         onPress={() => this.setState({checked: !this.state.checked})}
                         style={{flex:1, width:"100%"}}></CheckBox>
                     </View>
-                    <View style={{width: '100%', flexDirection:'row', height:75}}>
-                        <View style={styles.backButtonStyle}>
+                    <View style={styles.bottomButtonViewStyle}>
+                        <TouchableOpacity onPress={this.backslide} style={styles.backButtonStyle}>
                             <Text style={styles.backButtonTextStyle}>Back</Text>
-                        </View>
+                        </TouchableOpacity>
                         <TouchableOpacity onPress={this.nextslide} style={styles.nextButtonStyle}>
                             <Text style={styles.nextButtonTextStyle}>Next</Text>
                         </TouchableOpacity>
-                    </View>
+                </View>
             </SafeAreaView>
         )
     }
 }
 
+const bgColor = "#2ea9df"
+const inputBorderColor = "#1e89bf"
+
 const styles = StyleSheet.create({
+    bottomButtonViewStyle: {
+        width: '100%',
+        flexDirection:'row',
+        height:75,
+        backgroundColor: bgColor,
+        justifyContent: 'space-around',
+        alignItems: 'center',
+        backgroundColor: bgColor
+    },
     backButtonStyle:{
-        height: "0%",
-        width: "30%",
-        marginLeft: "5%",
-        marginRight: "2.5%",
+        height: "60%",
+        width: "35%",
         borderRadius: 5,
-        borderColor: "#1e89bf",
-        borderWidth: 0,
+        borderColor: "white",
+        borderWidth: 1,
         alignItems: "center",
         justifyContent: "center",
     },
     backButtonTextStyle:{
         textAlign:'center',
         fontSize: RF(2),
-        color: "#1e89bf",
+        color: "white",
     },
     nextButtonStyle:{
         height: "60%",
-        width: "55%",
-        marginLeft: "2.5%",
-        marginRight: "5%",
+        width: "35%",
         borderRadius: 5,
         alignItems: "center",
         justifyContent: "center",
-        backgroundColor: "#1e89bf"
+        backgroundColor: "white"
     },
     nextButtonTextStyle:{
         textAlign:'center',
         fontSize: RF(2),
-        color: "#fff",
+        color: "#1e89bf",
     },
     sectiontitle:{
         fontSize:RF(3),
