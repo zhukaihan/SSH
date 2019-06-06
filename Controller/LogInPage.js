@@ -88,7 +88,7 @@ export default class LogInPage extends React.Component{
 							[{text: 'Okay'}],
 							{cancelable: false},
 						)
-						LogInPage.googleLogout();
+						LogInPage.logOut();
 					});
         } else {
 					Alert.alert(
@@ -97,7 +97,7 @@ export default class LogInPage extends React.Component{
 						[{text: 'Okay'}],
 						{cancelable: false},
 					)
-					LogInPage.googleLogout();
+					LogInPage.logOut();
 				}
       } else {
 				// log in cancelled
@@ -107,7 +107,7 @@ export default class LogInPage extends React.Component{
 					[{text: 'Okay'}],
 					{cancelable: false},
 				)
-				LogInPage.googleLogout();
+				LogInPage.logOut();
       }
 		} catch (e) {
 			// log in error
@@ -117,7 +117,7 @@ export default class LogInPage extends React.Component{
 				[{text: 'Okay'}],
 				{cancelable: false},
 			)
-			LogInPage.googleLogout();
+			LogInPage.logOut();
 		}
   }
 
