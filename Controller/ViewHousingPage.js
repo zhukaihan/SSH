@@ -180,6 +180,20 @@ export default class ViewHousingPage extends React.Component{
 						</View>
 						
 						<View style = {styles.descriptionView}>
+							<Text style={styles.detailsTitleText}>Location</Text>
+							<Text style={{fontSize: RF(2.25)}}>{item.location}</Text>
+						</View>
+
+						<View
+							style={{
+								borderBottomColor: 'black',
+								borderBottomWidth: 1,
+								margin: 10
+							}}
+						>
+						</View>
+						
+						<View style = {styles.descriptionView}>
 							<Text style={styles.detailsTitleText}>Description</Text>
 							<Text style={{fontSize: RF(2.25)}}>{item.description}</Text>
 						</View>
