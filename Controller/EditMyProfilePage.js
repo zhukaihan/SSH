@@ -331,14 +331,13 @@ export default class ProfilePage extends Component{
 
 							<View style={styles.descriptionContainer}>
 								<Text style={styles.description}>Description</Text>
-								<View style={styles.dscriptcontent}>
-									<TextInput 
-										multiline={true}
-										editable = {true}
-										defaultValue={this.state.user.description}
-										onChangeText={(txt) => {this.state.user.description = txt}}
-									/>
-								</View>
+								<TextInput
+									style={styles.descriptcontent}
+									multiline={true}
+									editable = {true}
+									defaultValue={this.state.user.description}
+									onChangeText={(txt) => {this.state.user.description = txt}}
+								/>
 							</View>
 
 							{/* <View style={styles.preferenceContainer}>
@@ -368,7 +367,7 @@ export default class ProfilePage extends Component{
 const styles = StyleSheet.create({
 	safeAreaView: {
 		flex: 1,
-		backgroundColor: '#2ea9df'
+		backgroundColor: '#f7f7f7'
 	},
 	pageContainer:{
 		flex: 1,
@@ -461,8 +460,9 @@ const styles = StyleSheet.create({
 	},
 
 	findText:{
-		paddingTop: 2,
-		fontSize: RF(2.5),
+		fontSize: RF(2.5), 
+		fontWeight: 'bold',
+		margin: 15
 	},
 
 	descriptionContainer:{
@@ -474,14 +474,18 @@ const styles = StyleSheet.create({
 	},
 
 	description:{
-		fontWeight: '400',
-		fontSize: RF(3),
-		paddingTop: 1,
+		fontSize: RF(2.5), 
+		fontWeight: 'bold',
+		margin: 15
 	},
 
 	descriptcontent:{
 		paddingLeft: 2,
-
+		minHeight: 300,
+		borderWidth: 1,
+		borderRadius: 2,
+		borderColor: 'grey',
+		padding: 10
 	},
 
 	preferenceContainer:{

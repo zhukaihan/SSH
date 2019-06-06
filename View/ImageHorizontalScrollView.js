@@ -57,17 +57,17 @@ export default class ImageHorizontalScrollView extends React.Component {
 		}
 		pictureUrls.forEach((picture, index) => {
 			imgs.push((
-					<Image
-						host={scrollViewName}
-						key={index}
-						source={{url: picture, cache: 'force-cache'}}
-						style={{
-							height: this.state.height,
-							width: this.state.width
-						}}
-						defaultSource={defaultImg}
-						PlaceholderContent={(<ActivityIndicator/>)}
-					/>
+				<Image
+					host={scrollViewName}
+					key={index}
+					source={{url: picture, cache: 'force-cache'}}
+					style={{
+						height: this.state.height,
+						width: this.state.width
+					}}
+					defaultSource={defaultImg}
+					PlaceholderContent={(<ActivityIndicator/>)}
+				/>
 			));
 		});
 		

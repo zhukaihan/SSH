@@ -170,22 +170,22 @@ export default class RoomateSearchPage extends React.Component{
 
         var newData = this.state.roommateItems.filter(item =>{
 
-            if(this.state.gender != "" && item.gender != this.state.gender) {
+            if(this.state.gender && this.state.gender != "" && item.gender != this.state.gender) {
                 return false;
             }
-            if(this.state.clean != "" && item.clean != this.state.clean) {
+            if(this.state.clean && this.state.clean != "" && item.clean != this.state.clean) {
                 return false;
             }
-            if(this.state.major != "" && item.major != this.state.major) {
+            if(this.state.major && this.state.major != "" && item.major != this.state.major) {
                 return false;
             }
-            if(this.state.wake_early != "" && item.wake_early != this.state.wake_early) {
+            if(this.state.wake_early && this.state.wake_early != "" && item.wake_early != this.state.wake_early) {
                 return false;
             }
-            if(this.state.smoke != "" && item.smoke != this.state.smoke) {
+            if(this.state.smoke && this.state.smoke != "" && item.smoke != this.state.smoke) {
                 return false;
             }
-            if(this.state.pets != "" && item.pets != this.state.pets) {
+            if(this.state.pets && this.state.pets != "" && item.pets != this.state.pets) {
                 return false;
             }
             
@@ -220,13 +220,14 @@ export default class RoomateSearchPage extends React.Component{
 	
 	clearFilter = () =>{  
         this.setState({
-            gender: null,
-            clean: null,
-            major: null,
-            wake_early:null,
-            smoke: null,
-            pets: null,
+            gender: "",
+            clean: "",
+            major: "",
+            wake_early: "",
+            smoke: "",
+            pets: "",
         })
+		this.onSearch();
 	}
 	applyFilter = async () =>{
 		this.setState({

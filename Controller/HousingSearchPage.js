@@ -69,27 +69,27 @@ export default class HousingSearchPage extends React.Component{
 	filterHouse = () => {
 		var filter = {
 		}
-		if(this.state.minPrice != ""){
+		if(this.state.minPrice && this.state.minPrice != ""){
 			// filter = filter.where("price", ">", parseInt(this.state.minPrice));
 			filter.minPrice = parseInt(this.state.minPrice);
 		}
-		if(this.state.maxPrice != ""){
+		if(this.state.maxPrice && this.state.maxPrice != ""){
 			// filter = filter.where("price", "<", parseInt(this.state.maxPrice));
 			filter.maxPrice = parseInt(this.state.maxPrice);
 		}
-		if(this.state.bed != ""){
+		if(this.state.bed && this.state.bed != ""){
 			// filter = filter.where("num_bedroom", ">=", parseInt(this.state.bed));
 			filter.numBed = parseInt(this.state.bed);
 		}
-		if(this.state.bath != ""){
+		if(this.state.bath && this.state.bath != ""){
 			// filter = filter.where("num_bathroom", ">=", parseInt(this.state.bath));
 			filter.numBath = parseInt(this.state.bath);
 		}
-		if(this.state.parking != ""){
+		if(this.state.parking && this.state.parking != ""){
 			// filter = filter.where("num_parking", ">=", parseInt(this.state.parking));
 			filter.numParking = parseInt(this.state.parking);
 		}
-		if(this.state.tenant != ""){
+		if(this.state.tenant && this.state.tenant != ""){
 			// filter = filter.where("num_tenant", ">=", parseInt(this.state.tenant));
 			filter.numTenant = parseInt(this.state.tenant);
 		}
@@ -234,8 +234,9 @@ export default class HousingSearchPage extends React.Component{
 			bath: "",
 			parking: "",
 			tenant: "",
+		}, () => {
+			this.filterHouse();
 		})
-		this.filterHouse();
 	}
 	applyFilter = async () =>{
 		this.setState({

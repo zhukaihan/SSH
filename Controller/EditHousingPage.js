@@ -376,8 +376,8 @@ export default class EditHousingPage extends React.Component{
 					</TouchableOpacity>
 				</View>
 
-				<View style={styles.infoContainer}>
-					<Text style={styles.locationTitle}>Basic Information: </Text>
+				<View style={styles.sectionContainer}>
+					<Text style={styles.sectionTitle}>Basic Information: </Text>
 
 					<Fumi
 						label={'Title'}
@@ -463,8 +463,8 @@ export default class EditHousingPage extends React.Component{
 				</View>  
 				{/* End before Description */}
 
-				<View style={styles.locationContainer}>
-						<Text style={styles.locationTitle}>Describe the Location: </Text>
+				<View style={styles.sectionContainer}>
+						<Text style={styles.sectionTitle}>Describe the Location: </Text>
 						<TextInput
 							style={styles.locationInput}
 							multiline={true}
@@ -475,8 +475,8 @@ export default class EditHousingPage extends React.Component{
 						/>
 				</View>
 				
-				<View style={styles.descriptionContainer}>
-					<Text style={styles.descriptionTitle}>Describe your House:</Text>
+				<View style={styles.sectionContainer}>
+					<Text style={styles.sectionTitle}>Describe your House:</Text>
 					<TextInput
 						style={styles.descriptionInput}
 						multiline={true}
@@ -487,8 +487,8 @@ export default class EditHousingPage extends React.Component{
 					/>
 				</View>
 				
-				<View style={styles.tenantsContainer}>
-					<Text style={styles.tenantsTitle}>Current Tenants:</Text>
+				<View style={styles.sectionContainer}>
+					<Text style={styles.sectionTitle}>Current Tenants:</Text>
 					<View>
 						{tenants}
 					</View>
@@ -498,9 +498,9 @@ export default class EditHousingPage extends React.Component{
 					</View>
 				</View>
 
-				<View style={styles.findButtonContainer}>
+				<View style={styles.sectionContainer}>
+					<Text style={styles.sectionTitle}>Post this house: </Text>
 					<View style={styles.findButton}>
-						<Text style={styles.findText}>Post this house: </Text>
 						<Switch
 							onValueChange={() => {this.state.house.availability = !this.state.house.availability; this.forceUpdate()}}
 							value={this.state.house.availability}
@@ -643,41 +643,16 @@ const styles = StyleSheet.create({
 		paddingLeft: 2,
 	},
 
-	descriptionContainer: {
+	sectionContainer: {
 		paddingLeft: RF(1.5),
 		paddingRight: RF(1.5),
-		paddingBottom: RF(1.5),
+		paddingTop: RF(3),
+		paddingBottom: RF(3),
+		borderBottomColor: 'grey',
+		borderBottomWidth: 1
 	},
 
-	locationContainer: {
-		paddingLeft: RF(1.5),
-		paddingRight: RF(1.5),
-		paddingBottom: RF(1.5),
-	},
-
-	tenantsContainer: {
-		paddingLeft: RF(1.5),
-		paddingRight: RF(1.5),
-		paddingBottom: RF(1),
-	},
-
-	descriptionTitle: {
-		fontSize: RF(2.75),
-		fontWeight: 'bold',
-		color: 'grey',
-		paddingTop: 10,
-		paddingBottom: 10
-	},
-
-	locationTitle: {
-		fontSize: RF(2.75),
-		fontWeight: 'bold',
-		color: 'grey',
-		paddingTop: 10,
-		paddingBottom: 10
-	},
-
-	tenantsTitle: {
+	sectionTitle: {
 		fontSize: RF(2.75),
 		fontWeight: 'bold',
 		color: 'grey',
@@ -700,7 +675,6 @@ const styles = StyleSheet.create({
 		height: 0.2 * height,
 		padding: 10
 	},
-
 
 	buttonContainer: {
 		flexDirection: 'row',
