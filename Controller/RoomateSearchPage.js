@@ -19,7 +19,7 @@ export default class RoomateSearchPage extends React.Component{
     state = {
 		roommateItems: [],
 		displayList: [],
-		isFetchingHouseData: true,
+		isFetchingHouseData: false,
 		page: 0,
         searchQuery: "",
         gender: "",
@@ -120,10 +120,10 @@ export default class RoomateSearchPage extends React.Component{
     }
 
     getRoommateData = (callback) => {
-        this.setState({
+        this.setState(() => {return {
 			displayList:[],
 			isFetchingHouseData: true
-		})
+		}})
 		this.roommateRef.get().then(snapshot => {
 			let roommateItems = [];
 			snapshot.forEach(roommate => {
@@ -132,10 +132,10 @@ export default class RoomateSearchPage extends React.Component{
                     roommateItems.push(aUser);
                 }
 			});
-			this.setState({
+			this.setState(() => {return {
 				roommateItems: roommateItems,
                 page: 0,
-            }, () => {
+            }}, () => {
                 if (callback) {
                     callback();
                 } else {
@@ -226,7 +226,7 @@ export default class RoomateSearchPage extends React.Component{
             wake_early:null,
             smoke: null,
             pets: null,
-		})
+        })
 	}
 	applyFilter = async () =>{
 		this.setState({
