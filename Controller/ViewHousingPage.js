@@ -12,6 +12,7 @@ import HouseFavButton from '../View/HouseFavButton';
 import UserPreviewView from '../View/UserPreviewView';
 import { TouchableOpacity } from 'react-native-gesture-handler';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
+import Placeholder, { Line, Media } from "rn-placeholder";
 
 
 export default class ViewHousingPage extends React.Component{
@@ -114,27 +115,41 @@ export default class ViewHousingPage extends React.Component{
 						<View>
 							<View style={styles.roomTitleView}>
 								<Text style={styles.roomTitleText}>{item.title}</Text>
-								<HouseFavButton house={item}/>
+								<View style={styles.roomFavButton}>
+									<HouseFavButton house={item}/>
+								</View>
 							</View>
 						
 							<View style={styles.roomInfoView}>
 								<View style={styles.roomInfoLeftView}>
 									<View style={styles.roomInfoLeftSpecsView}>
 										<View style={styles.roomInfoLeftSpecDetailsView}>
-											<Icon name="users" type="font-awesome"/>
-											<Text>  {item.num_tenant} Tenants</Text>
+											<View style={styles.roomInfoLeftSpecDetailsIconView}>
+												<Icon name="users" type="font-awesome" color="#1E89CF"/>
+											</View>
+											<Text style={styles.roomInfoLeftSpecDetailsTextView}>{item.num_tenant}</Text>
+											<Text> Tenants</Text>
 										</View>
 										<View style={styles.roomInfoLeftSpecDetailsView}>
-											<Icon name="bed" type="font-awesome"/>
-											<Text>  {item.num_bedroom} Bedrooms</Text>
+											<View style={styles.roomInfoLeftSpecDetailsIconView}>
+												<Icon name="bed" type="font-awesome" color="#1E89CF"/>
+											</View>
+											<Text style={styles.roomInfoLeftSpecDetailsTextView}>{item.num_bedroom}</Text>
+											<Text> Bedrooms</Text>
 										</View>
 										<View style={styles.roomInfoLeftSpecDetailsView}>
-											<Icon name="bath" type="font-awesome"/>
-											<Text>  {item.num_bathroom} Bathrooms</Text>
+											<View style={styles.roomInfoLeftSpecDetailsIconView}>
+												<Icon name="bath" type="font-awesome" color="#1E89CF"/>
+											</View>
+											<Text style={styles.roomInfoLeftSpecDetailsTextView}>{item.num_bathroom}</Text>
+											<Text> Bathrooms</Text>
 										</View>
 										<View style={styles.roomInfoLeftSpecDetailsView}>
-											<Icon name="car" type="font-awesome"/>
-											<Text>  {item.num_parking} Parkings</Text>
+											<View style={styles.roomInfoLeftSpecDetailsIconView}>
+												<Icon name="car" type="font-awesome" color="#1E89CF"/>
+											</View>
+											<Text style={styles.roomInfoLeftSpecDetailsTextView}>{item.num_parking}</Text>
+											<Text> Parkings</Text>
 										</View>
 									</View>
 									<BadgesView tags={item.additional_tags} />
@@ -165,7 +180,7 @@ export default class ViewHousingPage extends React.Component{
 						</View>
 						
 						<View style = {styles.descriptionView}>
-							<Text style={{fontSize: RF(3)}}>Description</Text>
+							<Text style={styles.detailsTitleText}>Description</Text>
 							<Text style={{fontSize: RF(2.25)}}>{item.description}</Text>
 						</View>
 
@@ -178,15 +193,49 @@ export default class ViewHousingPage extends React.Component{
 						>
 						</View>
 						
-						<View>
-							<Text style={{fontSize: RF(3), margin: 15}}>Current Tenants</Text>
+						<View style = {styles.descriptionView}>
+							<Text style={styles.detailsTitleText}>Current Tenants</Text>
 							<View>
-								{tenants}
+								{tenants.length ? (
+									tenants
+								) : (
+									<Text style={{color: 'grey', fontWeight: 'bold'}}>No tenants in this house. </Text>
+								)}
 							</View>
 						</View>
 						<Text style={{fontSize: RF(2.5), color: '#2ea9df', margin: 15, textAlign:'right'}}>{"$ " + item.price}</Text>
 					</View>
 				</View>
+			);
+		} else {
+			content = (
+				<Placeholder
+					isReady={false}
+					animation="fade"
+				>
+					<Media style={{width: "100%", height: 275, marginBottom: 10, backgroundColor: '#2EA9DF'}}/>
+					<Line width="60%" style={{height: RF(3)}}/>
+					<View style={styles.roomInfoView}>
+						<View style={styles.roomInfoLeftView}>
+							<Line width="60%" style={{height: RF(2.5)}}/>
+							<Line width="60%" style={{height: RF(2.5)}}/>
+							<Line width="60%" style={{height: RF(2.5)}}/>
+							<Line width="60%" style={{height: RF(2.5)}}/>
+						</View>
+						<View style={{...styles.roomInfoRightView, aspectRatio: 1, backgroundColor: '#2EA9DF'}}>
+							<Media style={{width: "90%", aspectRatio: 1, margin: "5%", backgroundColor: '#2EA9DF'}}/>
+						</View>
+					</View>
+					<Line width="100%" style={{height: RF(3)}}/>
+					<Line width="60%" style={{height: RF(3)}}/>
+					<Line width="75%" style={{height: RF(3)}}/>
+					<Line width="60%" style={{height: RF(3)}}/>
+					<Line width="75%" style={{height: RF(3)}}/>
+					<Line width="60%" style={{height: RF(3)}}/>
+					<Line width="75%" style={{height: RF(3)}}/>
+					<Line width="60%" style={{height: RF(3)}}/>
+					<Line width="75%" style={{height: RF(3)}}/>
+				</Placeholder>
 			);
 		}
 
@@ -204,11 +253,16 @@ const styles = StyleSheet.create({
 	roomTitleView: {
 		margin: 10,
 		flexDirection: 'row',
-		justifyContent: 'space-between'
+		justifyContent: 'space-between',
+		alignItems: 'center'
 	},
 	roomTitleText: {
 		fontSize: RF(2.5), 
-		fontWeight: 'bold'
+		fontWeight: 'bold',
+		flex: 1
+	},
+	roomFavButton: {
+		width: 50
 	},
 	roomInfoView: {
 		flexDirection: 'row',
@@ -236,7 +290,7 @@ const styles = StyleSheet.create({
 		marginBottom: 5
 	},
 	roomInfoLeftSpecDetailsView: {
-		width: '45%',
+		width: '90%',
 		marginLeft: '2.5%',
 		marginRight: '2.5%',
 		marginTop: 5,
@@ -244,6 +298,17 @@ const styles = StyleSheet.create({
 		flexDirection: 'row',
 		justifyContent: 'flex-start',
 		alignItems: 'center'
+	},
+	roomInfoLeftSpecDetailsIconView: {
+		width: 50,
+	},
+	roomInfoLeftSpecDetailsTextView: {
+		fontWeight: 'bold',
+	},
+	detailsTitleText: {
+		fontSize: RF(2.5), 
+		fontWeight: 'bold',
+		margin: 15
 	},
 
 	descriptionView: {

@@ -89,7 +89,7 @@ export default class RoomateSearchPage extends React.Component{
 
 		return (
 
-			<SafeAreaView style={{flex: 1}}>
+			<View style={{flex: 1}}>
 				<SearchBar
 					placeholder="FirstName LastName"
 					lightTheme={true}
@@ -100,7 +100,7 @@ export default class RoomateSearchPage extends React.Component{
 				<ScrollView>
 					{userScrollView}
 				</ScrollView>
-      		</SafeAreaView>
+      		</View>
 
 		)
 	}

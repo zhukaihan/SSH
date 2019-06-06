@@ -1,7 +1,7 @@
 // HousingSearchPage will be used for the user to search for a house. It will display all houses available for renting and has the ability to filter (WIP). 
 
 import React, { Component } from 'react';
-import { StyleSheet, View, Text, StatusBar, Button, Alert, FlatList, TouchableHighlight,TouchableOpacity, TextInput, RefreshControl } from 'react-native';
+import { StyleSheet, View, Text, StatusBar, Button, Alert, FlatList, TouchableHighlight,TouchableOpacity, TextInput, RefreshControl, ActivityIndicator } from 'react-native';
 import { Icon, Card, Badge, SearchBar,Overlay } from 'react-native-elements';
 import { SafeAreaView } from 'react-navigation';
 import firebase from 'firebase';
@@ -9,6 +9,8 @@ import House from '../Model/House';
 import User from '../Model/User';
 import RF from "react-native-responsive-fontsize";
 import HousePreviewView from '../View/HousePreviewView';
+import Placeholder, { Line, Media } from "rn-placeholder";
+import { ScrollView } from 'react-native-gesture-handler';
 const Items_Per_Page = 6;
 
 export default class HousingSearchPage extends React.Component{
@@ -39,7 +41,7 @@ export default class HousingSearchPage extends React.Component{
 	// Can be used on first launch and on refresh request. 
 	getHousingData = async (callback) => {
 		this.setState(() => {return {
-			isFetchingHouseData: false
+			isFetchingHouseData: true
 		}})
 		this.housesRef.where("availability", "==", true).orderBy("post_date", 'desc').get().then((snapshot) => {
 			this.state.housingItems = [];
@@ -253,148 +255,176 @@ export default class HousingSearchPage extends React.Component{
 		var dataToDisplay = this.state.displayList.slice(0,end);
 		
 		return (
-			<SafeAreaView style={{flex: 1, backgroundColor: '#2EA9DF'}}>
-				<View style={{flex: 1, backgroundColor: '#f7f7f7'}}>
-					<SearchBar
-						placeholder="Search Keywords"
-						lightTheme={true}
-						round={true}
-						containerStyle={{backgroundColor: '#2EA9DF', borderTopWidth: 0}}
-						inputContainerStyle={{backgroundColor: 'white', marginStart:30, marginEnd:30, width: '85%', flexDirection: 'row-reverse'}}
-						onChangeText={this.updateSearchQuery}
-						value={this.state.searchQuery}
-						onClear={this.onRefresh}
-						onSubmitEditing={this.filterHouse}
-						
-						searchIcon={
-							<TouchableOpacity onPress={this.filterHouse}>
-								<View style={{paddingRight: 10,}}>
-									<Icon name="search" type="font-awesome" color='darkgrey' />
-								</View>
-							</TouchableOpacity>
-						}
-					/>
-					<TouchableOpacity onPress={()=> this.setState({advSearchisVisible:true})}>
-						<View style={styles.advanceContainer}>
-							<Text>Advance Search</Text>
-						</View>
-					</TouchableOpacity>
-					<Overlay
-						overlayStyle={styles.overlay}
-						isVisible={this.state.advSearchisVisible}
-						width="auto"
-						height="auto"
-						onBackdropPress={() =>
-							this.setState({advSearchisVisible: false})
-						}
-					>
-						<View style={{flexDirection:"column"}}>
-							<View style={styles.OverlayContainer}>
-								<Text style={{fontSize:RF(2.5)}}>Price:</Text>
-								<TextInput
-									placeholder="Min" style={styles.textInput}
-									//placeholderTextColor={'#fff'}
-									onChangeText={minPrice => {
-										this.setState({minPrice})
-										console.log(this.state.minPrice);
-									}}
-									keyboardType={"number-pad"}
-									value={this.state.minPrice}
-								/>
-								<Text style={{fontSize:RF(2.5)}}>To:</Text>
-								<TextInput
-									placeholder="Max" id="maxPrice"
-									//placeholderTextColor={"#fff"}
-									style={styles.textInput}
-									onChangeText={maxPrice =>{
-											this.setState({maxPrice})
-										console.log(this.state.maxPrice);
-									}}
-									keyboardType={"number-pad"}
-									value={this.state.maxPrice}
-								/>
+			<View style={{flex: 1, backgroundColor: '#f7f7f7'}}>
+				<SearchBar
+					placeholder="Search Keywords"
+					lightTheme={true}
+					round={true}
+					containerStyle={{backgroundColor: '#2EA9DF', borderTopWidth: 0}}
+					inputContainerStyle={{backgroundColor: 'white', marginStart:30, marginEnd:30, width: '85%', flexDirection: 'row-reverse'}}
+					onChangeText={this.updateSearchQuery}
+					value={this.state.searchQuery}
+					onClear={this.onRefresh}
+					onSubmitEditing={this.filterHouse}
+					
+					searchIcon={
+						<TouchableOpacity onPress={this.filterHouse}>
+							<View style={{paddingRight: 10,}}>
+								<Icon name="search" type="font-awesome" color='darkgrey' />
 							</View>
-							<View style={styles.OverlayContainer}>
-								<Text style={{fontSize:RF(2.5)}}>Bath:</Text>
-								<TextInput
-									placeholder="0" id="bath"
-									//placeholderTextColor={'#fff'}
-									style={styles.textInputBath}
-									onChangeText={bath =>{
-											this.setState({bath})
-										console.log(this.state.bath);
-									}}
-									keyboardType={"number-pad"}
-									value={this.state.bath}
-								/>
-							</View>
-							<View style={styles.OverlayContainer}>
-								<Text style={{fontSize:RF(2.5)}}>Bed:</Text>
-								<TextInput
-									placeholder="0"id="bed"
-									//placeholderTextColor={"#fff"}
-									style={styles.textInputBed}
-									onChangeText={bed =>{
-											this.setState({bed})
-										console.log(this.state.bed);
-									}}
-									keyboardType={"number-pad"}
-									value={this.state.bed}
-								/>
-							</View>
-							<View style={styles.OverlayContainer}>
-								<Text style={{fontSize:RF(2.5)}}>Parking:</Text>
-								<TextInput
-									placeholder="0" id="parking"
-									//placeholderTextColor={'#fff'}
-									style={styles.textInputParking}
-									onChangeText={parking =>{
-											this.setState({parking})
-										console.log(this.state.parking);
-									}}
-									keyboardType={"number-pad"}
-									value={this.state.parking}
-								/>
-							</View>
-							<View style={styles.OverlayContainer}>
-								<Text style={{fontSize:RF(2.5)}}>Tenant:</Text>
-								<TextInput
-									placeholder="0" id="tenant"
-									//placeholderTextColor={"#fff"}
-									style={styles.textInputTenant}
-									onChangeText={tenant =>{
-											this.setState({tenant})
-										console.log(this.state.tenant);
-									}}
-									keyboardType={"number-pad"}
-									value={this.state.tenant}
-								/>
-							</View>
-							<View style={{flexDirection:"column", justifyContent:"center",alignItems:"center"}}>
-								<TouchableOpacity onPress={
-									this.applyFilter
-								}>
-									<Text style={styles.advanceButton}>Apply Filter</Text>
-								</TouchableOpacity>
-								<TouchableOpacity onPress={
-									this.cancelFilter
-								}>
-									<Text style={styles.advanceButton}>Cancel</Text>
-								</TouchableOpacity>
-								<TouchableOpacity onPress={
-									this.clearFilter
-								}>
-									<Text style={styles.advanceButton}>Clear</Text>
-								</TouchableOpacity>
-							</View>
-
-						</View>
-					</Overlay>
-					<View>
-						{
-							this.state.noResult ? <Text style={{fontSize: RF(2.5)}}> There is no result that matches your filter</Text> : null
-						}
+						</TouchableOpacity>
+					}
+				/>
+				<TouchableOpacity onPress={()=> this.setState({advSearchisVisible:true})}>
+					<View style={styles.advanceContainer}>
+						<Text>Advance Search</Text>
 					</View>
+				</TouchableOpacity>
+				<Overlay
+					overlayStyle={styles.overlay}
+					isVisible={this.state.advSearchisVisible}
+					width="auto"
+					height="auto"
+					onBackdropPress={() =>
+						this.setState({advSearchisVisible: false})
+					}
+				>
+					<View style={{flexDirection:"column"}}>
+						<View style={styles.OverlayContainer}>
+							<Text style={{fontSize:RF(2.5)}}>Price:</Text>
+							<TextInput
+								placeholder="Min" style={styles.textInput}
+								//placeholderTextColor={'#fff'}
+								onChangeText={minPrice => {
+									this.setState({minPrice})
+									console.log(this.state.minPrice);
+								}}
+								keyboardType={"number-pad"}
+								value={this.state.minPrice}
+							/>
+							<Text style={{fontSize:RF(2.5)}}>To:</Text>
+							<TextInput
+								placeholder="Max" id="maxPrice"
+								//placeholderTextColor={"#fff"}
+								style={styles.textInput}
+								onChangeText={maxPrice =>{
+										this.setState({maxPrice})
+									console.log(this.state.maxPrice);
+								}}
+								keyboardType={"number-pad"}
+								value={this.state.maxPrice}
+							/>
+						</View>
+						<View style={styles.OverlayContainer}>
+							<Text style={{fontSize:RF(2.5)}}>Bath:</Text>
+							<TextInput
+								placeholder="0" id="bath"
+								//placeholderTextColor={'#fff'}
+								style={styles.textInputBath}
+								onChangeText={bath =>{
+										this.setState({bath})
+									console.log(this.state.bath);
+								}}
+								keyboardType={"number-pad"}
+								value={this.state.bath}
+							/>
+						</View>
+						<View style={styles.OverlayContainer}>
+							<Text style={{fontSize:RF(2.5)}}>Bed:</Text>
+							<TextInput
+								placeholder="0"id="bed"
+								//placeholderTextColor={"#fff"}
+								style={styles.textInputBed}
+								onChangeText={bed =>{
+										this.setState({bed})
+									console.log(this.state.bed);
+								}}
+								keyboardType={"number-pad"}
+								value={this.state.bed}
+							/>
+						</View>
+						<View style={styles.OverlayContainer}>
+							<Text style={{fontSize:RF(2.5)}}>Parking:</Text>
+							<TextInput
+								placeholder="0" id="parking"
+								//placeholderTextColor={'#fff'}
+								style={styles.textInputParking}
+								onChangeText={parking =>{
+										this.setState({parking})
+									console.log(this.state.parking);
+								}}
+								keyboardType={"number-pad"}
+								value={this.state.parking}
+							/>
+						</View>
+						<View style={styles.OverlayContainer}>
+							<Text style={{fontSize:RF(2.5)}}>Tenant:</Text>
+							<TextInput
+								placeholder="0" id="tenant"
+								//placeholderTextColor={"#fff"}
+								style={styles.textInputTenant}
+								onChangeText={tenant =>{
+										this.setState({tenant})
+									console.log(this.state.tenant);
+								}}
+								keyboardType={"number-pad"}
+								value={this.state.tenant}
+							/>
+						</View>
+						<View style={{flexDirection:"column", justifyContent:"center",alignItems:"center"}}>
+							<TouchableOpacity onPress={
+								this.applyFilter
+							}>
+								<Text style={styles.advanceButton}>Apply Filter</Text>
+							</TouchableOpacity>
+							<TouchableOpacity onPress={
+								this.cancelFilter
+							}>
+								<Text style={styles.advanceButton}>Cancel</Text>
+							</TouchableOpacity>
+							<TouchableOpacity onPress={
+								this.clearFilter
+							}>
+								<Text style={styles.advanceButton}>Clear</Text>
+							</TouchableOpacity>
+						</View>
+
+					</View>
+				</Overlay>
+				<View>
+					{
+						this.state.noResult ? <Text style={{fontSize: RF(2.5)}}> There is no result that matches your filter</Text> : null
+					}
+				</View>
+				{this.state.isFetchingHouseData ? (
+					<ScrollView>
+						<ActivityIndicator size='large'/>
+						<Placeholder
+							isReady={false}
+							animation="fade"
+							style={{
+								marginBottom: 10,
+								padding: 5,
+							}}
+						>
+							<Media style={{width: "100%", height: 200, marginBottom: 10, backgroundColor: '#2EA9DF'}}/>
+							<Line width="60%" style={{height: RF(3), backgroundColor: 'grey'}}/>
+							<Line width="75%" style={{height: RF(3), backgroundColor: 'grey'}}/>
+						</Placeholder>
+						<Placeholder
+							isReady={false}
+							animation="fade"
+							style={{
+								marginBottom: 10,
+								padding: 5,
+							}}
+						>
+							<Media style={{width: "100%", height: 200, marginBottom: 10, backgroundColor: '#2EA9DF'}}/>
+							<Line style={{height: RF(3), backgroundColor: 'grey'}}/>
+							<Line style={{height: RF(3), backgroundColor: 'grey'}}/>
+						</Placeholder>
+					</ScrollView>
+				) : (
 					<FlatList
 						keyExtractor={(item, index) => index.toString()}
 						data={dataToDisplay}
@@ -402,16 +432,20 @@ export default class HousingSearchPage extends React.Component{
 						refreshing={this.state.isFetchingHouseData}
 						onEndReached={this.loadMore}
 						onEndReachedThreshold={0.7}
-						renderItem={({item}) => (
-							<HousePreviewView
-								house={item}
-								onTouch={this.openHouse}
-								curUser={this.state.curUser}
-							/>
-						)}
+						renderItem={({item}) => {
+							return (
+								<HousePreviewView
+									house={item}
+									onTouch={this.openHouse}
+									curUser={this.state.curUser}
+								/>
+							)
+							
+						}}
 					/>
-				</View>
-			</SafeAreaView>
+				)}
+				
+			</View>
 		);
 	}
 }

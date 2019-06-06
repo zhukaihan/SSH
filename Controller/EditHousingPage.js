@@ -526,7 +526,7 @@ export default class EditHousingPage extends React.Component{
 				<KeyboardAwareScrollView style={{flex: 1}}>
 					{content}
 				</KeyboardAwareScrollView>
-      		</SafeAreaView>
+			</SafeAreaView>
 		);
 	}
 
