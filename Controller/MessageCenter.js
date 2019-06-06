@@ -23,6 +23,13 @@ export default class MessageCenter extends React.Component{
     },
 	});
 
+	static createRoomWith = (navigation, user) => {
+		navigation.navigate("MessageRoomView", {
+			roomId: user.id,
+			recipient: user
+		});
+	}
+
 	state = {
 		roomsItems: [],
 	}

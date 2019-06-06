@@ -13,6 +13,7 @@ import UserPreviewView from '../View/UserPreviewView';
 import { TouchableOpacity } from 'react-native-gesture-handler';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 import Placeholder, { Line, Media } from "rn-placeholder";
+import MessageCenter from './MessageCenter';
 
 
 export default class ViewHousingPage extends React.Component{
@@ -76,6 +77,7 @@ export default class ViewHousingPage extends React.Component{
 
 	render = () => {
 		var content;
+		var bottomBar;
 		
 		if (this.state.house) {
 			let item = this.state.house;
@@ -100,6 +102,42 @@ export default class ViewHousingPage extends React.Component{
 					
 				));
 			});
+
+			bottomBar = (
+				<View style={{
+					bottom: 0,
+					left: 0,
+					width: "100%",
+					height: 50,
+					flexDirection: 'row',
+					justifyContent: 'space-between',
+					backgroundColor: '#e7e7e7'
+				}}>
+					<Text
+						style={{
+							height: "100%",
+							fontSize: RF(2.5), 
+							color: '#2ea9df', 
+							padding: 15, 
+							textAlign: 'right',
+							fontWeight: 'bold',
+						}}
+					>
+						{"$ " + item.price} / Month
+					</Text>
+					<TouchableOpacity 
+						style={{
+							justifyContent: 'center', 
+							height: "100%", 
+							backgroundColor: '#2EA9DF',
+							padding: 15,
+						}}
+						onPress={() => {MessageCenter.createRoomWith(this.props.navigation, this.state.landlord)}}
+					>
+						<Text style={{color: "white", fontSize: RF(2.25)}}>Message {this.state.landlord.name_preferred ? this.state.landlord.name_preferred : this.state.landlord.first_name}</Text>
+					</TouchableOpacity>
+				</View>
+			)
 			
 
 			content = (
@@ -165,7 +203,7 @@ export default class ViewHousingPage extends React.Component{
 										(<View style={styles.roomInfoRightImage}></View>)
 									}
 									
-									<Text style={styles.roomInfoRightNameText}>{this.state.landlord.first_name} {this.state.landlord.last_name}</Text>
+									<Text style={styles.roomInfoRightNameText}>{this.state.landlord.name_preferred ? this.state.landlord.name_preferred : this.state.landlord.first_name} {this.state.landlord.last_name}</Text>
 								</TouchableOpacity>
 							</View>
 						</View>
@@ -217,40 +255,127 @@ export default class ViewHousingPage extends React.Component{
 								)}
 							</View>
 						</View>
-						<Text style={{fontSize: RF(2.5), color: '#2ea9df', margin: 15, textAlign:'right'}}>{"$ " + item.price}</Text>
+						
 					</View>
 				</View>
 			);
 		} else {
 			content = (
-				<Placeholder
-					isReady={false}
-					animation="fade"
-				>
-					<Media style={{width: "100%", height: 275, marginBottom: 10, backgroundColor: '#2EA9DF'}}/>
-					<Line width="60%" style={{height: RF(3)}}/>
-					<View style={styles.roomInfoView}>
-						<View style={styles.roomInfoLeftView}>
-							<Line width="60%" style={{height: RF(2.5)}}/>
-							<Line width="60%" style={{height: RF(2.5)}}/>
-							<Line width="60%" style={{height: RF(2.5)}}/>
-							<Line width="60%" style={{height: RF(2.5)}}/>
+				
+				<Placeholder animation='fade' style={{flex: 1}}>
+					<Media style={{height: 275, width: "100%", backgroundColor: '#2EA9DF'}}/>
+					<View style={{
+							backgroundColor: 'white',
+							alignItems: "stretch",
+							marginBottom: 10,
+							padding: 10
+					}}>
+
+						<View>
+							<View style={styles.roomTitleView}>
+								<Line style={{...styles.roomTitleText, width: "50%"}}/>
+								<View style={styles.roomFavButton}>
+									<Media style={{width: 26, height: 26}}/>
+								</View>
+							</View>
+						
+							<View style={styles.roomInfoView}>
+								<View style={styles.roomInfoLeftView}>
+									<View style={styles.roomInfoLeftSpecsView}>
+										<Line style={{height: RF(2)}} width="75%"/>
+										<Line style={{height: RF(2)}} width="75%"/>
+										<Line style={{height: RF(2)}} width="75%"/>
+										<Line style={{height: RF(2)}} width="75%"/>
+									</View>
+								</View>
+								<View style={styles.roomInfoRightView}>
+									<Media style={{...styles.roomInfoRightImage, backgroundColor: '#2EA9DF'}}/>
+									
+									<Line style={styles.roomInfoRightNameText}/>
+								</View>
+							</View>
 						</View>
-						<View style={{...styles.roomInfoRightView, aspectRatio: 1, backgroundColor: '#2EA9DF'}}>
-							<Media style={{width: "90%", aspectRatio: 1, margin: "5%", backgroundColor: '#2EA9DF'}}/>
+
+						<View
+							style={{
+								borderBottomColor: 'black',
+								borderBottomWidth: 1,
+								margin: 10
+							}}
+						>
+						</View>
+						
+						<View style = {styles.descriptionView}>
+							<Line style={{...styles.detailsTitleText, height: RF(2.5)}}/>
+							<Line style={{height: RF(2.25)}}/>
+						</View>
+
+						<View
+							style={{
+								borderBottomColor: 'black',
+								borderBottomWidth: 1,
+								margin: 10
+							}}
+						>
+						</View>
+						
+						<View style = {styles.descriptionView}>
+							<Line style={{...styles.detailsTitleText, height: RF(2.5)}}/>
+							<Line style={{height: RF(2.25)}}/>
+						</View>
+
+						<View
+							style={{
+								borderBottomColor: 'black',
+								borderBottomWidth: 1,
+								margin: 10
+							}}
+						>
+						</View>
+						
+						<View style = {styles.descriptionView}>
+							<Line style={{...styles.detailsTitleText, height: RF(2.5)}}/>
+							<Line style={{height: RF(2.25)}}/>
 						</View>
 					</View>
-					<Line width="100%" style={{height: RF(3)}}/>
-					<Line width="60%" style={{height: RF(3)}}/>
-					<Line width="75%" style={{height: RF(3)}}/>
-					<Line width="60%" style={{height: RF(3)}}/>
-					<Line width="75%" style={{height: RF(3)}}/>
-					<Line width="60%" style={{height: RF(3)}}/>
-					<Line width="75%" style={{height: RF(3)}}/>
-					<Line width="60%" style={{height: RF(3)}}/>
-					<Line width="75%" style={{height: RF(3)}}/>
 				</Placeholder>
 			);
+
+			
+
+			bottomBar = (
+				<View style={{
+					bottom: 0,
+					left: 0,
+					width: "100%",
+					height: 50,
+					flexDirection: 'row',
+					justifyContent: 'space-between',
+					backgroundColor: '#e7e7e7'
+				}}>
+					<Text
+						style={{
+							height: "100%",
+							fontSize: RF(2.5),
+							color: '#4ec9ff',
+							padding: 15,
+							textAlign: 'right',
+							fontWeight: 'bold',
+						}}
+					>
+					</Text>
+					<View 
+						style={{
+							justifyContent: 'center', 
+							height: "100%", 
+							backgroundColor: '#2EA9DF',
+							padding: 15,
+						}}
+					>
+						<Text style={{color: "white", fontSize: RF(2.25)}}></Text>
+					</View>
+				</View>
+			)
 		}
 
 		return (
@@ -258,6 +383,7 @@ export default class ViewHousingPage extends React.Component{
 				<KeyboardAwareScrollView style={{flex: 1}}>
 					{content}
 				</KeyboardAwareScrollView>
+				{bottomBar}
       		</SafeAreaView>
 		);
 	}
@@ -304,9 +430,6 @@ const styles = StyleSheet.create({
 		marginBottom: 5
 	},
 	roomInfoLeftSpecDetailsView: {
-		width: '90%',
-		marginLeft: '2.5%',
-		marginRight: '2.5%',
 		marginTop: 5,
 		marginBottom: 5,
 		flexDirection: 'row',
