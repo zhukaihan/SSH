@@ -128,7 +128,7 @@ export default class RoomateSearchPage extends React.Component{
 			let roommateItems = [];
 			snapshot.forEach(roommate => {
                 var aUser = new User(roommate.data(), roommate.id);
-                if(aUser.availability == false && aUser.id != this.state.curUser.id){
+                if(aUser.availability == true && aUser.id != this.state.curUser.id){
                     roommateItems.push(aUser);
                 }
 			});
