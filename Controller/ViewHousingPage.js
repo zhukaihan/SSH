@@ -15,8 +15,19 @@ import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view
 import Placeholder, { Line, Media } from "rn-placeholder";
 import MessageCenter from './MessageCenter';
 
+import { getStatusBarHeight } from 'react-native-iphone-x-helper'
+
 
 export default class ViewHousingPage extends React.Component{
+	static navigationOptions = ({ navigation }) => ({
+		header: null,
+		headerBackTitleStyle: {
+			color: 'white',
+			fontWeight: 'bold'
+		},
+		headerTransparent: true
+	});
+
 	state = {
 		housingItems: null,
 		cur_tenant: [],
@@ -75,9 +86,15 @@ export default class ViewHousingPage extends React.Component{
 		})
 	}
 
+	goBack = () => {
+		this.props.navigation.goBack();
+	}
+
 	render = () => {
 		var content;
 		var bottomBar;
+		var imageView;
+		var titleView;
 		
 		if (this.state.house) {
 			let item = this.state.house;
@@ -140,9 +157,28 @@ export default class ViewHousingPage extends React.Component{
 			)
 			
 
+			imageView = (<ImageHorizontalScrollView pictureUrls={item.pictures} height={275}/>)
+
+			// Aware of stickeyHeaderIndicies style issue. 
+			// https://stackoverflow.com/questions/49149045/why-is-flexdirection-not-working-when-view-is-placed-in-a-scrollview-for-react-n
+			titleView = (
+				<View>
+					<View style={{...styles.roomTitleView, paddingTop: getStatusBarHeight() + RF(1), paddingBottom: RF(1)}}>
+						<TouchableOpacity onPress={this.goBack} style={{...styles.roomIcons, alignItems: 'flex-start'}}>
+							<Icon name="chevron-left" type="fontawesome" color="#2ea9df" size={40}/>
+						</TouchableOpacity>
+						<Text style={styles.roomTitleText}>{item.title}</Text>
+						<View style={styles.roomIcons}>
+							<HouseFavButton house={item}/>
+						</View>
+					</View>
+				</View>
+			)
 			content = (
 				<View style={{flex: 1}}>
-					<ImageHorizontalScrollView pictureUrls={item.pictures} height={275}/>
+					
+					
+					
 					<View style={{
 							backgroundColor: 'white',
 							alignItems: "stretch",
@@ -150,62 +186,53 @@ export default class ViewHousingPage extends React.Component{
 							padding: 10
 					}}>
 
-						<View>
-							<View style={styles.roomTitleView}>
-								<Text style={styles.roomTitleText}>{item.title}</Text>
-								<View style={styles.roomFavButton}>
-									<HouseFavButton house={item}/>
-								</View>
-							</View>
-						
-							<View style={styles.roomInfoView}>
-								<View style={styles.roomInfoLeftView}>
-									<View style={styles.roomInfoLeftSpecsView}>
-										<View style={styles.roomInfoLeftSpecDetailsView}>
-											<View style={styles.roomInfoLeftSpecDetailsIconView}>
-												<Icon name="users" type="font-awesome" color="#1E89CF"/>
-											</View>
-											<Text style={styles.roomInfoLeftSpecDetailsTextView}>{item.num_tenant}</Text>
-											<Text> Tenants</Text>
+						<View style={styles.roomInfoView}>
+							<View style={styles.roomInfoLeftView}>
+								<View style={styles.roomInfoLeftSpecsView}>
+									<View style={styles.roomInfoLeftSpecDetailsView}>
+										<View style={styles.roomInfoLeftSpecDetailsIconView}>
+											<Icon name="users" type="font-awesome" color="#1E89CF"/>
 										</View>
-										<View style={styles.roomInfoLeftSpecDetailsView}>
-											<View style={styles.roomInfoLeftSpecDetailsIconView}>
-												<Icon name="bed" type="font-awesome" color="#1E89CF"/>
-											</View>
-											<Text style={styles.roomInfoLeftSpecDetailsTextView}>{item.num_bedroom}</Text>
-											<Text> Bedrooms</Text>
-										</View>
-										<View style={styles.roomInfoLeftSpecDetailsView}>
-											<View style={styles.roomInfoLeftSpecDetailsIconView}>
-												<Icon name="bath" type="font-awesome" color="#1E89CF"/>
-											</View>
-											<Text style={styles.roomInfoLeftSpecDetailsTextView}>{item.num_bathroom}</Text>
-											<Text> Bathrooms</Text>
-										</View>
-										<View style={styles.roomInfoLeftSpecDetailsView}>
-											<View style={styles.roomInfoLeftSpecDetailsIconView}>
-												<Icon name="car" type="font-awesome" color="#1E89CF"/>
-											</View>
-											<Text style={styles.roomInfoLeftSpecDetailsTextView}>{item.num_parking}</Text>
-											<Text> Parkings</Text>
-										</View>
+										<Text style={styles.roomInfoLeftSpecDetailsTextView}>{item.num_tenant}</Text>
+										<Text> Tenants</Text>
 									</View>
-									<BadgesView tags={item.additional_tags} />
+									<View style={styles.roomInfoLeftSpecDetailsView}>
+										<View style={styles.roomInfoLeftSpecDetailsIconView}>
+											<Icon name="bed" type="font-awesome" color="#1E89CF"/>
+										</View>
+										<Text style={styles.roomInfoLeftSpecDetailsTextView}>{item.num_bedroom}</Text>
+										<Text> Bedrooms</Text>
+									</View>
+									<View style={styles.roomInfoLeftSpecDetailsView}>
+										<View style={styles.roomInfoLeftSpecDetailsIconView}>
+											<Icon name="bath" type="font-awesome" color="#1E89CF"/>
+										</View>
+										<Text style={styles.roomInfoLeftSpecDetailsTextView}>{item.num_bathroom}</Text>
+										<Text> Bathrooms</Text>
+									</View>
+									<View style={styles.roomInfoLeftSpecDetailsView}>
+										<View style={styles.roomInfoLeftSpecDetailsIconView}>
+											<Icon name="car" type="font-awesome" color="#1E89CF"/>
+										</View>
+										<Text style={styles.roomInfoLeftSpecDetailsTextView}>{item.num_parking}</Text>
+										<Text> Parkings</Text>
+									</View>
 								</View>
-								<TouchableOpacity style={styles.roomInfoRightView} onPress={() => this.openTenant(this.state.landlord)}>
-									{this.state.landlord.profileimage != "" ?
-										(<Avatar
-											rounded={true}
-											size='medium'
-											source={{uri: this.state.landlord.profileimage, cache: 'force-cache'}}
-											style={styles.roomInfoRightImage}
-										/>) : 
-										(<View style={styles.roomInfoRightImage}></View>)
-									}
-									
-									<Text style={styles.roomInfoRightNameText}>{this.state.landlord.name_preferred ? this.state.landlord.name_preferred : this.state.landlord.first_name} {this.state.landlord.last_name}</Text>
-								</TouchableOpacity>
+								<BadgesView tags={item.additional_tags} />
 							</View>
+							<TouchableOpacity style={styles.roomInfoRightView} onPress={() => this.openTenant(this.state.landlord)}>
+								{this.state.landlord.profileimage != "" ?
+									(<Avatar
+										rounded={true}
+										size='medium'
+										source={{uri: this.state.landlord.profileimage, cache: 'force-cache'}}
+										style={styles.roomInfoRightImage}
+									/>) : 
+									(<View style={styles.roomInfoRightImage}></View>)
+								}
+								
+								<Text style={styles.roomInfoRightNameText}>{this.state.landlord.name_preferred ? this.state.landlord.name_preferred : this.state.landlord.first_name} {this.state.landlord.last_name}</Text>
+							</TouchableOpacity>
 						</View>
 
 						<View
@@ -274,7 +301,7 @@ export default class ViewHousingPage extends React.Component{
 						<View>
 							<View style={styles.roomTitleView}>
 								<Line style={{...styles.roomTitleText, width: "50%"}}/>
-								<View style={styles.roomFavButton}>
+								<View style={styles.roomIcons}>
 									<Media style={{width: 26, height: 26}}/>
 								</View>
 							</View>
@@ -380,7 +407,9 @@ export default class ViewHousingPage extends React.Component{
 
 		return (
 			<SafeAreaView style={{flex: 1}} forceInset={{top: 'never'}}>
-				<KeyboardAwareScrollView style={{flex: 1}}>
+				<KeyboardAwareScrollView style={{flex: 1}} stickyHeaderIndices={[1]}>
+					{imageView}
+					{titleView}
 					{content}
 				</KeyboardAwareScrollView>
 				{bottomBar}
@@ -391,18 +420,22 @@ export default class ViewHousingPage extends React.Component{
 }
 const styles = StyleSheet.create({
 	roomTitleView: {
-		margin: 10,
+		width: "100%",
+		padding: 20,
 		flexDirection: 'row',
 		justifyContent: 'space-between',
-		alignItems: 'center'
+		alignItems: 'center',
+		backgroundColor: 'white'
 	},
 	roomTitleText: {
-		fontSize: RF(2.5), 
+		height: RF(4), 
+		fontSize: RF(3),
 		fontWeight: 'bold',
 		flex: 1
 	},
-	roomFavButton: {
-		width: 50
+	roomIcons: {
+		marginLeft: 5,
+		marginRight: 15
 	},
 	roomInfoView: {
 		flexDirection: 'row',
