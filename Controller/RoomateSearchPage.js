@@ -79,11 +79,8 @@ export default class RoomateSearchPage extends React.Component{
 				curUser: user
 			})
 		});
-		this.unsubscribe = null;
     }
     componentWillUnmount = () => {
-    //this function will close the subsciption when user stop using this page
-        this.unsubscribe();
     }
     //OnColectionUpdate = (querysnapshot) =>{} 
     // onCollectionUpdate is just a function that we called. we can rename it anything else.
