@@ -94,8 +94,8 @@ export default class CreateProfile1Page extends Component{
     nextslide = () =>{
         if(!this._checkFirstname()){
             Alert.alert(
-                'Invalid firstname',
-                'Please enter characters only',
+                'Invalid First Name',
+                'Please enter characters only. ',
                 [
                   {text: 'OK', onPress: () => console.log('OK Pressed')},
                   {text: 'Cancel', onPress: () => console.log('Cancel Pressed'), style: 'cancel'},
@@ -104,8 +104,8 @@ export default class CreateProfile1Page extends Component{
               )
         } else if (!this._checkLastname()){
             Alert.alert(
-                'Invalid lastname',
-                'Please enter characters only',
+                'Invalid Last Name',
+                'Please enter characters only. ',
                 [
                   {text: 'OK', onPress: () => console.log('OK Pressed')},
                   {text: 'Cancel', onPress: () => console.log('Cancel Pressed'), style: 'cancel'},
@@ -115,8 +115,8 @@ export default class CreateProfile1Page extends Component{
             
         } else if(!this._checkGender()){
             Alert.alert(
-                'Invalid gender',
-                'Make sure to select a gender',
+                'Invalid Gender',
+                'Make sure to select a gender. ',
                 [
                   {text: 'OK', onPress: () => console.log('OK Pressed')},
                   {text: 'Cancel', onPress: () => console.log('Cancel Pressed'), style: 'cancel'},

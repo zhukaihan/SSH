@@ -132,8 +132,8 @@ export default class CreateProfile3Page extends Component{
     nextslide = () => {
         if (!this._checkCleanOrMessy()) {
             Alert.alert(
-                'Invalid selection',
-                'Please select clean or messy',
+                'Invalid Selection',
+                'Please select clean or messy. ',
                 [
                     {text: 'OK', onPress: () => console.log('OK Pressed')},
                     {text: 'Cancel', onPress: () => console.log('Cancel Pressed'), style: 'cancel'},
@@ -142,8 +142,8 @@ export default class CreateProfile3Page extends Component{
             )
         } else if (!this._checkMorningOrNight()) {
             Alert.alert(
-                'Invalid selection',
-                'Please select morning or night',
+                'Invalid Selection',
+                'Please select morning or night. ',
                 [
                     {text: 'OK', onPress: () => console.log('OK Pressed')},
                     {text: 'Cancel', onPress: () => console.log('Cancel Pressed'), style: 'cancel'},
@@ -152,8 +152,8 @@ export default class CreateProfile3Page extends Component{
             )
         } else if (!this._checkSmokeOrNotSmoke()){
             Alert.alert(
-                'Invalid selection',
-                'Please select a preference for smoking',
+                'Invalid Selection',
+                'Please select a preference for smoking. ',
                 [
                     {text: 'OK', onPress: () => console.log('OK Pressed')},
                     {text: 'Cancel', onPress: () => console.log('Cancel Pressed'), style: 'cancel'},
@@ -162,8 +162,8 @@ export default class CreateProfile3Page extends Component{
             )
         } else if (!this._checkPetsOrNoPets()){
             Alert.alert(
-                'Invalid selection',
-                'Please select a preference for pets',
+                'Invalid Selection',
+                'Please select a preference for pets. ',
                 [
                     {text: 'OK', onPress: () => console.log('OK Pressed')},
                     {text: 'Cancel', onPress: () => console.log('Cancel Pressed'), style: 'cancel'},

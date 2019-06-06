@@ -83,7 +83,7 @@ export default class CreateProfile2Page extends Component{
         if (!this._checkMajor()) {
             Alert.alert(
                 'Invalid Major',
-                'Please enter a valid major',
+                'Please enter a valid major. ',
                 [
                     {text: 'OK', onPress: () => console.log('OK Pressed')},
                     {text: 'Cancel', onPress: () => console.log('Cancel Pressed'), style: 'cancel'},
@@ -92,8 +92,8 @@ export default class CreateProfile2Page extends Component{
             )
         } else if (!this._checkGraduation()) {
             Alert.alert(
-                'Invalid graduation year',
-                'Please enter a valid graduation year',
+                'Invalid Graduation Year',
+                'Please enter a valid graduation year. ',
                 [
                     {text: 'OK', onPress: () => console.log('OK Pressed')},
                     {text: 'Cancel', onPress: () => console.log('Cancel Pressed'), style: 'cancel'},
@@ -102,8 +102,8 @@ export default class CreateProfile2Page extends Component{
             )
         } else if (!this._checkAdditional_tags()) {
             Alert.alert(
-                'Invalid response for interest',
-                'Please enter a valid response for interest',
+                'Invalid Response for Interest',
+                'Please enter a valid response for interest. ',
                 [
                     {text: 'OK', onPress: () => console.log('OK Pressed')},
                     {text: 'Cancel', onPress: () => console.log('Cancel Pressed'), style: 'cancel'},

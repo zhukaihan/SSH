@@ -454,7 +454,7 @@ export default class HousingSearchPage extends React.Component{
 					keyExtractor={(item, index) => index.toString()}
 					data={this.state.isFetchingHouseData ? ["", "", ""] : dataToDisplay}
 					onRefresh={this.onRefresh}
-					refreshing={this.state.isFetchingHouseData}
+					refreshing={false}
 					onEndReached={this.loadMore}
 					onEndReachedThreshold={0.7}
 					renderItem={({item}) => {return this.renderFlatListItem(item)}}

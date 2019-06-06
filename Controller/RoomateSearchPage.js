@@ -19,7 +19,7 @@ export default class RoomateSearchPage extends React.Component{
     state = {
 		roommateItems: [],
 		displayList: [],
-		isFetchingHouseData: false,
+		isFetchingRoommateData: false,
 		page: 0,
         searchQuery: "",
         gender: "",
@@ -122,7 +122,7 @@ export default class RoomateSearchPage extends React.Component{
     getRoommateData = (callback) => {
         this.setState(() => {return {
 			displayList:[],
-			isFetchingHouseData: true
+			isFetchingRoommateData: true
 		}})
 		this.roommateRef.get().then(snapshot => {
 			let roommateItems = [];
@@ -140,7 +140,7 @@ export default class RoomateSearchPage extends React.Component{
                     callback();
                 } else {
                     this.setState({
-                        isFetchingHouseData: false
+                        isFetchingRoommateData: false
                     });
                 }
             });
@@ -164,7 +164,7 @@ export default class RoomateSearchPage extends React.Component{
 
     onSearch = () => {
         this.setState(() => {return {
-			isFetchingHouseData: true
+			isFetchingRoommateData: true
         }})
         this.state.displayList = []
 
@@ -204,7 +204,7 @@ export default class RoomateSearchPage extends React.Component{
         this.setState(() => {return {
             page: 0,
             displayList: newData,
-            isFetchingHouseData: false
+            isFetchingRoommateData: false
         }});
     }
 
@@ -245,7 +245,7 @@ export default class RoomateSearchPage extends React.Component{
         if(item.profileimage){
             var image = item.profileimage
         }
-        if (this.state.isFetchingHouseData) {
+        if (this.state.isFetchingRoommateData) {
             return (
                 <Placeholder style={styles.container} animation='fade'>
                     <View style={styles.roommateContainer} onPress={() => this.GoTo(item.id)}>
@@ -308,7 +308,8 @@ export default class RoomateSearchPage extends React.Component{
 		if(this.state.displayList.length > end){
             end = this.state.displayList.length
         }
-		var displayData = this.state.displayList.slice(0,end);
+        var displayData = this.state.displayList.slice(0,end);
+        let isRefreshing = this.state.isFetchingRoommateData;
         return(
             <SafeAreaView style={{flex: 1, backgroundColor: '#2EA9DF'}}>
                 <View style={{flex: 1, backgroundColor: '#f7f7f7'}}>
@@ -440,21 +441,21 @@ export default class RoomateSearchPage extends React.Component{
 					</Overlay>
                     <View>
 						{
-							this.state.displayList.length == 0 && !this.state.isFetchingHouseData ? <Text style={{fontSize: RF(2.5)}}> There is no result that matches your filter</Text> : null
+							this.state.displayList.length == 0 && !this.state.isFetchingRoommateData ? <Text style={{fontSize: RF(2.5)}}> There is no result that matches your filter</Text> : null
 						}
 					</View>
                     <FlatList 
                         keyExtractor={(item, index) => {return index}}
-						data={this.state.isFetchingHouseData ? ["", "", "", "", "", ""] : displayData}
+						data={isRefreshing ? ["", "", "", "", "", ""] : displayData}
 						onRefresh={this.onRefresh}
-						refreshing={this.state.isFetchingHouseData}
+						refreshing={false}
 						onEndReached={this.loadMore}
 						onEndReachedThreshold={0.7}
                         renderItem={({item}) => {return this.renderItem(item)}}  
                         numColumns={2} 
                         style={{
                             flex: 1
-                        }}      
+                        }}
                     />
                 </View>
             </SafeAreaView>
