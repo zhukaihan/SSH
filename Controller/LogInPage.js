@@ -39,16 +39,21 @@ export default class LogInPage extends React.Component{
 	}
 
 	static logOut = async () => {
-		firebase.auth().signOut();
-		if (isInExpoClient) {
-			// Expo client uses Google.logInAsync. There is no logout. 
-			await Google.logOutAsync({ clientId: ExpoClientId, accessToken });
-			return;
-		} else {
-			// Standalone client uses GoogleSignIn.signInAsync(). 
-			await GoogleSignIn.signOutAsync();
-			return;
+		try{
+			firebase.auth().signOut();
+			if (isInExpoClient) {
+				// Expo client uses Google.logInAsync. There is no logout. 
+				await Google.logOutAsync({ clientId: ExpoClientId, accessToken });
+				return;
+			} else {
+				// Standalone client uses GoogleSignIn.signInAsync(). 
+				await GoogleSignIn.signOutAsync();
+				return;
+			}
+		} catch (e) {
+			
 		}
+		
 	}
 
   // Log in with Google. 

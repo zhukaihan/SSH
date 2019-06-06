@@ -2,6 +2,7 @@ import React, {Component} from 'react';
 import ReactNative, { Platform,StyleSheet, View, Text, Button, Alert, ScrollView, TextInput,TouchableOpacity, Picker,SafeAreaView } from 'react-native';
 import { CheckBox } from 'react-native-elements';
 import RF from 'react-native-responsive-fontsize';
+import LogInPage from './LogInPage';
 
 export default class PrivatePolicy extends Component{
     constructor(props) { 
@@ -12,7 +13,8 @@ export default class PrivatePolicy extends Component{
         };
      };
     
-    backslide = ()=>{
+    backslide = () => {
+        LogInPage.logOut();
         this.props.navigation.navigate("LogInPage",{
 
         });
