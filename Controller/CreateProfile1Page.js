@@ -11,11 +11,12 @@ import {StyleSheet,
         TouchableOpacity, 
         SafeAreaView, 
         Dimensions, 
-        PixelRatio} from 'react-native';
+        PixelRatio,} from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import RNPickerSelect from 'react-native-picker-select';
 import RF from 'react-native-responsive-fontsize';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
+import { Hoshi } from 'react-native-textinput-effects';
 
 export default class CreateProfile1Page extends Component{
     constructor(props){
@@ -93,8 +94,8 @@ export default class CreateProfile1Page extends Component{
     nextslide = () =>{
         if(!this._checkFirstname()){
             Alert.alert(
-                'Invalid firstname',
-                'Please enter characters only',
+                'Invalid First Name',
+                'Please enter characters only. ',
                 [
                   {text: 'OK', onPress: () => console.log('OK Pressed')},
                   {text: 'Cancel', onPress: () => console.log('Cancel Pressed'), style: 'cancel'},
@@ -103,8 +104,8 @@ export default class CreateProfile1Page extends Component{
               )
         } else if (!this._checkLastname()){
             Alert.alert(
-                'Invalid lastname',
-                'Please enter characters only',
+                'Invalid Last Name',
+                'Please enter characters only. ',
                 [
                   {text: 'OK', onPress: () => console.log('OK Pressed')},
                   {text: 'Cancel', onPress: () => console.log('Cancel Pressed'), style: 'cancel'},
@@ -114,8 +115,8 @@ export default class CreateProfile1Page extends Component{
             
         } else if(!this._checkGender()){
             Alert.alert(
-                'Invalid gender',
-                'Make sure to select a gender',
+                'Invalid Gender',
+                'Make sure to select a gender. ',
                 [
                   {text: 'OK', onPress: () => console.log('OK Pressed')},
                   {text: 'Cancel', onPress: () => console.log('Cancel Pressed'), style: 'cancel'},
@@ -173,17 +174,10 @@ export default class CreateProfile1Page extends Component{
     render(){
         return(
             <SafeAreaView style={styles.pageContainer}>
-                <KeyboardAwareScrollView
-                style={{
-                    flex: 1
-                }}
-                    innerRef={ref => {
-                        this.scroll = ref
-                    }}>
-            <View style={styles.objectContainer}>
+                <View style={styles.objectContainer}>
                     <View style={styles.personalInfo}>
-                        <Text numberOfLines= {3}
-                         style={styles.personalInfoText}> Create Your Profile </Text>
+                        <Text numberOfLines= {1}
+                        style={styles.personalInfoText}> Create Your Profile </Text>
                     </View>
                     <View>
                         <Text style={styles.textFont}> Personal Information </Text>
@@ -191,115 +185,139 @@ export default class CreateProfile1Page extends Component{
                     <View>
                         <Text style={styles.oneOverthree}> 1/3 </Text>
                     </View>
-            </View>
-                    <View
-                        style={{flexDirection:"row", justifyContent: "center", alignItems: "center", marginBottom: RF(1), textAlign:'center'}}>
-                        <Text style={{fontSize:RF(2.4), textAlign:"center"}}>First Name</Text>
-                    </View>
-                   <View style={styles.inputContainer}>
-                   <TextInput
-                        style={styles.tinput}
-                        placeholder={"Required"}
+                </View>
+                <KeyboardAwareScrollView
+                    style={styles.scrollViewStyle}
+                    innerRef={ref => {
+                        this.scroll = ref
+                    }}>
+                    <Hoshi
+                        style={styles.hoshiStyle}
+                        label={'First Name *'}
+                        // this is used as active border color
+                        borderColor={inputBorderColor}
+                        // active border height
+                        borderHeight={3}
+                        inputPadding={16}
+                        // this is used to set backgroundColor of label mask.
+                        // please pass the backgroundColor of your TextInput container.
+                        backgroundColor={bgColor}
                         onChangeText={(first_name)=>{this.setState({first_name})}}
                         onFocus={(event: Event) => {
                             // `bind` the function if you're using ES6 classes
                             this._scrollToInput(ReactNative.findNodeHandle(event.target))
-                        }}></TextInput>
-                  </View>
-                    <View
-                        style={{flexDirection:"row", justifyContent: "center", alignItems: "center", marginBottom: RF(1), textAlign:'center'}}>
-                        <Text style={{fontSize:RF(2.4), textAlign:"center"}}>Last Name</Text>
-                    </View>
-                  <View style={styles.inputContainer}>
-                  <TextInput
-                        style={styles.tinput}
-                        placeholder={"Required"}
+                        }}
+                    />
+                    <Hoshi
+                        style={styles.hoshiStyle}
+                        label={'Last Name *'}
+                        // this is used as active border color
+                        borderColor={inputBorderColor}
+                        // active border height
+                        borderHeight={3}
+                        inputPadding={16}
+                        // this is used to set backgroundColor of label mask.
+                        // please pass the backgroundColor of your TextInput container.
+                        backgroundColor={bgColor}
                         onChangeText={(last_name)=>{this.setState({last_name})}}
                         onFocus={(event: Event) => {
                             // `bind` the function if you're using ES6 classes
                             this._scrollToInput(ReactNative.findNodeHandle(event.target))
-                        }}></TextInput>
-                  </View>
-                    <View
-                        style={{flexDirection:"row", justifyContent: "center", alignItems: "center", marginBottom: RF(1), textAlign:'center'}}>
-                        <Text style={{fontSize:RF(2.4), textAlign:"center"}}>Preferred Name</Text>
-                    </View>
-                  <View style={[styles.inputContainer, {paddingBottom: this.state.paddingBottom}]}>
-                  <TextInput
-                    style={styles.textBox}
-                    placeholder={"Optional"}
-                    onChangeText={(name_preferred)=>{this.setState({name_preferred})}}
-
-                    //Adds padding when user clicks on preferred gender field so the keyboard does not
-                    //cover the input field
-                    onFocus={(event: Event) => {
-                    this._scrollToInput(ReactNative.findNodeHandle(event.target))
-                    this.Add_Padding()
-                }}
-                    //Deletes the extra padding when the user is not on the preferred gender field
-                    onBlur={(event: Event) => {
-                    this.Delete_Padding()
-                }}
-                  ></TextInput>
-                  </View>
-                    <View
-                        style={{flexDirection:"row", justifyContent: "center", alignItems: "center", marginBottom: RF(1), textAlign:'center'}}>
-                        <Text style={{fontSize:RF(2.4), textAlign:"center"}}>Gender</Text>
-                    </View>
-                <View style={styles.tpickerBox}>
-                <RNPickerSelect
-                        style={pickerSelectStyles}
-                        onValueChange={(itemValue, itemIndex)=> this.setState({gender: itemValue})}
-                        placeholder={{label: 'Required', value: null}}
-                        items={this.state.items}
-                        useNativeAndroidPickerStyle={false}
-                        onValueChange={(value) =>{
-                            this.setState({
-                                gender:value,
-                            });
                         }}
-                        value={this.state.gender}
-                        ref={(el) =>{
-                        this.inputRefs.picker = el;
-                        }}/>
-                </View>
-            </KeyboardAwareScrollView>
-            <View style={{width: '100%',flexDirection:'row', height:75}}>
-                    <View style={styles.backButton}>
-                        <TouchableOpacity onPress={this.backslide} style={styles.backButtonStyle}>
-                            <Text style={styles.buttontextstyle}>Back</Text>
-                        </TouchableOpacity>
+                    />
+                    <Hoshi
+                        style={styles.hoshiStyle}
+                        label={'Preferred Name'}
+                        // this is used as active border color
+                        borderColor={inputBorderColor}
+                        // active border height
+                        borderHeight={3}
+                        inputPadding={16}
+                        // this is used to set backgroundColor of label mask.
+                        // please pass the backgroundColor of your TextInput container.
+                        backgroundColor={bgColor}
+                        onChangeText={(name_preferred)=>{this.setState({name_preferred})}}
+                        onFocus={(event: Event) => {
+                            // `bind` the function if you're using ES6 classes
+                            this._scrollToInput(ReactNative.findNodeHandle(event.target))
+                        }}
+                    />
+                    <TouchableOpacity onPress={(event: Event) => {
+                        this.inputRefs.picker.togglePicker(true);
+                        // `bind` the function if you're using ES6 classes
+                        this._scrollToInput(ReactNative.findNodeHandle(event.target))
+                    }}>
+                        <Hoshi
+                            style={styles.hoshiStyle}
+                            label={'Gender *'}
+                            // this is used as active border color
+                            borderColor={inputBorderColor}
+                            // active border height
+                            borderHeight={3}
+                            inputPadding={16}
+                            // this is used to set backgroundColor of label mask.
+                            // please pass the backgroundColor of your TextInput container.
+                            backgroundColor={bgColor}
+                            editable={false}
+                            pointerEvents='none'
+                            value={this.state.gender}
+                        />
+                    </TouchableOpacity>
+                    <View style={{
+                        height: 0,
+                        width: 0
+                    }}>
+                        <RNPickerSelect
+                            style={pickerSelectStyles}
+                            onValueChange={(itemValue, itemIndex)=> this.setState({gender: itemValue})}
+                            placeholder={{label: 'Required', value: null}}
+                            items={this.state.items}
+                            useNativeAndroidPickerStyle={false}
+                            onValueChange={(value) =>{
+                                this.setState({
+                                    gender:value,
+                                });
+                            }}
+                            value={this.state.gender}
+                            ref={(el) =>{
+                                this.inputRefs.picker = el;
+                            }}
+                        />
                     </View>
-                    <View style={styles.nextButton}>
-                        <TouchableOpacity onPress={this.nextslide} style={styles.nextButtonStyle}>
-                            <Text style={styles.buttontextstyle}>Next</Text>
-                        </TouchableOpacity>
-                    </View>
+                </KeyboardAwareScrollView>
+                
+                <View style={styles.bottomButtonViewStyle}>
+                    <TouchableOpacity onPress={this.backslide} style={styles.backButtonStyle}>
+                        <Text style={styles.backButtonTextStyle}>Back</Text>
+                    </TouchableOpacity>
+                    <TouchableOpacity onPress={this.nextslide} style={styles.nextButtonStyle}>
+                        <Text style={styles.nextButtonTextStyle}>Next</Text>
+                    </TouchableOpacity>
                 </View>
-            </SafeAreaView>    
+            </SafeAreaView>
         );
     }
 }
 
 const {width, height, scale} = Dimensions.get('window');
 
+const bgColor = "#F9F7F6"
+const inputBorderColor = "#1e89bf"
+
 const styles = StyleSheet.create({
     pageContainer:{
         flex:1,
         flexDirection:"column",
-        borderWidth: 20,
-        borderColor:"#2ea9df",
-        paddingTop: RF(1.5),
+        backgroundColor: bgColor
     },
     personalInfo:{
         width: "90%",
-        height: "45%",
+        height: RF(10),
         justifyContent: 'center',
         textAlign:'center',
         backgroundColor: '#00C488',
         borderColor:'#00C488',
-        borderRadius: 10,
-        borderWidth: 10,
+        borderRadius: RF(5),
     },
     personalInfoText:{
         fontSize: RF(4.5),
@@ -308,103 +326,60 @@ const styles = StyleSheet.create({
         textAlign: 'center',
     },
     objectContainer:{
-        flex: .45,
         justifyContent: 'space-evenly',
         alignItems: "center",
-        paddingTop: RF(1)
+        height: RF(25),
+        backgroundColor: bgColor
     },
-    inputView:{
-        paddingLeft: RF(2),
-        paddingRight: RF(2),
-        paddingTop: RF(3),
-        flex:1,
-        marginTop: 20,
+    scrollViewStyle: {
+        flex: 1,
+        margin: 10,
+        backgroundColor: bgColor
     },
     textFont:{
         fontSize: RF(3.5),
-        elevation: 2,
-        paddingTop: RF(3),
         textAlign: 'center',
-        margin: 10,
+        color: 'black'
     },
     oneOverthree:{
         fontSize: RF(2.5),
-        elevation:2,
-        paddingTop: RF(3),
-        paddingBottom: RF(3),
         textAlign: 'center',
+        color: 'grey'
     },
-    textBox:{
-        flex: 1,
-        paddingTop: RF(1.5),
-        paddingBottom: RF(1.5),
-        borderColor: "#235964",
-        textAlign:"center",
-        fontSize: RF(3),
-    },
-    pickerBox:{
-        width:"100%",
-        height: "9%",
-        borderColor: "#235964",
-        borderRadius: 59,
-        textAlign:"center",
-        fontSize: RF(3),
-    },
-    nextButton:{
-        height: "100%",
-        flexDirection:"row",
-        justifyContent: "center",
-        alignItems:"center",
-        flex:.5,
-    },
-    nextButtonStyle:{
-        height: "60%",
-        width: "80%",
-        borderRadius:10,
-        backgroundColor:"#2ea9df",
-        borderColor:"#2ea9df",
-        borderWidth:4,
-        alignItems: "center",
-        justifyContent: "center",
-    },
-    backButton:{
-        height: "100%",
-        flexDirection:"row",
-        justifyContent: "center",
-        alignItems:"center",
-        flex:.5,
+    bottomButtonViewStyle: {
+        width: '100%',
+        flexDirection:'row',
+        height:75,
+        backgroundColor: bgColor,
+        justifyContent: 'space-around',
+        alignItems: 'center'
     },
     backButtonStyle:{
         height: "60%",
-        width: "80%",
-        borderRadius:10,
-        backgroundColor:"#2ea9df",
-        borderColor:"#2ea9df",
-        borderWidth:4,
+        width: "35%",
+        borderRadius: 5,
+        borderColor: "#1e89bf",
+        borderWidth: 1,
         alignItems: "center",
         justifyContent: "center",
     },
-    buttontextstyle:{
+    backButtonTextStyle:{
         textAlign:'center',
-        fontSize:RF(3),
-        color: "#fff",
-        paddingLeft: RF(1),
-        paddingRight: RF(1),
+        fontSize: RF(2),
+        color: "#1e89bf",
     },
-    inputContainer: {
-        width:"90%",
-        height: "6%",
-        borderRadius: 10,
-        borderWidth: 1,
-        borderBottomWidth: 1,
-        borderColor: '#000',
-        paddingBottom: 10,
-        marginLeft: RF(3),
-        marginRight: RF(3),
-        marginBottom: RF(4),
-        textAlign:"center",
-        fontSize: RF(3),
-
+    nextButtonStyle:{
+        height: "60%",
+        width: "35%",
+        borderRadius: 5,
+        alignItems: "center",
+        justifyContent: "center",
+        backgroundColor: "#1e89bf"
+    },
+    nextButtonTextStyle:{
+        textAlign:'center',
+        fontSize: RF(2),
+        color: "#fff",
     },
     ast: {
         color: 'red',
@@ -422,22 +397,14 @@ const styles = StyleSheet.create({
         textAlign:"center",
         fontSize: RF(3),
     },
-    tpickerBox: {
-        alignItems: "center",
-        width:"90%",
-        height: "6%",
-        borderRadius: 15,
-        borderWidth: 1,
-        borderBottomWidth: 1,
-        borderColor: '#000',
-        paddingTop:10,
-        paddingBottom: 10,
-        marginBottom: RF(3),
-        marginRight: RF(3),
-        marginLeft: RF( 3),
-        textAlign:"center",
-        fontSize: RF(5),
-    },
+    hoshiStyle: {
+        width: "90%",
+        height: 30,
+        marginLeft: "5%",
+        marginRight: "5%",
+        marginTop: 15,
+        marginBottom: 15
+    }
 
 })
 const pickerSelectStyles = StyleSheet.create({

@@ -202,7 +202,7 @@ export default class PrivatePolicy extends Component{
                         </Text><Text style={styles.greyWords}>La Jolla, CA 92093
                         </Text><Text style={styles.greyWords}>United States</Text>
                     </ScrollView>
-                    <View style={{flex:.1, width:"100%"}}>
+                    <View style={{height: 75, width:"100%"}}>
                         <CheckBox center title="I agree with the private policy"
                         checkedIcon='dot-circle-o'
                         uncheckedIcon='circle-o'
@@ -210,62 +210,50 @@ export default class PrivatePolicy extends Component{
                         onPress={() => this.setState({checked: !this.state.checked})}
                         style={{flex:1, width:"100%"}}></CheckBox>
                     </View>
-                    <View style={{width: '100%', left: 0, flexDirection:'row', height:75}}>
-                    <View style={styles.backButton}>
-                        <Text style={styles.buttontextstyle}>Back</Text>
-                    </View>
-                    <View style={styles.nextButton}>
+                    <View style={{width: '100%', flexDirection:'row', height:75}}>
+                        <View style={styles.backButtonStyle}>
+                            <Text style={styles.backButtonTextStyle}>Back</Text>
+                        </View>
                         <TouchableOpacity onPress={this.nextslide} style={styles.nextButtonStyle}>
-                            <Text style={styles.buttontextstyle}>Next</Text>
+                            <Text style={styles.nextButtonTextStyle}>Next</Text>
                         </TouchableOpacity>
                     </View>
-                </View>
             </SafeAreaView>
         )
     }
 }
 
 const styles = StyleSheet.create({
-    nextButton:{
-        height: "100%",
-        flexDirection:"row",
+    backButtonStyle:{
+        height: "0%",
+        width: "30%",
+        marginLeft: "5%",
+        marginRight: "2.5%",
+        borderRadius: 5,
+        borderColor: "#1e89bf",
+        borderWidth: 0,
+        alignItems: "center",
         justifyContent: "center",
-        alignItems:"center",
-        flex:.5,
+    },
+    backButtonTextStyle:{
+        textAlign:'center',
+        fontSize: RF(2),
+        color: "#1e89bf",
     },
     nextButtonStyle:{
         height: "60%",
-        width: "80%",
-        borderRadius:10,
-        backgroundColor:"#2ea9df",
-        borderColor:"#2ea9df",
-        borderWidth:4,
+        width: "55%",
+        marginLeft: "2.5%",
+        marginRight: "5%",
+        borderRadius: 5,
         alignItems: "center",
         justifyContent: "center",
+        backgroundColor: "#1e89bf"
     },
-    backButton:{
-        height: "100%",
-        flexDirection:"row",
-        justifyContent: "center",
-        alignItems:"center",
-        flex:.5,
-    },
-    backButtonStyle:{
-        height: "60%",
-        width: "80%",
-        borderRadius:10,
-        backgroundColor:"#2ea9df",
-        borderColor:"#2ea9df",
-        borderWidth:4,
-        alignItems: "center",
-        justifyContent: "center",
-    },
-    buttontextstyle:{
+    nextButtonTextStyle:{
         textAlign:'center',
-        fontSize:RF(3),
+        fontSize: RF(2),
         color: "#fff",
-        paddingLeft: RF(1),
-        paddingRight: RF(1),
     },
     sectiontitle:{
         fontSize:RF(3),
@@ -294,15 +282,25 @@ const styles = StyleSheet.create({
         paddingBottom: RF(1),
         paddingHorizontal: RF(1),
     },
+    // scrollView:{
+    //     flex:.6,
+    //     borderRadius:1,
+    //     borderColor:"black",
+    // },    
+    // pageContainer:{
+    //     flex:1,
+    //     flexDirection:"column",
+    //     borderWidth: 20,
+    //     borderColor:"#2ea9df",
+    // },
     scrollView:{
-        flex:.6,
-        borderRadius:1,
-        borderColor:"black",
-    },    
+        flex: 1,
+        margin: 10,
+        padding: 10,
+        backgroundColor:"white",
+    },
     pageContainer:{
-        flex:1,
-        flexDirection:"column",
-        borderWidth: 20,
-        borderColor:"#2ea9df",
+        flex: 1,
+        backgroundColor:"#2ea9df",
     },
 })

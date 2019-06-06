@@ -13,6 +13,9 @@ import BadgesView from '../View/BadgesView';
 import ImageUploader from '../View/ImageUploader';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 import UserPreviewView from '../View/UserPreviewView';
+import FontAwesomeIcon from 'react-native-vector-icons/FontAwesome';
+import MaterialsIcon from 'react-native-vector-icons/MaterialIcons';
+import { Fumi } from 'react-native-textinput-effects';
 
 export default class EditHousingPage extends React.Component{
 	state = {
@@ -93,10 +96,20 @@ export default class EditHousingPage extends React.Component{
 
 	removePicture = (pictureUrl) => {
 		var filtered = this.state.house.pictures.filter((value) => {
-			return !value.isEqual(pictureUrl);
+			return !(value === pictureUrl);
 		});
 		this.state.house.pictures = filtered;
-		this.saveHouse();
+		firebase.firestore().collection("houses").doc(this.state.house.id).set({
+			pictures: firebase.firestore.FieldValue.arrayRemove(pictureUrl), 
+		}, {merge: true}).then(() => {
+			Alert.alert(
+				'Picture Removed',
+				'It might take some time for changes to reflect. ',
+				[{text: 'Okay'}],
+				{cancelable: false},
+			)
+		})
+		this.forceUpdate();
 	}
 
 	addPicture = () => {
@@ -125,7 +138,7 @@ export default class EditHousingPage extends React.Component{
 	}
 
 	splitText = (bloomfilter, props) =>{
-		var item = props.toString();
+		var item = props.toString().toUpperCase();
 		var text = item.split(" ");
 		for(var i = 0; i < text.length - 1; i++){
 			bloomfilter.add(text[i]);
@@ -335,7 +348,7 @@ export default class EditHousingPage extends React.Component{
 						alignItems: 'center'
 					}}>
 						<TouchableOpacity onPress={() => {this.removeTenant(tenant)}}>
-							<Icon name="minus-circle" type="font-awesome"/>
+							<Icon name="minus-circle" type="font-awesome" color="#ff4444"/>
 						</TouchableOpacity>
 					</View>
 				</View>
@@ -347,91 +360,111 @@ export default class EditHousingPage extends React.Component{
 			<View style={styles.pageContainer}> 
 				<View style={styles.imageContainer}>
 
-					<ImageHorizontalScrollView pictureUrls={item.pictures}/>
+					<ImageHorizontalScrollView pictureUrls={item.pictures} height={275} ref={(ref) => {this.imageScrollViewRef = ref}}/>
 
 				</View>
 
-				<TouchableOpacity onPress={this.addPicture} style={styles.logButtonnull}>
-					<Text style={{color: 'white', fontSize: RF(2.2), textAlign: 'center'}}>Add Picture</Text>
-				</TouchableOpacity>
+				<View style={styles.pictureButtons}>
+					<TouchableOpacity onPress={this.addPicture} style={styles.addPictureButton}>
+						<Text style={{color: 'white', fontSize: RF(2.2), textAlign: 'center'}}>Add Picture</Text>
+					</TouchableOpacity>
+					<TouchableOpacity
+						onPress={() => {this.removePicture(item.pictures[this.imageScrollViewRef.getCurPagingIndex()])}}
+						style={{...styles.removePictureButton, backgroundColor: item.pictures.length == 0 ? 'grey' : '#ff4444'}}
+						disabled={item.pictures.length == 0}>
+						<Text style={{color: 'white', fontSize: RF(2.2), textAlign: 'center'}}>Remove This Picture</Text>
+					</TouchableOpacity>
+				</View>
 
-				<View style={styles.infoContainer}>
+				<View style={styles.sectionContainer}>
+					<Text style={styles.sectionTitle}>Basic Information: </Text>
 
-					<View style={styles.bigTitle}>
-						<Text style={{fontSize: RF(3.5), fontWeight: '500',}}>Create Your House Profile</Text>
-					</View>
+					<Fumi
+						label={'Title'}
+						iconClass={MaterialsIcon}
+						iconName={'title'}
+						iconColor={'#1e99cf'}
+						iconSize={20}
+						iconWidth={40}
+						inputPadding={16}
+						inputStyle={{ color: 'black' }}
+						onChangeText={(title) => {item.title = title}}
+						defaultValue={item.title}
+					/>
+					<Fumi
+						label={'Price'}
+						iconClass={MaterialsIcon}
+						iconName={'attach-money'}
+						iconColor={'#1e99cf'}
+						iconSize={20}
+						iconWidth={40}
+						inputPadding={16}
+						inputStyle={{ color: 'black' }}
+						onChangeText={(num) => {item.price = parseInt(num)}}
+						defaultValue={item.price == 0 ? "" : item.price.toString()}
+						keyboardType="numeric"
+					/>
+					<Fumi
+						label={'How many tenants?'}
+						iconClass={FontAwesomeIcon}
+						iconName={'users'}
+						iconColor={'#1e99cf'}
+						iconSize={20}
+						iconWidth={40}
+						inputPadding={16}
+						inputStyle={{ color: 'black' }}
+						onChangeText={(num) => {item.num_tenant = parseInt(num)}}
+						defaultValue={item.num_tenant == 0 ? "" : item.num_tenant.toString()}
+						keyboardType="numeric"
+					/>
+					<Fumi
+						label={'How many bedroom?'}
+						iconClass={FontAwesomeIcon}
+						iconName={'bed'}
+						iconColor={'#1e99cf'}
+						iconSize={20}
+						iconWidth={40}
+						inputPadding={16}
+						inputStyle={{ color: 'black' }}
+						onChangeText={(num) => {item.num_bedroom = parseInt(num)}}
+						defaultValue={item.num_bedroom == 0 ? "" : item.num_bedroom.toString()}
+						keyboardType="numeric"
+					/>
+					<Fumi
+						label={'How many bathroom?'}
+						iconClass={FontAwesomeIcon}
+						iconName={'bath'}
+						iconColor={'#1e99cf'}
+						iconSize={20}
+						iconWidth={40}
+						inputPadding={16}
+						inputStyle={{ color: 'black' }}
+						onChangeText={(num) => {item.num_bathroom = parseInt(num)}}
+						defaultValue={item.num_bathroom == 0 ? "" : item.num_bathroom.toString()}
+						keyboardType="numeric"
+					/>
+					<Fumi
+						label={'How many parking?'}
+						iconClass={FontAwesomeIcon}
+						iconName={'car'}
+						iconColor={'#1e99cf'}
+						iconSize={20}
+						iconWidth={40}
+						inputPadding={16}
+						inputStyle={{ color: 'black' }}
+						onChangeText={(num) => {item.num_parking = parseInt(num)}}
+						defaultValue={item.num_parking == 0 ? "" : item.num_parking.toString()}
+						keyboardType="numeric"
+					/>
 
-					<View style={styles.titleContainer}>
-						<Text style={styles.title}>Title:</Text>
-						<TextInput
-							style={styles.roomTitleText}
-							onChangeText={(title) => {item.title = title}}
-							defaultValue={item.title}
-						/>
-					</View>
 
-					<View style={styles.priceContainer}>
-						<Text style={styles.priceTitle}>Price:</Text>
-						<TextInput
-							style={styles.priceTextInput}
-							onChangeText={(num) => {item.price = parseInt(num)}}
-							defaultValue={item.price.toString()}
-							keyboardType="numeric"
-						/>
-					</View>
-				
-					<View style={styles.roomInfoSpecDetailsView}>
-						<Icon name="users" type="font-awesome"/>
-						<Text style={styles.roomInfoTitle}>How many tenants?</Text>
-						<TextInput
-							style={styles.roomInfoSpecDetailsTextInput}
-							onChangeText={(num) => {item.num_tenant = parseInt(num)}}
-							defaultValue={item.num_tenant.toString()}
-							keyboardType="numeric"
-						/>
-					</View>
-
-					<View style={styles.roomInfoSpecDetailsView}>
-						<Icon name="bed" type="font-awesome"/>
-						<Text style={styles.roomInfoTitle}>How many bedroom?</Text>
-						<TextInput
-							style={styles.roomInfoSpecDetailsTextInput}
-							onChangeText={(num) => {item.num_bedroom = parseInt(num)}}
-							defaultValue={item.num_bedroom.toString()}
-							keyboardType="numeric"
-						/>
-					</View>
-
-					<View style={styles.roomInfoSpecDetailsView}>
-						<Icon name="bath" type="font-awesome"/>
-						<Text style={styles.roomInfoTitle}>How many bathroom?</Text>
-						<TextInput
-							style={styles.roomInfoSpecDetailsTextInput}
-							onChangeText={(num) => {item.num_bathroom = parseInt(num)}}
-							defaultValue={item.num_bathroom.toString()}
-							keyboardType="numeric"
-						/>
-					</View>
-
-					<View style={styles.roomInfoSpecDetailsView}>
-						<Icon name="car" type="font-awesome"/>
-						<Text style={styles.roomInfoTitle}>How many parking?</Text>
-						<TextInput
-							style={styles.roomInfoSpecDetailsTextInput}
-							onChangeText={(num) => {item.num_parking = parseInt(num)}}
-							defaultValue={item.num_parking.toString()}
-							keyboardType="numeric"
-						/>
-					</View>
-
-
-					<BadgesView tags={item.additional_tags} />
+					{/* <BadgesView tags={item.additional_tags} /> */}
 
 				</View>  
 				{/* End before Description */}
 
-				<View style={styles.locationContainer}>
-						<Text style={styles.locationTitle}>Location: </Text>
+				<View style={styles.sectionContainer}>
+						<Text style={styles.sectionTitle}>Describe the Location: </Text>
 						<TextInput
 							style={styles.locationInput}
 							multiline={true}
@@ -442,8 +475,8 @@ export default class EditHousingPage extends React.Component{
 						/>
 				</View>
 				
-				<View style={styles.descriptionContainer}>
-					<Text style={styles.descriptionTitle}>Description:</Text>
+				<View style={styles.sectionContainer}>
+					<Text style={styles.sectionTitle}>Describe your House:</Text>
 					<TextInput
 						style={styles.descriptionInput}
 						multiline={true}
@@ -454,8 +487,8 @@ export default class EditHousingPage extends React.Component{
 					/>
 				</View>
 				
-				<View style={styles.tenantsContainer}>
-					<Text style={styles.tenantsTitle}>Current Tenants:</Text>
+				<View style={styles.sectionContainer}>
+					<Text style={styles.sectionTitle}>Current Tenants:</Text>
 					<View>
 						{tenants}
 					</View>
@@ -465,9 +498,9 @@ export default class EditHousingPage extends React.Component{
 					</View>
 				</View>
 
-				<View style={styles.findButtonContainer}>
+				<View style={styles.sectionContainer}>
+					<Text style={styles.sectionTitle}>Post this house: </Text>
 					<View style={styles.findButton}>
-						<Text style={styles.findText}>Post this house for others to view: </Text>
 						<Switch
 							onValueChange={() => {this.state.house.availability = !this.state.house.availability; this.forceUpdate()}}
 							value={this.state.house.availability}
@@ -493,7 +526,7 @@ export default class EditHousingPage extends React.Component{
 				<KeyboardAwareScrollView style={{flex: 1}}>
 					{content}
 				</KeyboardAwareScrollView>
-      		</SafeAreaView>
+			</SafeAreaView>
 		);
 	}
 
@@ -509,7 +542,7 @@ const styles = StyleSheet.create({
 	pageContainer: {
 		flex: 1,
 		flexDirection: 'column',
-		backgroundColor: '#f7f7f7',
+		backgroundColor: 'white',
 		alignItems: "stretch",
 	},
 
@@ -520,33 +553,36 @@ const styles = StyleSheet.create({
 		alignItems: "stretch",
 	},
 
-	logButtonnull:{
+	pictureButtons: {
+		width: '100%',
+		flexDirection: 'row',
+
+	},
+
+	addPictureButton:{
 		backgroundColor: '#2ea9df',
 		padding: 5,
+		flex: .5
+	},
+
+	removePictureButton:{
+		// backgroundColor is set inline. 
+		padding: 5,
+		flex: .5
 	},
 
 	infoContainer:{
 		paddingLeft: RF(1.5),
 		paddingRight: RF(1.5),
-		paddingTop: 1,
+		paddingBottom: RF(1),
 	},
 
-	bigTitle:{
-		flexDirection: 'row',
-		justifyContent: 'flex-start',
-		paddingBottom: 5,
-	},
-
-	titleContainer: {
-		flexDirection: 'row',
-		justifyContent: 'flex-start',
-		paddingBottom: 8,
-	},
-
-	title: {
-		fontSize: RF(3),
-		paddingRight: 5,
-		fontWeight: '300',
+	infotitle: {
+		fontSize: RF(2.75),
+		fontWeight: 'bold',
+		color: 'grey',
+		paddingTop: 10,
+		paddingBottom: 10
 	},
 
 	roomTitleText: {
@@ -607,51 +643,38 @@ const styles = StyleSheet.create({
 		paddingLeft: 2,
 	},
 
-	descriptionContainer: {
+	sectionContainer: {
 		paddingLeft: RF(1.5),
 		paddingRight: RF(1.5),
-		paddingBottom: RF(1.5),
+		paddingTop: RF(3),
+		paddingBottom: RF(3),
+		borderBottomColor: 'grey',
+		borderBottomWidth: 1
 	},
 
-	locationContainer: {
-		paddingLeft: RF(1.5),
-		paddingRight: RF(1.5),
-		paddingBottom: RF(1.5),
-	},
-
-	tenantsContainer: {
-		paddingLeft: RF(1.5),
-		paddingRight: RF(1.5),
-		paddingBottom: RF(1),
-	},
-
-	descriptionTitle: {
-		fontSize: RF(3),
-		fontWeight: '300',
-	},
-
-	locationTitle: {
-		fontSize: RF(3),
-		fontWeight: '300',
-	},
-
-	tenantsTitle: {
-		fontSize: RF(3),
-		fontWeight: '300',
+	sectionTitle: {
+		fontSize: RF(2.75),
+		fontWeight: 'bold',
+		color: 'grey',
+		paddingTop: 10,
+		paddingBottom: 10
 	},
 
 	descriptionInput: {
 		borderWidth: 1,
-		borderRadius: 5,
-		height: 0.2 * height,
+		borderColor: 'grey',
+		borderRadius: 2,
+		height: 0.3 * height,
+		padding: 10
 	},
 
 	locationInput: {
 		borderWidth: 1,
-		borderRadius: 5,
+		borderColor: 'grey',
+		borderRadius: 2,
 		height: 0.2 * height,
+		padding: 10
 	},
-
 
 	buttonContainer: {
 		flexDirection: 'row',
@@ -674,8 +697,11 @@ const styles = StyleSheet.create({
 	},
 
 	findText:{
-		paddingTop: 2,
-		fontSize: RF(2.5),
+		fontSize: RF(2.75),
+		fontWeight: 'bold',
+		color: 'grey',
+		paddingTop: 10,
+		paddingBottom: 10
 	},
 
 	saveButton: {

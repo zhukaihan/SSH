@@ -49,19 +49,13 @@ const SearchStackNavigator = createStackNavigator(
 			}
 		},
 		ViewHousingPage: {
-			screen: ViewHousingPage,
-			navigationOptions: {
-				headerBackTitleStyle: {
-					color: 'white'
-				},
-				headerTransparent: true
-			}
+			screen: ViewHousingPage
 		},
 		ProfilePage: {
 			screen: ProfilePage,
 			navigationOptions: {
 				headerBackTitleStyle: {
-					color: 'white'
+					color: '#2EA9DF'
 				},
 				headerTransparent: true
 			}

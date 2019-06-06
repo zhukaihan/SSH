@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { StyleSheet, View, Text, Button, FlatList, TouchableHighlight, ScrollView, Dimensions, Keyboard, Platform } from 'react-native';
+import { StyleSheet, View, Text, Button, FlatList, TouchableHighlight, ScrollView, Dimensions, Keyboard, Platform, StatusBar } from 'react-native';
 import { Icon, Image, Avatar } from 'react-native-elements';
 import { SafeAreaView } from 'react-navigation';
 import firebase from 'firebase';
@@ -160,7 +160,7 @@ export default class MessageRoomView extends React.Component{
 		}
 
 		return (
-			<SafeAreaView style={{flex: 1}}>
+			<View style={{flex: 1}}>
 				<View style={{flex: 1}}>
 					<FlatList
 						style={{
@@ -223,8 +223,9 @@ export default class MessageRoomView extends React.Component{
 				<View style={{
 					height: this.state.keyboardHeight - DEFAULT_TAB_BAR_HEIGHT
 				}}></View>
+				<StatusBar barStyle="default" />
 				
-      </SafeAreaView>
+			</View>
 		);
 	}
 

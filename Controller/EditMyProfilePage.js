@@ -15,6 +15,34 @@ import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view
 const {width, height, scale} = Dimensions.get('window');
 
 export default class ProfilePage extends Component{
+	static navigationOptions = ({ navigation }) => ({
+		headerTitle: 
+			<Text style={{
+				color: 'white', fontSize: RF(3)
+			}}>
+				My Profile
+			</Text>,
+		headerStyle: {
+			backgroundColor: '#2EA9DF',
+		},
+		headerRight: (
+			<TouchableOpacity
+				onPress={() => {
+					LogInPage.logOut();
+					navigation.navigate("LogInStackNavigator");
+				}}
+				style={{
+					backgroundColor: '#cb1b45',
+					padding: 8,
+					borderRadius: 5,
+					color: 'white',
+					marginRight: 10,
+				}}
+			>
+				<Text style={{color: 'white', fontSize: RF(2.2)}}>Logout</Text>
+			</TouchableOpacity>
+		)
+	});
 
 	state = {
 	}
@@ -162,9 +190,6 @@ export default class ProfilePage extends Component{
 	}
 
 	logout = () => {
-		firebase.auth().signOut();
-		LogInPage.googleLogout();
-		this.props.navigation.navigate("LogInStackNavigator");
 	}
 
 	render = () => {
@@ -178,20 +203,6 @@ export default class ProfilePage extends Component{
 			<SafeAreaView style={styles.safeAreaView}>
 				<KeyboardAwareScrollView>
 					<View style={styles.pageContainer}>
-
-						<View style={styles.header}>
-
-							<TouchableOpacity onPress={this.logout} style={styles.logButtonnull}>
-								<Text style={{color: '#2ea9df', fontSize: RF(2.2)}}>Logout</Text>
-							</TouchableOpacity>
-
-							<Text style={styles.title}>My Profile</Text>
-
-							<TouchableOpacity onPress={this.logout} style={styles.logButton}>
-								<Text style={{color: 'white', fontSize: RF(2.2)}}>Logout</Text>
-							</TouchableOpacity>
-
-						</View>
 
 						<View style={styles.mainpage}>
 							
@@ -320,14 +331,13 @@ export default class ProfilePage extends Component{
 
 							<View style={styles.descriptionContainer}>
 								<Text style={styles.description}>Description</Text>
-								<View style={styles.dscriptcontent}>
-									<TextInput 
-										multiline={true}
-										editable = {true}
-										defaultValue={this.state.user.description}
-										onChangeText={(txt) => {this.state.user.description = txt}}
-									/>
-								</View>
+								<TextInput
+									style={styles.descriptcontent}
+									multiline={true}
+									editable = {true}
+									defaultValue={this.state.user.description}
+									onChangeText={(txt) => {this.state.user.description = txt}}
+								/>
 							</View>
 
 							{/* <View style={styles.preferenceContainer}>
@@ -357,43 +367,13 @@ export default class ProfilePage extends Component{
 const styles = StyleSheet.create({
 	safeAreaView: {
 		flex: 1,
-		backgroundColor: '#2ea9df'
+		backgroundColor: '#f7f7f7'
 	},
 	pageContainer:{
 		flex: 1,
 		flexDirection: 'column',
 		backgroundColor: '#f7f7f7',
 		alignItems: 'stretch',
-	},
-
-	header:{
-		flexDirection: 'row',
-		justifyContent: 'space-between',
-		alignItems: 'center',
-		backgroundColor: '#2ea9df',
-		paddingTop: RF(1),
-		paddingBottom: RF(1),
-	},
-
-	title:{
-		color: "white",
-		fontSize: RF(3.5),
-	},
-
-	logButton:{
-		backgroundColor: '#cb1b45',
-		padding: 8,
-		borderRadius: 5,
-		color: 'white',
-		marginRight: 10,
-	},
-
-	logButtonnull:{
-		backgroundColor: '#2ea9df',
-		color: '#2ea9df',
-		padding: 5,
-		borderRadius: 5,
-		marginLeft: 10,
 	},
 
 	saveButton:{
@@ -480,8 +460,9 @@ const styles = StyleSheet.create({
 	},
 
 	findText:{
-		paddingTop: 2,
-		fontSize: RF(2.5),
+		fontSize: RF(2.5), 
+		fontWeight: 'bold',
+		margin: 15
 	},
 
 	descriptionContainer:{
@@ -493,14 +474,18 @@ const styles = StyleSheet.create({
 	},
 
 	description:{
-		fontWeight: '400',
-		fontSize: RF(3),
-		paddingTop: 1,
+		fontSize: RF(2.5), 
+		fontWeight: 'bold',
+		margin: 15
 	},
 
 	descriptcontent:{
 		paddingLeft: 2,
-
+		minHeight: 300,
+		borderWidth: 1,
+		borderRadius: 2,
+		borderColor: 'grey',
+		padding: 10
 	},
 
 	preferenceContainer:{

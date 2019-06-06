@@ -5,7 +5,7 @@ import { createBottomTabNavigator } from 'react-navigation';
 import SearchStackNavigator from './SearchStackNavigator';
 import FavoriteStackNavigator from './FavoriteStackNavigator';
 import HousingListingStackNavigator from './HousingListingStackNavigator';
-import EditMyProfilePage from './EditMyProfilePage';
+import EditMyProfileStackNavigator from './EditMyProfileStackNavigator';
 import MessageStackNavigator from './MessageStackNavigator';
 
 const TabNavigator = createBottomTabNavigator(
@@ -31,8 +31,8 @@ const TabNavigator = createBottomTabNavigator(
 				tabBarIcon: <Icon name="list" type="font-awesome"/>
 			}
 		},
-		EditMyProfilePage:{
-			screen: EditMyProfilePage,
+		EditMyProfileStackNavigator:{
+			screen: EditMyProfileStackNavigator,
 			navigationOptions:{
 				tabBarLabel:"My Profile",
 				tabBarIcon: <Icon name="id-badge" type="font-awesome"/>
