@@ -8,6 +8,7 @@ import { MessageRoom } from '../Model/Messaging';
 import User from '../Model/User';
 import RF from "react-native-responsive-fontsize";
 import UserPreviewView from '../View/UserPreviewView';
+import Swipeout from 'react-native-swipeout';
 
 
 export default class MessageCenter extends React.Component{
@@ -74,6 +75,7 @@ export default class MessageCenter extends React.Component{
 	}
 
 	render = () => {
+		
 
 		var content = []
 		if (!this.state.roomsItems || this.state.roomsItems.length == 0) {
@@ -86,8 +88,17 @@ export default class MessageCenter extends React.Component{
 		} else {
 			this.state.roomsItems.forEach((item, index) => {
 				itemRecipient = this.recipientUsersItems[item.id]
+				let swipeBtns = [{
+					text: 'Delete',
+					backgroundColor: 'red',
+					underlayColor: 'rgba(0, 0, 0, 0.6)',
+					onPress: () => {}
+				}];
 				content.push((
-					<View key={index} style={{
+					<Swipeout key={index} right={swipeBtns}
+        autoClose = {true}
+        backgroundColor= 'transparent'>
+					<View style={{
 						padding: '2.5%',
 						width: '95%',
 						borderBottomColor: '#dddddd',
@@ -110,6 +121,7 @@ export default class MessageCenter extends React.Component{
 							<Icon name="chevron-right" type="font-awesome"/>
 						</View>
 					</View>
+					</Swipeout>
 				))
 			})
 		}
