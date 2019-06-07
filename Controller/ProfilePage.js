@@ -8,6 +8,7 @@ import firebase from 'firebase';
 import User from '../Model/User';
 import BadgesView from '../View/BadgesView';
 import MessageCenter from './MessageCenter';
+import RoommateFavButton from '../View/RoommateFavButton';
 
 
 export default class ProfilePage extends Component{
@@ -49,6 +50,12 @@ export default class ProfilePage extends Component{
 						</View>
 					</View>
 					<View style={styles.mainpage}>
+
+						<TouchableOpacity>
+                   		 	<View style={{paddingTop: RF(3), paddingRight: RF(3),flexDirection:"row", justifyContent:"flex-end", }}>
+                      	 		<RoommateFavButton roommate={this.state.user}/>
+                    		</View>
+                    	</TouchableOpacity>
 						
 						<View style={styles.pictureContainer}>
 							<Image style={styles.profilePic}
