@@ -81,9 +81,15 @@ export default class ViewHousingPage extends React.Component{
 	}
 
 	openTenant = (user) => {
-		this.props.navigation.navigate("ProfilePage", {
-			userId: user.id
-		})
+		if (firebase.auth().currentUser.uid == user.id){
+			this.props.navigation.navigate("EditMyProfilePage", {
+				userId: user.id
+			})}
+		else{
+			this.props.navigation.navigate("ProfilePage", {
+				userId: user.id
+			})
+		}
 	}
 
 	goBack = () => {
