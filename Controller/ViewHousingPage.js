@@ -17,7 +17,6 @@ import MessageCenter from './MessageCenter';
 
 import { getStatusBarHeight } from 'react-native-iphone-x-helper'
 
-
 export default class ViewHousingPage extends React.Component{
 	static navigationOptions = ({ navigation }) => ({
 		header: null,
@@ -36,7 +35,6 @@ export default class ViewHousingPage extends React.Component{
 
 	constructor() {
 		super();
-		
 	}
 
 	componentDidMount = async () => {
@@ -96,6 +94,14 @@ export default class ViewHousingPage extends React.Component{
 		this.props.navigation.goBack();
 	}
 
+	renderIf(condition, content) {
+		if (condition) {
+			return content;
+		} else {
+			return null;
+		}
+	}
+
 	render = () => {
 		var content;
 		var bottomBar;
@@ -148,7 +154,8 @@ export default class ViewHousingPage extends React.Component{
 					>
 						{"$ " + item.price} / Month
 					</Text>
-					<TouchableOpacity 
+					{this.renderIf(this.state.landlord.id != firebase.auth().currentUser.uid, 
+						<TouchableOpacity hide
 						style={{
 							justifyContent: 'center', 
 							height: "100%", 
@@ -158,7 +165,7 @@ export default class ViewHousingPage extends React.Component{
 						onPress={() => {MessageCenter.createRoomWith(this.props.navigation, this.state.landlord)}}
 					>
 						<Text style={{color: "white", fontSize: RF(2.25)}}>Message {this.state.landlord.name_preferred ? this.state.landlord.name_preferred : this.state.landlord.first_name}</Text>
-					</TouchableOpacity>
+					</TouchableOpacity>)}
 				</View>
 			)
 			
