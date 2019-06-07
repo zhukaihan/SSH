@@ -74,6 +74,16 @@ export default class MessageCenter extends React.Component{
 		this.observer();
 	}
 
+	removeRecipient= (user) => {
+	
+		var filtered_cur_items = this.state.roomsItems.filter((value) => {
+			return !(value === user);
+		});
+		this.setState({
+			roomsItems: filtered_cur_items
+		})
+	}
+
 	render = () => {
 		
 
@@ -92,7 +102,7 @@ export default class MessageCenter extends React.Component{
 					text: 'Delete',
 					backgroundColor: 'red',
 					underlayColor: 'rgba(0, 0, 0, 0.6)',
-					onPress: () => {}
+					onPress: () => {this.removeRecipient(item)}
 				}];
 				content.push((
 					<Swipeout key={index} right={swipeBtns}
