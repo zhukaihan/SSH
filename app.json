@@ -23,7 +23,7 @@
       "**/*"
     ],
     "ios": {
-      "buildNumber": "7",
+      "buildNumber": "8",
       "bundleIdentifier": "com.sshousing.ssh",
       "supportsTablet": false,
       "config": {

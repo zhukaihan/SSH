@@ -75,13 +75,21 @@ export default class MessageCenter extends React.Component{
 	}
 
 	removeRecipient= (user) => {
-	
-		var filtered_cur_items = this.state.roomsItems.filter((value) => {
-			return !(value === user);
+		firebase.firestore().collection("messages").doc(firebase.auth().currentUser.uid).collection("rooms").doc(user.id).delete().then(() => {
+			var filtered_cur_items = this.state.roomsItems.filter((value) => {
+				return !(value === user);
+			});
+			this.setState({
+				roomsItems: filtered_cur_items
+			})
+		}).catch((error) => {
+			Alert.alert(
+				'Delete Failed',
+				'Please try again later',
+				[{text: 'Okay'}],
+				{cancelable: false},
+			)
 		});
-		this.setState({
-			roomsItems: filtered_cur_items
-		})
 	}
 
 	render = () => {
