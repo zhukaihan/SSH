@@ -140,7 +140,7 @@ export default class EditHousingPage extends React.Component{
 	splitText = (bloomfilter, props) =>{
 		var item = props.toString().toUpperCase();
 		var text = item.split(" ");
-		for(var i = 0; i < text.length - 1; i++){
+		for(var i = 0; i < text.length; i++){
 			bloomfilter.add(text[i]);
 		}
 	}

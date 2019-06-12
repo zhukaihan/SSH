@@ -135,7 +135,6 @@ export default class HousingSearchPage extends React.Component{
 
 			searchString = this.state.searchQuery.toString().toUpperCase().split(" ");
 		}
-		console.log(filter);
 
 		var displayList = [];
 		this.state.housingItems.forEach((house) => {
