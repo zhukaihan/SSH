@@ -1,15 +1,26 @@
-# SSH README
+# Student and Student Housing
 
-
-## Introduction: 
 ## Table of Contents
 1. [Overview](#Overview)
 2. [Product Specifications](#Product-Specifications)
 3. [Wireframes](#Digital-Wireframes)
 4. [Installation](#Installation)
+
+
 ## Overview 
 ### Description
 Our development team is SSH, a project team for CSE 110 in Spring 2019. We are creating a React Native app named Student and Student Housing (SSH) that would help UCSD students find off-campus houses. The app will support functionalities such as finding roomates, searching for houses, posting housings, and messaging. The app will showcase similar information as Airbnb.
+
+This React Native app uses Expo managed workflow with Google Firebase as backend. The user needs to have a valid "@ucsd.edu" email address with G Suite registered by UCSD. 
+
+Website: http://ssh.zhukaihan.com
+
+Github: https://github.com/zhukaihan/SSH
+
+Expo Public Project: https://expo.io/@zhukaihan/SSH
+
+Testflight: https://testflight.apple.com/join/EZsDgIDu
+
 
 ### App Evaluation
 - **Category:** Service
@@ -66,7 +77,7 @@ Our development team is SSH, a project team for CSE 110 in Spring 2019. We are c
 
 ### 4. Models
 
-**user object**
+**User Object**
 
 | Field                 | Type    | Description                                  |
 |-----------------------|---------|----------------------------------------------|
@@ -80,11 +91,10 @@ Our development team is SSH, a project team for CSE 110 in Spring 2019. We are c
 | Interests and Hobbies | String  | The interests or hobbies that user have      |
 | Description           | String  | a brief bio about the user                   |
 
-### 5. Outline Network Requests
+**Other models are located inside /Models folder.**
 
 ## Digital Wireframes
 ![Alt text](/img_assets/Wireframes.png?raw=true "Wireframes")
-### [BONUS] Interactive Prototype
 
 
 ## Installation
